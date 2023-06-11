@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import router from './Routes/App'
-import './Style/index.css';
+import './Routes/Style/index.css';
 import 'antd/dist/reset.css';
+
 import {
   RouterProvider,
 } from "react-router-dom";
-
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

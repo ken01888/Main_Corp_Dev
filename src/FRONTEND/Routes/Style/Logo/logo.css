@@ -1,0 +1,38 @@
+.logo{
+    display: flex;
+    gap: 2.5px;
+    padding: 5px 5px;
+    display: inline-flex;
+
+}
+
+
+
+.logoBlue{
+    box-sizing: border-box;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    display: block;
+    background-color: var(--light_blue);
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+    border: 1px solid var(--Black, #000000);
+    margin: 2px 0px;
+}
+
+.logoBeige{
+    box-sizing: border-box;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    display: block;
+    background-color: var(--light_beige);
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+    border: 1px solid var(--Black, #000000);
+    margin: 2px 0px;
+
+}

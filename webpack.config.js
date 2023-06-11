@@ -8,14 +8,13 @@ const InterpolateHtmlPlugin = require("interpolate-html-plugin");
 // const nodeExternals = require("webpack-node-externals");
 
 
-const isProduction = process.env.NODE_ENV = "development";
+const isProduction = "development";
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 
 const config = {
-  mode: 'development',
   entry: {
-    frontend: './src/FRONTEND/index.tsx',
+    frontend: './src/FRONTEND/index.tsx', // file to enter into
   },
 
   output: {
@@ -27,6 +26,7 @@ const config = {
   },
 
   devtool: 'inline-source-map',
+
   devServer: {
     compress: true,
     open: true,
@@ -34,6 +34,10 @@ const config = {
     historyApiFallback: true,
 
   },
+  performance: {
+    hints: false,
+  },
+
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html', hash: false,
@@ -56,7 +60,7 @@ const config = {
       loader: 'ts-loader',
       exclude: /node_modules/,
       options: {
-        configFile: 'tsconfig.multi.json'
+        configFile: 'tsconfig.front.json'
       }
     },
     {
@@ -78,7 +82,10 @@ const config = {
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-env', '@babel/preset-react', "@babel/preset-typescript",]
+          presets: [
+            '@babel/preset-env',
+            '@babel/preset-react',
+            "@babel/preset-typescript",]
         }
       }
     },
@@ -87,7 +94,8 @@ const config = {
       use: [{
         loader: 'file-loader',
       },],
-    }, {
+    }, 
+    {
       test: /\.(png|jpg|gif)$/i,
       use: [
         {
@@ -114,19 +122,16 @@ const config = {
       ".mjs": [".mjs", ".mts"]
     }
   },
-
+  
 
 };
 
-// module.exports = () => {
-//   if (isProduction) {
-//     config.mode = "production";
+module.exports = () => {
+  if (isProduction == 'production') {
+    config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+  } else {
+    config.mode = "development";
+  }
+  return config;
+};
 
-//     config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
-//   } else {
-//     config.mode = "development";
-//   }
-//   return config;
-// };
-
-module.exports = config
