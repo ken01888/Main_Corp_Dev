@@ -1,10 +1,11 @@
 import * as express from 'express'
 import * as cors from 'cors'
 import * as path from 'path'
-import bodyParser from 'body-parser'
+import * as bodyParser from 'body-parser'
 import { PullRequestOutlined, RestFilled } from '@ant-design/icons'
 import 'dotenv/config'
-import database_query from './SQL/Query.ts/Homepage_Query'
+import database_query from './SQL/Query.ts/Homepage_Query';
+import {sendMessage,MessagingResponse} from './SMS/send_sms'
 
 const app = express()
 
@@ -12,6 +13,7 @@ app.use(express.static('public'))
 app.use(cors())
 app.use(express.json())
 app.set('trust proxy', true)
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 
@@ -39,8 +41,22 @@ app.post('/database_post',async (req,res)=>{
   
 })
 
+app.get('/twilio',async (req,res)=>{
+  sendMessage()
+ res.json('hello')
+})
 
-const PORT = process.env.PORT || 8080
+app.post('/sms', (req, res) => {
+  const twiml = new MessagingResponse();
+
+  twiml.message('The Robots are coming! Head for the hills!');
+  console.log(req.body.Body)
+
+  res.type('text/xml').send(twiml.toString());
+});
+
+
+const PORT = process.env.PORT || 80
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`)
 })
