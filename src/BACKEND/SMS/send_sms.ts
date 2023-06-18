@@ -1,7 +1,7 @@
 
 import * as Twilio from 'twilio'
-const accountSid = 'AC5d8e3b38f9a2709b02588352df8d1ec3';
-const authToken = '9b394725f6d0f7ad06ee302ce42fca79';
+const accountSid = '';
+const authToken = '';
 const sms = Twilio(accountSid, authToken)
 export const {MessagingResponse} = Twilio.twiml
 
