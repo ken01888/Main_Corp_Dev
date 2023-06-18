@@ -1,8 +1,7 @@
 .logo{
     display: flex;
     gap: 2.5px;
-    padding: 5px 5px;
-    display: inline-flex;
+    align-items: center;
 
 }
 
@@ -36,3 +35,19 @@
     margin: 2px 0px;
 
 }
+
+.businessNameH1 {
+    text-decoration: 11px var(--light_blue) underline;
+    font-weight: 400;
+    font-size: 18px;
+    display: contents;
+}
+
+.menuLogoSide{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    justify-content: start;
+}
+
+

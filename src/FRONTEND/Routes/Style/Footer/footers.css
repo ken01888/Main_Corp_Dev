@@ -1,0 +1,6 @@
+.footer_public{
+    bottom: 0;
+    width: -webkit-fill-available;
+    overflow: hidden;
+    background: var(--light_blue);
+}

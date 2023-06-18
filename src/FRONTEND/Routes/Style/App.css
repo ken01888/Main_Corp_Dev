@@ -1,7 +1,7 @@
-@import "Logo/logo.css";
-@import "Menu/Main_Menu.css";
-@import "Pages/Home.css";
-
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
+p,h1,h2,h3,h4,h5{
+  font-family:Jost 
+}
 .App {
   text-align: center;
 }
@@ -32,6 +32,11 @@
   color: #61dafb;
 }
 
+.layout{
+  background-color: white;
+  margin-top: 5rem;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -50,8 +55,18 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: Nunito,source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.sectionBeige{
+  background: var(--light_beige);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border: 2.5px solid var(--light_grey);
+    border-radius: 1rem;
 }
 
 

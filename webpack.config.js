@@ -5,21 +5,23 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const InterpolateHtmlPlugin = require("interpolate-html-plugin");
-// const nodeExternals = require("webpack-node-externals");
+const nodeExternals = require("webpack-node-externals");
 
 
 const isProduction = "development";
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 
-const config = {
+const $FRONTEND = {
+  mode: 'development',
+
   entry: {
     frontend: './src/FRONTEND/index.tsx', // file to enter into
   },
 
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'compile_frontend'),
     clean: true,
     asyncChunks: true,
 
@@ -114,7 +116,7 @@ const config = {
   },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
-    extensions: [".tsx", ".ts", ".jsx", ".js", ".less", ".png", ".svg", ".sass"],
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".png", ".svg"],
     // Add support for TypeScripts fully qualified ESM imports.
     extensionAlias: {
       ".js": [".js", ".ts"],
@@ -125,13 +127,43 @@ const config = {
   
 
 };
+const $BACKEND = {
+  mode: 'development',
+  entry: './src/BACKEND/index.ts',
+  devtool: 'inline-source-map',
+  output: {
+      filename: 'app.js',
+      path: path.resolve(__dirname,'compile_backend'),
+      clean: true
+  },
 
+  module: {
+      rules: [{
+          test: /\.ts?$/,
+          loader: 'ts-loader',
+          exclude: /node_modules/,
+          options: {
+              configFile: 'tsconfig.back.json'
+          }
+      }]
+  },
+  resolve: {
+      extensions: ['.ts', '.js']
+  },
+
+  target: 'node',
+  node: {
+      __dirname: false
+  },
+  externals: [nodeExternals()]
+}
 module.exports = () => {
   if (isProduction == 'production') {
-    config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+    $FRONTEND.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
   } else {
-    config.mode = "development";
+   return [$FRONTEND,$BACKEND]
+
   }
-  return config;
+  // return [$FRONTEND, $BACKEND];
 };
 
