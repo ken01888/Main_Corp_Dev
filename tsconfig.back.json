@@ -14,7 +14,7 @@
     ]
   },
   "include": [
-      "./src/BACKEND/**/*"
+      "./src/BACKEND/**/*",
   ],
   "exclude": [
       "node_modules"

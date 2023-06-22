@@ -2,14 +2,15 @@ import * as express from 'express'
 import * as cors from 'cors'
 import * as path from 'path'
 import * as bodyParser from 'body-parser'
-import { PullRequestOutlined, RestFilled } from '@ant-design/icons'
 import 'dotenv/config'
 import database_query from './SQL/Query.ts/Homepage_Query';
-import {sendMessage,MessagingResponse} from './SMS/send_sms'
+import { sendMessage, MessagingResponse, sendReply } from './SMS/send_sms';
+import './PAYMENTS/authorize_card'
+
 
 const app = express()
 
-app.use(express.static('public'))
+app.use(express.static('complie_frontend'))
 app.use(cors())
 app.use(express.json())
 app.set('trust proxy', true)
@@ -23,37 +24,42 @@ const newUse = app.use((req, res, next) => {
   next()
 })
 
-app.get('/test',(req,res)=>{
+app.get('/test', (req, res) => {
   res.json('a')
 })
 
-app.get('/database',async (req,res)=>{
+app.get('/database', async (req, res) => {
   const newReply = await database_query.allMessages()
   res.json(newReply)
-  console.log(newReply) 
-  
+  console.log(newReply)
+
 })
 
-app.post('/database_post',async (req,res)=>{
+app.post('/database_post', async (req, res) => {
   const newReply = await database_query.insertCLIENT(req.body)
   res.json(newReply)
-  console.log(newReply) 
-  
+  console.log(newReply)
+
 })
 
-app.get('/twilio',async (req,res)=>{
+app.post('/twilio', (req, res) => {
   sendMessage()
- res.json('hello')
+  res.json("ok")
 })
 
-app.post('/sms', (req, res) => {
+app.post('/sms',  (req, res) => {
   const twiml = new MessagingResponse();
+ twiml.message('The Robots are coming! Head for the hills!');
 
-  twiml.message('The Robots are coming! Head for the hills!');
-  console.log(req.body.Body)
+res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
 
-  res.type('text/xml').send(twiml.toString());
-});
+}
+
+
+  // res.type('text/xml').send(twiml.toString());
+
+);
 
 
 const PORT = process.env.PORT || 80

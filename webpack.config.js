@@ -14,7 +14,6 @@ const stylesHandler = MiniCssExtractPlugin.loader;
 
 const $FRONTEND = {
   mode: 'development',
-
   entry: {
     frontend: './src/FRONTEND/index.tsx', // file to enter into
   },
@@ -57,7 +56,10 @@ const $FRONTEND = {
 
   ],
   module: {
-    rules: [{
+
+    rules: [
+      
+    {
       test: /\.(ts|tsx)$/i,
       loader: 'ts-loader',
       exclude: /node_modules/,
@@ -92,22 +94,32 @@ const $FRONTEND = {
       }
     },
     {
-      test: /\.(png|jpe?g|gif)$/i,
-      use: [{
-        loader: 'file-loader',
-      },],
-    }, 
+      test: /\.(gif|png|jpe?g|svg)$/i,
+      use: [
+        'file-loader',
+      ],
+    },
     {
       test: /\.(png|jpg|gif)$/i,
       use: [
         {
           loader: 'url-loader',
-          options: {
-            limit: 8192,
-          },
         },
       ],
     },
+    {
+      test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+      type: 'javascript/auto',
+  },
+  {
+    test: /\.(gif|png|jpe?g|svg)$/i,
+
+    loader: 'image-webpack-loader',
+    options: {
+      bypassOnDebug: true, // webpack@1.x
+      disable: true, // webpack@2.x and newer
+    },
+  },
 
 
       // Add your rules for custom modules here

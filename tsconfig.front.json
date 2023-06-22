@@ -1,6 +1,6 @@
 {
   "include": [
-    "src/FRONTEND/**/*"
+    "src/FRONTEND/**/*",
   ],
   "extends": "@tsconfig/create-react-app/tsconfig.json",
   "exclude": [

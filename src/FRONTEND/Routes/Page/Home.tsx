@@ -15,7 +15,6 @@ let history = createBrowserHistory()
 
 const Home: React.FC = () => {
 
-
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -43,7 +42,10 @@ const Home: React.FC = () => {
                 Kcm Inc specializes in developing purposeful business services with universal benefits.
                 We consciously design our services to flow benefits from for-profit institutions to communities.
               </p>
-
+              <Image
+    width={200}
+    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200"
+    />
               <div>
                 <motion.button className='buttonBlue'>Access Our Services</motion.button>
 
