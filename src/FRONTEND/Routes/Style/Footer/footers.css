@@ -3,4 +3,5 @@
     width: -webkit-fill-available;
     overflow: hidden;
     background: var(--light_blue);
+    position: fixed;
 }

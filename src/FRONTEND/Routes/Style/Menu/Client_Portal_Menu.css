@@ -1,0 +1,10 @@
+.ClientSideItems{
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background: var(--white-gray);
+    height: 100vh;
+    padding: 1rem;
+
+}

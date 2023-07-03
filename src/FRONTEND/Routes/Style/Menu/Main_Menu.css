@@ -46,15 +46,20 @@
 }
 
 .menuMiddleItems{
-    color:var(--light_grey);
-    font-weight:500;
+    color: var(--solid_black);
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    column-gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .menuMiddleItems:hover{
-    color:white;
+    color:var(--solid_black);
     font-weight:500;
-    text-decoration: 2px underline white;
-}
+    text-decoration: 2px underline black;}
 
 .signUpIcon{
     background: white;
@@ -101,4 +106,9 @@ display: flex;
 
   }
 
+
+  .menuItemsDiv{
+display: flex;
+column-gap: 1rem;
+  }
 

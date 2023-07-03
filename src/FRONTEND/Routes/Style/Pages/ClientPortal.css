@@ -1,0 +1,50 @@
+.ClientPortal {
+    background-color: white;
+
+
+}
+
+.ClientPortalMain {
+    padding: 5rem 0rem 0rem 2.5rem;
+    row-gap: 75px;
+}
+
+.clientMenuItem {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px 15px 15px 15px;
+    background-color: var(--white-gray);
+    overflow: visible;
+    position: relative;
+    align-content: center;
+    color: black;
+    font-weight: 500;
+    flex-wrap: nowrap;
+    gap: 10;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Jost';
+    font-size: .875rem;
+    cursor: pointer;
+    width: -webkit-fill-available;
+    column-gap: 0.25rem;
+
+}
+
+.clientMenuItem:hover {
+    background-color: var(--light_beige);
+    color: #000000
+}
+
+.clientPortalDiv {
+    display: flex;
+}
+
+.ClientPortalAccount {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

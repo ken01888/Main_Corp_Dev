@@ -31,8 +31,9 @@ const $FRONTEND = {
   devServer: {
     compress: true,
     open: true,
-    port: 3000,
+    port: 4000,
     historyApiFallback: true,
+    
 
   },
   performance: {
@@ -64,7 +65,8 @@ const $FRONTEND = {
       loader: 'ts-loader',
       exclude: /node_modules/,
       options: {
-        configFile: 'tsconfig.front.json'
+        configFile: 'tsconfig.front.json',
+        transpileOnly:true
       }
     },
     {
@@ -99,14 +101,14 @@ const $FRONTEND = {
         'file-loader',
       ],
     },
-    {
-      test: /\.(png|jpg|gif)$/i,
-      use: [
-        {
-          loader: 'url-loader',
-        },
-      ],
-    },
+    // {
+    //   test: /\.(png|jpg|gif)$/i,
+    //   use: [
+    //     {
+    //       loader: 'url-loader',
+    //     },
+    //   ],
+    // },
     {
       test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
       type: 'javascript/auto',
@@ -155,7 +157,8 @@ const $BACKEND = {
           loader: 'ts-loader',
           exclude: /node_modules/,
           options: {
-              configFile: 'tsconfig.back.json'
+              configFile: 'tsconfig.back.json',
+              transpileOnly:true
           }
       }]
   },
