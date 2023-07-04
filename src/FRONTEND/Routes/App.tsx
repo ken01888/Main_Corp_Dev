@@ -17,7 +17,7 @@ const router = createBrowserRouter([
    
   },
   {
-    path:'/clientportal/?:id',
+    path:'/1',
     element: <ClientPortal/>,
 
   },

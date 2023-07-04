@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
 import { createBrowserHistory } from 'history'
-import { Col, Divider, Layout, Row, Image, Form, Input, Select, Tag, ConfigProvider, Collapse, CollapsePanelProps, CollapseProps, Space, Menu, Dropdown, Card, Skeleton, Avatar, FloatButton } from 'antd'
+import { Col, Divider, Layout, Row, Image, Form, Input, Select, Tag, ConfigProvider, Collapse, CollapsePanelProps, CollapseProps, Space, Menu, Dropdown, Card, Skeleton, Avatar, FloatButton, Tree, Button, Descriptions } from 'antd'
 import { Menu_Home } from './Components/Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
-import { Copyright } from '@phosphor-icons/react'
-import { AppstoreOutlined, ArrowUpOutlined, DownOutlined, EditOutlined, EllipsisOutlined, MailOutlined, QuestionCircleOutlined, SettingOutlined, ShoppingCartOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
+import { Bank, Book, Copyright, LinkSimple, PenNibStraight, Question } from '@phosphor-icons/react'
+import { AppstoreOutlined, ArrowUpOutlined, DownOutlined, EditOutlined, EllipsisOutlined, MailOutlined, PieChartOutlined, QuestionCircleOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import 'isomorphic-fetch';
 import user from './400ppi/user.png'
@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { ClientMenu } from './Components/ClientMenu'
 import Meta from 'antd/es/card/Meta'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 let history = createBrowserHistory()
 
@@ -26,14 +26,15 @@ const ClientPortal: React.FC = (props) => {
 
     const onFinish = async (values: any) => {
 
-        let newData = await fetch('http://localhost:80/message/client_message', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
-        })
-        setForm(false)
+        // let newData = await fetch('http://localhost:80/message/client_message', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(values)
+        // })
+        // setForm(false)
+        console.log(values)
 
     };
 
@@ -47,7 +48,7 @@ const ClientPortal: React.FC = (props) => {
 
     return (
 
-        <Layout className='layout'>
+        <Layout>
 
             <Header className='header'>
 
@@ -55,18 +56,14 @@ const ClientPortal: React.FC = (props) => {
 
             </Header>
 
-            <Layout >
+            <Layout className='homeScreenDesktop'>
 
 
                 <Content >
 
                     <Row justify={'space-between'} className='ClientPortal' gutter={[0, 75]}>
                         <Col xs={22} md={4} className='ClientSideItems'>
-                            <a onClick={(e) => e.preventDefault()}>
-                                <button className='clientMenuItem' type="submit">
-                                    Account
-                                </button>
-                            </a>
+
 
                             <a onClick={(e) => e.preventDefault()}>
                                 <button className='clientMenuItem' type="submit">
@@ -75,22 +72,31 @@ const ClientPortal: React.FC = (props) => {
                             </a>
                             <a onClick={(e) => e.preventDefault()}>
                                 <button className='clientMenuItem' type="submit">
-                                    <ShoppingCartOutlined />  Services
+                                    <Bank size={16} />
+                                    Billing
+                                </button>
+                            </a>
+
+                            <a onClick={(e) => e.preventDefault()}>
+                                <button className='clientMenuItem' type="submit">
+                                    <ShopOutlined />Services
                                 </button>
                             </a>
                             <a onClick={(e) => e.preventDefault()}>
                                 <button className='clientMenuItem' type="submit">
+                                    <Book size={16} />
                                     Research
                                 </button>
                             </a>
                             <a onClick={(e) => e.preventDefault()}>
                                 <button className='clientMenuItem' type="submit">
-                                    Communication
+                                    <Question size={16} />                                    Support
                                 </button>
                             </a>
                             <a onClick={(e) => e.preventDefault()}>
                                 <button className='clientMenuItem' type="submit">
-                                    Financials
+                                    <Bank size={16} />
+                                    Billing
                                 </button>
                             </a>
 
@@ -98,116 +104,84 @@ const ClientPortal: React.FC = (props) => {
 
 
                         </Col>
-                        <Col xs={22} md={12}>
-                            <h1>Hello #Client's Name goes here</h1>
+                        <Col xs={22} md={18}>
                             <div className='clientPortalDiv'>
-                                <div>
-                                    <Form
-                                        name="basic"
-                                        style={{ maxWidth: 600 }}
-                                        initialValues={{ remember: true }}
-                                        onFinish={onFinish}
-                                        onFinishFailed={onFinishFailed}
-                                        autoComplete="off"
-                                        layout='horizontal'
-                                        size='middle'
-                                        disabled
+                                <Form
+                                    name="basic"
+                                    style={{ maxWidth: 600 }}
+                                    initialValues={{ remember: true }}
+                                    onFinish={onFinish}
+                                    onFinishFailed={onFinishFailed}
+                                    autoComplete="off"
+                                    layout='horizontal'
+                                    size='middle'
+                                >
+                                    <ConfigProvider
+                                        theme={{
+                                            token: {
+                                                colorTextTertiary: '#4d4d4f'
+
+                                            },
+                                        }}
                                     >
-                                        <ConfigProvider
-                                            theme={{
-                                                token: {
-                                                    colorPrimary: '#B4CBD4',
-                                                    colorPrimaryHover: '#B4CBD4',
-                                                    lineWidth: 2,
-                                                    fontFamily: 'Jost',
-                                                    fontSize: 14,
-                                                },
-                                            }}
-                                        >
-                                            <div>
-
+                                        <Descriptions title={<><h1>Personal Info</h1><Tag bordered={false}>Update Account Information</Tag></>} layout="vertical">
+                                            <Descriptions.Item label="First Name">
                                                 <Form.Item
-
-                                                    label="First Name"
-                                                    name="first_name"
-                                                    rules={[{ required: true, message: 'Please input your first name!' }]}
-
-                                                >
-                                                    <Input placeholder='Kenneth' type='text' />
-                                                </Form.Item>
-
-                                                <Form.Item
-                                                    label="Last Name"
-                                                    name="last_name"
-                                                    rules={[{ required: true, message: 'Please input your last name!' }]}
-                                                >
-                                                    <Input type='text' />
-                                                </Form.Item>
-
-                                                <Form.Item
-                                                    label="Phone Number"
-                                                    name="phone_number"
-
-                                                    rules={[{ required: true, message: 'Please input your phone number!' }]}
-                                                >
-                                                    <Input type='tel' maxLength={10} />
-                                                </Form.Item>
-
-                                                <Form.Item
-                                                    label="Email"
                                                     name="email"
-
-                                                    rules={[{ required: true, message: 'Please input your email address!' }]}
+                                                    rules={[{ required: true, message: 'Input the email address you used to register the account!' }]}
                                                 >
-                                                    <Input type='email' />
+                                                    <Input bordered={false} placeholder='First Name' value='Kenneth' disabled></Input>
                                                 </Form.Item>
-                                                <Form.Item
-                                                    label="Business Name"
-                                                    name="business_name"
+                                            </Descriptions.Item>
 
-                                                    rules={[{ required: true, message: 'Please input your business name!' }]}
-                                                >
-                                                    <Input type='text' />
-                                                </Form.Item>
+                                            <Descriptions.Item label="Last Name">Cunningham</Descriptions.Item>
+                                            <Descriptions.Item label="Email Address">Hangzhou@Zhejiang</Descriptions.Item>
+                                            <Descriptions.Item label="Phone Number" > 4047400093
+                                            </Descriptions.Item>
+                                            <Descriptions.Item label="Phone Number" >
+                                              </Descriptions.Item>
+                                        </Descriptions>
 
-                                            </div>
-                                            <div>
-                                                <Form.Item
-                                                >
-                                                    <button className='buttonBlack' type="submit">
-                                                        Click here to contact our team!
-                                                    </button>
-                                                </Form.Item>
-                                            </div>
-
+                               
                                         </ConfigProvider>
 
-                                    </Form>
-                                </div>
+                                </Form>
+                                <Form
+                                    name="basic"
+                                    style={{ maxWidth: 600 }}
+                                    initialValues={{ remember: true }}
+                                    onFinish={onFinish}
+                                    onFinishFailed={onFinishFailed}
+                                    autoComplete="off"
+                                    layout='horizontal'
+                                    size='middle'
+                                >
+                                    <ConfigProvider
+                                        theme={{
+                                            token: {
+                                                colorTextTertiary: '#4d4d4f'
 
+                                            },
+                                        }}
+                                    >
+                                   
 
+                                        <Descriptions title={<><h1>Address Info</h1><Tag bordered={false}>Update Account Information</Tag></>} layout="vertical">
+                                            <Descriptions.Item label="First Name">Zhou Maomao</Descriptions.Item>
+                                            <Descriptions.Item label="Last Name">Cunningham</Descriptions.Item>
+                                            <Descriptions.Item label="Email Address">Hangzhou@Zhejiang</Descriptions.Item>
+                                            <Descriptions.Item label="Phone Number" > 4047400093
+                                            </Descriptions.Item>
+                                            <Descriptions.Item label="Remark">empty</Descriptions.Item>
+                                        </Descriptions>
+                                    </ConfigProvider>
+
+                                </Form>
                             </div>
 
 
                         </Col>
-                        <Col xs={22} md={6}  >
 
-                            <Card
-                                actions={[
-                                    <SettingOutlined key="setting" />,
-                                    <EditOutlined key="edit" />,
-                                    <EllipsisOutlined key="ellipsis" />,
-                                ]}
-                            >
-                                <Skeleton loading={false} avatar active>
-                                    <Meta
-                                        avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />}
-                                        title="Card title"
-                                        description="This is the description"
-                                    />
-                                </Skeleton>
-                            </Card>
-                        </Col>
 
                     </Row>
 

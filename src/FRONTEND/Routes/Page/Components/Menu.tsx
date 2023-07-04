@@ -29,9 +29,9 @@ export const Menu_Home = () => {
     const onChange = (e: RadioChangeEvent) => {
         setPlacement(e.target.value);
     };
-const OnSuccessFullyLogin = () =>{
-    console.log('this is a success')
-    navigate('/clientportal/ken')
+const OnSuccessFullyLogin = (values:any) =>{
+    console.log(values)
+    navigate(`/clientportal/${values.email}`)
 }
     return (
         <>

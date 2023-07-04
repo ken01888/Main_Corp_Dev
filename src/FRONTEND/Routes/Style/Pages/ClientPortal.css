@@ -41,7 +41,8 @@
 
 .clientPortalDiv {
     display: flex;
-}
+    flex-direction: column;
+    row-gap: 4rem;}
 
 .ClientPortalAccount {
     display: flex;

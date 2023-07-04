@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
 import { createBrowserHistory } from 'history'
-import { Col, Divider, Layout, Row, Image, Form, Input, Select, Tag, ConfigProvider, Collapse, CollapsePanelProps, CollapseProps, Space } from 'antd'
+import { Col, Divider, Layout, Row, Image, Form, Input, Select, Tag, ConfigProvider, Collapse, CollapseProps, Space, Tabs, TabsProps, Tooltip } from 'antd'
 import { Menu_Home } from './Components/Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import { Copyright } from '@phosphor-icons/react'
@@ -10,15 +10,15 @@ import people from './400ppi/Headerpeople.png'
 import health from './400ppi/health.png'
 import security from './400ppi/security.png'
 import education from './400ppi/intelligence.png'
-import foodservice from './400ppi/foodservice.png'
-import wealth from './400ppi/wealth.png'
 import arrowRight from './400ppi/arrowRight.png'
 import arrowDown from './400ppi/arrowDown.png'
 import buildings from './400ppi/buildings.png'
-import dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
+import note from './400ppi/note.png'
 
-let history = createBrowserHistory()
+import { CaretRightOutlined, InfoCircleFilled, SmileFilled } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+
+
 
 const Home: React.FC = () => {
 
@@ -46,27 +46,27 @@ const Home: React.FC = () => {
     {
       key: '1',
       label: 'Which types of businesses does K.C Morris Inc offer assistance to?',
-      children: <p>We at Kcm Inc are committed to 
-        providing excellent services to companies 
-        in different fields. Our focus is on the 
+      children: <p>We at Kcm Inc are committed to
+        providing excellent services to companies
+        in different fields. Our focus is on the
         majority's welfare, and we strive to offer
-         customized solutions that cater to the 
-         specific requirements of both established 
-         and new businesses operating in various sectors.</p>,
+        customized solutions that cater to the
+        specific requirements of both established
+        and new businesses operating in various sectors.</p>,
     },
     {
       key: '2',
       label: 'How does enrollment work? ',
       children: <p>To begin the registration process,
-         we need to fully comprehend the specific 
-         requirements of our partners. Please complete
-          the form provided, and our knowledgeable team 
-          will quickly reach out to you to gather additional 
-          information about your company and its needs. 
-          Our objective is to find the ideal solution to 
-          satisfy your needs. Once the initial consultation
-           is completed, you will receive access credentials 
-           to your client suite.</p>,
+        we need to fully comprehend the specific
+        requirements of our partners. Please complete
+        the form provided, and our knowledgeable team
+        will quickly reach out to you to gather additional
+        information about your company and its needs.
+        Our objective is to design access services to
+        satisfy your needs. Once the initial consultation
+        is completed, you will receive access credentials
+        to your client suite.</p>,
     },
     {
       key: '3',
@@ -79,6 +79,48 @@ const Home: React.FC = () => {
       children: <p>The initial implementation fee is $250, and thereafter, a monthly payment of $10 is required.</p>,
     },
   ];
+
+  const itemss: TabsProps['items'] = [
+    {
+      key: '1',
+      label:
+        <span
+        ><div>
+            <Image width={12} preview={false} src={security}></Image> Security
+          </div>
+        </span>,
+      children: <><div>
+        <p className='p_services'>
+          Sustainable business life cycles that ensure consumer participation in developing or development concepts.
+        </p>
+      </div></>,
+    },
+    {
+      key: '2',
+      label:
+        <span
+        ><div>
+            <Image width={12} preview={false} src={health}></Image> Welfare
+          </div>
+        </span>,
+      children:
+        <p className='p_services'>
+          Utilities that benefit internal and external stakeholders and help optimize business results without sacrificing individual well-being.
+        </p>,
+    },
+    {
+      key: '3',
+      label:
+        <span
+        ><div>
+            <Image width={12} preview={false} src={education}></Image> Intelligence
+          </div>
+        </span>,
+      children: <p className='p_services'>
+        Provide institutions with information and knowledge that give insight into the communities they interact with.</p>,
+    },
+  ];
+
 
 
 
@@ -96,11 +138,11 @@ const Home: React.FC = () => {
 
         <Content >
 
-          <Row justify={'space-around'} gutter={[0, 75]}>
-            <Col xs={22} md={10}>
-              <h1>We aim to enhance the quality of life for all stakeholders.</h1>
+          <Row justify={'center'} gutter={[0, 75]}>
+            <Col xs={22} md={12}>
+              <h1 style={{ textAlign: 'center' }}>Welcome to Kcm Inc a corporation dedicated to enhance the quality of life for all stakeholders.</h1>
               <Divider className='dividerHeader'></Divider>
-              <p>
+              <p style={{ textAlign: 'center' }}>
                 At Kcm Inc, we have complete faith in our capability to develop business
                 solutions that are advantageous for both consumers and producers.
                 Our services are meticulously crafted to aid enterprises in
@@ -108,16 +150,12 @@ const Home: React.FC = () => {
                 stakeholders they cater to.
               </p>
             </Col>
-            <Col xs={22} md={10} className='headerLogoColumn'>
-              <motion.div className='headerLogo'>
-                <Image src={people} preview={false} width={250}></Image>
-              </motion.div>
-            </Col>
+
           </Row>
 
           <Row justify={'center'} className='homesectionWhatWeAre' gutter={[0, 75]}>
-            <Col xs={22}>
-              <h1 className='h1Center'>We are dedicated to providing exceptional outcomes for all parties involved.</h1>
+            <Col xs={16}>
+              <h1 className='h1Center'>Our range of services facilitates smooth and effective interactions between businesses and their customers across multiple industries.</h1>
               <p className='pCenter'>Collaborate with a company that places a high value on enhancing the standard of living for people.</p>
             </Col>
           </Row>
@@ -125,136 +163,112 @@ const Home: React.FC = () => {
 
           <Row justify={'space-around'} gutter={[0, 75]}>
             <Col xs={22} md={6} className='serviceTarget'>
-              <div>
-                <Image width={75} preview={false} src={security}></Image >
-
-              </div>
-              <div>
-                <h2 className='h2_tenents'> Security</h2>
-                <p className='p_services'>
-                  Sustainable business life cycles that ensure consumer participation in developing or development concepts.
-                </p>
-              </div>
-            </Col>
-            <Col xs={22} md={6} className='serviceTarget'>
-
-              <div>
-                <Image width={75} preview={false} src={health}></Image >
-
-              </div>
-              <div>
-                <h2 className='h2_tenents'> Welfare</h2>
-                <p className='p_services'>
-                  Utilities that benefit internal and external stakeholders and help optimize business results without sacrificing individual well-being.
-                </p>
-              </div>
-
-            </Col>
-
-            <Col xs={22} md={6} className='serviceTarget'>
-              <div>
-                <Image width={61} preview={false} src={education}></Image >
-              </div>
-              <div>
-                <h2 className='h2_tenents'> Intelligence</h2>
-                <p className='p_services'>
-                  Provide institutions with information and knowledge that give insight into the communities they interact with.</p>
-              </div>
-
-
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#B4CBD4',
+                    colorPrimaryHover: '#B4CBD4',
+                    lineWidth: 2,
+                    fontFamily: 'Nunito Sans',
+                    fontSize: 16,
+                    colorBgContainer: 'black'
+                  },
+                }}
+              >
+                <Tabs type="card" defaultActiveKey="1" items={itemss} />
+              </ConfigProvider>
             </Col>
           </Row>
-
+ 
           <Row justify={'space-around'} className='homesectionWhatWeAre' gutter={[0, 75]}>
-            <Col xs={22} md={10} className='headerLogoColumn'>
-              <Image width={425} preview={false} src={buildings}></Image >
-
-
-            </Col>
-
-            <Col xs={22} md={10} className='servicesDiv'>
-              <div>
-                <div className='service_label'>
-                  <Tag className='tagsServices' icon={<Image width={16} preview={false} src={health}></Image >} color="#000000">{" "}Welfare</Tag>
-                  <span>Move Down<Image width={24} preview={false} src={arrowDown}></Image ></span>
-                </div>
-
-                <h1>Precision Nutritional Analytics</h1>
-                <Divider className='dividerHeader'></Divider>
+            <Col xs={22} md={7} >
+              <div className='servicesDiv'>
+                <h2 className='h1_services'>Nutritional Equity Service </h2>
                 <p>
-                  Our food service solution is perfect for institutions that
-                  want to provide complete nutritional support to their
-                  customers. By using our solution, institutions can
-                  quickly calculate the cost of food and predict the
-                  nutritional value of the items they offer with precision.
+                  The NES is a useful tool that provides information on
+                  the nutritional value of food products. It also helps
+                  businesses manage their finances. By using the NES,
+                  you can make informed decisions about your operations
+                  and take better control of your business.
                 </p>
-
-                <div className='additionalServices'>
-                  <h2>Interlocking Services</h2>
-                  <span className='spanServices'><img src={arrowRight} width={60} /><p>Equipment Sourcing</p></span>
-                  <span className='spanServices'><img src={arrowRight} width={60} /><p>Product Sourcing</p></span>
-                  <span className='spanServices'><img src={arrowRight} width={60} /><p>Site Plan Review</p></span>
-                  <span className='spanServices'><img src={arrowRight} width={60} /><p>Compliance Development and Review</p></span>
+              </div>
+            </Col>
+            <Col xs={22} md={7} >
+              <div className='servicesDiv'>
+                <h2 className='h1_services'>Wealth Transfer Services  </h2>
+                <p>
+                  The WTS offers businesses a new approach to obtaining
+                  funding without the complexities of traditional equity
+                  funding. This is achieved by providing exclusive access
+                  to the company's products or services at a reduced price
+                  to coupon-round participants.
+                </p>
+                <div>
                 </div>
               </div>
-
+            </Col>
+            <Col xs={22} md={7} className='servicesDiv'>
               <div>
-                <Tag className='tagsServices' icon={<Image width={16} preview={false} src={security}></Image >} color="#000000">{" "}Security</Tag>
+                <h2 className='h1_services'>Upfront Cost</h2>
+                <p>+ $250 Initial Setup Fee <Tooltip placement="topLeft" title={'The initial setup fee covers both administrative and development expenses.'}><InfoCircleFilled /></Tooltip></p>
+                <p>+ $10 Monthly Maintenance Fee <Tooltip placement="topLeft" title={'To gain access to our services, you pay a reasonable fee of $0.83 per day or $25 per month.'}><InfoCircleFilled /></Tooltip></p>
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorSplit: '#000000',
+                    },
+                  }}
+                >
+                  <Divider></Divider>
+                </ConfigProvider>
+                <p>+ $260</p>
 
-                <h1>Capital Accumulation and Benefit Circulation</h1>
-                <Divider className='dividerHeader'></Divider>
-                <p>
-                  Our solution offers a convenient way for businesses to obtain
-                  the necessary funds to start, maintain, or grow their enterprise.
-                  You can be confident that our approach eliminates the worry of
-                  managing debt payments or distributing dividends.
-                </p>
-                <div className='additionalServices'>
-                  <h2>Interlocking Services</h2>
-                  <span className='spanServices'><img src={arrowRight} width={60} /><p>Buyer Matching Services</p></span>
-                  <span className='spanServices'><img src={arrowRight} width={60} /><p>Payment Processing</p></span>
-                  <span className='spanServices'><img src={arrowRight} width={60} /><p>Stakeholder Management</p></span>
+                <div>
+                <p>It's important to note that the monthly maintenance fee only covers services access and does not include any extra billing.</p>
+
                 </div>
               </div>
-
             </Col>
+        
+
+
           </Row>
 
           <Row justify={'space-around'} className='homesectionWhite' gutter={[0, 75]}>
             <Col xs={22} md={10}>
               <Space size='large' direction='vertical'>
 
-              <div>
-                <h1>Questions and Answers</h1>
+                <div>
+                  <h1>Questions and Answers</h1>
 
-                <ConfigProvider
+                  <ConfigProvider
 
-                  theme={{
-                    token: {
-                      fontFamily: 'Nunito Sans',
-                      colorBorder: '#B4CBD4',
-                      fontSize: 16,
-                    }
-                  }}
-                >
-                  <Collapse accordion items={items} />
+                    theme={{
+                      token: {
+                        fontFamily: 'Nunito Sans',
+                        colorBorder: '#B4CBD4',
+                        fontSize: 16,
+                      }
+                    }}
+                  >
+                    <Collapse accordion items={items} />
 
-                </ConfigProvider>
-              </div>
+                  </ConfigProvider>
+                </div>
 
-              <div>
-                <h1>Contact us to learn more!</h1>
-                <p>
-                  To begin the registration process,
-                  please complete the form.
-                  Our knowledgeable team will reach
-                  out to you promptly to provide
-                  you with detailed information about
-                  our institution and answer any inquiries you may have.
-                </p>
-              </div>
+                <div>
+                  <h1>Contact us to learn more!</h1>
+                  <p>
+                    To begin the registration process,
+                    please complete the form.
+                    Our knowledgeable team will reach
+                    out to you promptly to provide
+                    you with detailed information about
+                    our institution and answer any inquiries you may have.
+                  </p>
+                </div>
               </Space>
-            
+
             </Col>
             <Col xs={22} md={10}>
 
@@ -336,14 +350,22 @@ const Home: React.FC = () => {
 
                         </Select>
                       </Form.Item>
-
                       <Form.Item
-                        label="Message"
-                        name="message"
-
-                        rules={[{ required: false, message: 'Please input your phone number!' }]}
+                        label="What type of account type are you interested in creating?"
+                        name="account_type"
+                        rules={[{ required: true, message: 'Select a account type best reflects your needs!' }]}
                       >
-                        <Input.TextArea maxLength={125} showCount autoSize={{ minRows: 5 }} />
+                        <Select bordered>
+                          <Select.Option value="principle">Principle</Select.Option>
+                          <Select.Option value="associate">Associated</Select.Option>
+                        </Select>
+                      </Form.Item>
+                      <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: 'Input your password!' }]}
+                      >
+                        <Input.Password type='password' visibilityToggle={true} />
                       </Form.Item>
                       <Form.Item
                       >
