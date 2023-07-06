@@ -1,8 +1,8 @@
 import { Query } from "../Conection";
 
 
-const allMessages = async () => Query('select * from Communication.Homepage');
-const insertCLIENT = async (values: any) => Query('INSERT INTO Communication.Homepage SET ?', values);
+const viewMessages = async () => Query('select * from Communication.Homepage');
+const insertMessage= async (values: any) => Query('INSERT INTO Communication.Homepage SET ?', values);
 
 // const singleChirp = async (id:string) => Query('SELECT * FROM Chirps WHERE id = ?',[id]);
 // const deleteMessages = async (id: string) => Query('DELETE FROM contact WHERE id = ?', [id]);
@@ -19,14 +19,8 @@ const insertCLIENT = async (values: any) => Query('INSERT INTO Communication.Hom
 
 
 export default {
-    allMessages,
-    // singleChirp,
-    // deleteMessages,
-    insertCLIENT
-    // updateMessages,
-    // insertInstitution
-    // allUsers,
-    // insertUsers,
-    // insertPhysical
+    viewMessages,
+    insertMessage
+
 
 }

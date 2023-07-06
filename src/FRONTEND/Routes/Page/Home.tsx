@@ -2,7 +2,7 @@ import * as React from 'react'
 import { motion } from 'framer-motion'
 import { createBrowserHistory } from 'history'
 import { Col, Divider, Layout, Row, Image, Form, Input, Select, Tag, ConfigProvider, Collapse, CollapseProps, Space, Tabs, TabsProps, Tooltip } from 'antd'
-import { Menu_Home } from './Components/Menu'
+import { Menu_Home } from './Components/Menus.tsx/Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import { Copyright } from '@phosphor-icons/react'
 import 'isomorphic-fetch';

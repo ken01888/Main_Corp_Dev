@@ -3,10 +3,14 @@ import * as cors from 'cors'
 import * as path from 'path'
 import * as bodyParser from 'body-parser'
 import 'dotenv/config'
-import database_query from './ProgramControlFlow/SQL/Query.ts/Homepage_Query';
+import HomepageServer from './ProgramControlFlow/SQL/Query.ts/Homepage_Query';
+import ClientPortal from './ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/ClientPersonalDetails';
+
 import { sendMessage, MessagingResponse, sendReply } from './ProgramControlFlow/SMS/send_sms';
 import './PAYMENTS/authorize_card';
 import contact from './Homepage/contact'
+import client from './ClientPortal/ClientPersonalDetails'
+
 
 
 const app = express()
@@ -25,6 +29,7 @@ const newUse = app.use((req, res, next) => {
 })
 
 app.use('/message',contact)
+app.use('/client_portal',client)
 
 
 app.get('/test', (req, res) => {
@@ -32,14 +37,14 @@ app.get('/test', (req, res) => {
 })
 
 app.get('/database', async (req, res) => {
-  const newReply = await database_query.allMessages()
+  const newReply = await ClientPortal.getClientInformation()
   res.json(newReply)
   console.log(newReply)
 
 })
 
 app.post('/database_post', async (req, res) => {
-  const newReply = await database_query.insertCLIENT(req.body)
+  const newReply = await HomepageServer.insertMessage()
   res.json(newReply)
   console.log(newReply)
 

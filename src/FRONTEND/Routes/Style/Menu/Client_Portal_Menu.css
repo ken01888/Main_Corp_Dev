@@ -4,7 +4,22 @@
     flex-wrap: wrap;
     flex-direction: column;
     background: var(--white-gray);
-    height: 100vh;
+    height: fit-content;
     padding: 1rem;
+    border-right: 2px solid var(--light_grey);
+    border-bottom: 2px solid var(--light_grey);
+    border-radius: 0px 0px 5px 0px;
 
+}
+
+.ClientPortalHeader {
+    background: white;
+    width: -webkit-fill-available;
+    overflow: hidden;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    border-bottom: 2px solid var(--light_grey);
 }

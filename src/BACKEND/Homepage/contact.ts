@@ -1,10 +1,7 @@
 import * as express from 'express'
-import * as cors from 'cors'
-import * as path from 'path'
-import * as bodyParser from 'body-parser'
+
 import 'dotenv/config'
 import database_query from '../ProgramControlFlow/SQL/Query.ts/Homepage_Query';
-import { sendMessage, MessagingResponse, sendReply } from '../ProgramControlFlow/SMS/send_sms';
 
 const router = express.Router()
 

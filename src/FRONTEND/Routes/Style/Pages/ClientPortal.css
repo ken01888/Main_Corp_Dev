@@ -35,17 +35,61 @@
 }
 
 .clientMenuItem:hover {
-    background-color: var(--light_beige);
+    background-color: var(--light_blue);
     color: #000000
 }
 
 .clientPortalDiv {
     display: flex;
     flex-direction: column;
-    row-gap: 4rem;}
+    row-gap: 4rem;
+    padding: 1rem;
+}
 
 .ClientPortalAccount {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+.h1_Header_Client_Portal{
+    width: fit-content;
+    background: var(--light_beige);
+    padding: 5px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    font-family: Jost;
+    font-weight: 400;
+    letter-spacing: .05px;
+
+}
+
+.tagReview{
+    color: var(--solid_black);
+    background: var(--light_blue);
+    border: 1px solid var(--solid_black);
+    cursor: pointer;
+}
+
+.tagReview:hover{
+    color: var(--solid_black);
+    background: var(--light_beige);
+    border: 1px solid var(--solid_black);
+    cursor: pointer;
+}
+
+
+.tagUpdate{
+    color: var(--solid_black);
+    background: var(--white-gray);
+    border: 1px solid var(--solid_black);
+    cursor: pointer;
+}
+
+.tagUpdate:hover{
+    color: var(--solid_black);
+    background: var(--light_beige);
+    border: 1px solid var(--solid_black);
+    cursor: pointer;
+}
+

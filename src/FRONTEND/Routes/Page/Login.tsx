@@ -1,7 +1,7 @@
 import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select,Image } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
-import { Menu_Home } from './Components/Menu';
+import { Menu_Home } from './Components/Menus.tsx/Menu';
 import { motion } from 'framer-motion';
 import { Copyright } from '@phosphor-icons/react';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
