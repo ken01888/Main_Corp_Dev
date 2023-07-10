@@ -44,8 +44,31 @@
     flex-direction: column;
     row-gap: 4rem;
     padding: 1rem;
+    box-shadow: 0rem 0.125rem 0.25rem #1f21241a, 0rem 0.0625rem 0.375rem #1f21240d;
+    border: 2px solid black;
+    border-right: 2px solid var(--light_grey);
+    border-bottom: 2px solid var(--light_grey);
+    border-radius: 0px 0px 5px 0px;
+    background: var(--white-gray);
+    margin-top: 1rem;
 }
-
+@media only screen and (max-width: 749px) {
+    .clientPortalDiv {
+      display: flex;
+      flex-direction: column;
+      row-gap: 4rem;
+      padding: 1rem;
+      box-shadow: 0rem 0.125rem 0.25rem #1f21241a, 0rem 0.0625rem 0.375rem #1f21240d;
+      border: 2px solid black;
+      border-right: 2px solid var(--light_grey);
+      border-bottom: 2px solid var(--light_grey);
+      border-radius: 0px 0px 5px 0px;
+      background: var(--white-gray);
+      border-left: none;
+      margin-top: 1rem;
+  }
+    }
+    
 .ClientPortalAccount {
     display: flex;
     flex-wrap: wrap;
@@ -66,17 +89,17 @@
 
 .tagReview{
     color: var(--solid_black);
-    background: var(--light_blue);
+    background: white;
     border: 1px solid var(--solid_black);
     cursor: pointer;
 }
 
 .tagReview:hover{
-    color: var(--solid_black);
-    background: var(--light_beige);
-    border: 1px solid var(--solid_black);
-    cursor: pointer;
+    background-color: black;
 }
+
+
+
 
 
 .tagUpdate{
@@ -86,10 +109,5 @@
     cursor: pointer;
 }
 
-.tagUpdate:hover{
-    color: var(--solid_black);
-    background: var(--light_beige);
-    border: 1px solid var(--solid_black);
-    cursor: pointer;
-}
+
 

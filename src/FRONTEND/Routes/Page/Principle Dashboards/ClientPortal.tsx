@@ -74,13 +74,21 @@ const ClientPortal: React.FC = (props) => {
                             >
                                 <Bank size={16} />Billing
                             </NavLink>
+                            <NavLink
+                                to={`/principle_dashboard/services/${id}`}
+                                className='clientMenuItem'
+                                style={({ isActive, isPending }) => {
+                                    return {
+                                        fontWeight: isActive ? "bold" : "",
+                                        backgroundColor: isActive ? "#e8dac2" : "",
+                                    };
+                                }}
+                            >
+                                 <ShopOutlined size={16} />Services
+                            </NavLink>
 
 
-                            <a onClick={(e) => e.preventDefault()}>
-                                <button className='clientMenuItem' type="submit">
-                                    <ShopOutlined />Services
-                                </button>
-                            </a>
+                     
                             <a onClick={(e) => e.preventDefault()}>
                                 <button className='clientMenuItem' type="submit">
                                     <Book size={16} />
@@ -94,6 +102,7 @@ const ClientPortal: React.FC = (props) => {
                             </a>
                         </Col>
                         <Outlet />
+                        <Col xs={4}></Col>
                     </Row>
                 </Content>
             </Layout>

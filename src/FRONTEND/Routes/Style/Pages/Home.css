@@ -82,19 +82,33 @@
 
 .homesectionWhite {
     padding: 10rem 0rem;
-    background: var(--white-gray);
+    background: #ffffff;
     display: flex;
     justify-content: space-around;
-    border-top: 5px solid var(--light_beige);
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
 }
 
 .homesectionWhatWeAre {
     padding: 5rem 0rem 2.5rem 0rem;
-    background: #ffffff;
+    background: var(--light_beige);
     display: flex;
     justify-content: space-around;
-    align-items: end;
+    align-items: center;
 }
+
+.homesectionServices {
+    padding: 5rem 0rem 2.5rem 0rem;
+    background: var(--solid_black);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+
+}
+
+
+
 
 
 
@@ -323,10 +337,10 @@
 }
 
 .serviceTarget {
-    display: flex;
-    justify-content: center;
-    column-gap: 1rem;
-    align-items: center;
+    background: var(--light_beige);
+    padding: 1rem;
+    border-radius: 5px;
+    height: fit-content;
 }
 
 .h2_tenents {
@@ -369,3 +383,35 @@
     background: #b4cbd426;
     border-radius: 5px;
 }
+
+.services_card{
+    border: 1px solid white;
+    padding: 5px;
+}
+
+.paa_Message {
+    background: var(--light_beige);
+    padding: 1rem;
+    border-radius: 15rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: fit-content;
+    border: 5px solid black;
+}
+
+.serviceIcon_Column{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+}
+
+.form_login{
+    border: 5px solid black;
+    padding: 1rem;
+    border-radius: 5px;
+    background: #fafafa;
+};
+

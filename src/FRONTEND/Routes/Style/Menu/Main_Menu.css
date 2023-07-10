@@ -15,10 +15,10 @@
     overflow: hidden;
     top: 0;
     z-index: 1;
-    box-shadow: 0px 0.5px 2.5px var(--light_grey);
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
+    border-bottom: 5px solid black;
 }
 
 

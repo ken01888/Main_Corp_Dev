@@ -5,11 +5,12 @@ import * as bodyParser from 'body-parser'
 import 'dotenv/config'
 import HomepageServer from './ProgramControlFlow/SQL/Query.ts/Homepage_Query';
 import ClientPortal from './ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/ClientPersonalDetails';
-
 import { sendMessage, MessagingResponse, sendReply } from './ProgramControlFlow/SMS/send_sms';
 import './PAYMENTS/authorize_card';
 import contact from './Homepage/contact'
 import client from './ClientPortal/ClientPersonalDetails'
+import billing from './ClientPortal/ClientBilling';
+import notary from './ClientPortal/ClientServiceRequest'
 
 
 
@@ -30,6 +31,11 @@ const newUse = app.use((req, res, next) => {
 
 app.use('/message',contact)
 app.use('/client_portal',client)
+app.use('/client_portal',billing)
+
+app.use('/client_portal_services',notary)
+app.use('/client_portal_services',notary)
+
 
 
 app.get('/test', (req, res) => {
@@ -43,12 +49,6 @@ app.get('/database', async (req, res) => {
 
 })
 
-app.post('/database_post', async (req, res) => {
-  const newReply = await HomepageServer.insertMessage()
-  res.json(newReply)
-  console.log(newReply)
-
-})
 
 app.post('/twilio', (req, res) => {
   // sendMessage();
@@ -72,13 +72,7 @@ app.post('/sms',  (req, res) => {
 
 );
 
-app.post('/testing_backend',  async (req, res) => {
-  const newReply = await database_query.insertCLIENT(req.body)
-  sendMessage(`${req.body.first_name.toUpperCase()} We at Kcm Inc are excited.`,req.body.phone_number)
-  console.log(newReply) 
-console.log(req.body)
-  res.json(newReply)
-})
+
 
 console.log(Math.floor(Math.random()*999999)+111111)
 const PORT = process.env.PORT || 80

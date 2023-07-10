@@ -1,22 +1,18 @@
 import * as React from 'react'
-import { motion } from 'framer-motion'
-import { createBrowserHistory } from 'history'
-import { Col, Divider, Layout, Row, Image, Form, Input, Select, Tag, ConfigProvider, Collapse, CollapseProps, Space, Tabs, TabsProps, Tooltip } from 'antd'
+import { Col, Divider, Layout, Row, Image, Form, Input, Select, Tag, ConfigProvider, Collapse, CollapseProps, Space, TabsProps, Card, List, Button } from 'antd'
 import { Menu_Home } from './Components/Menus.tsx/Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
-import { Copyright } from '@phosphor-icons/react'
+import { Copyright, ForkKnife, Package, } from '@phosphor-icons/react'
 import 'isomorphic-fetch';
-import people from './400ppi/Headerpeople.png'
 import health from './400ppi/health.png'
 import security from './400ppi/security.png'
 import education from './400ppi/intelligence.png'
-import arrowRight from './400ppi/arrowRight.png'
-import arrowDown from './400ppi/arrowDown.png'
-import buildings from './400ppi/buildings.png'
-import note from './400ppi/note.png'
 
-import { CaretRightOutlined, InfoCircleFilled, SmileFilled } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
+
+
+import { MedicineBoxOutlined, ShopOutlined } from '@ant-design/icons'
+import { Link, NavLink } from 'react-router-dom'
+import Meta from 'antd/es/card/Meta'
 
 
 
@@ -46,27 +42,17 @@ const Home: React.FC = () => {
     {
       key: '1',
       label: 'Which types of businesses does K.C Morris Inc offer assistance to?',
-      children: <p>We at Kcm Inc are committed to
-        providing excellent services to companies
-        in different fields. Our focus is on the
-        majority's welfare, and we strive to offer
-        customized solutions that cater to the
-        specific requirements of both established
-        and new businesses operating in various sectors.</p>,
+      children: <p>At Kcm Inc, we are dedicated to providing excellent services
+        to businesses in diverse industries. Our main objective is to help our
+        clients succeed, and we work hard to deliver benevolent solutions that
+        meet the unique needs of both established and new companies in different sectors.
+      </p>,
     },
     {
       key: '2',
       label: 'How does enrollment work? ',
-      children: <p>To begin the registration process,
-        we need to fully comprehend the specific
-        requirements of our partners. Please complete
-        the form provided, and our knowledgeable team
-        will quickly reach out to you to gather additional
-        information about your company and its needs.
-        Our objective is to design access services to
-        satisfy your needs. Once the initial consultation
-        is completed, you will receive access credentials
-        to your client suite.</p>,
+      children: <p>Kindly complete the registration form provided and accept
+        the service and policy agreements to gain access to our current PAAS or (Private Access Account Services). </p>,
     },
     {
       key: '3',
@@ -76,7 +62,7 @@ const Home: React.FC = () => {
     {
       key: '4',
       label: 'What is the average cost of service?',
-      children: <p>The initial implementation fee is $250, and thereafter, a monthly payment of $10 is required.</p>,
+      children: <p>The initial implementation fee is $0.00, and thereafter, a monthly payment of $25 is required.</p>,
     },
   ];
 
@@ -116,9 +102,19 @@ const Home: React.FC = () => {
             <Image width={12} preview={false} src={education}></Image> Intelligence
           </div>
         </span>,
-      children: <p className='p_services'>
-        Provide institutions with information and knowledge that give insight into the communities they interact with.</p>,
+      children: <div>
+        <p className='p_services'>
+          Provide institutions with information and knowledge that give insight into the communities they interact with.
+        </p>
+        <Button>SignUp</Button>
+      </div>,
     },
+  ];
+
+  const data = [
+    {
+      title: 'Food Product Management',
+    }
   ];
 
 
@@ -137,260 +133,384 @@ const Home: React.FC = () => {
       <Layout className='homeScreenDesktop'>
 
         <Content >
+          <Space wrap size={[125, 125]}>
 
-          <Row justify={'center'} gutter={[0, 75]}>
-            <Col xs={22} md={12}>
-              <h1 style={{ textAlign: 'center' }}>Welcome to Kcm Inc a corporation dedicated to enhance the quality of life for all stakeholders.</h1>
-              <Divider className='dividerHeader'></Divider>
-              <p style={{ textAlign: 'center' }}>
-                At Kcm Inc, we have complete faith in our capability to develop business
-                solutions that are advantageous for both consumers and producers.
-                Our services are meticulously crafted to aid enterprises in
-                delivering the utmost benefits to the communities and
-                stakeholders they cater to.
-              </p>
-            </Col>
-
-          </Row>
-
-          <Row justify={'center'} className='homesectionWhatWeAre' gutter={[0, 75]}>
-            <Col xs={16}>
-              <h1 className='h1Center'>Our range of services facilitates smooth and effective interactions between businesses and their customers across multiple industries.</h1>
-              <p className='pCenter'>Collaborate with a company that places a high value on enhancing the standard of living for people.</p>
-            </Col>
-          </Row>
-
-
-          <Row justify={'space-around'} gutter={[0, 75]}>
-            <Col xs={22} md={6} className='serviceTarget'>
-              <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: '#B4CBD4',
-                    colorPrimaryHover: '#B4CBD4',
-                    lineWidth: 2,
-                    fontFamily: 'Nunito Sans',
-                    fontSize: 16,
-                    colorBgContainer: 'black'
-                  },
-                }}
-              >
-                <Tabs type="card" defaultActiveKey="1" items={itemss} />
-              </ConfigProvider>
-            </Col>
-          </Row>
- 
-          <Row justify={'space-around'} className='homesectionWhatWeAre' gutter={[0, 75]}>
-            <Col xs={22} md={7} >
-              <div className='servicesDiv'>
-                <h2 className='h1_services'>Nutritional Equity Service </h2>
-                <p>
-                  The NES is a useful tool that provides information on
-                  the nutritional value of food products. It also helps
-                  businesses manage their finances. By using the NES,
-                  you can make informed decisions about your operations
-                  and take better control of your business.
+            <Row justify={'space-evenly'} gutter={[0, 75]} >
+              <Col xs={22} md={12}>
+                <h1>Our aim is to help enterprises streamlined and control workflows.</h1>
+                <Divider className='dividerHeader'></Divider>
+                <p >
+                  At Kcm Inc, our focus is on providing business solutions that
+                  benefit both consumers and producers. Our solutions are specifically
+                  designed to maximize benefits for the community and stakeholders alike.
+                  We take pride in our commitment to delivering solutions that promote
+                  mutual success for all parties involved.
                 </p>
-              </div>
-            </Col>
-            <Col xs={22} md={7} >
-              <div className='servicesDiv'>
-                <h2 className='h1_services'>Wealth Transfer Services  </h2>
-                <p>
-                  The WTS offers businesses a new approach to obtaining
-                  funding without the complexities of traditional equity
-                  funding. This is achieved by providing exclusive access
-                  to the company's products or services at a reduced price
-                  to coupon-round participants.
-                </p>
+
                 <div>
+
                 </div>
-              </div>
-            </Col>
-            <Col xs={22} md={7} className='servicesDiv'>
-              <div>
-                <h2 className='h1_services'>Upfront Cost</h2>
-                <p>+ $250 Initial Setup Fee <Tooltip placement="topLeft" title={'The initial setup fee covers both administrative and development expenses.'}><InfoCircleFilled /></Tooltip></p>
-                <p>+ $10 Monthly Maintenance Fee <Tooltip placement="topLeft" title={'To gain access to our services, you pay a reasonable fee of $0.83 per day or $25 per month.'}><InfoCircleFilled /></Tooltip></p>
+              </Col>
+              <Col xs={22} md={8} className='serviceTarget'>
+                <div >
+                  {showForm ?
+                    <>
+                      <h2>Feel free to reach out with any questions. We're here to help and provide info.
+                      </h2>
+
+                      <Form
+                        name="basic"
+                        initialValues={{ remember: true }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        autoComplete="one"
+                        layout='horizontal'
+                        size='large'
+
+                      >
+                        <ConfigProvider
+                          theme={{
+                            token: {
+                              colorPrimary: 'black',
+                              colorPrimaryHover: '#fafafa',
+                              lineWidth: 2,
+                              fontFamily: 'Jost',
+                              fontSize: 14,
+                            },
+                          }}
+                        >
+                          <Form.Item
+
+                            label="First Name"
+                            name="first_name"
+                            rules={[{ required: true, message: 'Please input your first name!' }]}
+                          >
+                            <Input type='text' />
+                          </Form.Item>
+
+                          <Form.Item
+                            label="Last Name"
+                            name="last_name"
+                            rules={[{ required: true, message: 'Please input your last name!' }]}
+                          >
+                            <Input type='text' />
+                          </Form.Item>
+
+                          <Form.Item
+                            label="Phone Number"
+                            name="phone_number"
+
+                            rules={[{ required: true, message: 'Please input your phone number!' }]}
+                          >
+                            <Input type='tel' maxLength={10} />
+                          </Form.Item>
+
+                          <Form.Item
+                            label="Email"
+                            name="email"
+
+                            rules={[{ required: true, message: 'Please input your email address!' }]}
+                          >
+                            <Input type='email' />
+                          </Form.Item>
+                          <Form.Item
+                            label="Message"
+                            name="message"
+
+                            rules={[{ required: true, message: 'How can we help you!' }]}
+                          >
+                            <Input.TextArea />
+                          </Form.Item>
+
+
+                          <Form.Item
+                          >
+                            <button className='buttonBlack' type="submit">
+                              Click here to contact our team!
+                            </button>
+                          </Form.Item>
+                        </ConfigProvider>
+                      </Form></> :
+                    <p>Thank you for your message. Your inquiry has been received and we will ensure that a member of our team reaches out to you promptly.</p>
+                  }
+                </div>              </Col>
+
+            </Row>
+
+            <Row justify={'space-evenly'} className='homesectionWhatWeAre' gutter={[0, 75]}>
+              <Col xs={22} md={10} >
+                <h1>Making sound decisions for your business often entails weighing the costs involved.</h1>
+              </Col>
+
+              <Col xs={22} md={8} >
+
                 <ConfigProvider
                   theme={{
                     token: {
-                      colorSplit: '#000000',
+                      fontFamily: 'Jost',
+                      colorTextTertiary: 'black',
+                      colorPrimaryHover: '#b4cbd4',
+                      borderRadiusLG: 0,
+                      colorBorderSecondary: 'black',
+                      colorPrimaryActive: '#e8dac2',
+                      fontFamily: 'Nunito',
+
+
                     },
                   }}
                 >
-                  <Divider></Divider>
+                  <Card title="Monthly Service Fee" >
+
+
+                    <Meta
+                      title={<h1>$25</h1>}
+                      description="Our services do not require any initial setup fees. 
+                      However, please be aware that our prices may change without prior notice." />
+
+
+
+                  </Card>
                 </ConfigProvider>
-                <p>+ $260</p>
 
-                <div>
-                <p>It's important to note that the monthly maintenance fee only covers services access and does not include any extra billing.</p>
+              </Col>
+
+            </Row>
+
+            <Row justify={'space-evenly'} className='homesectionServices' gutter={[0, 75]}>
+              <Col xs={22} md={10} >
+                <h1 className='h1_services'>Your monthly maintenance fee, gives you private access to a growing range of services.</h1>
+              </Col>
+
+              <Col xs={22} md={8} >
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      fontFamily: 'Jost',
+                      colorTextTertiary: 'black',
+                      colorPrimaryHover: '#b4cbd4',
+                      borderRadiusLG: 0,
+                      colorBorderSecondary: 'black',
+                      colorPrimaryActive: '#e8dac2',
+                      fontFamily: 'Nunito',
+
+
+                    },
+                  }}
+                >
+                  <Space wrap>
+                    <div className='services_card'>
+                      <h3 className='h3_services'>Private Access Account</h3>
+                      <p className='p_services'>
+                        Private Access Account or PAA offers a clear structure for managing
+                        complex business matters efficiently. This system empowers
+                        companies to make informed decisions with confidence,
+                        resulting in a significant increase in stakeholder value.
+                      </p>
+                    </div>
+                    {/* <div className='services_card'>
+                  <h3 className='h3_services'>Enterprises Funding Services</h3>
+                  <p className='p_services'>Hello to the world</p>
+                 </div> */}
+                  </Space>
+
+                </ConfigProvider>
+
+
+              </Col>
+
+            </Row>
+
+            <Row justify={'space-evenly'} gutter={[0, 75]} >
+              <Col xs={22} md={12}>
+                <h1>
+                  Enhance the satisfaction of your customers and elevate the prosperity of your business.</h1>
+                <Divider className='dividerHeader'></Divider>
+                <List
+                  itemLayout="horizontal"
+                  dataSource={data}
+                  renderItem={(item, index) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        avatar={<ForkKnife size={24} weight="fill" />}
+                        title={<a href="https://ant.design">{item.title}</a>}
+                        description={<div><p style={{ fontSize: 14 }}>Our <span className='service_tag'>Food Management</span> and <span className='service_tag'>Nutritional Analytics</span>  service equips businesses
+                          with the tools they need to expertly manage their inventory and
+                          assess the nutritional efficacy of their products across a
+                          range of demographics.
+                        </p>
+                          <Space wrap direction='vertical' size={[0, 25]}>
+                            <Space>
+                              <Tag icon={<ShopOutlined style={{ color: '#b4cbd4' }} />} color='#000000' >
+                                Consumer Discretionary
+                              </Tag>
+                              <Tag icon={<MedicineBoxOutlined style={{ color: '#b4cbd4' }} />} color='#000000' >
+                                Healthcare
+                              </Tag>
+                            </Space>
+
+                            <Space>
+                              <ConfigProvider
+                                theme={{
+                                  token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                  },
+                                }}
+                              >
+                                <Button htmlType="submit">Sign Up Today!</Button>
+
+                              </ConfigProvider>
+                            </Space>
+                          </Space>
+
+
+                        </div>}
+                      />
+                    </List.Item>
+                  )}
+                />
+
+              </Col>
+              <Col xs={22} md={8} className='serviceIcon_Column'>
+                <div className='paa_Message' >
+
+                  <Package size={250} color="#000000" weight="fill" />
 
                 </div>
-              </div>
-            </Col>
-        
 
 
-          </Row>
+              </Col>
 
-          <Row justify={'space-around'} className='homesectionWhite' gutter={[0, 75]}>
-            <Col xs={22} md={10}>
-              <Space size='large' direction='vertical'>
+              <Col xs={22} md={10}>
+                <Space size={[75,75]} direction='vertical' >
 
-                <div>
-                  <h1>Questions and Answers</h1>
+                  <div>
+                    <h1>Questions and Answers</h1>
 
-                  <ConfigProvider
-
-                    theme={{
-                      token: {
-                        fontFamily: 'Nunito Sans',
-                        colorBorder: '#B4CBD4',
-                        fontSize: 16,
-                      }
-                    }}
-                  >
-                    <Collapse accordion items={items} />
-
-                  </ConfigProvider>
-                </div>
-
-                <div>
-                  <h1>Contact us to learn more!</h1>
-                  <p>
-                    To begin the registration process,
-                    please complete the form.
-                    Our knowledgeable team will reach
-                    out to you promptly to provide
-                    you with detailed information about
-                    our institution and answer any inquiries you may have.
-                  </p>
-                </div>
-              </Space>
-
-            </Col>
-            <Col xs={22} md={10}>
-
-              <div >
-                {showForm ?
-                  <><Form
-                    name="basic"
-                    style={{ maxWidth: 600 }}
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                    layout='horizontal'
-                    size='middle'
-                  >
                     <ConfigProvider
+
                       theme={{
                         token: {
-                          colorPrimary: '#B4CBD4',
-                          colorPrimaryHover: '#B4CBD4',
-                          lineWidth: 2,
                           fontFamily: 'Jost',
-                          fontSize: 14,
-                        },
+                          colorBorder: '#000000',
+                          fontSize: 16,
+                        }
                       }}
                     >
-                      <Form.Item
+                      <Collapse accordion items={items} />
 
-                        label="First Name"
-                        name="first_name"
-                        rules={[{ required: true, message: 'Please input your first name!' }]}
-                      >
-                        <Input type='text' />
-                      </Form.Item>
-
-                      <Form.Item
-                        label="Last Name"
-                        name="last_name"
-                        rules={[{ required: true, message: 'Please input your last name!' }]}
-                      >
-                        <Input type='text' />
-                      </Form.Item>
-
-                      <Form.Item
-                        label="Phone Number"
-                        name="phone_number"
-
-                        rules={[{ required: true, message: 'Please input your phone number!' }]}
-                      >
-                        <Input type='tel' maxLength={10} />
-                      </Form.Item>
-
-                      <Form.Item
-                        label="Email"
-                        name="email"
-
-                        rules={[{ required: true, message: 'Please input your email address!' }]}
-                      >
-                        <Input type='email' />
-                      </Form.Item>
-                      <Form.Item
-                        label="Business Name"
-                        name="business_name"
-
-                        rules={[{ required: true, message: 'Please input your business name!' }]}
-                      >
-                        <Input type='text' />
-                      </Form.Item>
-                      <Form.Item
-                        label="Business Size"
-                        name="business_size"
-                        rules={[{ required: true, message: 'Please select your business size!' }]}
-                      >
-                        <Select bordered>
-                          <Select.Option value="micro">Less than 10</Select.Option>
-                          <Select.Option value="small">Between 10 and 50</Select.Option>
-                          <Select.Option value="medium">Between 50 and 250 </Select.Option>
-                          <Select.Option value="large">Over 250</Select.Option>
-
-                        </Select>
-                      </Form.Item>
-                      <Form.Item
-                        label="What type of account type are you interested in creating?"
-                        name="account_type"
-                        rules={[{ required: true, message: 'Select a account type best reflects your needs!' }]}
-                      >
-                        <Select bordered>
-                          <Select.Option value="principle">Principle</Select.Option>
-                          <Select.Option value="associate">Associated</Select.Option>
-                        </Select>
-                      </Form.Item>
-                      <Form.Item
-                        label="Password"
-                        name="password"
-                        rules={[{ required: true, message: 'Input your password!' }]}
-                      >
-                        <Input.Password type='password' visibilityToggle={true} />
-                      </Form.Item>
-                      <Form.Item
-                      >
-                        <button className='buttonBlack' type="submit">
-                          Click here to contact our team!
-                        </button>
-                      </Form.Item>
                     </ConfigProvider>
-                  </Form></> :
-                  <h1>We appreciate you reaching out to us.
-                    We want you to know that we have received
-                    your message and will get back to you as
-                    soon as possible.</h1>
-                }
-              </div>
-            </Col>
-          </Row>
+
+
+                  </div>
+
+                </Space>
+
+              </Col>
+
+            </Row>
+
+          </Space>
+
         </Content>
       </Layout>
 
       <Footer className='footer_public'>
-        <Row>
-          <Col xs={24}>
-            <p><Copyright size={16} weight="bold" />Kcm Inc</p>
+        <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
+          <Col xs={22} md={10}>
+            <h2 style={{ display: 'flex' }} className='footer_h1'>
+              <div className='logo'>
+
+                <div style={{ height: 'fit-content' }}>
+                  <div className='logoBlue'></div>
+                  <div className='logoBeige'></div>
+                </div>
+                <div style={{ height: 'fit-content' }}>
+                  <div className='logoBeige'></div>
+                  <div className='logoBlue'></div>
+
+                </div>
+              </div>Kcm Inc
+            </h2>
+            <p>KCM Inc is dedicated to offering B2B services that
+              provide practical and advantageous solutions to businesses.
+              Our team conducts comprehensive research and development,
+              utilizing publicly available data from both public and private
+              institutions. We meticulously analyze this data to develop
+              innovative and effective business services that cater to the
+              needs of communities and clients.</p>
           </Col>
+          <Col xs={22} md={5} >
+            <Space wrap direction='vertical' >
+              <ConfigProvider
+                theme={{
+                  token: {
+                    fontFamily: 'Jost',
+                    colorTextTertiary: 'black',
+                    colorPrimaryHover: '#000000',
+                    colorBgContainer: '#fafafa'
+
+                  },
+                }}
+              >
+                <Button htmlType="submit"><NavLink reloadDocument to='/login'>Log In</NavLink></Button>
+
+
+              </ConfigProvider>
+
+              <ConfigProvider
+                theme={{
+                  token: {
+                    fontFamily: 'Jost',
+                    colorTextTertiary: 'black',
+                    colorPrimaryHover: '#000000',
+                    colorBgContainer: '#fafafa'
+
+                  },
+                }}
+              >
+                <Button htmlType="submit"><NavLink reloadDocument to='/signup'>Sign Up</NavLink></Button>
+
+
+              </ConfigProvider>
+
+              <ConfigProvider
+                theme={{
+                  token: {
+                    fontFamily: 'Jost',
+                    colorTextTertiary: 'black',
+                    colorPrimaryHover: '#000000',
+                    colorBgContainer: '#fafafa'
+
+                  },
+                }}
+              >
+                <Button htmlType="submit"><NavLink reloadDocument to='/privacy_policy'>Privacy Policy</NavLink></Button>
+
+
+              </ConfigProvider>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    fontFamily: 'Jost',
+                    colorTextTertiary: 'black',
+                    colorPrimaryHover: '#000000',
+                    colorBgContainer: '#fafafa'
+
+                  },
+                }}
+              >
+                <Button htmlType="submit"><NavLink reloadDocument to='/terms_of_service'>Terms of Service</NavLink></Button>
+
+
+              </ConfigProvider>
+            </Space>
+
+          </Col>
+
         </Row>
       </Footer>
     </Layout>

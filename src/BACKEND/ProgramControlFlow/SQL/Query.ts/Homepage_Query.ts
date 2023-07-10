@@ -1,8 +1,8 @@
 import { Query } from "../Conection";
 
 
-const viewMessages = async () => Query('select * from Communication.Homepage');
-const insertMessage= async (values: any) => Query('INSERT INTO Communication.Homepage SET ?', values);
+const viewMessages = async () => Query('select * from Communication.Messages');
+const insertMessage= async (values: any) => Query('INSERT INTO Communication.Messages SET ?', values);
 
 // const singleChirp = async (id:string) => Query('SELECT * FROM Chirps WHERE id = ?',[id]);
 // const deleteMessages = async (id: string) => Query('DELETE FROM contact WHERE id = ?', [id]);

@@ -8,6 +8,8 @@ import Login from './Page/Login'
 import ClientPortal from './Page/Principle Dashboards/ClientPortal';
 import PrincipleAccountDetails from './Page/Principle Dashboards/PrincipleAccountDetailsPage';
 import PrincipleBillingDetails from './Page/Principle Dashboards/PrincipleBillingDetails';
+import PrincipleServiceDetails from './Page/Principle Dashboards/PrincipleServiceDetails';
+import SignUp from './Page/Signup';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,17 @@ const router = createBrowserRouter([
     element: <Home />,
 
   },
+  {
+    path: "/login",
+    element: <Login />,
+
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
+
+  },
+
   {
     path: 'principle_dashboard',
     element: <ClientPortal />,
@@ -27,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "billing/:id",
         element: <PrincipleBillingDetails />
+      },
+      {
+        path: "services/:id",
+        element: <PrincipleServiceDetails />
       }
 
     ]

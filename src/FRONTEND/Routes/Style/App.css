@@ -75,6 +75,12 @@ code {
 
 
 
+.service_tag{
+  color: var(--solid_black);
+  font-family: Nunito;
+  font-weight: 900;
+  text-decoration: 2px underline #e8dac2;
+}
 
 
 

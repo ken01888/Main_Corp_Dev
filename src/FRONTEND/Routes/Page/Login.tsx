@@ -1,12 +1,12 @@
-import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select,Image } from 'antd';
+import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, Image, ConfigProvider, Space } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { Menu_Home } from './Components/Menus.tsx/Menu';
 import { motion } from 'framer-motion';
 import { Copyright } from '@phosphor-icons/react';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
-import email from './400ppi/email.png'
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { Menu_Login } from './Components/Menus.tsx/Menu_Login';
 
 
 
@@ -36,7 +36,7 @@ const Login: React.FC = () => {
     <Layout className='layout'>
       <Header className='header'>
 
-        <Menu_Home />
+        <Menu_Login />
 
       </Header>
 
@@ -44,53 +44,78 @@ const Login: React.FC = () => {
 
         <Content >
           <Row justify={'space-around'} gutter={[0, 75]}>
-            <Col xs={22} md={8}>
+
+            <Col xs={22} md={8} className='form_login'>
+              <h2 style={{ display: 'flex' }} className='footer_h1'>
+                <motion.div className='logo'>
+
+                  <div style={{ height: 'fit-content' }}>
+                    <div className='logoBlue'></div>
+                    <div className='logoBeige'></div>
+                  </div>
+                  <div style={{ height: 'fit-content' }}>
+                    <div className='logoBeige'></div>
+                    <div className='logoBlue'></div>
+
+                  </div>
+                </motion.div>Kcm Inc
+              </h2>
               <h1>Login</h1>
-              <Divider className='dividerHeader'></Divider>              
-                 <Form
-                      name="basic"
-                      style={{ maxWidth: 600 }}
-                      initialValues={{ remember: true }}
-                      onFinish={onFinish}
-                      onFinishFailed={onFinishFailed}
-                      autoComplete="off"
-                      layout='vertical'
-                      size='large'
-                      className='p_services'
-                    >
-                      <Form.Item
+              <p>Please enter your username and password that you
+                used to create your account. If you are having difficulties
+                logging in, message our support center for assistance. </p>
+              <Divider className='dividerHeader'></Divider>
+              <Form
+                name="basic"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="one"
+                layout='horizontal'
+                size='large'
 
-                        label="Email"
-                        name="email"
-                        rules={[{ required: true, message: 'Input the email address you used to register the account!' }]}
-                      >
-                        <Input  type='email' />
-                      </Form.Item>
+              >
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: 'black',
+                      colorPrimaryHover: '#fafafa',
+                      lineWidth: 2,
+                      fontFamily: 'Jost',
+                      fontSize: 14,
+                    },
+                  }}
+                >
+                  <Form.Item
 
-                      <Form.Item
-                        label="Password"
-                        name="password"
-                        rules={[{ required: true, message: 'Input your password!' }]}
-                      >
-                        <Input.Password type='password' visibilityToggle={true} />
-                      </Form.Item>
+                    label="Enter your username"
+                    name="first_name"
+                    rules={[{ required: true, message: 'Enter your username to access your account' }]}
+                  >
+                    <Input type='text' />
+                  </Form.Item>
 
-                     
+                  <Form.Item
+                    label='Enter your password'
+                    name="password"
+                    rules={[{ required: true, message: 'Enter your password to access your account' }]}
+                  >
+                    <Input type='text' />
+                  </Form.Item>
 
-                     
 
-                     
-                     
-                      <Form.Item
-                      className='formLoginButtons'
-                      >
-                        <button className='buttonBlack' type="submit">
-                          Click here to contact our team!
-                        </button>
-                        <Link to='/'>Reset Password</Link>
-                      </Form.Item>
-                    </Form>
 
+
+                  <Form.Item
+                  >
+                    <button className='buttonBlack' type="submit">
+                      Verify
+                    </button>
+                  </Form.Item>
+                </ConfigProvider>
+              </Form>
+
+              
             </Col>
 
 
@@ -102,13 +127,7 @@ const Login: React.FC = () => {
         </Content>
 
       </Layout>
-      <Footer className='footer_public'>
-        <Row>
-          <Col xs={24}>
-            <p><Copyright size={16} weight="bold" />Kcm Inc</p>
-          </Col>
-        </Row>
-      </Footer>
+
     </Layout>)
 }
 

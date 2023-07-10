@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col,Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions } from 'antd'
+import { Col, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions,Space } from 'antd'
 import 'isomorphic-fetch';
 import { useParams } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ const PrincipleBillingDetails: React.FC = (props) => {
     const [EditPersonalInformation, setEditPersonalInformation] = React.useState<boolean>(true)
     const [billingInformation, setbillingInformation] = React.useState<Array<string>>([])
 
-const id = 3;
+    const id = 3;
 
 
 
@@ -20,14 +20,13 @@ const id = 3;
             const dataReply = await fetch(`http://localhost:80/client_portal/getPrincipleBillingInformation/3`)
             const newData = await dataReply.json()
             setbillingInformation(newData)
-            console.log(newData)
 
         })()
     }, [ViewPersonalInformation])
 
 
 
-    const onPrincipleUpdate = async (values: any) => {
+    const onBillingUpdate = async (values: any) => {
         const dataReply = await fetch(`http://localhost:80/client_portal/updatePrincipleBillingInformation/3`, {
             method: 'PUT',
             headers: {
@@ -53,114 +52,118 @@ const id = 3;
 
 
 
-        <Col xs={22} md={18}>
-            <div className='clientPortalDiv'>
-                <Form
-                    name="client"
-                    style={{ maxWidth: 600 }}
-                    initialValues={{ remember: true }}
-                    onFinish={onPrincipleUpdate}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                    layout='horizontal'
-                    size='middle'
+        <Col xs={22} md={12}>
+        <div className='clientPortalDiv'>
+            <Form
+                name="client"
+                initialValues={{ remember: true }}
+                onFinish={onBillingUpdate}
+                onFinishFailed={(error)=>{console.log(error)}}
+                autoComplete="off"
+                layout='horizontal'
+                size='middle'
+            >
+                <ConfigProvider
+                    theme={{
+                        token: {
+                            fontFamily: 'Jost',
+                            colorTextTertiary: 'black',
+                            colorPrimaryHover: '#b4cbd4',
+                            colorBgContainerDisabled:'ffffff',
+
+                        },
+                    }}
                 >
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                fontFamily: 'Jost',
-                                colorTextTertiary: 'black',
-                                colorPrimaryHover: '#b4cbd4',
+                    <Descriptions
+                        title={<><h1 className='h1_Header_Client_Portal'>Billing Profile</h1>
+                        </>} layout="vertical">
+                        <Descriptions.Item span={3}>
+                            <p>
+                            To view your billing information, click on "View" in the bottom left corner. 
+                            If you need to make any changes, click on "Update" to modify your billing details. 
+                            </p>
+                        
+                        </Descriptions.Item>
+                        <Descriptions.Item span={3}>
 
-                            },
-                        }}
-                    >
-                        <Descriptions
-                            extra={
-                                <>
-                                    <Tag className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }} bordered={false} > View</Tag>
-                                    <Tag className='tagUpdate' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }} bordered={false} > Update</Tag>
-                                </>}
-
-                            title={<><h1 className='h1_Header_Client_Portal'>Billing Profile</h1>
-                            </>} layout="vertical">
-                            <Descriptions.Item span={3}>
-                                <p>
-                                    In this section, you can easily manage and update your personal information.
-                                    To view your information, click on "View" in the top right corner.
-                                    If you need to make any changes, click on "Update" to modify your personal details.
-                                </p>
+                            <Space>
+                                <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button>
+                                <Button className='tagUpdate' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }}> Update</Button>
+                            </Space>
 
 
-                            </Descriptions.Item>
+                        </Descriptions.Item>
 
 
 
 
 
 
-                            {ViewPersonalInformation ?
+                        {ViewPersonalInformation ?
 
-                                <>
+                            <>
 
-                                    {billingInformation.map((i, n, a) => {
-                                        return (
+                                {billingInformation.map((i, n, a) => {
+                                    return (
 
-                                            <Descriptions.Item label={i[0].toUpperCase().replace('_', ' ')} key={n}>
+                                        <Descriptions.Item label={i[0].toUpperCase().replace('_', ' ')} key={n}>
 
-                                                <Form.Item
-                                                    name={i[0]}
-                                                    key={n}
-                                                    initialValue={i[1]}
+                                            <Form.Item
+                                                name={i[0]}
+                                                key={n}
+                                                initialValue={i[1]}
 
-                                                >
-
-                                                    <Input key={n} bordered={EditPersonalInformation} placeholder={i[1]} disabled={EditPersonalInformation}></Input>
-                                                </Form.Item>
-
-                                            </Descriptions.Item>
-
-
-                                        )
-                                    })}
-
-
-                                    {EditPersonalInformation ?
-                                        ''
-                                        :
-                                        <Form.Item
-                                        >
-                                            <ConfigProvider
-                                                theme={{
-                                                    token: {
-                                                        fontFamily: 'Jost',
-                                                        colorTextTertiary: 'black',
-                                                        colorPrimaryHover: '#000000',
-                                                        colorBgContainer: '#fafafa'
-
-                                                    },
-                                                }}
                                             >
-                                                <Button htmlType="submit">Submit Changes</Button>
 
-                                            </ConfigProvider>
-                                        </Form.Item>
-                                    }
-                                </>
-                                : ''}
-                        </Descriptions>
-                    </ConfigProvider>
-                </Form>
-            </div>
+                                                <Input key={n} bordered={EditPersonalInformation} placeholder={i[1]} disabled={EditPersonalInformation}></Input>
+                                            </Form.Item>
+
+                                        </Descriptions.Item>
 
 
-            <FloatButton.Group shape="square" style={{ right: 24 }}>
-                <FloatButton icon={<Image preview={false} ></Image>} />
-                <FloatButton />
-                <FloatButton.BackTop visibilityHeight={0} />
-            </FloatButton.Group>
-        </Col>
+                                    )
+                                })}
 
+
+                                {EditPersonalInformation ?
+                                    ''
+                                    :
+                                    <Descriptions.Item span={3}>
+
+                                    <Form.Item
+                                    >
+                                        <ConfigProvider
+                                            theme={{
+                                                token: {
+                                                    fontFamily: 'Jost',
+                                                    colorTextTertiary: 'black',
+                                                    colorPrimaryHover: '#000000',
+                                                    colorBgContainer: '#fafafa'
+
+                                                },
+                                            }}
+                                        >
+                                            <Button htmlType="submit">Submit Changes</Button>
+
+                                        </ConfigProvider>
+                                    </Form.Item>
+                                    </Descriptions.Item>
+
+                                }
+                            </>
+                            : ''}
+                    </Descriptions>
+                </ConfigProvider>
+            </Form>
+        </div>
+
+
+        <FloatButton.Group shape="square" style={{ right: 24 }}>
+            <FloatButton icon={<Image preview={false} ></Image>} />
+            <FloatButton />
+            <FloatButton.BackTop visibilityHeight={0} />
+        </FloatButton.Group>
+    </Col>
     )
 }
 

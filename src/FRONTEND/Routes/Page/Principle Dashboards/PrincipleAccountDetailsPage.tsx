@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col,Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions } from 'antd'
+import { Col,Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space } from 'antd'
 import 'isomorphic-fetch';
 import { useParams } from 'react-router-dom';
 
@@ -52,11 +52,10 @@ const {id} = useParams();
 
 
 
-        <Col xs={22} md={18}>
+        <Col xs={22} md={12}>
             <div className='clientPortalDiv'>
                 <Form
                     name="client"
-                    style={{ maxWidth: 600 }}
                     initialValues={{ remember: true }}
                     onFinish={onPrincipleUpdate}
                     onFinishFailed={onFinishFailed}
@@ -70,25 +69,27 @@ const {id} = useParams();
                                 fontFamily: 'Jost',
                                 colorTextTertiary: 'black',
                                 colorPrimaryHover: '#b4cbd4',
+                                colorBgContainerDisabled:'ffffff',
 
                             },
                         }}
                     >
                         <Descriptions
-                            extra={
-                                <>
-                                    <Tag className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }} bordered={false} > View</Tag>
-                                    <Tag className='tagUpdate' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }} bordered={false} > Update</Tag>
-                                </>}
-
                             title={<><h1 className='h1_Header_Client_Portal'>Principal Profile</h1>
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
-                                    In this section, you can easily manage and update your personal information.
-                                    To view your information, click on "View" in the top right corner.
+                                    To view your information, click on "View" in the bottom left corner.
                                     If you need to make any changes, click on "Update" to modify your personal details.
                                 </p>
+                            
+                            </Descriptions.Item>
+                            <Descriptions.Item span={3}>
+
+                                <Space>
+                                    <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button>
+                                    <Button className='tagUpdate' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }}> Update</Button>
+                                </Space>
 
 
                             </Descriptions.Item>

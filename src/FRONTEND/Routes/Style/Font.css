@@ -1,6 +1,37 @@
 h1{
     flex-shrink: 0;
-    text-align: justify;
+    width: auto;
+    height: auto;
+    /* white-space: pre; */
+    overflow: visible;
+    position: relative;
+    font-style: normal;
+    color: var(--token-b9c3c957-2c66-49c4-9732-fa196fddac20, #001122);
+    font-size: 3.25rem;
+    letter-spacing: -2.1px;
+    line-height: 1.2;
+    font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
+  }
+
+@media only screen and (max-width: 749px) {
+    h1{
+        flex-shrink: 0;
+        width: auto;
+        height: auto;
+        /* white-space: pre; */
+        overflow: visible;
+        position: relative;
+        font-style: normal;
+        font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
+        color: var(--token-b9c3c957-2c66-49c4-9732-fa196fddac20, #001122);
+        font-size: 2rem;
+        letter-spacing: -2.1px;
+        line-height: 1.2;
+    }
+  }
+
+ h2{
+    flex-shrink: 0;
     width: auto;
     height: auto;
     /* white-space: pre; */
@@ -12,11 +43,11 @@ h1{
     font-size: 2.25rem;
     letter-spacing: -2.1px;
     line-height: 1.2;
-    font-family: "Nunito Sans", "Nunito Sans Placeholder", sans-serif;
+    font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
   }
 
 @media only screen and (max-width: 749px) {
-    h1{
+   h2{
         flex-shrink: 0;
         width: auto;
         height: auto;
@@ -25,9 +56,9 @@ h1{
         position: relative;
         font-weight: 200;
         font-style: normal;
-        font-family: "Nunito Sans", "Nunito Sans Placeholder", sans-serif;
+        font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
         color: var(--token-b9c3c957-2c66-49c4-9732-fa196fddac20, #001122);
-        font-size: 2rem;
+        font-size: 1.75rem;
         letter-spacing: -2.1px;
         line-height: 1.2;
     }
@@ -37,6 +68,7 @@ h1{
     font-size: 1rem;
     line-height: 30px;
     margin-top: none;
+    font-family:'Nunito'
   }
 
   @media only screen and (max-width: 749px) {
@@ -44,8 +76,7 @@ h1{
         font-size: 1rem;
         line-height: 30px;
     }
-  }
-
+ } 
 
   .p_services_header{
     display:flex;
@@ -53,12 +84,6 @@ h1{
     font-weight: 500;
   }
 
-  .p_services{
-    text-align: center;
-    background: var(--light_beige);
-    padding: 0.5rem;
-    border-radius: 5px; 
-  }
 
 
   .forms_background {
@@ -70,7 +95,36 @@ h1{
 }
 
 .h1_services{
-  color: var(--solid_black);
+  color: var(--light_beige);
   width: fit-content; 
+}
+
+.h3_services{
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-family: Jost;
+  text-decoration: 2.5px underline var(--light_blue);
+  color: var(--light_beige);
+}
+
+.p_services{
+  color:white
+}
+
+.footer_h1{
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+  /* white-space: pre; */
+  overflow: visible;
+  position: relative;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--token-b9c3c957-2c66-49c4-9732-fa196fddac20, #001122);
+  font-size: 1.75rem;
+  letter-spacing: -2.1px;
+  line-height: 1.2;
+  font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
+  column-gap: 5px;
 }
 
