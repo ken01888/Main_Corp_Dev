@@ -415,3 +415,9 @@
     background: #fafafa;
 };
 
+.form_anchor{
+    font-size: 1rem;
+    font-family: Jost;
+    color: var(--solid_black);
+    text-decoration: 2px underline #e8dac2;
+}

@@ -1,17 +1,15 @@
 import * as React from 'react'
-import { Col, Divider, Layout, Row, Image, Form, Input, Select, Tag, ConfigProvider, Collapse, CollapseProps, Space, TabsProps, Card, List, Button } from 'antd'
+import { Col, Divider, Layout, Row, Form, Input, Tag, ConfigProvider, Collapse, CollapseProps, Space, Card, List, Button } from 'antd'
 import { Menu_Home } from './Components/Menus.tsx/Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
-import { Copyright, ForkKnife, Package, } from '@phosphor-icons/react'
+import { ForkKnife, Package, } from '@phosphor-icons/react'
 import 'isomorphic-fetch';
-import health from './400ppi/health.png'
-import security from './400ppi/security.png'
-import education from './400ppi/intelligence.png'
+
 
 
 
 import { MedicineBoxOutlined, ShopOutlined } from '@ant-design/icons'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Meta from 'antd/es/card/Meta'
 
 
@@ -66,50 +64,6 @@ const Home: React.FC = () => {
     },
   ];
 
-  const itemss: TabsProps['items'] = [
-    {
-      key: '1',
-      label:
-        <span
-        ><div>
-            <Image width={12} preview={false} src={security}></Image> Security
-          </div>
-        </span>,
-      children: <><div>
-        <p className='p_services'>
-          Sustainable business life cycles that ensure consumer participation in developing or development concepts.
-        </p>
-      </div></>,
-    },
-    {
-      key: '2',
-      label:
-        <span
-        ><div>
-            <Image width={12} preview={false} src={health}></Image> Welfare
-          </div>
-        </span>,
-      children:
-        <p className='p_services'>
-          Utilities that benefit internal and external stakeholders and help optimize business results without sacrificing individual well-being.
-        </p>,
-    },
-    {
-      key: '3',
-      label:
-        <span
-        ><div>
-            <Image width={12} preview={false} src={education}></Image> Intelligence
-          </div>
-        </span>,
-      children: <div>
-        <p className='p_services'>
-          Provide institutions with information and knowledge that give insight into the communities they interact with.
-        </p>
-        <Button>SignUp</Button>
-      </div>,
-    },
-  ];
 
   const data = [
     {
@@ -276,54 +230,12 @@ const Home: React.FC = () => {
 
             </Row>
 
-            <Row justify={'space-evenly'} className='homesectionServices' gutter={[0, 75]}>
-              <Col xs={22} md={10} >
-                <h1 className='h1_services'>Your monthly maintenance fee, gives you private access to a growing range of services.</h1>
-              </Col>
-
-              <Col xs={22} md={8} >
-                <ConfigProvider
-                  theme={{
-                    token: {
-                      fontFamily: 'Jost',
-                      colorTextTertiary: 'black',
-                      colorPrimaryHover: '#b4cbd4',
-                      borderRadiusLG: 0,
-                      colorBorderSecondary: 'black',
-                      colorPrimaryActive: '#e8dac2',
-                      fontFamily: 'Nunito',
-
-
-                    },
-                  }}
-                >
-                  <Space wrap>
-                    <div className='services_card'>
-                      <h3 className='h3_services'>Private Access Account</h3>
-                      <p className='p_services'>
-                        Private Access Account or PAA offers a clear structure for managing
-                        complex business matters efficiently. This system empowers
-                        companies to make informed decisions with confidence,
-                        resulting in a significant increase in stakeholder value.
-                      </p>
-                    </div>
-                    {/* <div className='services_card'>
-                  <h3 className='h3_services'>Enterprises Funding Services</h3>
-                  <p className='p_services'>Hello to the world</p>
-                 </div> */}
-                  </Space>
-
-                </ConfigProvider>
-
-
-              </Col>
-
-            </Row>
+           
 
             <Row justify={'space-evenly'} gutter={[0, 75]} >
               <Col xs={22} md={12}>
                 <h1>
-                  Enhance the satisfaction of your customers and elevate the prosperity of your business.</h1>
+                Discover more comprehensive information about the existing service packages we offer.</h1>
                 <Divider className='dividerHeader'></Divider>
                 <List
                   itemLayout="horizontal"
@@ -385,7 +297,7 @@ const Home: React.FC = () => {
               </Col>
 
               <Col xs={22} md={10}>
-                <Space size={[75,75]} direction='vertical' >
+                <Space size={[75, 75]} direction='vertical' >
 
                   <div>
                     <h1>Questions and Answers</h1>
@@ -456,7 +368,9 @@ const Home: React.FC = () => {
                   },
                 }}
               >
-                <Button htmlType="submit"><NavLink reloadDocument to='/login'>Log In</NavLink></Button>
+                <Link reloadDocument to='/login'>
+                  <Button htmlType="submit">Log In</Button>
+                </Link>
 
 
               </ConfigProvider>
@@ -472,7 +386,7 @@ const Home: React.FC = () => {
                   },
                 }}
               >
-                <Button htmlType="submit"><NavLink reloadDocument to='/signup'>Sign Up</NavLink></Button>
+                <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
 
 
               </ConfigProvider>
@@ -488,7 +402,7 @@ const Home: React.FC = () => {
                   },
                 }}
               >
-                <Button htmlType="submit"><NavLink reloadDocument to='/privacy_policy'>Privacy Policy</NavLink></Button>
+                <Link reloadDocument to='/privacy_policy'> <Button htmlType="submit">Privacy Policy</Button></Link>
 
 
               </ConfigProvider>
@@ -503,7 +417,7 @@ const Home: React.FC = () => {
                   },
                 }}
               >
-                <Button htmlType="submit"><NavLink reloadDocument to='/terms_of_service'>Terms of Service</NavLink></Button>
+                <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
 
 
               </ConfigProvider>

@@ -7,6 +7,7 @@ import { Copyright } from '@phosphor-icons/react';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu_Login } from './Components/Menus.tsx/Menu_Login';
+import { Menu_SignUp } from './Components/Menus.tsx/Menu_Signup';
 
 
 
@@ -36,7 +37,7 @@ const Login: React.FC = () => {
     <Layout className='layout'>
       <Header className='header'>
 
-        <Menu_Login />
+        <Menu_SignUp />
 
       </Header>
 
@@ -45,7 +46,7 @@ const Login: React.FC = () => {
         <Content >
           <Row justify={'space-around'} gutter={[0, 75]}>
 
-            <Col xs={22} md={8} className='form_login'>
+            <Col xs={22} md={10} className='form_login'>
               <h2 style={{ display: 'flex' }} className='footer_h1'>
                 <motion.div className='logo'>
 
@@ -88,11 +89,11 @@ const Login: React.FC = () => {
                 >
                   <Form.Item
 
-                    label="Enter your username"
-                    name="first_name"
-                    rules={[{ required: true, message: 'Enter your username to access your account' }]}
+                    label="Enter your email"
+                    name="email"
+                    rules={[{ required: true, message: 'Enter your email address to access your account' }]}
                   >
-                    <Input type='text' />
+                    <Input type='text'/>
                   </Form.Item>
 
                   <Form.Item

@@ -12,15 +12,16 @@ const sms = Twilio(accountSid, authToken)
 
 export const { MessagingResponse } = Twilio.twiml 
 
-export function sendMessage(body:string,to?:string[]| any) {
+export function MessageResponseFromHomePage(name:string,to?:string[]| any) {
     
     to.map(async (i) => {
         await sms.messages.create({
-            body: body,
+            body: `Dear ${name.toLocaleUpperCase()}, thank you for reaching out to 🌎 Kcm Inc. We take immense pride in our partnership with you and are dedicated to delivering unparalleled service. Rest assured that one of our representatives will be in touch with you promptly to address your inquiry.`,
             from: process.env.TWILIO_PHONE,
             shortenUrls: true,
             to: i
         });
+        
     });
 }
 

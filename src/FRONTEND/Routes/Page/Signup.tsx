@@ -15,7 +15,8 @@ const SignUp: React.FC = () => {
 
 
     const onFinish = async (values: any) => {
-        let newData = await fetch('http://localhost:80/testing_backend', {
+        console.log(values)
+        let newData = await fetch('http://localhost:80/client_registration/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,10 +24,15 @@ const SignUp: React.FC = () => {
             body: JSON.stringify(values)
         })
         setForm(false)
+        let dbreply = await newData.json()
+        console.log(dbreply)
+
     };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
+
+    
     };
 
 
@@ -34,6 +40,7 @@ const SignUp: React.FC = () => {
         {
             title: 'First',
             content: 'First-content',
+        
         },
         {
             title: 'Second',
@@ -76,9 +83,8 @@ const SignUp: React.FC = () => {
                                 </motion.div>Kcm Inc
                             </h2>
                             <h1>Registration Page</h1>
-                            <p>Please enter your username and password that you
-                                used to create your account. If you are having difficulties
-                                logging in, message our support center for assistance. </p>
+                            <p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated support team for assistance. Thank you for choosing our services.
+ </p>
                             <Divider className='dividerHeader'></Divider>
                             <Form
                                 name="basic"
@@ -86,7 +92,6 @@ const SignUp: React.FC = () => {
                                 onFinish={onFinish}
                                 onFinishFailed={onFinishFailed}
                                 autoComplete="one"
-                                layout='horizontal'
                                 size='large'
 
                             >
@@ -99,141 +104,158 @@ const SignUp: React.FC = () => {
                                             colorPrimaryHover: '#fafafa',
                                             lineWidth: 2,
                                             fontFamily: 'Jost',
-                                            fontSize: 14,
+                                            fontSize: 16,
                                         },
                                     }}
                                 >
+                                        <Form.Item
 
-                                    <Form.Item
+                                            label="First Name"
+                                            name="first_name"
+                                            rules={[{ required: true, message: 'Please input your first name!' }]}
+                                        >
+                                            <Input type='text' />
+                                        </Form.Item>
 
-                                        label="First Name"
-                                        name="first_name"
-                                        rules={[{ required: true, message: 'Please input your first name!' }]}
-                                    >
-                                        <Input type='text' />
-                                    </Form.Item>
+                                        <Form.Item
+                                            label="Last Name"
+                                            name="last_name"
+                                            rules={[{ required: true, message: 'Please input your last name!' }]}
+                                        >
+                                            <Input type='text' />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Business Name"
+                                            name="business_name"
 
-                                    <Form.Item
-                                        label="Last Name"
-                                        name="last_name"
-                                        rules={[{ required: true, message: 'Please input your last name!' }]}
-                                    >
-                                        <Input type='text' />
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="Business Name"
-                                        name="business_name"
+                                            rules={[{ required: true, message: 'Please input your business name!' }]}
+                                        >
+                                            <Input type='text' />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Business Size"
+                                            name="business_size"
+                                            rules={[{ required: true, message: 'Please select your business size!' }]}
+                                        >
+                                            <Select bordered>
+                                                <Select.Option value="micro">Less than 10</Select.Option>
+                                                <Select.Option value="small">Between 10 and 50</Select.Option>
+                                                <Select.Option value="medium">Between 50 and 250 </Select.Option>
+                                                <Select.Option value="large">Over 250</Select.Option>
 
-                                        rules={[{ required: true, message: 'Please input your business name!' }]}
-                                    >
-                                        <Input type='text' />
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="Business Size"
-                                        name="business_size"
-                                        rules={[{ required: true, message: 'Please select your business size!' }]}
-                                    >
-                                        <Select bordered>
-                                            <Select.Option value="micro">Less than 10</Select.Option>
-                                            <Select.Option value="small">Between 10 and 50</Select.Option>
-                                            <Select.Option value="medium">Between 50 and 250 </Select.Option>
-                                            <Select.Option value="large">Over 250</Select.Option>
-
-                                        </Select>
-                                    </Form.Item>
+                                            </Select>
+                                        </Form.Item>
 
 
-                                    <Form.Item
-                                        label="Phone Number"
-                                        name="phone_number"
+                                        <Form.Item
+                                            label="Phone Number"
+                                            name="phone_number"
 
-                                        rules={[{ required: true, message: 'Please input your phone number!' }]}
-                                    >
-                                        <Input type='tel' maxLength={10} />
-                                    </Form.Item>
+                                            rules={[{ required: true, message: 'Please input your phone number!' }]}
+                                        >
+                                            <Input type='tel' maxLength={10} />
+                                        </Form.Item>
 
-                                    <Form.Item
-                                        label="Email"
-                                        name="email"
+                                        <Form.Item
+                                            label="Email"
+                                            name="email"
 
-                                        rules={[{ required: true, message: 'Please input your email address!' }]}
-                                    >
-                                        <Input type='email' />
-                                    </Form.Item>
+                                            rules={[{ required: true, message: 'Please input your email address!' }]}
+                                        >
+                                            <Input type='email' />
+                                        </Form.Item>
 
-                                    <Form.Item
-                                        name="password"
-                                        label="Password"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please input your password!',
-                                            },
-                                        ]}
-                                        hasFeedback
-                                    >
-                                        <Input.Password />
-                                    </Form.Item>
 
-                                    <Form.Item
-                                        name="confirm"
-                                        label="Confirm Password"
-                                        dependencies={['password']}
-                                        hasFeedback
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please confirm your password!',
-                                            },
-                                            ({ getFieldValue }) => ({
-                                                validator(_, value) {
-                                                    if (!value || getFieldValue('password') === value) {
-                                                        return Promise.resolve();
-                                                    }
-                                                    return Promise.reject(new Error('The new password that you entered do not match!'));
+                                            <Form.Item
+                                                name="password"
+                                                label="Password"
+                                                
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Create a 8 digit password!',
+                                                        min:8,
+                                                        max:8
+                                                    },
+                                                ]}
+                                                hasFeedback
+                                            >
+                                                <Input.Password />
+                                            </Form.Item>
+
+                                            <Form.Item
+                                                name="confirm_password"
+                                                label="Confirm Password"
+                                                dependencies={['password']}
+                                                hasFeedback
+
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please confirm your password!',
+                                                    },
+                                                    ({ getFieldValue }) => ({
+                                                        validator(_, value) {
+                                                            if (!value || getFieldValue('password') === value) {
+                                                                return Promise.resolve();
+                                                            }
+                                                    
+                                                            return Promise.reject(new Error('The new password that you entered do not match!'));
+                                                        },
+
+                                                    }),
+                                                ]}
+                                            >
+                                                <Input.Password />
+                                            </Form.Item>
+                                        <Form.Item
+                                            name="terms_of_service"
+                                            valuePropName="checked"
+                                            rules={[
+                                                {
+                                                    validator: (_, value) =>
+                                                        value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
                                                 },
-                                            }),
-                                        ]}
-                                    >
-                                        <Input.Password />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="terms_of_service"
-                                        valuePropName="checked"
-                                        rules={[
-                                            {
-                                                validator: (_, value) =>
-                                                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                                            },
-                                        ]}
-                                    >
-                                        <Checkbox>
-                                            I agree to the <a href="">Terms of Service</a>
-                                        </Checkbox>
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="privacy_policy"
-                                        valuePropName="checked"
-                                        rules={[
-                                            {
-                                                validator: (_, value) =>
-                                                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                                            },
-                                        ]}
-                                    >
-                                        <Checkbox>
-                                            I have read the <a href="">Privacy Policy</a>
-                                        </Checkbox>
-                                    </Form.Item>
+                                            ]}
+                                        >
+                                            <Checkbox onClick={(value) => { console.log(value) }}>
+                                                I agree to the <Link style={{
+                                                    fontSize: '1rem',
+                                                    fontFamily: 'Jost',
+                                                    color: 'black',
+                                                    textDecoration: '2px underline #e8dac2'
+                                                }} reloadDocument to="/termsofservice">Terms of Service</Link>
+                                            </Checkbox>
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="privacy_policy"
+                                            valuePropName="checked"
+                                            rules={[
+                                                {
+                                                    validator: (_, value) =>
+                                                        value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                                                },
+                                            ]}
+                                        >
+                                            <Checkbox>
+                                                I agree to the <Link style={{
+                                                    fontSize: '1rem',
+                                                    fontFamily: 'Jost',
+                                                    color: 'black',
+                                                    textDecoration: '2px underline #e8dac2'
+                                                }} reloadDocument to="/termsofservice">Policy Agreement</Link>
+                                            </Checkbox>
+                                        </Form.Item>
 
 
-                                    <Form.Item
-                                    >
-                                        <button className='buttonBlack' type="submit">
-                                            Verify
-                                        </button>
-                                    </Form.Item>
+                                        <Form.Item
+                                        >
+                                            <button className='buttonBlack' type="submit">
+                                                Verify
+                                            </button>
+                                        </Form.Item>
                                 </ConfigProvider>
+
                             </Form>
 
                         </Col>
@@ -265,7 +287,7 @@ const SignUp: React.FC = () => {
 
                 </Row>
             </Footer>
-        </Layout>)
+        </Layout >)
 }
 
 export default SignUp; 

@@ -10,7 +10,9 @@ import './PAYMENTS/authorize_card';
 import contact from './Homepage/contact'
 import client from './ClientPortal/ClientPersonalDetails'
 import billing from './ClientPortal/ClientBilling';
-import notary from './ClientPortal/ClientServiceRequest'
+import notary from './ClientPortal/ClientServiceRequest';
+import registration from './Homepage/registration'
+
 
 
 
@@ -34,7 +36,7 @@ app.use('/client_portal',client)
 app.use('/client_portal',billing)
 
 app.use('/client_portal_services',notary)
-app.use('/client_portal_services',notary)
+app.use('/client_registration',registration)
 
 
 
@@ -74,7 +76,6 @@ app.post('/sms',  (req, res) => {
 
 
 
-console.log(Math.floor(Math.random()*999999)+111111)
 const PORT = process.env.PORT || 80
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`)

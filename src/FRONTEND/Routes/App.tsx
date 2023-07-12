@@ -10,6 +10,7 @@ import PrincipleAccountDetails from './Page/Principle Dashboards/PrincipleAccoun
 import PrincipleBillingDetails from './Page/Principle Dashboards/PrincipleBillingDetails';
 import PrincipleServiceDetails from './Page/Principle Dashboards/PrincipleServiceDetails';
 import SignUp from './Page/Signup';
+import TermsOfService from './Page/TermsOfService';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
+
+  },
+  {
+    path: "/termsofservice",
+    element: <TermsOfService />,
 
   },
 

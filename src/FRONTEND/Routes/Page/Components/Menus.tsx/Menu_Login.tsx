@@ -69,7 +69,7 @@ export const Menu_Login = () => {
                                                 },
                                             }}
                                         >
-                                            <Button htmlType="submit"><NavLink to='/'>Home</NavLink></Button>
+                                            <Button htmlType="button"><NavLink to='/'>Home</NavLink></Button>
 
 
                                         </ConfigProvider>
@@ -86,11 +86,11 @@ export const Menu_Login = () => {
                                                 },
                                             }}
                                         >
-                                            <Button htmlType="submit">Sign Up</Button>
+                                            <Button htmlType="button"><NavLink to='/login'>Log In</NavLink></Button>
 
 
                                         </ConfigProvider>
-
+                                       
                     </div>
 
                 </Col>
@@ -139,6 +139,7 @@ export const Menu_Login = () => {
                             <Button htmlType="submit">Login</Button>
 
                         </ConfigProvider>
+
 
                     </div>
 
