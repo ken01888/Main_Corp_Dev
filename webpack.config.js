@@ -43,10 +43,15 @@ const $FRONTEND = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/index.html', hash: false,
-      filename: './index.html',
       favicon: './client/favicon.ico',
       minify: 'auto',
-      inject: true
+      inject: true,
+      meta:{
+        "viewport" : "width=device-width, initial-scale=1",
+        "theme-color": "#000000",
+        "description":"Web site created using create-react-app"
+
+      }
     }),
 
     new MiniCssExtractPlugin(),

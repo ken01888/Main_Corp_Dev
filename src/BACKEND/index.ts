@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('trust proxy', true)
 
 
-const newUse = app.use((req, res, next) => {
+app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', '*')
   next()
@@ -43,23 +43,23 @@ const newUse = app.use((req, res, next) => {
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-app.use('/',(req,res,next)=>{console.log(req.user);next()}, express.static(path.join('public')))
+app.use('/',express.static(path.join('public')))
 
-app.get('/testing_sessions',(req:any,res)=>{
-  console.log(req.user)
-  res.json(req.user)
-  })
+// app.get('/testing_sessions',(req:any,res)=>{
+//   console.log(req.user)
+//   res.json(req.user)
+//   })
 
-app.use('/message',contact)
-app.use('/client_portal',client)
-app.use('/client_portal',billing)
+// app.use('/message',contact)
+// app.use('/client_portal',client)
+// app.use('/client_portal',billing)
 
-app.use('/client_portal_services',notary)
-app.use('/client_registration',registration)
+// app.use('/client_portal_services',notary)
+// app.use('/client_registration',registration)
 
 
 
-app.use(security)
+// app.use(security)
 
 
 

@@ -18,7 +18,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "https://www.kcminc.io/ ",
+  "start_url": "/",
   "display": "window-controls-overlay",
   "theme_color": "#000000",
   "background_color": "#ffffff"
