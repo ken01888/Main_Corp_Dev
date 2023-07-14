@@ -5,7 +5,7 @@ import 'dotenv/config';
 
 
 
-const mysqlAccess = mysql.createPool({
+export const mysqlAccess = mysql.createPool({
     port:3306,
     user:process.env.MYSQL_USER,
     password:process.env.MYSQL_PASSWORD,

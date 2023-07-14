@@ -35,25 +35,8 @@ router.get('/testing_route', (req, res) => {
 })
 
 
-console.log(JSON.stringify({
-  first_name: 'Kenneth ',
-  last_name: 'Cunningham',
-  business_name: 'Ken',
-  business_size: 'micro',
-  phone_number: '4047400093',
-  email: '4047400093@gmail.com',
-  password: 'a',
-  confirm_password: 'a',
-  terms_of_service: true,
-  privacy_policy: true
-}))
 
 
 export default router;
 
-
-
-function insertLoginInformationForClient(body: any) {
-  throw new Error('Function not implemented.');
-}
 

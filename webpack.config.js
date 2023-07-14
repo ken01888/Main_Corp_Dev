@@ -19,8 +19,8 @@ const $FRONTEND = {
   },
 
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'compile_frontend'),
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'public'),
     clean: true,
     asyncChunks: true,
 
@@ -42,9 +42,9 @@ const $FRONTEND = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html', hash: false,
+      template: './client/index.html', hash: false,
       filename: './index.html',
-      favicon: './public/favicon.ico',
+      favicon: './client/favicon.ico',
       minify: 'auto',
       inject: true
     }),

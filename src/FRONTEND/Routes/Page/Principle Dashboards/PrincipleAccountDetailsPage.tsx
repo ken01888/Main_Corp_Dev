@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Col,Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space } from 'antd'
+import { Col, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space } from 'antd'
 import 'isomorphic-fetch';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 
 
 
@@ -11,38 +11,42 @@ const PrincipleAccountDetails: React.FC = (props) => {
     const [EditPersonalInformation, setEditPersonalInformation] = React.useState<boolean>(true)
     const [clientInformation, setclientInformation] = React.useState<Array<string>>([])
 
-const {id} = useParams();
+
+
+    // const params = useParams()
+
+
+    // React.useEffect(() => {
+    //     (async () => {
+    //         const {id} = params 
+    //         const dataReply = await fetch(`http://localhost:80/client_portal/getPrincipleInformation/${id}`)
+    //         const newData = await dataReply.json()
+    //         console.log(newData)
+    //         // setclientInformation(newData)
+    //         console.log(id)
+
+    //     })()
+    // }, [])
 
 
 
-    React.useEffect(() => {
-        (async () => {
-            const dataReply = await fetch(`http://localhost:80/client_portal/getPrincipleInformation/${id}`)
-            const newData = await dataReply.json()
-            setclientInformation(newData)
+    // const onPrincipleUpdate = async (values: any) => {
+    //     const dataReply = await fetch(`http://localhost:80/client_portal/updateClientinformation/${id}`, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(values)
+    //     })
 
-        })()
-    }, [ViewPersonalInformation])
+    //     const dataParse = await dataReply.json()
+    //     setEditPersonalInformation(!EditPersonalInformation)
+    //     console.log(dataParse)
+    // };
 
-
-
-    const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`http://localhost:80/client_portal/updateClientinformation/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
-        })
-
-        const dataParse = await dataReply.json()
-        setEditPersonalInformation(!EditPersonalInformation)
-        console.log(dataParse)
-    };
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
+    // const onFinishFailed = (errorInfo: any) => {
+    //     console.log('Failed:', errorInfo);
+    // };
 
 
 
@@ -57,8 +61,8 @@ const {id} = useParams();
                 <Form
                     name="client"
                     initialValues={{ remember: true }}
-                    onFinish={onPrincipleUpdate}
-                    onFinishFailed={onFinishFailed}
+                    // onFinish={onPrincipleUpdate}
+                    // onFinishFailed={onFinishFailed}
                     autoComplete="off"
                     layout='horizontal'
                     size='middle'
@@ -69,7 +73,7 @@ const {id} = useParams();
                                 fontFamily: 'Jost',
                                 colorTextTertiary: 'black',
                                 colorPrimaryHover: '#b4cbd4',
-                                colorBgContainerDisabled:'ffffff',
+                                colorBgContainerDisabled: 'ffffff',
 
                             },
                         }}
@@ -82,7 +86,7 @@ const {id} = useParams();
                                     To view your information, click on "View" in the bottom left corner.
                                     If you need to make any changes, click on "Update" to modify your personal details.
                                 </p>
-                            
+
                             </Descriptions.Item>
                             <Descriptions.Item span={3}>
 
@@ -98,7 +102,7 @@ const {id} = useParams();
 
 
 
-
+                            {/* 
                             {ViewPersonalInformation ?
 
                                 <>
@@ -147,18 +151,18 @@ const {id} = useParams();
                                         </Form.Item>
                                     }
                                 </>
-                                : ''}
+                                : ''} */}
                         </Descriptions>
                     </ConfigProvider>
                 </Form>
             </div>
 
-
+            {/* 
             <FloatButton.Group shape="square" style={{ right: 24 }}>
                 <FloatButton icon={<Image preview={false} ></Image>} />
                 <FloatButton />
                 <FloatButton.BackTop visibilityHeight={0} />
-            </FloatButton.Group>
+            </FloatButton.Group> */}
         </Col>
 
     )

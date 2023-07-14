@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   createBrowserRouter,
   Link,
+  useParams,
 } from "react-router-dom";
 import Home from './Page/Home'
 import Login from './Page/Login'
@@ -18,48 +19,51 @@ const router = createBrowserRouter([
     element: <Home />,
 
   },
+
   {
     path: "/login",
     element: <Login />,
 
   },
-  {
-    path: "/signup",
-    element: <SignUp />,
+  // {
+  //   path: "/signup",
+  //   element: <SignUp />,
 
-  },
-  {
-    path: "/termsofservice",
-    element: <TermsOfService />,
+  // },
+  // {
+  //   path: "/termsofservice",
+  //   element: <TermsOfService />,
 
-  },
+  // },
 
-  {
-    path: 'principle_dashboard',
-    element: <ClientPortal />,
-    children: [
-      {
-        path: "account/:id",
-        element: <PrincipleAccountDetails />
-      }
-      , 
-      {
-        path: "billing/:id",
-        element: <PrincipleBillingDetails />
-      },
-      {
-        path: "services/:id",
-        element: <PrincipleServiceDetails />
-      }
+  // {
+  //   path: '/principle',
+  //   element: <ClientPortal />,
 
-    ]
+  //   children: [
+  //     {
+  //       path: "account/:id",
+  //       element: <PrincipleAccountDetails />,
+  
 
-  },
-  {
-    path: "/access",
-    element: <h1>registration <Link to='/dashboard'>Dashboard</Link></h1>,
 
-  },
+  //     },
+  //     {
+  //       path: "billing/:id",
+  //       element: <PrincipleBillingDetails />
+  //     },
+  //     {
+  //       path: "services/:id",
+  //       element: <PrincipleServiceDetails />
+  //     }
+  //   ]
+
+  // },
+  // {
+  //   path: "/access",
+  //   element: <h1>registration <Link to='/dashboard'>Dashboard</Link></h1>,
+
+  // },
 ]);
 
 export default router;

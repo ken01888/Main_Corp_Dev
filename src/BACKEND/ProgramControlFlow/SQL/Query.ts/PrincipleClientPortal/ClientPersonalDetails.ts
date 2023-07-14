@@ -1,7 +1,7 @@
 import { Query } from "../../Conection";
 
 
-const getClientInformation = async () => Query('SELECT * FROM Clients.Personal_Information');
+const getClientInformation = async (id) => Query('SELECT * FROM Credentials.Login_Credentials where id = ?',[id]);
 const insertCLIENT = async (values: any) => Query('INSERT INTO Clients.Personal_Information SET ?', values);
 const updatePRINCIPLE = async (info,id)=>Query('UPDATE Clients.Personal_Information SET ? WHERE id = ?',[info,id])
 

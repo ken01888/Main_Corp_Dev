@@ -13,9 +13,7 @@ router.get('/getNotary_Service_Requests/:id?', async (req, res) => {
 });
 
 router.post('/requestNotary_Service_Requests/:id?', async (req, res) => {
-    console.log(req.body)
     const newReply = await NotaryRequest.requestNotaryServices(req.body)
-    console.log(newReply)
     res.json('hello')
 
 });

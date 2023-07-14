@@ -5,34 +5,24 @@ import { Bank, Book, Question } from '@phosphor-icons/react'
 import { ShopOutlined, UserOutlined } from '@ant-design/icons';
 import 'isomorphic-fetch';
 import { ClientMenu } from '../Components/Menus.tsx/ClientMenu'
-import { NavLink, Outlet, useParams } from 'react-router-dom'
+import { NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom'
 
 
 
-const ClientPortal: React.FC = (props) => {
+
+const ClientPortal: React.FC = () => {
 
 
 
-    const  id  = 3;
+    // React.useEffect(() => {
+    //     (async () => {
+          
+    //         const dataReply = await fetch(`http://localhost:8080/client_portal/getPrincipleInformation/${params}`)
+    //         const newData = await dataReply.json()
+    //         console.log(newData)
 
-
-
-    const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`http://localhost:80/client_portal/updateClientinformation/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
-        })
-
-        const dataParse = await dataReply.json()
-        console.log(dataParse)
-    };
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
+    //     })()
+    // }, [])
 
 
 
@@ -50,7 +40,7 @@ const ClientPortal: React.FC = (props) => {
                     <Row justify={'space-between'} className='ClientPortal' gutter={[0, 75]}>
                         <Col xs={22} md={4} className='ClientSideItems'>
                             <NavLink
-                                to={`/principle_dashboard/account/${id}`}
+                                to={`account/`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
                                     return {
@@ -63,7 +53,7 @@ const ClientPortal: React.FC = (props) => {
                                 <UserOutlined />Account
                             </NavLink>
                             <NavLink
-                                to={`/principle_dashboard/billing/${id}`}
+                                to={`billing/`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
                                     return {
@@ -75,7 +65,7 @@ const ClientPortal: React.FC = (props) => {
                                 <Bank size={16} />Billing
                             </NavLink>
                             <NavLink
-                                to={`/principle_dashboard/services/${id}`}
+                                to={`services/`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
                                     return {
@@ -101,8 +91,11 @@ const ClientPortal: React.FC = (props) => {
                                 </button>
                             </a>
                         </Col>
+                     
+                        <Col xs={18}>
                         <Outlet />
-                        <Col xs={4}></Col>
+
+                        </Col>
                     </Row>
                 </Content>
             </Layout>

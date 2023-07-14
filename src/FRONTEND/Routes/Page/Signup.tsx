@@ -1,18 +1,14 @@
 import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, Image, ConfigProvider, Space } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
-import { Menu_Home } from './Components/Menus.tsx/Menu';
 import { motion } from 'framer-motion';
-import { Copyright } from '@phosphor-icons/react';
-import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu_Login } from './Components/Menus.tsx/Menu_Login';
 
 
 
 const SignUp: React.FC = () => {
     const [showForm, setForm] = React.useState(true)
-
 
     const onFinish = async (values: any) => {
         console.log(values)
@@ -25,14 +21,14 @@ const SignUp: React.FC = () => {
         })
         setForm(false)
         let dbreply = await newData.json()
-        console.log(dbreply)
+
 
     };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
 
-    
+
     };
 
 
@@ -40,7 +36,7 @@ const SignUp: React.FC = () => {
         {
             title: 'First',
             content: 'First-content',
-        
+
         },
         {
             title: 'Second',
@@ -82,100 +78,100 @@ const SignUp: React.FC = () => {
                                     </div>
                                 </motion.div>Kcm Inc
                             </h2>
-                            <h1>Registration Page</h1>
-                            <p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated support team for assistance. Thank you for choosing our services.
- </p>
-                            <Divider className='dividerHeader'></Divider>
-                            <Form
-                                name="basic"
-                                initialValues={{ remember: true }}
-                                onFinish={onFinish}
-                                onFinishFailed={onFinishFailed}
-                                autoComplete="one"
-                                size='large'
 
-                            >
+                            {showForm ?
+                                <>
+                                    <h1>Registration Page</h1><p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated support team for assistance. Thank you for choosing our services.
+                                    </p><Divider className='dividerHeader'></Divider><Form
+                                        name="basic"
+                                        initialValues={{ remember: true }}
+                                        onFinish={onFinish}
+                                        onFinishFailed={onFinishFailed}
+                                        autoComplete="one"
+                                        size='large'
+
+                                    >
 
 
-                                <ConfigProvider
-                                    theme={{
-                                        token: {
-                                            colorPrimary: 'black',
-                                            colorPrimaryHover: '#fafafa',
-                                            lineWidth: 2,
-                                            fontFamily: 'Jost',
-                                            fontSize: 16,
-                                        },
-                                    }}
-                                >
-                                        <Form.Item
-
-                                            label="First Name"
-                                            name="first_name"
-                                            rules={[{ required: true, message: 'Please input your first name!' }]}
+                                        <ConfigProvider
+                                            theme={{
+                                                token: {
+                                                    colorPrimary: 'black',
+                                                    colorPrimaryHover: '#fafafa',
+                                                    lineWidth: 2,
+                                                    fontFamily: 'Jost',
+                                                    fontSize: 16,
+                                                },
+                                            }}
                                         >
-                                            <Input type='text' />
-                                        </Form.Item>
+                                            <Form.Item
 
-                                        <Form.Item
-                                            label="Last Name"
-                                            name="last_name"
-                                            rules={[{ required: true, message: 'Please input your last name!' }]}
-                                        >
-                                            <Input type='text' />
-                                        </Form.Item>
-                                        <Form.Item
-                                            label="Business Name"
-                                            name="business_name"
+                                                label="First Name"
+                                                name="first_name"
+                                                rules={[{ required: true, message: 'Please input your first name!' }]}
+                                            >
+                                                <Input type='text' />
+                                            </Form.Item>
 
-                                            rules={[{ required: true, message: 'Please input your business name!' }]}
-                                        >
-                                            <Input type='text' />
-                                        </Form.Item>
-                                        <Form.Item
-                                            label="Business Size"
-                                            name="business_size"
-                                            rules={[{ required: true, message: 'Please select your business size!' }]}
-                                        >
-                                            <Select bordered>
-                                                <Select.Option value="micro">Less than 10</Select.Option>
-                                                <Select.Option value="small">Between 10 and 50</Select.Option>
-                                                <Select.Option value="medium">Between 50 and 250 </Select.Option>
-                                                <Select.Option value="large">Over 250</Select.Option>
+                                            <Form.Item
+                                                label="Last Name"
+                                                name="last_name"
+                                                rules={[{ required: true, message: 'Please input your last name!' }]}
+                                            >
+                                                <Input type='text' />
+                                            </Form.Item>
+                                            <Form.Item
+                                                label="Business Name"
+                                                name="business_name"
 
-                                            </Select>
-                                        </Form.Item>
+                                                rules={[{ required: true, message: 'Please input your business name!' }]}
+                                            >
+                                                <Input type='text' />
+                                            </Form.Item>
+                                            <Form.Item
+                                                label="Business Size"
+                                                name="business_size"
+                                                rules={[{ required: true, message: 'Please select your business size!' }]}
+                                            >
+                                                <Select bordered>
+                                                    <Select.Option value="micro">Less than 10</Select.Option>
+                                                    <Select.Option value="small">Between 10 and 50</Select.Option>
+                                                    <Select.Option value="medium">Between 50 and 250 </Select.Option>
+                                                    <Select.Option value="large">Over 250</Select.Option>
+
+                                                </Select>
+                                            </Form.Item>
 
 
-                                        <Form.Item
-                                            label="Phone Number"
-                                            name="phone_number"
+                                            <Form.Item
+                                                label="Phone Number"
+                                                name="phone_number"
 
-                                            rules={[{ required: true, message: 'Please input your phone number!' }]}
-                                        >
-                                            <Input type='tel' maxLength={10} />
-                                        </Form.Item>
+                                                rules={[{ required: true, message: 'Please input your phone number!' }]}
+                                            >
+                                                <Input type='tel' maxLength={10} />
+                                            </Form.Item>
 
-                                        <Form.Item
-                                            label="Email"
-                                            name="email"
+                                            <Form.Item
+                                                label="Email"
+                                                name="email"
 
-                                            rules={[{ required: true, message: 'Please input your email address!' }]}
-                                        >
-                                            <Input type='email' />
-                                        </Form.Item>
+                                                rules={[{ required: true, message: 'Please input your email address!' }]}
+                                            >
+                                                <Input type='email' />
+                                            </Form.Item>
 
 
                                             <Form.Item
                                                 name="password"
                                                 label="Password"
-                                                
+
                                                 rules={[
                                                     {
                                                         required: true,
                                                         message: 'Create a 8 digit password!',
-                                                        min:8,
-                                                        max:8
+                                                        min: 8,
+                                                        max: 8
                                                     },
                                                 ]}
                                                 hasFeedback
@@ -199,64 +195,82 @@ const SignUp: React.FC = () => {
                                                             if (!value || getFieldValue('password') === value) {
                                                                 return Promise.resolve();
                                                             }
-                                                    
+
                                                             return Promise.reject(new Error('The new password that you entered do not match!'));
                                                         },
-
                                                     }),
                                                 ]}
                                             >
                                                 <Input.Password />
                                             </Form.Item>
-                                        <Form.Item
-                                            name="terms_of_service"
-                                            valuePropName="checked"
-                                            rules={[
-                                                {
-                                                    validator: (_, value) =>
-                                                        value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                                                },
-                                            ]}
-                                        >
-                                            <Checkbox onClick={(value) => { console.log(value) }}>
-                                                I agree to the <Link style={{
-                                                    fontSize: '1rem',
-                                                    fontFamily: 'Jost',
-                                                    color: 'black',
-                                                    textDecoration: '2px underline #e8dac2'
-                                                }} reloadDocument to="/termsofservice">Terms of Service</Link>
-                                            </Checkbox>
-                                        </Form.Item>
-                                        <Form.Item
-                                            name="privacy_policy"
-                                            valuePropName="checked"
-                                            rules={[
-                                                {
-                                                    validator: (_, value) =>
-                                                        value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                                                },
-                                            ]}
-                                        >
-                                            <Checkbox>
-                                                I agree to the <Link style={{
-                                                    fontSize: '1rem',
-                                                    fontFamily: 'Jost',
-                                                    color: 'black',
-                                                    textDecoration: '2px underline #e8dac2'
-                                                }} reloadDocument to="/termsofservice">Policy Agreement</Link>
-                                            </Checkbox>
-                                        </Form.Item>
+                                            <Form.Item
+                                                name="terms_of_service"
+                                                valuePropName="checked"
+                                                rules={[
+                                                    {
+                                                        validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                                                    },
+                                                ]}
+                                            >
+                                                <Checkbox onClick={(value) => { console.log(value); }}>
+                                                    I agree to the <Link style={{
+                                                        fontSize: '1rem',
+                                                        fontFamily: 'Jost',
+                                                        color: 'black',
+                                                        textDecoration: '2px underline #e8dac2'
+                                                    }} reloadDocument to="/termsofservice">Terms of Service</Link>
+                                                </Checkbox>
+                                            </Form.Item>
+                                            <Form.Item
+                                                name="privacy_policy"
+                                                valuePropName="checked"
+                                                rules={[
+                                                    {
+                                                        validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                                                    },
+                                                ]}
+                                            >
+                                                <Checkbox>
+                                                    I agree to the <Link style={{
+                                                        fontSize: '1rem',
+                                                        fontFamily: 'Jost',
+                                                        color: 'black',
+                                                        textDecoration: '2px underline #e8dac2'
+                                                    }} reloadDocument to="/termsofservice">Policy Agreement</Link>
+                                                </Checkbox>
+                                            </Form.Item>
 
 
-                                        <Form.Item
-                                        >
-                                            <button className='buttonBlack' type="submit">
-                                                Verify
-                                            </button>
-                                        </Form.Item>
-                                </ConfigProvider>
+                                            <Form.Item
+                                            >
+                                                <button className='buttonBlack' type="submit">
+                                                    Verify
+                                                </button>
+                                            </Form.Item>
+                                        </ConfigProvider>
 
-                            </Form>
+                                    </Form></>
+
+
+                                :
+                                <><h1>Registration Complete</h1><p>Thank you for registering with Kcm Inc and choosing us as your preferred B2B service provider. Our enterprise is continually improving to provide you with the best possible experience and outstanding services. If you require any assistance in using our application, our support team is always available to help.
+                                </p><Divider className='dividerHeader'></Divider><ConfigProvider
+                                    theme={{
+                                        token: {
+                                            fontFamily: 'Jost',
+                                            colorTextTertiary: 'black',
+                                            colorPrimaryHover: '#000000',
+                                            colorBgContainer: '#fafafa'
+                                        },
+                                    }}
+                                >
+                                        <Link reloadDocument to='/login'>
+                                            <Button htmlType="submit">Click here to login!</Button>
+                                        </Link>
+
+
+                                    </ConfigProvider></>}
+
 
                         </Col>
 

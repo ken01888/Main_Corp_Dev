@@ -14,9 +14,7 @@ router.get('/getPrincipleBillingInformation/:id?', async (req, res) => {
 });
 
 router.put('/updatePrincipleBillingInformation/:id?', async (req, res) => {
-    console.log(req)
     const newReply = await client_billing_query.updateBillingInformation(req.body,req.params.id)
-    console.log(newReply)
     res.json('hello')
 });
 
