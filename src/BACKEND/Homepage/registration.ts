@@ -24,15 +24,12 @@ router.post('/registration', checkCredentials, async (req, res) => {
   delete req.body.confirm_password
   var token = jwt.sign({ user_name: req.body.email, email: req.body.email }, process.env.BEARER_PRIVATE);
   req.body.password = hash
-  req.body.bearer_token = token
+  req.body.access_token = token
   req.body.client_access_pin = Math.floor(Math.random() * 999999) + 111111
   const sendTextReply = await registrationInformation(req.body)
   res.json(sendTextReply)
 });
 
-router.get('/testing_route', (req, res) => {
-  res.json('hello')
-})
 
 
 

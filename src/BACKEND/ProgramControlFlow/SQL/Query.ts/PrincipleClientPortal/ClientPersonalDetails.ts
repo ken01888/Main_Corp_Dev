@@ -3,7 +3,7 @@ import { Query } from "../../Conection";
 
 const getClientInformation = async (id) => Query('SELECT * FROM Credentials.Login_Credentials where id = ?',[id]);
 const insertCLIENT = async (values: any) => Query('INSERT INTO Clients.Personal_Information SET ?', values);
-const updatePRINCIPLE = async (info,id)=>Query('UPDATE Clients.Personal_Information SET ? WHERE id = ?',[info,id])
+const updatePRINCIPLE = async (info,id)=>Query('UPDATE Credentials.Login_Credentials SET ? WHERE id = ?',[info,id])
 
 // const singleChirp = async (id:string) => Query('SELECT * FROM Chirps WHERE id = ?',[id]);
 // const deleteMessages = async (id: string) => Query('DELETE FROM contact WHERE id = ?', [id]);

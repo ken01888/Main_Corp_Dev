@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import router from './Routes/App'
-import './Routes/Style/index.css';
+import router from './App'
+import './Page/Style/index.css';
 import 'antd/dist/reset.css';
 
 import {

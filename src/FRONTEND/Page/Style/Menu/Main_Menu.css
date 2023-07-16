@@ -1,0 +1,114 @@
+.menu {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid black;
+    background: var(--light_blue);
+}
+
+
+
+.header {
+    background: white;
+    position: fixed;
+    width: -webkit-fill-available;
+    overflow: hidden;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    border-bottom: 5px solid black;
+}
+
+
+
+
+
+.menuButton {
+    border-radius: 5rem;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    font-weight: 900;
+
+}
+
+.menuButton:hover {
+    text-decoration: 8px var(--light_blue) underline;
+};
+
+
+.businessName{
+    font-size:5rem
+}
+
+.menuMiddleItems{
+    color: var(--solid_black);
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    column-gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menuMiddleItems:hover{
+    color:var(--solid_black);
+    font-weight:500;
+    text-decoration: 2px underline black;}
+
+.signUpIcon{
+    background: white;
+    background-size: unset;
+    color: black;
+    border: 1px solid var(--solid_black);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3rem;
+    cursor: pointer;
+}
+
+.signUpIcon:hover{
+    background: var(--light_beige);
+    color: black;
+    border: 1px solid var(--solid_black);
+}
+
+
+
+
+@media only screen and (max-width: 749px) {
+    .mobileMenu{
+display: flex;
+    }
+    .mobileMenu:hover{
+        display: flex;
+            }
+
+    .webMenu{
+        display: none;
+    }
+
+
+  }
+
+  @media only screen and (min-width: 749px) {
+    .mobileMenu{
+        display:none;
+    }
+
+  }
+
+
+  .menuItemsDiv{
+display: flex;
+column-gap: 1rem;
+  }
+

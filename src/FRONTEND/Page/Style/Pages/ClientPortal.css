@@ -1,0 +1,113 @@
+.ClientPortal {
+    background-color: white;
+
+
+}
+
+.ClientPortalMain {
+    padding: 5rem 0rem 0rem 2.5rem;
+    row-gap: 75px;
+}
+
+.clientMenuItem {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px 15px 15px 15px;
+    background-color: var(--white-gray);
+    overflow: visible;
+    position: relative;
+    align-content: center;
+    color: black;
+    font-weight: 500;
+    flex-wrap: nowrap;
+    gap: 10;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Jost';
+    font-size: .875rem;
+    cursor: pointer;
+    width: -webkit-fill-available;
+    column-gap: 0.25rem;
+
+}
+
+.clientMenuItem:hover {
+    background-color: var(--light_blue);
+    color: #000000
+}
+
+.clientPortalDiv {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4rem;
+    padding: 1rem;
+    box-shadow: 0rem 0.125rem 0.25rem #1f21241a, 0rem 0.0625rem 0.375rem #1f21240d;
+    border: 2px solid black;
+    border-right: 2px solid var(--light_grey);
+    border-bottom: 2px solid var(--light_grey);
+    border-radius: 0px 0px 5px 0px;
+    background: var(--white-gray);
+    margin-top: 1rem;
+}
+@media only screen and (max-width: 749px) {
+    .clientPortalDiv {
+      display: flex;
+      flex-direction: column;
+      row-gap: 4rem;
+      padding: 1rem;
+      box-shadow: 0rem 0.125rem 0.25rem #1f21241a, 0rem 0.0625rem 0.375rem #1f21240d;
+      border: 2px solid black;
+      border-right: 2px solid var(--light_grey);
+      border-bottom: 2px solid var(--light_grey);
+      border-radius: 0px 0px 5px 0px;
+      background: var(--white-gray);
+      border-left: none;
+      margin-top: 1rem;
+  }
+    }
+    
+.ClientPortalAccount {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.h1_Header_Client_Portal{
+    width: fit-content;
+    background: var(--light_beige);
+    padding: 5px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    font-family: Jost;
+    font-weight: 400;
+    letter-spacing: .05px;
+
+}
+
+.tagReview{
+    color: var(--solid_black);
+    background: white;
+    border: 1px solid var(--solid_black);
+    cursor: pointer;
+}
+
+.tagReview:hover{
+    background-color: black;
+}
+
+
+
+
+
+.tagUpdate{
+    color: var(--solid_black);
+    background: var(--white-gray);
+    border: 1px solid var(--solid_black);
+    cursor: pointer;
+}
+
+
+
