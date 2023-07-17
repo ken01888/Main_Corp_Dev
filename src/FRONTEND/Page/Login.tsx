@@ -18,19 +18,17 @@ const Login: React.FC = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
+        
       },
       body: JSON.stringify(values)
     })
     console.log(newData)
 
 
-    if (newData.status  == 200) {
-      // navigate(`/principle`)
-    } else if (newData.status  == 401){
+    if (newData.status == 200) {
+    } else if (newData.status == 401) {
       setVerified(!verified)
     }
-    
-
   };
 
 
@@ -72,11 +70,11 @@ const Login: React.FC = () => {
                     <div className='logoBlue'></div>
 
                   </div>
-                  
+
                 </motion.div>Kcm Inc
               </h2>
               <h1>Login</h1>
-              <a href='http://localhost:8000/userData'>hkhjkhjkh</a>
+              <a href='http://localhost:8000/principle?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJrZW5Aa2NtaW5jLmlvIiwiZW1haWwiOiJrZW5Aa2NtaW5jLmlvIiwiaWF0IjoxNjg5MzQ2Mjk0fQ.L1ToueJat1JQPqd3PSff1i5SVeDLnA1iR7xuSn3Kii'>hkhjkhjkh</a>
 
               <p>Please enter your username and password that you
                 used to create your account. If you are having difficulties
@@ -132,16 +130,16 @@ const Login: React.FC = () => {
                 </ConfigProvider>
               </Form>
 
-      
+
 
             </Col>
             {
-                verified ? <Alert
-                  message="We were unable to verify your email or password. Please try entering your credentials again."
-                  type="error"
-                  closeIcon
-                /> : ''
-              }
+              verified ? <Alert
+                message="We were unable to verify your email or password. Please try entering your credentials again."
+                type="error"
+                closeIcon
+              /> : ''
+            }
 
           </Row>
 

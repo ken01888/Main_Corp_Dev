@@ -1,4 +1,4 @@
-import * as express from 'express'
+import express from 'express'
 import 'dotenv/config'
 import NotaryRequest from '../ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/Notary_Services';
 

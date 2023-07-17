@@ -17,20 +17,19 @@ import UPStrategy from './Security/localStrategy'
 import * as session from 'express-session'
 import './Security/Bearer'
 import * as cookieparser from 'cookie-parser'
-import * as db from './ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/BearerTokenDetails'
 
 
 const app = express()
 
 app.use(express.json())
+app.use(cookieparser())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors())
 app.set('trust proxy', true)
-app.use(cookieparser())
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', '*')
+  res.set('Access-Control-Allow-Origin', '*')
+  res.set('Access-Control-Allow-Headers', '*')
   next()
 })
 
@@ -48,19 +47,17 @@ app.use(passport.session());
 
 
 
-app.use('/', express.static(path.join('public')))
+app.use('/', express.static('public'));
+
 app.use(UPStrategy)
 
-app.get('/userData', passport.authenticate('session'), (req, res) => {
-  console.log('onpost-testinuserData', req.user)
-  res.send('hello')
-})
 
 
 
-app.use('/principle',
-  passport.authenticate('bearer'),
-  express.static(path.join('public')))
+
+
+
+
 
 
 

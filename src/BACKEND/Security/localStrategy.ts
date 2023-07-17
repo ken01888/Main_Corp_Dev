@@ -3,7 +3,7 @@ import * as express from 'express'
 import 'dotenv/config'
 import 'passport-local';
 import * as passport from 'passport'
-import * as LocalStrategy from 'passport-local'
+import {Strategy as LocalStrategy} from 'passport-local'
 import { checkAccount } from '../ProgramControlFlow/SQL/Query.ts/Login/index'
 import * as bcrypt from 'bcrypt'
 
@@ -11,11 +11,10 @@ import * as bcrypt from 'bcrypt'
 
 const router = express.Router();
 
-
 passport.use( new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
-}, async function verify(email, password, done) {
+}, async function verify(email:string, password:string, done:any) {
   const [user] = await checkAccount(email)
   try {
     if (!user) {
@@ -32,8 +31,7 @@ passport.use( new LocalStrategy({
 ));
 
 passport.serializeUser((user:any, done) => {
-  console.log('serialize :',user)
-
+console.log('serialize',user)
   process.nextTick(() => {
 
     return done(null, {
@@ -50,7 +48,8 @@ passport.serializeUser((user:any, done) => {
 });
 
 passport.deserializeUser((user: any, done) => {
-  console.log('deserialize :',user)
+  console.log('deserialize',user)
+
   process.nextTick(() => {
     return done(null, user);
   });
@@ -58,9 +57,9 @@ passport.deserializeUser((user: any, done) => {
 
 
 router.post('/login_verification', passport.authenticate('local'), (req:any, res) => {
-console.log('onpost :',req.user)
-  if (req.user) {
-    res.sendStatus(200)
+  if (req) {
+    console.log(req.user)
+    res.redirect('/')
   } else if (!req.user) {
     res.sendStatus(401)
 

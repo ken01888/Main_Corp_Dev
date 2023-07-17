@@ -46,12 +46,7 @@ const $FRONTEND = {
       // favicon: './client/favicon.ico',
       minify: 'auto',
       inject: true,
-      meta:{
-        "viewport" : "width=device-width, initial-scale=1",
-        "theme-color": "#000000",
-        "description":"Web site created using create-react-app"
 
-      }
     }),
 
     new MiniCssExtractPlugin(),
