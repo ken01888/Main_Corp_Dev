@@ -31,9 +31,8 @@ passport.use( new LocalStrategy({
 ));
 
 passport.serializeUser((user:any, done) => {
-console.log('serialize',user)
   process.nextTick(() => {
-
+    console.log('seralize')
     return done(null, {
       id: user.id,
       first_name: user.first_name,
@@ -42,14 +41,13 @@ console.log('serialize',user)
       phone_number: user.phone_number,
       email: user.email,
       account_type: user.account_type,
-      token: user.access_token
+      access_token: user.access_token
     });
   });
 });
 
 passport.deserializeUser((user: any, done) => {
-  console.log('deserialize',user)
-
+console.log('deseralize')
   process.nextTick(() => {
     return done(null, user);
   });
@@ -57,9 +55,11 @@ passport.deserializeUser((user: any, done) => {
 
 
 router.post('/login_verification', passport.authenticate('local'), (req:any, res) => {
-  if (req) {
-    console.log(req.user)
-    res.redirect('/')
+  console.log(req.user)
+  if (req.user) {
+    req.logIn(req.session.passport.user, function(err) {
+      return res.json(req.user);
+    });
   } else if (!req.user) {
     res.sendStatus(401)
 

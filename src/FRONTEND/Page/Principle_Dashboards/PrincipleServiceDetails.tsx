@@ -22,19 +22,19 @@ const PrincipleServiceDetails: React.FC = (props) => {
 
     const [billingInformation, setbillingInformation] = React.useState<Array<string>>([])
 
-    const id = 3;
 
 
 
-    React.useEffect(() => {
-        (async () => {
-            const dataReply = await fetch(`http://localhost:80/client_portal_services/getNotary_Service_Requests/3`)
-            const newData = await dataReply.json()
-            setNotaryNotifications(newData.length)
-            console.log(newData)
 
-        })()
-    }, [])
+    // React.useEffect(() => {
+    //     (async () => {
+    //         const dataReply = await fetch(`http://localhost:8000/getNotary_Service_Requests/3`)
+    //         const newData = await dataReply.json()
+    //         setNotaryNotifications(newData.length)
+    //         console.log(newData)
+
+    //     })()
+    // }, [])
 
 
 
@@ -42,7 +42,7 @@ const PrincipleServiceDetails: React.FC = (props) => {
         values.notary_appointment_time = values.notary_appointment_time.format('hh:mm A')
         values.notary_appointment_date = values.notary_appointment_date.format('dddd, MMMM D, YYYY')
         values.userId = id
-        const dataReply = await fetch(`http://localhost:80/client_portal_services/requestNotary_Service_Requests/3`, {
+        const dataReply = await fetch(`http://localhost:8000/requestNotary_Service_Requests/3`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

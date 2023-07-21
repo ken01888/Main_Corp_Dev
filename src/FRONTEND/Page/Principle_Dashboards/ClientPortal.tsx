@@ -37,7 +37,7 @@ const ClientPortal: React.FC = () => {
 
                                 <UserOutlined />Account
                             </NavLink>
-                            <NavLink
+                            {/* <NavLink
                                 to={`billing`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
@@ -48,8 +48,20 @@ const ClientPortal: React.FC = () => {
                                 }}
                             >
                                 <Bank size={16} />Billing
-                            </NavLink>
+                            </NavLink> */}
                             <NavLink
+                                to={`store`}
+                                className='clientMenuItem'
+                                style={({ isActive, isPending }) => {
+                                    return {
+                                        fontWeight: isActive ? "bold" : "",
+                                        backgroundColor: isActive ? "#e8dac2" : "",
+                                    };
+                                }}
+                            >
+                                <ShopOutlined size={16} />Inventory
+                            </NavLink>
+                            {/* <NavLink
                                 to={`services`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
@@ -59,8 +71,8 @@ const ClientPortal: React.FC = () => {
                                     };
                                 }}
                             >
-                                <ShopOutlined size={16} />Services
-                            </NavLink>
+                                <ShopOutlined size={16} />Inventory
+                            </NavLink> */}
 
 
 

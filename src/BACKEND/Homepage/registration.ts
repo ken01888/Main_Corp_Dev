@@ -27,7 +27,7 @@ router.post('/registration', checkCredentials, async (req, res) => {
   req.body.access_token = token
   req.body.client_access_pin = Math.floor(Math.random() * 999999) + 111111
   const sendTextReply = await registrationInformation(req.body)
-  res.json(sendTextReply)
+  res.redirect('/principle')
 });
 
 

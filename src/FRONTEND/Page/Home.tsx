@@ -1,8 +1,13 @@
 import * as React from 'react'
-import { Col, Divider, Layout, Row, Form, Input, Tag, ConfigProvider, Collapse, CollapseProps, Space, Card, List, Button } from 'antd'
+import { Col, Divider, Layout, Row, Form, Input, Tag, ConfigProvider, Collapse, CollapseProps, Space, Card, List, Button, Image } from 'antd'
 import { Menu_Home } from './Components/Menus.tsx/Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import { ForkKnife, Package, } from '@phosphor-icons/react'
+import user from './400ppi/Headerpeople.png';
+import business from './400ppi/wealth.png';
+
+
+
 import 'isomorphic-fetch';
 
 
@@ -21,7 +26,7 @@ const Home: React.FC = () => {
 
   const onFinish = async (values: any) => {
 
-    let newData = await fetch('http://localhost:80/message/client_message', {
+    let newData = await fetch('http://localhost:8000/message/client_message', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -67,7 +72,7 @@ const Home: React.FC = () => {
 
   const data = [
     {
-      title: 'Food Product Management',
+      title: 'Consumer Discretionary Services',
     }
   ];
 
@@ -101,9 +106,19 @@ const Home: React.FC = () => {
                   mutual success for all parties involved.
                 </p>
 
-                <div>
+                <Space wrap size={[28, 28]}>
+                  <div className='headerSubjects'>
+                    <Image src={user} width={64} preview={false} />
+                    <p className='headerSubjectsText'>Comsumer Research</p>
+                  </div>
 
-                </div>
+                  <div className='headerSubjects'>
+                    <Image src={business} width={64} preview={false} />
+                    <p className='headerSubjectsText'>Business Optimization</p>
+
+                  </div>
+
+                </Space>
               </Col>
               <Col xs={22} md={8} className='serviceTarget'>
                 <div >
@@ -230,12 +245,12 @@ const Home: React.FC = () => {
 
             </Row>
 
-           
+
 
             <Row justify={'space-evenly'} gutter={[0, 75]} >
               <Col xs={22} md={12}>
                 <h1>
-                Discover more comprehensive information about the existing service packages we offer.</h1>
+                  Discover more comprehensive information about the existing service packages we offer.</h1>
                 <Divider className='dividerHeader'></Divider>
                 <List
                   itemLayout="horizontal"
@@ -245,7 +260,7 @@ const Home: React.FC = () => {
                       <List.Item.Meta
                         avatar={<ForkKnife size={24} weight="fill" />}
                         title={<a href="https://ant.design">{item.title}</a>}
-                        description={<div><p style={{ fontSize: 14 }}>Our <span className='service_tag'>Food Management</span> and <span className='service_tag'>Nutritional Analytics</span>  service equips businesses
+                        description={<div><p style={{ fontSize: 14 }}>Our <span className='service_tag'>Food Management</span> and <span className='service_tag'>Nutritional Analytics</span> service equips businesses
                           with the tools they need to expertly manage their inventory and
                           assess the nutritional efficacy of their products across a
                           range of demographics.

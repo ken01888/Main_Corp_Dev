@@ -9,36 +9,31 @@ import { useLoaderData, useParams } from 'react-router-dom';
 const PrincipleAccountDetails: React.FC = (props) => {
     const [ViewPersonalInformation, setViewPersonalInformation] = React.useState<boolean>(false)
     const [EditPersonalInformation, setEditPersonalInformation] = React.useState<boolean>(true)
-    const [clientInformation, setclientInformation] = React.useState<Array<string>>([])
+    const [clientInformation, setclientInformation] = React.useState<any>()
 
-
-    let loaderData:any = useLoaderData()
-    console.log(loaderData)
 
 
     React.useEffect(() => {
-        (async () => {
-       
-            setclientInformation(loaderData)
+        const user: any = window.localStorage.getItem('user')
+        const newUser = JSON.parse(user)
+        delete newUser.id
 
-        })()
+        const newUserArray = Object.entries(newUser)
+        setclientInformation(newUserArray)
     }, [])
 
 
-
     const onPrincipleUpdate = async (values: any) => {
-        console.log('updating principle information')
-        const dataReply = await fetch(`http://localhost:8000/client_portal/updateClientinformation`, {
+        const dataReply = await fetch(`http://localhost:8000/updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(values)
-        })
-
+        });
         const dataParse = await dataReply.json()
         setEditPersonalInformation(!EditPersonalInformation)
-        console.log(dataParse)
+        console.log(dataReply, dataParse)
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -86,20 +81,17 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
                             </Descriptions.Item>
                             <Descriptions.Item span={3}>
-
                                 <Space>
                                     <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button>
                                     <Button className='tagUpdate' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }}> Update</Button>
                                 </Space>
-
-
                             </Descriptions.Item>
 
 
 
 
 
-                            
+
                             {ViewPersonalInformation ?
 
                                 <>

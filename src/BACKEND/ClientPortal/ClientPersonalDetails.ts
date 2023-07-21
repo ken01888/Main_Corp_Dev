@@ -7,8 +7,7 @@ import client_admin_query from '../ProgramControlFlow/SQL/Query.ts/PrincipleClie
 const router = express.Router()
 
 router.get('/getPrincipleInformation', async (req:any, res) => {
-    delete req.user.bearer_token
-    res.json(Object.entries(req.user))
+    res.json(req.user)
 });
 
 router.put('/updateClientinformation', async (req:any, res) => {

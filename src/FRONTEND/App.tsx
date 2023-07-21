@@ -14,6 +14,7 @@ import ClientPortal from './Page/Principle_Dashboards/ClientPortal';
 import PrincipleAccountDetails from './Page/Principle_Dashboards/PrincipleAccountDetailsPage';
 import PrincipleBillingDetails from './Page/Principle_Dashboards/PrincipleBillingDetails';
 import PrincipleServiceDetails from './Page/Principle_Dashboards/PrincipleServiceDetails';
+import StoreInventory from './Page/Principle_Dashboards/StoreInventory';
 
 
 const router = createBrowserRouter([
@@ -43,22 +44,24 @@ const router = createBrowserRouter([
   {
     path: '/principle',
     element: <ClientPortal />,
-    // loader: async () => {
-    //   const dataReply = await fetch(`http://localhost:9000/testing1`)
-    //   console.log(dataReply)
-    //   return 1
-    // },
+    loader: async () => {
+      const dataReply = await fetch(`http://localhost:8000/getPrincipleInformation`)
+      const newData = await dataReply.json()
+      const newUserData = JSON.stringify(newData)
+      window.localStorage.setItem('user', newUserData)
+      return dataReply.status
+    },
 
     children: [
-      
+
       {
         path: "account",
         element: <PrincipleAccountDetails />,
-        // loader: async () => {
-        //   const dataReply = await fetch(`http://localhost:9000/client_portal/getPrincipleInformation`)
-        //   const newData = await dataReply.json()
-        //   return newData
-        // },
+        loader: async () => {
+          const user: any = window.localStorage.getItem('user')
+          return JSON.parse(user)
+        }
+
 
 
       },
@@ -70,6 +73,18 @@ const router = createBrowserRouter([
         path: "services",
         element: <PrincipleServiceDetails />
       }
+      ,
+      {
+        path: "store",
+        element: <StoreInventory />,
+        loader: async () => {
+          const dataReply = await fetch(`http://localhost:8000/getStores`)
+          const dataParse = await dataReply.json()
+          return [dataParse]
+
+        }
+      }
+
     ]
 
   },

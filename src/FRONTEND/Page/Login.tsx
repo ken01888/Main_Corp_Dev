@@ -18,14 +18,17 @@ const Login: React.FC = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-        
+
       },
       body: JSON.stringify(values)
     })
-    console.log(newData)
 
 
     if (newData.status == 200) {
+      console.log(newData)
+      const principleData = await newData.json()
+      window.localStorage.setItem('user',JSON.stringify(principleData))
+      window.location.href = '/principle'
     } else if (newData.status == 401) {
       setVerified(!verified)
     }
@@ -54,7 +57,7 @@ const Login: React.FC = () => {
         <Content >
           <Row justify={'space-around'} gutter={[0, 75]}>
 
-            <Col xs={22} md={10} className='form_login'>
+            <Col xs={22} md={8} className='form_login'>
               <h2 style={{ display: 'flex' }} className='footer_h1'>
                 <motion.div className='logo'>
 
@@ -74,7 +77,6 @@ const Login: React.FC = () => {
                 </motion.div>Kcm Inc
               </h2>
               <h1>Login</h1>
-              <a href='http://localhost:8000/principle?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJrZW5Aa2NtaW5jLmlvIiwiZW1haWwiOiJrZW5Aa2NtaW5jLmlvIiwiaWF0IjoxNjg5MzQ2Mjk0fQ.L1ToueJat1JQPqd3PSff1i5SVeDLnA1iR7xuSn3Kii'>hkhjkhjkh</a>
 
               <p>Please enter your username and password that you
                 used to create your account. If you are having difficulties
@@ -130,16 +132,16 @@ const Login: React.FC = () => {
                 </ConfigProvider>
               </Form>
 
-
+              {
+                verified ? <Alert
+                  message="We were unable to verify your email or password. Please try entering your credentials again."
+                  type="error"
+                  closeIcon
+                /> : ''
+              }
 
             </Col>
-            {
-              verified ? <Alert
-                message="We were unable to verify your email or password. Please try entering your credentials again."
-                type="error"
-                closeIcon
-              /> : ''
-            }
+
 
           </Row>
 
