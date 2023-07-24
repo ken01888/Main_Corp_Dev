@@ -17,6 +17,7 @@ export const ClientMenu = () => {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<DrawerProps['placement']>('left');
+    const [info,setInfo] = React.useState<Array<string>>([])
 
     const showDrawer = () => {
         setOpen(true);
@@ -33,6 +34,15 @@ const OnSuccessFullyLogin = () =>{
     console.log('this is a success')
     navigate('/clientportal/ken')
 }
+
+React.useEffect(() => {
+    console.log(document.cookie)
+    const user: any = window.localStorage.getItem('user')
+    const newUser = JSON.parse(user)
+    const newUserArray:any = Object.entries(newUser)
+    console.log()
+    setInfo(newUserArray)
+}, [])
     return (
         <>
             <Row className='webMenu'>
@@ -58,7 +68,7 @@ const OnSuccessFullyLogin = () =>{
                     <div className='menuItemsDiv'>
                         
                         <span  onClick={showDrawer} className='menuMiddleItems'>
-                        #BD102948 <Image src={user} width={16}/>
+                       # <Image src={user} width={16}/>
                         </span>
 
                     </div>

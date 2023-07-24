@@ -1,13 +1,18 @@
 import * as express from 'express'
 import 'dotenv/config'
 import client_admin_query from '../ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/ClientPersonalDetails';
+import {checkAccount} from '../ProgramControlFlow/SQL/Query.ts/Login/'
+
+
 
 
 
 const router = express.Router()
 
 router.get('/getPrincipleInformation', async (req:any, res) => {
-    res.json(req.user)
+    res.cookie('user',req.user)
+
+
 });
 
 router.put('/updateClientinformation', async (req:any, res) => {
@@ -21,3 +26,4 @@ console.log(req.user)
 
 
 export default router; 
+

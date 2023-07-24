@@ -8,30 +8,36 @@ const router = express.Router()
 
 
 router.post('/createStore', async (req: any, res) => {
-    req.body.client_id = req.user.id
     const store = await stores.createStore(req.body)
     res.json('hello')
 });
 
-router.get('/getStores',async (req:any,res)=>{
-    console.log(req.user)
-    req.body.client_id = req.user.id
-    const current_store = await stores.selectStore(req.body) 
-    res.json(current_store)
 
-})
-
-router.post('/insertInventoryItems',async (req:any,res)=>{
+router.post('/insertInventoryItems', async (req: any, res) => {
+    // req.body.business_id = req.user.id
+    req.body.business_id = 2
+    console.log(req.body)
     const current_store = await stores.insertInventoryItem(req.body)
     res.json(current_store)
 
-})
+});
 
-router.get('/getInventoryItems',async (req,res)=>{
-    console.log(req.user)
-    const getInventoryItems = await stores.getInventoryItems(5)
+router.get('/getInventoryItems', async (req: any, res) => {
+    // req.body.business_id = req.user.id
+    const business_id = 2
+    const getInventoryItems = await stores.getInventoryItems({ business_id })
+
     res.json(getInventoryItems)
-})
+});
+
+
+router.delete('/deleteInventoryItems', async (req: any, res) => {
+    // req.body.business_id = req.user.id
+    const current_store:any = await stores.deleteInventoryItem(req.body)
+    res.json(current_store.affectedRows)
+
+});
+
 
 
 // router.post('/requestNotary_Service_Requests/:id?', async (req, res) => {

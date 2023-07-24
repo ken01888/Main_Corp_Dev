@@ -12,7 +12,7 @@ import contact from './Homepage/contact'
 import client from './ClientPortal/ClientPersonalDetails'
 // import billing from './ClientPortal/ClientBilling';
 // import notary from './ClientPortal/ClientServiceRequest';
-import store from './ClientPortal/InventoryRoutes';
+import inventory from './ClientPortal/InventoryRoutes';
 
 import registration from './Homepage/registration'
 import UPStrategy from './Security/localStrategy'
@@ -21,30 +21,18 @@ import './Security/Bearer'
 import * as cookieparser from 'cookie-parser'
 
 
-const validateUser = (req, res, next) => {
-  if (!req.user) {
-    res.sendStatus(403)
-
-  } else {
-    console.log(req.user)
-
-    next()
-  }
-}
 
 const app = express()
-
-
-
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors())
-app.set('trust proxy', true)
 app.use((req, res, next) => {
   res.set('Access-Control-Allow-Origin', '*')
   res.set('Access-Control-Allow-Headers', '*')
   next()
 })
+app.set('trust proxy', true)
+
 app.use(cookieparser())
 app.use(session({
   secret: 'keyboard cat',
@@ -58,21 +46,26 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+const validateUser = (req, res, next) => {
+  if (!req.user) {
+    res.redirect('/').sendStatus(403)
+  } else {
+    next()
+  }
+}
 
-app.use('/', express.static('public'));
+
+app.use('/', express.static( 'public'))
+app.use('/signup', express.static( 'public'))
+
 app.use(UPStrategy)
-
-
-
 app.use('/principle', validateUser, express.static('public'))
+app.use(registration)
 
-// app.use(authenticationUser)
-app.use('/client_registration', registration)
 app.use('/message',contact)
 app.use(client)
-app.use(store)
-// app.use('/client_portal',billing)
-// app.use('/client_portal_services',notary)
+app.use(inventory)
+
  
 
 app.listen(8000, () => {

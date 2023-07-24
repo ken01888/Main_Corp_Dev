@@ -40,54 +40,60 @@ const router = createBrowserRouter([
     element: <TermsOfService />,
 
   },
+  //delete after improving
+  {
+    path: "store",
+    element: <StoreInventory />,
+
+  },
 
   {
     path: '/principle',
     element: <ClientPortal />,
-    loader: async () => {
-      const dataReply = await fetch(`http://localhost:8000/getPrincipleInformation`)
-      const newData = await dataReply.json()
-      const newUserData = JSON.stringify(newData)
-      window.localStorage.setItem('user', newUserData)
-      return dataReply.status
-    },
-
     children: [
 
       {
         path: "account",
         element: <PrincipleAccountDetails />,
-        loader: async () => {
-          const user: any = window.localStorage.getItem('user')
-          return JSON.parse(user)
-        }
-
-
-
       },
-      {
-        path: "billing",
-        element: <PrincipleBillingDetails />
-      },
-      {
-        path: "services",
-        element: <PrincipleServiceDetails />
-      }
-      ,
       {
         path: "store",
         element: <StoreInventory />,
-        loader: async () => {
-          const dataReply = await fetch(`http://localhost:8000/getStores`)
-          const dataParse = await dataReply.json()
-          return [dataParse]
 
-        }
-      }
+      },
+    //   {
+    //     path: "billing",
+    //     element: <PrincipleBillingDetails />
+    //   },
+    //   {
+    //     path: "services",
+    //     element: <PrincipleServiceDetails />
+    //   }
+    //   ,
+    
 
     ]
 
   },
+
+
+
+    {
+      path: "billing",
+      element: <PrincipleBillingDetails />
+    },
+    {
+      path: "services",
+      element: <PrincipleServiceDetails />
+    }
+    ,
+    // {
+    //   path: "store",
+    //   element: <StoreInventory />,
+
+    // }
+
+
   // {
   //   path: "/access",
   //   element: <h1>registration <Link to='/dashboard'>Dashboard</Link></h1>,

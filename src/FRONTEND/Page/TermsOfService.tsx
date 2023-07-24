@@ -327,7 +327,7 @@ const TermsOfService: React.FC = () => {
 
 
                                         <Meta
-                                            description='We care about data privacv and securitv. Rv using the Site vou agree to be bound hv our Privacv Policy nosted on the Site which is incornorated into these Terms of lIse. Please he advised the Site is hosted in the United States. If vou access the Site from any other region of the world with laws or other reauirements governing personal data collection. use or disclosure that differ from applicable laws in the United States. then through vour continued use of the Site, vou are transferring vour data to the United States. and vou agree to have vour data transferred to and processed in the United States.' />
+                                            description='We prioritize data privacy and security. By using the site, you are agreeing to our Privacy Policy located on the site, which is included in these Terms of Use. Please note that the site is based in the United States. If you access the site from a region with laws or regulations regarding personal data that differ from those in the United States, you are transferring your data to the United States by continuing to use the site. You also agree to have your data transferred and processed in the United States.' />
 
 
 

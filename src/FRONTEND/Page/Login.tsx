@@ -13,7 +13,6 @@ const Login: React.FC = () => {
 
 
   const onFinish = async (values: any) => {
-
     let newData = await fetch('http://localhost:8000/login_verification', {
       method: 'POST',
       headers: {
@@ -23,12 +22,10 @@ const Login: React.FC = () => {
       body: JSON.stringify(values)
     })
 
-
     if (newData.status == 200) {
-      console.log(newData)
       const principleData = await newData.json()
-      window.localStorage.setItem('user',JSON.stringify(principleData))
-      window.location.href = '/principle'
+      window.localStorage.setItem('user', JSON.stringify(principleData))
+      navigate('/principle/account/') 
     } else if (newData.status == 401) {
       setVerified(!verified)
     }
@@ -38,6 +35,7 @@ const Login: React.FC = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+
   };
 
 
@@ -48,12 +46,8 @@ const Login: React.FC = () => {
       <Header className='header'>
 
         <Menu_SignUp />
-
       </Header>
-
       <Layout className='homeScreenDesktop'>
-
-
         <Content >
           <Row justify={'space-around'} gutter={[0, 75]}>
 
@@ -62,16 +56,12 @@ const Login: React.FC = () => {
                 <motion.div className='logo'>
 
                   <div style={{ height: 'fit-content' }}>
-
                     <div className='logoBlue'></div>
                     <div className='logoBeige'></div>
                   </div>
-
                   <div style={{ height: 'fit-content' }}>
-
                     <div className='logoBeige'></div>
                     <div className='logoBlue'></div>
-
                   </div>
 
                 </motion.div>Kcm Inc

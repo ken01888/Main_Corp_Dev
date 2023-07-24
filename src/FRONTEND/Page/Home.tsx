@@ -406,7 +406,7 @@ const Home: React.FC = () => {
 
               </ConfigProvider>
 
-              <ConfigProvider
+              {/* <ConfigProvider
                 theme={{
                   token: {
                     fontFamily: 'Jost',
@@ -420,7 +420,7 @@ const Home: React.FC = () => {
                 <Link reloadDocument to='/privacy_policy'> <Button htmlType="submit">Privacy Policy</Button></Link>
 
 
-              </ConfigProvider>
+              </ConfigProvider> */}
               <ConfigProvider
                 theme={{
                   token: {

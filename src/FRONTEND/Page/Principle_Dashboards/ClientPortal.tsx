@@ -1,16 +1,15 @@
 import * as React from 'react'
-import { Col, Layout, Row, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions } from 'antd'
-import { Content, Header } from 'antd/es/layout/layout'
+import { Col, Layout, Row, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space } from 'antd'
+import { Content, Footer, Header } from 'antd/es/layout/layout'
 import { Bank, Book, Question } from '@phosphor-icons/react'
 import { ShopOutlined, UserOutlined } from '@ant-design/icons';
 import 'isomorphic-fetch';
 import { ClientMenu } from '../Components/Menus.tsx/ClientMenu'
-import { NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom'
 
 
 
 const ClientPortal: React.FC = () => {
-
 
     return (
 
@@ -34,7 +33,6 @@ const ClientPortal: React.FC = () => {
                                     };
                                 }}
                             >
-
                                 <UserOutlined />Account
                             </NavLink>
                             {/* <NavLink
@@ -61,6 +59,7 @@ const ClientPortal: React.FC = () => {
                             >
                                 <ShopOutlined size={16} />Inventory
                             </NavLink>
+
                             {/* <NavLink
                                 to={`services`}
                                 className='clientMenuItem'
@@ -89,7 +88,7 @@ const ClientPortal: React.FC = () => {
                             </a>
                         </Col>
 
-                        <Col xs={18}>
+                        <Col xs={22} md={18}>
                             <Outlet />
 
                         </Col>
@@ -98,11 +97,34 @@ const ClientPortal: React.FC = () => {
             </Layout>
 
 
-            <FloatButton.Group shape="square" style={{ right: 24 }}>
-                <FloatButton icon={<Image preview={false} ></Image>} />
-                <FloatButton />
-                <FloatButton.BackTop visibilityHeight={0} />
-            </FloatButton.Group>
+            <Footer className='footer_portal '>
+                <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
+                   
+                    <Col xs={22} md={5} >
+                        <Space wrap direction='vertical' >
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+
+                                    },
+                                }}
+                            >
+                                <Link reloadDocument to='/login'>
+                                    <Button htmlType="submit">Log In</Button>
+                                </Link>
+
+
+                            </ConfigProvider>
+                        </Space>
+
+                    </Col>
+
+                </Row>
+            </Footer>
         </Layout >
 
     )

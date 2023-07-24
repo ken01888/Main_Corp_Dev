@@ -29,7 +29,7 @@
     font-family: 'Jost';
     font-size: .875rem;
     cursor: pointer;
-    width: -webkit-fill-available;
+    width:fit-content;
     column-gap: 0.25rem;
 
 }
@@ -48,7 +48,7 @@
     border: 2px solid black;
     border-right: 2px solid var(--light_grey);
     border-bottom: 2px solid var(--light_grey);
-    border-radius: 0px 0px 5px 0px;
+    border-radius: 5px;
     background: var(--white-gray);
     margin-top: 1rem;
 }
@@ -105,6 +105,13 @@
 .tagUpdate{
     color: var(--solid_black);
     background: var(--white-gray);
+    border: 1px solid var(--solid_black);
+    cursor: pointer;
+}
+
+.tagSubmit {
+    color: var(--white-gray);
+    background: var(--solid_black);
     border: 1px solid var(--solid_black);
     cursor: pointer;
 }

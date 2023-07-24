@@ -43,16 +43,16 @@ const $FRONTEND = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/index.html', hash: false,
-      // favicon: './client/favicon.ico',
+      favicon: './client/favicon.ico',
       minify: 'auto',
       inject: true,
 
     }),
 
     new MiniCssExtractPlugin(),
-    new InterpolateHtmlPlugin({
-      PUBLIC_URL: '/' // can modify `static` to another name or get it from `process`
-    })
+    // new InterpolateHtmlPlugin({
+    //   PUBLIC_URL: '/' // can modify `static` to another name or get it from `process`
+    // })
 
 
   ],

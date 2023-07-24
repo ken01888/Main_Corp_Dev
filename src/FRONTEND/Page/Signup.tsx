@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, Image, ConfigProvider, Space } from 'antd';
+import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, Image, ConfigProvider, Space, Alert } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
@@ -9,28 +9,34 @@ import { Menu_Login } from './Components/Menus.tsx/Menu_Login';
 
 const SignUp: React.FC = () => {
     const [showForm, setForm] = React.useState(true)
+    const [emailVerified, setEmailVerified] = React.useState(false)
 
-    const onFinish = async (values: any) => {
 
-        let newData = await fetch('http://localhost:8000/client_registration/registration', {
+    const onFinish = async (values: any,e) => {
+
+        let newData = await fetch('http://localhost:8000/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(values)
         })
-        setForm(false)
-        let dbreply = await newData.json()
-
-
+        let data = await newData.json()
+        console.log(data)
+        if (data === true) {
+            setEmailVerified(!emailVerified)
+        } else if (data === false){
+            setForm(!showForm)
+        }
     };
+
+    React.useEffect(()=>{
+
+    })
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
-
-
     };
-
 
     const steps = [
         {
@@ -47,8 +53,6 @@ const SignUp: React.FC = () => {
             content: 'Last-content',
         },
     ];
-
-
 
     return (
         <Layout className='layout'>
@@ -82,7 +86,8 @@ const SignUp: React.FC = () => {
                             {showForm ?
                                 <>
                                     <h1>Registration Page</h1><p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated support team for assistance. Thank you for choosing our services.
-                                    </p><Divider className='dividerHeader'></Divider><Form
+                                    </p><Divider className='dividerHeader'></Divider>
+                                    <Form
                                         name="basic"
                                         initialValues={{ remember: true }}
                                         onFinish={onFinish}
@@ -96,8 +101,8 @@ const SignUp: React.FC = () => {
                                         <ConfigProvider
                                             theme={{
                                                 token: {
-                                                    colorPrimary: 'black',
-                                                    colorPrimaryHover: '#fafafa',
+                                                    colorPrimary: '#b4cbd4',
+                                                    colorPrimaryHover: 'black',
                                                     lineWidth: 2,
                                                     fontFamily: 'Jost',
                                                     fontSize: 16,
@@ -110,7 +115,8 @@ const SignUp: React.FC = () => {
                                                 name="first_name"
                                                 rules={[{ required: true, message: 'Please input your first name!' }]}
                                             >
-                                                <Input type='text' />
+                                                <Input type='text' onChange={(e, value) => { e.target.value.toUpperCase(); value = e.target.value }}
+                                                />
                                             </Form.Item>
 
                                             <Form.Item
@@ -155,8 +161,14 @@ const SignUp: React.FC = () => {
                                             <Form.Item
                                                 label="Email"
                                                 name="email"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please enter a email address',
+                                                    },
 
-                                                rules={[{ required: true, message: 'Please input your email address!' }]}
+                                                ]}
+
                                             >
                                                 <Input type='email' />
                                             </Form.Item>
@@ -169,9 +181,10 @@ const SignUp: React.FC = () => {
                                                 rules={[
                                                     {
                                                         required: true,
-                                                        message: 'Create a 8 digit password!',
+                                                        message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]',
                                                         min: 8,
-                                                        max: 8
+                                                        max: 8,
+                                                        pattern:'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&?]).{8}$'
                                                     },
                                                 ]}
                                                 hasFeedback
@@ -208,7 +221,7 @@ const SignUp: React.FC = () => {
                                                 valuePropName="checked"
                                                 rules={[
                                                     {
-                                                        validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                                                        validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Terms of Service.')),
                                                     },
                                                 ]}
                                             >
@@ -221,7 +234,7 @@ const SignUp: React.FC = () => {
                                                     }} reloadDocument to="/termsofservice">Terms of Service</Link>
                                                 </Checkbox>
                                             </Form.Item>
-                                            <Form.Item
+                                            {/* <Form.Item
                                                 name="privacy_policy"
                                                 valuePropName="checked"
                                                 rules={[
@@ -238,17 +251,25 @@ const SignUp: React.FC = () => {
                                                         textDecoration: '2px underline #e8dac2'
                                                     }} reloadDocument to="/termsofservice">Policy Agreement</Link>
                                                 </Checkbox>
-                                            </Form.Item>
+                                            </Form.Item> */}
 
 
                                             <Form.Item
                                             >
-                                                <button className='buttonBlack' type="submit">
+                                                <Button className='buttonBlack' htmlType="submit">
                                                     Verify
-                                                </button>
+                                                </Button>
                                             </Form.Item>
+
                                         </ConfigProvider>
 
+                                        {
+                                            emailVerified ? <Alert
+                                                message="This email address already registered. Please use a different one."
+                                                type="error"
+                                                closeIcon
+                                            /> : ''
+                                        }
                                     </Form></>
 
 

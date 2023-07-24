@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space } from 'antd'
+import { Col, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space, Table } from 'antd'
 import 'isomorphic-fetch';
 import { useLoaderData, useParams } from 'react-router-dom';
 
@@ -9,19 +9,20 @@ import { useLoaderData, useParams } from 'react-router-dom';
 const PrincipleAccountDetails: React.FC = (props) => {
     const [ViewPersonalInformation, setViewPersonalInformation] = React.useState<boolean>(false)
     const [EditPersonalInformation, setEditPersonalInformation] = React.useState<boolean>(true)
-    const [clientInformation, setclientInformation] = React.useState<any>()
+    const [clientInformation, setclientInformation] = React.useState<any>([])
 
 
 
     React.useEffect(() => {
+        console.log(document.cookie)
         const user: any = window.localStorage.getItem('user')
         const newUser = JSON.parse(user)
         delete newUser.id
-
+        delete newUser.access_token
         const newUserArray = Object.entries(newUser)
+        console.log(newUserArray)
         setclientInformation(newUserArray)
     }, [])
-
 
     const onPrincipleUpdate = async (values: any) => {
         const dataReply = await fetch(`http://localhost:8000/updateClientinformation`, {
@@ -33,7 +34,6 @@ const PrincipleAccountDetails: React.FC = (props) => {
         });
         const dataParse = await dataReply.json()
         setEditPersonalInformation(!EditPersonalInformation)
-        console.log(dataReply, dataParse)
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -48,7 +48,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
 
 
-        <Col xs={22} md={12}>
+        <Col xs={22} md={18}>
             <div className='clientPortalDiv'>
                 <Form
                     name="client"
@@ -65,7 +65,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
                                 fontFamily: 'Jost',
                                 colorTextTertiary: 'black',
                                 colorPrimaryHover: '#b4cbd4',
-                                colorBgContainerDisabled: 'ffffff',
+                                colorBgContainerDisabled: '#ffffff',
 
                             },
                         }}
@@ -82,7 +82,6 @@ const PrincipleAccountDetails: React.FC = (props) => {
                             </Descriptions.Item>
                             <Descriptions.Item span={3}>
                                 <Space>
-                                    <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button>
                                     <Button className='tagUpdate' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }}> Update</Button>
                                 </Space>
                             </Descriptions.Item>
@@ -92,59 +91,67 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
 
 
-                            {ViewPersonalInformation ?
-
-                                <>
-
-                                    {clientInformation.map((i, n, a) => {
-                                        return (
-
-                                            <Descriptions.Item label={i[0].toUpperCase().replace('_', ' ')} key={n}>
-
-                                                <Form.Item
-                                                    name={i[0]}
-                                                    key={n}
-                                                    initialValue={i[1]}
-
-                                                >
-
-                                                    <Input key={n} bordered={EditPersonalInformation} placeholder={i[1]} disabled={EditPersonalInformation}></Input>
-                                                </Form.Item>
-
-                                            </Descriptions.Item>
 
 
-                                        )
-                                    })}
+                            <>
+
+                                {clientInformation.map((i, n, a) => {
+                                    return (
+
+                                        <Descriptions.Item label={i[0].toUpperCase().replace('_', ' ')} key={n} span={1}>
+
+                                            <Form.Item
+                                                name={i[0]}
+                                                key={n}
+                                                initialValue={i[1]}
 
 
-                                    {EditPersonalInformation ?
-                                        ''
-                                        :
+                                            >
+
+                                                <Input key={n} bordered={EditPersonalInformation} placeholder={i[1]} disabled={EditPersonalInformation}></Input>
+                                            </Form.Item>
+
+                                        </Descriptions.Item>
+
+
+                                    )
+                                })}
+
+
+                                {EditPersonalInformation ?
+                                    ''
+                                    :
+                                    <Descriptions.Item label='Update Account Details' span={1}>
+
                                         <Form.Item
                                         >
                                             <ConfigProvider
                                                 theme={{
                                                     token: {
+                                                        colorPrimary: 'black',
+                                                        colorPrimaryHover: '#fafafa',
+                                                        lineWidth: 2,
                                                         fontFamily: 'Jost',
-                                                        colorTextTertiary: 'black',
-                                                        colorPrimaryHover: '#000000',
-                                                        colorBgContainer: '#fafafa'
-
+                                                        fontSize: 14,
                                                     },
                                                 }}
                                             >
-                                                <Button htmlType="submit">Submit Changes</Button>
 
+                                                <Button className='tagSubmit' htmlType="submit">
+                                                    Submit Changes
+                                                </Button>
                                             </ConfigProvider>
                                         </Form.Item>
-                                    }
-                                </>
-                                : ''}
+                                    </Descriptions.Item>
+
+                                }
+                            </>
+
                         </Descriptions>
                     </ConfigProvider>
                 </Form>
             </div>
+    
 
             {/* 
             <FloatButton.Group shape="square" style={{ right: 24 }}>
