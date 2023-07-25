@@ -151,14 +151,6 @@ const PrincipleAccountDetails: React.FC = (props) => {
                     </ConfigProvider>
                 </Form>
             </div>
-    
-
-            {/* 
-            <FloatButton.Group shape="square" style={{ right: 24 }}>
-                <FloatButton icon={<Image preview={false} ></Image>} />
-                <FloatButton />
-                <FloatButton.BackTop visibilityHeight={0} />
-            </FloatButton.Group> */}
         </Col>
 
     )

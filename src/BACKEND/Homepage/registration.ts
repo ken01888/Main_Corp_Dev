@@ -1,7 +1,7 @@
 import * as express from 'express'
 
 import 'dotenv/config'
-import database_query from '../ProgramControlFlow/SQL/Query.ts/Homepage_Query';
+import database_query from '../ProgramControlFlow/SQL/Query.ts/Support_Database';
 import * as bcrypt from 'bcrypt'
 import * as jwt from 'jsonwebtoken'
 import { registrationInformation, checkAccount } from '../ProgramControlFlow/SQL/Query.ts/Login'

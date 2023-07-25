@@ -8,7 +8,7 @@ import 'dotenv/config'
 // import ClientPortal from './ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/ClientPersonalDetails';
 // import { MessagingResponse, sendReply } from './ProgramControlFlow/SMS/send_sms';
 // import './ProgramControlFlow/PAYMENTS/authorize_card';
-import contact from './Homepage/contact'
+import support from './MESSAGE_SUPPORT/support'
 import client from './ClientPortal/ClientPersonalDetails'
 // import billing from './ClientPortal/ClientBilling';
 // import notary from './ClientPortal/ClientServiceRequest';
@@ -18,6 +18,7 @@ import registration from './Homepage/registration'
 import UPStrategy from './Security/localStrategy'
 import * as session from 'express-session'
 import './Security/Bearer'
+
 import * as cookieparser from 'cookie-parser'
 
 
@@ -55,14 +56,16 @@ const validateUser = (req, res, next) => {
 }
 
 
-app.use('/', express.static( 'public'))
+app.use('/login', express.static( 'public'))
 app.use('/signup', express.static( 'public'))
+app.use('/store', express.static( 'public'))
+
 
 app.use(UPStrategy)
 app.use('/principle', validateUser, express.static('public'))
 app.use(registration)
 
-app.use('/message',contact)
+app.use(support)
 app.use(client)
 app.use(inventory)
 

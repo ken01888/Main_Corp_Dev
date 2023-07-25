@@ -16,7 +16,7 @@ export function MessageResponseFromHomePage(name:string,to?:string[]| any) {
     
     to.map(async (i) => {
         await sms.messages.create({
-            body: `Dear ${name.toLocaleUpperCase()}, https://www.google.com/search?q=document+clear&oq=document+clear&aqs=chrome..69i57j0i512l9.1821j0j9&sourceid=chrome&ie=UTF-8 thank you for reaching out to 🌎 Kcm Inc. We take immense pride in our partnership with you and are dedicated to delivering unparalleled service. Rest assured that one of our representatives will be in touch with you promptly to address your inquiry.`,
+            body: `Dear ${name.toLocaleUpperCase()},Thank you for contacting Kcm Inc. Rest assured that our support team will promptly respond to your query within the next 48-72 hours. `,
             from: process.env.TWILIO_PHONE,
             shortenUrls: true,
             to: i
@@ -35,6 +35,7 @@ export const sendReply = (body = "Testing the api", to?: any) => {
     })
 
 }
+
 
 
 

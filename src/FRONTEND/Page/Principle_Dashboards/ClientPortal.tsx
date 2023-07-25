@@ -4,7 +4,7 @@ import { Content, Footer, Header } from 'antd/es/layout/layout'
 import { Bank, Book, Question } from '@phosphor-icons/react'
 import { ShopOutlined, UserOutlined } from '@ant-design/icons';
 import 'isomorphic-fetch';
-import { ClientMenu } from '../Components/Menus.tsx/ClientMenu'
+import { ClientMenu } from '../Components/Navigation/ClientMenu'
 import { Link, NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom'
 
 
@@ -113,8 +113,8 @@ const ClientPortal: React.FC = () => {
                                     },
                                 }}
                             >
-                                <Link reloadDocument to='/login'>
-                                    <Button htmlType="submit">Log In</Button>
+                                <Link reloadDocument to='/Support'>
+                                    <Button htmlType="submit">Support</Button>
                                 </Link>
 
 

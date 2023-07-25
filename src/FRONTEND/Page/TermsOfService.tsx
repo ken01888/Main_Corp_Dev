@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Col, Divider, Layout, Row, ConfigProvider,Space, Card, Button } from 'antd'
-import { Menu_Home } from './Components/Menus.tsx/Menu'
+import Menu from './Components/Navigation/Main_Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import 'isomorphic-fetch';
 
@@ -22,7 +22,7 @@ const TermsOfService: React.FC = () => {
 
             <Header className='header'>
 
-                <Menu_Home />
+                <Menu/>
 
             </Header>
 

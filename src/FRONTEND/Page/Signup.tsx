@@ -3,7 +3,7 @@ import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Menu_Login } from './Components/Menus.tsx/Menu_Login';
+import Menu from './Components/Navigation/Main_Menu';
 
 
 
@@ -58,7 +58,7 @@ const SignUp: React.FC = () => {
         <Layout className='layout'>
             <Header className='header'>
 
-                <Menu_Login />
+                <Menu />
 
             </Header>
 
@@ -67,7 +67,10 @@ const SignUp: React.FC = () => {
                 <Content >
                     <Row justify={'space-around'} gutter={[0, 75]}>
 
-                        <Col xs={22} md={10} className='form_login'>
+                        <Col xs={22} md={10}>
+                        <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: .5 }}>
                             <h2 style={{ display: 'flex' }} className='footer_h1'>
                                 <motion.div className='logo'>
 
@@ -85,7 +88,7 @@ const SignUp: React.FC = () => {
 
                             {showForm ?
                                 <>
-                                    <h1>Registration Page</h1><p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated support team for assistance. Thank you for choosing our services.
+                                    <h1>Registration Page</h1><p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated <Link to='/support'>support</Link> team for assistance. Thank you for choosing our services.
                                     </p><Divider className='dividerHeader'></Divider>
                                     <Form
                                         name="basic"
@@ -292,7 +295,7 @@ const SignUp: React.FC = () => {
 
                                     </ConfigProvider></>}
 
-
+</motion.div>
                         </Col>
 
 

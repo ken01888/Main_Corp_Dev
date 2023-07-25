@@ -15,7 +15,7 @@ const stylesHandler = MiniCssExtractPlugin.loader;
 const $FRONTEND = {
   mode: 'development',
   entry: {
-    frontend: './src/FRONTEND/index.tsx', // file to enter into
+    frontend: './src/index.tsx', // file to enter into
   },
 
   output: {

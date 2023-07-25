@@ -10,6 +10,8 @@ const selectStore = async (id) => Query('SELECT * FROM Inventory.Store WHERE ?;'
 const insertInventoryItem = async (values: any) => Query('INSERT INTO Inventory.Inventory_Items SET ?', values);
 const getInventoryItems = async (business_id) => Query('SELECT * FROM Inventory.Inventory_Items WHERE ?', [business_id]);
 const deleteInventoryItem = async (id) => Query('DELETE FROM Inventory.Inventory_Items WHERE ?', [id]);
+const updateInventoryItem = async (values,id) => Query('UPDATE Inventory.Inventory_Items SET ? WHERE id = ?',[values,id]);
+
 
 
 
@@ -25,5 +27,6 @@ export default {
     selectStore,
     insertInventoryItem,
     getInventoryItems,
-    deleteInventoryItem
+    deleteInventoryItem,
+    updateInventoryItem
 }

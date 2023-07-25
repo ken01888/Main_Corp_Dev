@@ -38,6 +38,14 @@ router.delete('/deleteInventoryItems', async (req: any, res) => {
 
 });
 
+router.get('/updateInventoryItem', async (req: any, res) => {
+    console.log(req.body)
+    // req.body.business_id = req.user.id
+    // const current_store:any = await stores.updateInventoryItem(38)
+    res.json('hello')
+
+});
+
 
 
 // router.post('/requestNotary_Service_Requests/:id?', async (req, res) => {
