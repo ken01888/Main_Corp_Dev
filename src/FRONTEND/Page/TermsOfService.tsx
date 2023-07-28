@@ -636,7 +636,7 @@ const TermsOfService: React.FC = () => {
                                     },
                                 }}
                             >
-                                <Link reloadDocument to='/login'>
+                                <Link reloadDocument to='/'>
                                     <Button htmlType="submit">Log In</Button>
                                 </Link>
 
@@ -659,21 +659,7 @@ const TermsOfService: React.FC = () => {
 
                             </ConfigProvider>
 
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-
-                                    },
-                                }}
-                            >
-                                <Link reloadDocument to='/privacy_policy'> <Button htmlType="submit">Privacy Policy</Button></Link>
-
-
-                            </ConfigProvider>
+                           
                             <ConfigProvider
                                 theme={{
                                     token: {

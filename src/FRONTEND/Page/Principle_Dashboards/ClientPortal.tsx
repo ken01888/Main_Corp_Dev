@@ -113,7 +113,7 @@ const ClientPortal: React.FC = () => {
                                     },
                                 }}
                             >
-                                <Link reloadDocument to='/Support'>
+                                <Link reloadDocument to='/support'>
                                     <Button htmlType="submit">Support</Button>
                                 </Link>
 

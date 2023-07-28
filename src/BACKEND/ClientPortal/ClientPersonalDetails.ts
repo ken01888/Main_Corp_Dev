@@ -16,7 +16,6 @@ router.get('/getPrincipleInformation', async (req:any, res) => {
 });
 
 router.put('/updateClientinformation', async (req:any, res) => {
-console.log(req.user)
     const newReply = await client_admin_query.updatePRINCIPLE(req.body,req.user.id)
     res.json(newReply)
 });

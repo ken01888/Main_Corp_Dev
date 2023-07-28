@@ -11,7 +11,6 @@ const router = express.Router()
 const checkCredentials = async (req, res, next) => {
     
   const check_DB_against_email: any[] = await checkAccount(req.body.email)
-  console.log(check_DB_against_email.length)
   if (check_DB_against_email.length === 0) {
     next()
   } else if(check_DB_against_email.length > 0) {
@@ -21,7 +20,6 @@ const checkCredentials = async (req, res, next) => {
 
 
 router.post('/registration',checkCredentials, async (req, res) => {
-  console.log('registered')
   const salt = await bcrypt.genSaltSync(Number(process.env.SALT_ROUND));
   const hash = await bcrypt.hashSync(req.body.confirm_password, salt);
   delete req.body.confirm_password

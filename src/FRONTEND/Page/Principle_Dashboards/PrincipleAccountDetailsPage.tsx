@@ -14,18 +14,16 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
 
     React.useEffect(() => {
-        console.log(document.cookie)
         const user: any = window.localStorage.getItem('user')
         const newUser = JSON.parse(user)
         delete newUser.id
         delete newUser.access_token
         const newUserArray = Object.entries(newUser)
-        console.log(newUserArray)
         setclientInformation(newUserArray)
     }, [])
 
     const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`http://localhost:8000/updateClientinformation`, {
+        const dataReply = await fetch(`http://localhost:8080/updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

@@ -31,16 +31,13 @@ export const ClientMenu = () => {
         setPlacement(e.target.value);
     };
 const OnSuccessFullyLogin = () =>{
-    console.log('this is a success')
     navigate('/clientportal/ken')
 }
 
 React.useEffect(() => {
-    console.log(document.cookie)
     const user: any = window.localStorage.getItem('user')
     const newUser = JSON.parse(user)
     const newUserArray:any = Object.entries(newUser)
-    console.log()
     setInfo(newUserArray)
 }, [])
     return (

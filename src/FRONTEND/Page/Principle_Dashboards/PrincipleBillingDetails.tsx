@@ -37,7 +37,6 @@ const PrincipleBillingDetails: React.FC = (props) => {
 
         const dataParse = await dataReply.json()
         setEditPersonalInformation(!EditPersonalInformation)
-        console.log(dataParse)
     };
 
     const onFinishFailed = (errorInfo: any) => {

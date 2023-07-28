@@ -117,4 +117,10 @@
 }
 
 
+.inventoryItemDescription{
+    border-bottom: 2.5px solid var(--solid_black);
+    font-size: 1.25rem;
+}
+
+
 

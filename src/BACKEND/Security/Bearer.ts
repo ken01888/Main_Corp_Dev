@@ -13,7 +13,6 @@ import { mysqlAccess } from '../ProgramControlFlow/SQL/Conection';
 
 passport.use(new BearerStrategy(
      (token, done)=> {
-        console.log(token)
         mysqlAccess.query(`SELECT * FROM Credentials.Login_Credentials Where access_token = ?`, [token], (error, user) => {
 
             if (error) { return done(error); }

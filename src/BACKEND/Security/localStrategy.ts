@@ -15,9 +15,7 @@ passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
 }, async function verify(email: string, password: string, done: any) {
-  console.log(email)
   const [user] = await checkAccount(email)
-  console.log(user)
   if (!user) {
     return done(null, false, { message: "Invalid credentials.\n" });
   }
@@ -56,7 +54,6 @@ passport.deserializeUser((user: any, done) => {
 
 
 router.post('/login_verification', passport.authenticate('local'), (req: any, res) => {
-  console.log(req.user)
   if (req.user) {
     req.logIn(req.user, function (err) {
       return res.cookie('user',req.user).json(req.user);

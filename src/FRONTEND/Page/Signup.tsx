@@ -12,9 +12,9 @@ const SignUp: React.FC = () => {
     const [emailVerified, setEmailVerified] = React.useState(false)
 
 
-    const onFinish = async (values: any,e) => {
+    const onFinish = async (values: any, e) => {
 
-        let newData = await fetch('http://localhost:8000/registration', {
+        let newData = await fetch('http://localhost:8080/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,15 +22,14 @@ const SignUp: React.FC = () => {
             body: JSON.stringify(values)
         })
         let data = await newData.json()
-        console.log(data)
         if (data === true) {
             setEmailVerified(!emailVerified)
-        } else if (data === false){
+        } else if (data === false) {
             setForm(!showForm)
         }
     };
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
 
     })
 
@@ -66,178 +65,185 @@ const SignUp: React.FC = () => {
 
                 <Content >
                     <Row justify={'space-around'} gutter={[0, 75]}>
+                        <Col xs={22} md={8}>
+                            <div className='fixedSignupDiv'>
+                            <h2>Our offerings are meticulously crafted to equip you with a distinctive edge in your industry</h2>
+                            <p><span className='industriesText'>Simple sign up process!</span></p>
+                            </div>
+                          
+                            
+                        </Col>
+                        <Col xs={22} md={8}>
+                            <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: .5 }}>
+                                <h2 style={{ display: 'flex' }} className='footer_h1'>
+                                    <motion.div className='logo'>
 
-                        <Col xs={22} md={10}>
-                        <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: .5 }}>
-                            <h2 style={{ display: 'flex' }} className='footer_h1'>
-                                <motion.div className='logo'>
+                                        <div style={{ height: 'fit-content' }}>
+                                            <div className='logoBlue'></div>
+                                            <div className='logoBeige'></div>
+                                        </div>
+                                        <div style={{ height: 'fit-content' }}>
+                                            <div className='logoBeige'></div>
+                                            <div className='logoBlue'></div>
 
-                                    <div style={{ height: 'fit-content' }}>
-                                        <div className='logoBlue'></div>
-                                        <div className='logoBeige'></div>
-                                    </div>
-                                    <div style={{ height: 'fit-content' }}>
-                                        <div className='logoBeige'></div>
-                                        <div className='logoBlue'></div>
+                                        </div>
+                                    </motion.div>Kcm Inc
+                                </h2>
 
-                                    </div>
-                                </motion.div>Kcm Inc
-                            </h2>
+                                {showForm ?
+                                    <>
+                                        <h1>Registration Page</h1><p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated <Link to='/support'>support</Link> team for assistance. Thank you for choosing our services.
+                                        </p><Divider className='dividerHeader'></Divider>
+                                        <Form
+                                            name="basic"
+                                            initialValues={{ remember: true }}
+                                            onFinish={onFinish}
+                                            onFinishFailed={onFinishFailed}
+                                            autoComplete="one"
+                                            size='large'
 
-                            {showForm ?
-                                <>
-                                    <h1>Registration Page</h1><p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated <Link to='/support'>support</Link> team for assistance. Thank you for choosing our services.
-                                    </p><Divider className='dividerHeader'></Divider>
-                                    <Form
-                                        name="basic"
-                                        initialValues={{ remember: true }}
-                                        onFinish={onFinish}
-                                        onFinishFailed={onFinishFailed}
-                                        autoComplete="one"
-                                        size='large'
-
-                                    >
-
-
-                                        <ConfigProvider
-                                            theme={{
-                                                token: {
-                                                    colorPrimary: '#b4cbd4',
-                                                    colorPrimaryHover: 'black',
-                                                    lineWidth: 2,
-                                                    fontFamily: 'Jost',
-                                                    fontSize: 16,
-                                                },
-                                            }}
                                         >
-                                            <Form.Item
-
-                                                label="First Name"
-                                                name="first_name"
-                                                rules={[{ required: true, message: 'Please input your first name!' }]}
-                                            >
-                                                <Input type='text' onChange={(e, value) => { e.target.value.toUpperCase(); value = e.target.value }}
-                                                />
-                                            </Form.Item>
-
-                                            <Form.Item
-                                                label="Last Name"
-                                                name="last_name"
-                                                rules={[{ required: true, message: 'Please input your last name!' }]}
-                                            >
-                                                <Input type='text' />
-                                            </Form.Item>
-                                            <Form.Item
-                                                label="Business Name"
-                                                name="business_name"
-
-                                                rules={[{ required: true, message: 'Please input your business name!' }]}
-                                            >
-                                                <Input type='text' />
-                                            </Form.Item>
-                                            <Form.Item
-                                                label="Business Size"
-                                                name="business_size"
-                                                rules={[{ required: true, message: 'Please select your business size!' }]}
-                                            >
-                                                <Select bordered>
-                                                    <Select.Option value="micro">Less than 10</Select.Option>
-                                                    <Select.Option value="small">Between 10 and 50</Select.Option>
-                                                    <Select.Option value="medium">Between 50 and 250 </Select.Option>
-                                                    <Select.Option value="large">Over 250</Select.Option>
-
-                                                </Select>
-                                            </Form.Item>
 
 
-                                            <Form.Item
-                                                label="Phone Number"
-                                                name="phone_number"
-
-                                                rules={[{ required: true, message: 'Please input your phone number!' }]}
-                                            >
-                                                <Input type='tel' maxLength={10} />
-                                            </Form.Item>
-
-                                            <Form.Item
-                                                label="Email"
-                                                name="email"
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message: 'Please enter a email address',
-                                                    },
-
-                                                ]}
-
-                                            >
-                                                <Input type='email' />
-                                            </Form.Item>
-
-
-                                            <Form.Item
-                                                name="password"
-                                                label="Password"
-
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]',
-                                                        min: 8,
-                                                        max: 8,
-                                                        pattern:'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&?]).{8}$'
-                                                    },
-                                                ]}
-                                                hasFeedback
-                                            >
-                                                <Input.Password />
-                                            </Form.Item>
-
-                                            <Form.Item
-                                                name="confirm_password"
-                                                label="Confirm Password"
-                                                dependencies={['password']}
-                                                hasFeedback
-
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message: 'Please confirm your password!',
-                                                    },
-                                                    ({ getFieldValue }) => ({
-                                                        validator(_, value) {
-                                                            if (!value || getFieldValue('password') === value) {
-                                                                return Promise.resolve();
-                                                            }
-
-                                                            return Promise.reject(new Error('The new password that you entered do not match!'));
-                                                        },
-                                                    }),
-                                                ]}
-                                            >
-                                                <Input.Password />
-                                            </Form.Item>
-                                            <Form.Item
-                                                name="terms_of_service"
-                                                valuePropName="checked"
-                                                rules={[
-                                                    {
-                                                        validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Terms of Service.')),
-                                                    },
-                                                ]}
-                                            >
-                                                <Checkbox >
-                                                    I agree to the <Link style={{
-                                                        fontSize: '1rem',
+                                            <ConfigProvider
+                                                theme={{
+                                                    token: {
+                                                        colorPrimary: '#b4cbd4',
+                                                        colorPrimaryHover: 'black',
+                                                        lineWidth: 2,
                                                         fontFamily: 'Jost',
-                                                        color: 'black',
-                                                        textDecoration: '2px underline #e8dac2'
-                                                    }} reloadDocument to="/termsofservice">Terms of Service</Link>
-                                                </Checkbox>
-                                            </Form.Item>
-                                            {/* <Form.Item
+                                                        fontSize: 16,
+                                                    },
+                                                }}
+                                            >
+                                                <Form.Item
+
+                                                    label="First Name"
+                                                    name="first_name"
+                                                    rules={[{ required: true, message: 'Please input your first name!' }]}
+                                                >
+                                                    <Input type='text' onChange={(e, value) => { e.target.value.toUpperCase(); value = e.target.value }}
+                                                    />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Last Name"
+                                                    name="last_name"
+                                                    rules={[{ required: true, message: 'Please input your last name!' }]}
+                                                >
+                                                    <Input type='text' />
+                                                </Form.Item>
+                                                <Form.Item
+                                                    label="Business Name"
+                                                    name="business_name"
+
+                                                    rules={[{ required: true, message: 'Please input your business name!' }]}
+                                                >
+                                                    <Input type='text' />
+                                                </Form.Item>
+                                                <Form.Item
+                                                    label="Business Size"
+                                                    name="business_size"
+                                                    rules={[{ required: true, message: 'Please select your business size!' }]}
+                                                >
+                                                    <Select bordered>
+                                                        <Select.Option value="micro">Less than 10</Select.Option>
+                                                        <Select.Option value="small">Between 10 and 50</Select.Option>
+                                                        <Select.Option value="medium">Between 50 and 250 </Select.Option>
+                                                        <Select.Option value="large">Over 250</Select.Option>
+
+                                                    </Select>
+                                                </Form.Item>
+
+
+                                                <Form.Item
+                                                    label="Phone Number"
+                                                    name="phone_number"
+
+                                                    rules={[{ required: true, message: 'Please input your phone number!' }]}
+                                                >
+                                                    <Input type='tel' maxLength={10} />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Email"
+                                                    name="email"
+                                                    rules={[
+                                                        {
+                                                            required: true,
+                                                            message: 'Please enter a email address',
+                                                        },
+
+                                                    ]}
+
+                                                >
+                                                    <Input type='email' />
+                                                </Form.Item>
+
+
+                                                <Form.Item
+                                                    name="password"
+                                                    label="Password"
+
+                                                    rules={[
+                                                        {
+                                                            required: true,
+                                                            message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]',
+                                                            min: 8,
+                                                            max: 8,
+                                                            pattern: '^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&?]).{8}$'
+                                                        },
+                                                    ]}
+                                                    hasFeedback
+                                                >
+                                                    <Input.Password />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    name="confirm_password"
+                                                    label="Confirm Password"
+                                                    dependencies={['password']}
+                                                    hasFeedback
+
+                                                    rules={[
+                                                        {
+                                                            required: true,
+                                                            message: 'Please confirm your password!',
+                                                        },
+                                                        ({ getFieldValue }) => ({
+                                                            validator(_, value) {
+                                                                if (!value || getFieldValue('password') === value) {
+                                                                    return Promise.resolve();
+                                                                }
+
+                                                                return Promise.reject(new Error('The new password that you entered do not match!'));
+                                                            },
+                                                        }),
+                                                    ]}
+                                                >
+                                                    <Input.Password />
+                                                </Form.Item>
+                                                <Form.Item
+                                                    name="terms_of_service"
+                                                    valuePropName="checked"
+                                                    rules={[
+                                                        {
+                                                            validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Terms of Service.')),
+                                                        },
+                                                    ]}
+                                                >
+                                                    <Checkbox >
+                                                        I agree to the <Link style={{
+                                                            fontSize: '1rem',
+                                                            fontFamily: 'Jost',
+                                                            color: 'black',
+                                                            textDecoration: '2px underline #e8dac2'
+                                                        }} reloadDocument to="/termsofservice">Terms of Service</Link>
+                                                    </Checkbox>
+                                                </Form.Item>
+                                                {/* <Form.Item
                                                 name="privacy_policy"
                                                 valuePropName="checked"
                                                 rules={[
@@ -257,45 +263,45 @@ const SignUp: React.FC = () => {
                                             </Form.Item> */}
 
 
-                                            <Form.Item
-                                            >
-                                                <Button className='buttonBlack' htmlType="submit">
-                                                    Verify
-                                                </Button>
-                                            </Form.Item>
+                                                <Form.Item
+                                                >
+                                                    <Button className='buttonBlack' htmlType="submit">
+                                                        Verify
+                                                    </Button>
+                                                </Form.Item>
 
-                                        </ConfigProvider>
+                                            </ConfigProvider>
 
-                                        {
-                                            emailVerified ? <Alert
-                                                message="This email address already registered. Please use a different one."
-                                                type="error"
-                                                closeIcon
-                                            /> : ''
-                                        }
-                                    </Form></>
-
-
-                                :
-                                <><h1>Registration Complete</h1><p>Thank you for registering with Kcm Inc and choosing us as your preferred B2B service provider. Our enterprise is continually improving to provide you with the best possible experience and outstanding services. If you require any assistance in using our application, our support team is always available to help.
-                                </p><Divider className='dividerHeader'></Divider><ConfigProvider
-                                    theme={{
-                                        token: {
-                                            fontFamily: 'Jost',
-                                            colorTextTertiary: 'black',
-                                            colorPrimaryHover: '#000000',
-                                            colorBgContainer: '#fafafa'
-                                        },
-                                    }}
-                                >
-                                        <Link to='/login'>
-                                            <Button htmlType="submit">Click here to login!</Button>
-                                        </Link>
+                                            {
+                                                emailVerified ? <Alert
+                                                    message="This email address already registered. Please use a different one."
+                                                    type="error"
+                                                    closeIcon
+                                                /> : ''
+                                            }
+                                        </Form></>
 
 
-                                    </ConfigProvider></>}
+                                    :
+                                    <><h1>Registration Complete</h1><p>Thank you for registering with Kcm Inc and choosing us as your preferred B2B service provider. Our enterprise is continually improving to provide you with the best possible experience and outstanding services. If you require any assistance in using our application, our support team is always available to help.
+                                    </p><Divider className='dividerHeader'></Divider><ConfigProvider
+                                        theme={{
+                                            token: {
+                                                fontFamily: 'Jost',
+                                                colorTextTertiary: 'black',
+                                                colorPrimaryHover: '#000000',
+                                                colorBgContainer: '#fafafa'
+                                            },
+                                        }}
+                                    >
+                                            <Link to='/'>
+                                                <Button htmlType="submit">Click here to login!</Button>
+                                            </Link>
 
-</motion.div>
+
+                                        </ConfigProvider></>}
+
+                            </motion.div>
                         </Col>
 
 
@@ -307,10 +313,24 @@ const SignUp: React.FC = () => {
                 </Content>
 
             </Layout>
+           
             <Footer className='footer_public'>
-                <Row justify={'center'} align='middle' gutter={[0, 75]}>
+                <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
                     <Col xs={22} md={10}>
+                        <h2 style={{ display: 'flex' }} className='footer_h1'>
+                            <div className='logo'>
 
+                                <div style={{ height: 'fit-content' }}>
+                                    <div className='logoBlue'></div>
+                                    <div className='logoBeige'></div>
+                                </div>
+                                <div style={{ height: 'fit-content' }}>
+                                    <div className='logoBeige'></div>
+                                    <div className='logoBlue'></div>
+
+                                </div>
+                            </div>Kcm Inc
+                        </h2>
                         <p>KCM Inc is dedicated to offering B2B services that
                             provide practical and advantageous solutions to businesses.
                             Our team conducts comprehensive research and development,
@@ -319,9 +339,61 @@ const SignUp: React.FC = () => {
                             innovative and effective business services that cater to the
                             needs of communities and clients.</p>
                     </Col>
+                    <Col xs={22} md={5} >
+                        <Space wrap direction='vertical' >
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+
+                                    },
+                                }}
+                            >
+                                <Link reloadDocument to='/'>
+                                    <Button htmlType="submit">Log In</Button>
+                                </Link>
 
 
+                            </ConfigProvider>
 
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+
+                                    },
+                                }}
+                            >
+                                <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
+
+
+                            </ConfigProvider>
+
+                          
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+
+                                    },
+                                }}
+                            >
+                                <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
+
+
+                            </ConfigProvider>
+                        </Space>
+
+                    </Col>
 
                 </Row>
             </Footer>

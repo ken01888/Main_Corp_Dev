@@ -47,22 +47,25 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+
+app.use(UPStrategy)
 const validateUser = (req, res, next) => {
   if (!req.user) {
-    res.redirect('/').sendStatus(403)
+    res.redirect('/signup')
   } else {
     next()
   }
 }
 
-
-app.use('/login', express.static( 'public'))
+app.use('/', express.static( 'public'))
 app.use('/signup', express.static( 'public'))
 app.use('/store', express.static( 'public'))
+app.use('/support', express.static( 'public'))
+app.use('/principle/', validateUser, express.static('public'))
 
 
-app.use(UPStrategy)
-app.use('/principle', validateUser, express.static('public'))
+
+
 app.use(registration)
 
 app.use(support)
@@ -70,9 +73,11 @@ app.use(client)
 app.use(inventory)
 
  
-
-app.listen(8000, () => {
-  console.log(`Server listening on port ${8000}...`)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
+});
+app.listen(8080, () => {
+  console.log(`Server listening on port ${8080}...`)
 })
 
 

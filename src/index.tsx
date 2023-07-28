@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import router from './App'
+import App from './App'
 import './FRONTEND/Style/index.css';
 import 'antd/dist/reset.css';
 
@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider router={App} />
   </React.StrictMode>
 );
 

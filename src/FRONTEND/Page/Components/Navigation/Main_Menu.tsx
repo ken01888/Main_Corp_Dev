@@ -35,7 +35,7 @@ const Main_Menu = () => {
 
 
                 <Col xs={22} className='menuLogoSide'>
-                    <Link to='/' className='menuMiddleItems'>
+                    <Link to='/' className='menuMiddleItems' reloadDocument>
 
                         <motion.div className='logo'>
 
@@ -63,7 +63,7 @@ const Main_Menu = () => {
                                 },
                             }}
                         >
-                            <NavLink to='/login'> <Button htmlType="submit">Log In</Button></NavLink>
+                            <NavLink to='/' reloadDocument> <Button htmlType="submit">Log In</Button></NavLink>
 
 
                         </ConfigProvider>
@@ -78,7 +78,7 @@ const Main_Menu = () => {
                                 },
                             }}
                         >
-                            <NavLink to='/signup'><Button htmlType="submit">Sign Up</Button></NavLink>
+                            <NavLink to='/signup' reloadDocument><Button htmlType="submit">Sign Up</Button></NavLink>
 
 
                         </ConfigProvider>
@@ -93,7 +93,7 @@ const Main_Menu = () => {
                                 },
                             }}
                         >
-                            <NavLink to='/support'><Button htmlType="submit">Support</Button></NavLink>
+                            <NavLink to='/support' reloadDocument><Button htmlType="submit">Support</Button></NavLink>
 
 
                         </ConfigProvider>

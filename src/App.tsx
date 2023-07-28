@@ -3,45 +3,44 @@ import {
   createBrowserRouter,
 
 } from "react-router-dom";
-import * as fetch from 'isomorphic-fetch';
-
 import Login from './FRONTEND/Page/Login';
 import SignUp from './FRONTEND/Page/Signup';
 import TermsOfService from './FRONTEND/Page/TermsOfService';
-// import Login from './Page/Login'
 import ClientPortal from './FRONTEND/Page/Principle_Dashboards/ClientPortal';
 import PrincipleAccountDetails from './FRONTEND/Page/Principle_Dashboards/PrincipleAccountDetailsPage';
 import PrincipleBillingDetails from './FRONTEND/Page/Principle_Dashboards/PrincipleBillingDetails';
 import PrincipleServiceDetails from './FRONTEND/Page/Principle_Dashboards/PrincipleServiceDetails';
 import StoreInventory from './FRONTEND/Page/Principle_Dashboards/StoreInventory';
 import Support from './FRONTEND/Page/Support';
+import InventoryCheck from './FRONTEND/Page/Principle_Dashboards/QRCode/Inventory';
 
-
-const router = createBrowserRouter([
+const App = createBrowserRouter([
   {
-    path: "/login",
+    path: "/",
     element: <Login />,
 
   },
 
   {
-    path: "/signup",
+    path: "signup",
     element: <SignUp />,
 
   },
   {
-    path: "/termsofservice",
+    path: "termsofservice",
     element: <TermsOfService />,
 
   },
   {
-    path: "/support",
-    element: <Support />,
+    path: "support",
+    element: <Support/>,
 
   },
+
+
   {
-    path: "store",
-    element: <StoreInventory />,
+    path: "inventory_check",
+    element: <InventoryCheck />,
 
   },
 
@@ -99,4 +98,4 @@ const router = createBrowserRouter([
 
 ]);
 
-export default router;
+export default App;

@@ -8,7 +8,6 @@ const router = express.Router()
 
 router.get('/getNotary_Service_Requests/:id?', async (req, res) => {
     const newReply = await NotaryRequest.getUpcomingNotaryServices()
-    console.log(newReply)
     res.json(newReply)
 });
 

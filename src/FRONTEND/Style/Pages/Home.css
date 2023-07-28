@@ -63,6 +63,7 @@
     border: 1px solid var(--light_grey);
     box-shadow: 11px 11px 11px rgba(0, 37, 92, .1);
     cursor: pointer;
+    margin-top: 2rem;
 }
 
 .buttonBlack:hover {
