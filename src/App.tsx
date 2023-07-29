@@ -3,16 +3,16 @@ import {
   createBrowserRouter,
 
 } from "react-router-dom";
-import Login from './FRONTEND/Page/Login';
-import SignUp from './FRONTEND/Page/Signup';
-import TermsOfService from './FRONTEND/Page/TermsOfService';
-import ClientPortal from './FRONTEND/Page/Principle_Dashboards/ClientPortal';
-import PrincipleAccountDetails from './FRONTEND/Page/Principle_Dashboards/PrincipleAccountDetailsPage';
-import PrincipleBillingDetails from './FRONTEND/Page/Principle_Dashboards/PrincipleBillingDetails';
-import PrincipleServiceDetails from './FRONTEND/Page/Principle_Dashboards/PrincipleServiceDetails';
-import StoreInventory from './FRONTEND/Page/Principle_Dashboards/StoreInventory';
-import Support from './FRONTEND/Page/Support';
-import InventoryCheck from './FRONTEND/Page/Principle_Dashboards/QRCode/Inventory';
+import Login from './FRONTEND/PAGE/PUBLIC/Login';
+import SignUp from './FRONTEND/PAGE/PUBLIC/Signup';
+import TermsOfService from './FRONTEND/PAGE/PUBLIC/TermsOfService';
+import ClientPortal from './FRONTEND/PAGE/PRIVATE/ClientPortal';
+import PrincipleAccountDetails from './FRONTEND/PAGE/PRIVATE/PrincipleAccountDetailsPage';
+import PrincipleBillingDetails from './FRONTEND/PAGE/PRIVATE/PrincipleBillingDetails';
+import PrincipleServiceDetails from './FRONTEND/PAGE/PRIVATE/PrincipleServiceDetails';
+import StoreInventory from './FRONTEND/PAGE/PRIVATE/StoreInventory';
+import Support from './FRONTEND/PAGE/PUBLIC/Support';
+import InventoryCheck from './FRONTEND/PAGE/PRIVATE/QRCode/Inventory';
 
 const App = createBrowserRouter([
   {

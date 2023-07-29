@@ -46,7 +46,6 @@
     "react-dom": "^18.2.0",
     "react-router": "^6.14.1",
     "react-router-dom": "^6.14.1",
-    "react-scripts": "^5.0.1",
     "twilio": "^4.12.0",
     "url-loader": "^4.1.1",
     "uuid": "^9.0.0",
@@ -66,7 +65,7 @@
     "workbox-streams": "^6.6.0"
   },
   "scripts": {
-    "start": "nodemon ./compile_backend/app.js",
+    "start": "node compile_backend/app.js",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",

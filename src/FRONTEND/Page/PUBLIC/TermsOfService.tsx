@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Col, Divider, Layout, Row, ConfigProvider,Space, Card, Button } from 'antd'
-import Menu from './Components/Navigation/Main_Menu'
+import Menu from '../Components/Navigation/Main_Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import 'isomorphic-fetch';
 

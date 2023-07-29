@@ -1,11 +1,10 @@
-import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button,Space, Tag } from 'antd';
+import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button, Space, Tag, Grid } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
-import { Link, useNavigate} from 'react-router-dom';
-import login_happy_person from './400ppi/login_happy_person'
+import { Link, useNavigate } from 'react-router-dom';
 
-import Main_Menu from './Components/Navigation/Main_Menu';
+import Main_Menu from '../Components/Navigation/Main_Menu';
 import { CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
 const Login: React.FC = () => {
   let [verified, setVerified] = React.useState(false)
@@ -38,6 +37,7 @@ const Login: React.FC = () => {
     console.log('Failed:', errorInfo);
 
   };
+  const { useBreakpoint } = Grid;
 
 
 
@@ -56,12 +56,13 @@ const Login: React.FC = () => {
               <p><span className='industriesText'>Industries</span> We Currently Serve</p>
               <p className='industriesServed'><span><span className='logoBlue'></span></span> Consumer Discretionary</p>
               <Space wrap>
-                <ConfigProvider
+                <ConfigProvider 
+
                   theme={{
                     token: {
                       fontFamily: 'Jost',
-                      colorText:'black',
-                      colorTextHeading:'black'
+                      colorText: 'black',
+                      colorTextHeading: 'black'
 
                     },
                   }}
@@ -197,6 +198,7 @@ const Login: React.FC = () => {
           <Col xs={22} md={5} >
             <Space wrap direction='vertical' >
               <ConfigProvider
+                locale
                 theme={{
                   token: {
                     fontFamily: 'Jost',
@@ -212,40 +214,17 @@ const Login: React.FC = () => {
                 </Link>
 
 
-              </ConfigProvider>
 
-              <ConfigProvider
-                theme={{
-                  token: {
-                    fontFamily: 'Jost',
-                    colorTextTertiary: 'black',
-                    colorPrimaryHover: '#000000',
-                    colorBgContainer: '#fafafa'
 
-                  },
-                }}
-              >
                 <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
 
 
-              </ConfigProvider>
 
 
-              <ConfigProvider
-                theme={{
-                  token: {
-                    fontFamily: 'Jost',
-                    colorTextTertiary: 'black',
-                    colorPrimaryHover: '#000000',
-                    colorBgContainer: '#fafafa'
-
-                  },
-                }}
-              >
                 <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
 
-
               </ConfigProvider>
+
             </Space>
 
           </Col>

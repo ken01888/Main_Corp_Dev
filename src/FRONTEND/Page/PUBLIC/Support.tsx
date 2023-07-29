@@ -1,59 +1,51 @@
-import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, Image, ConfigProvider, Space, Alert } from 'antd';
-import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
+import { Col, Divider, Layout, Row, Form, Input, ConfigProvider, Button, Space, } from 'antd'
+import Menu from '../Components/Navigation/Main_Menu'
+import { Content, Footer, Header } from 'antd/es/layout/layout'
+
+
+
+
+import 'isomorphic-fetch';
+
+
+
+
+import { MedicineBoxOutlined, ShopOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+import Meta from 'antd/es/card/Meta'
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import Menu from './Components/Navigation/Main_Menu';
 
 
 
-const SignUp: React.FC = () => {
+const Support: React.FC = () => {
+
+
     const [showForm, setForm] = React.useState(true)
-    const [emailVerified, setEmailVerified] = React.useState(false)
 
+    const onFinish = async (values: any) => {
 
-    const onFinish = async (values: any, e) => {
-
-        let newData = await fetch('http://localhost:8080/registration', {
+        let newData = await fetch('http://localhost:8080/support_message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(values)
         })
-        let data = await newData.json()
-        if (data === true) {
-            setEmailVerified(!emailVerified)
-        } else if (data === false) {
-            setForm(!showForm)
-        }
+        setForm(false)
+
     };
-
-    React.useEffect(() => {
-
-    })
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
 
-    const steps = [
-        {
-            title: 'First',
-            content: 'First-content',
 
-        },
-        {
-            title: 'Second',
-            content: 'Second-content',
-        },
-        {
-            title: 'Last',
-            content: 'Last-content',
-        },
-    ];
+
+
 
     return (
+
         <Layout className='layout'>
             <Header className='header'>
 
@@ -67,18 +59,19 @@ const SignUp: React.FC = () => {
                     <Row justify={'space-around'} gutter={[0, 75]}>
                         <Col xs={22} md={8}>
                             <div className='fixedSignupDiv'>
-                            <h2>Our offerings are meticulously crafted to equip you with a distinctive edge in your industry</h2>
-                            <p><span className='industriesText'>Simple sign up process!</span></p>
+                                <h2>Feel free to ask us any questions you may have. Our aim is to assist you and provide you with the information you need.</h2>
+                                <p><span className='industriesText'>Message Our Team!</span></p>
                             </div>
-                          
-                            
+
+
                         </Col>
+
                         <Col xs={22} md={8}>
                             <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: .5 }}>
                                 <h2 style={{ display: 'flex' }} className='footer_h1'>
-                                    <motion.div className='logo'>
+                                    <div className='logo'>
 
                                         <div style={{ height: 'fit-content' }}>
                                             <div className='logoBlue'></div>
@@ -88,14 +81,21 @@ const SignUp: React.FC = () => {
                                             <div className='logoBeige'></div>
                                             <div className='logoBlue'></div>
 
+
                                         </div>
-                                    </motion.div>Kcm Inc
+                                    </div>Kcm Inc
                                 </h2>
 
                                 {showForm ?
                                     <>
-                                        <h1>Registration Page</h1><p>Kindly furnish us with the requisite details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated <Link to='/support'>support</Link> team for assistance. Thank you for choosing our services.
-                                        </p><Divider className='dividerHeader'></Divider>
+                                        <h1>Contact Support</h1>
+                                        <p>Thank you for choosing Kcm Inc as your primary service provider.
+                                            We want to assure you that our support team will respond to your
+                                            query within the next 48-72 hours after you provide us with the
+                                            necessary information. Your satisfaction is our top priority and
+                                            we look forward to assisting you.
+                                        </p>
+                                        <Divider className='dividerHeader'></Divider>
                                         <Form
                                             name="basic"
                                             initialValues={{ remember: true }}
@@ -143,19 +143,6 @@ const SignUp: React.FC = () => {
                                                 >
                                                     <Input type='text' />
                                                 </Form.Item>
-                                                <Form.Item
-                                                    label="Business Size"
-                                                    name="business_size"
-                                                    rules={[{ required: true, message: 'Please select your business size!' }]}
-                                                >
-                                                    <Select bordered>
-                                                        <Select.Option value="micro">Less than 10</Select.Option>
-                                                        <Select.Option value="small">Between 10 and 50</Select.Option>
-                                                        <Select.Option value="medium">Between 50 and 250 </Select.Option>
-                                                        <Select.Option value="large">Over 250</Select.Option>
-
-                                                    </Select>
-                                                </Form.Item>
 
 
                                                 <Form.Item
@@ -166,7 +153,6 @@ const SignUp: React.FC = () => {
                                                 >
                                                     <Input type='tel' maxLength={10} />
                                                 </Form.Item>
-
                                                 <Form.Item
                                                     label="Email"
                                                     name="email"
@@ -182,124 +168,40 @@ const SignUp: React.FC = () => {
                                                     <Input type='email' />
                                                 </Form.Item>
 
-
                                                 <Form.Item
-                                                    name="password"
-                                                    label="Password"
-
+                                                    label="Enter Message"
+                                                    name="message"
                                                     rules={[
                                                         {
                                                             required: true,
-                                                            message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]',
-                                                            min: 8,
-                                                            max: 8,
-                                                            pattern: '^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&?]).{8}$'
+                                                            message: 'Enter your message here',
                                                         },
-                                                    ]}
-                                                    hasFeedback
-                                                >
-                                                    <Input.Password />
-                                                </Form.Item>
 
-                                                <Form.Item
-                                                    name="confirm_password"
-                                                    label="Confirm Password"
-                                                    dependencies={['password']}
-                                                    hasFeedback
-
-                                                    rules={[
-                                                        {
-                                                            required: true,
-                                                            message: 'Please confirm your password!',
-                                                        },
-                                                        ({ getFieldValue }) => ({
-                                                            validator(_, value) {
-                                                                if (!value || getFieldValue('password') === value) {
-                                                                    return Promise.resolve();
-                                                                }
-
-                                                                return Promise.reject(new Error('The new password that you entered do not match!'));
-                                                            },
-                                                        }),
                                                     ]}
                                                 >
-                                                    <Input.Password />
+                                                    <Input.TextArea> </Input.TextArea>
                                                 </Form.Item>
-                                                <Form.Item
-                                                    name="terms_of_service"
-                                                    valuePropName="checked"
-                                                    rules={[
-                                                        {
-                                                            validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Terms of Service.')),
-                                                        },
-                                                    ]}
-                                                >
-                                                    <Checkbox >
-                                                        I agree to the <Link style={{
-                                                            fontSize: '1rem',
-                                                            fontFamily: 'Jost',
-                                                            color: 'black',
-                                                            textDecoration: '2px underline #e8dac2'
-                                                        }} reloadDocument to="/termsofservice">Terms of Service</Link>
-                                                    </Checkbox>
-                                                </Form.Item>
-                                                {/* <Form.Item
-                                                name="privacy_policy"
-                                                valuePropName="checked"
-                                                rules={[
-                                                    {
-                                                        validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                                                    },
-                                                ]}
-                                            >
-                                                <Checkbox>
-                                                    I agree to the <Link style={{
-                                                        fontSize: '1rem',
-                                                        fontFamily: 'Jost',
-                                                        color: 'black',
-                                                        textDecoration: '2px underline #e8dac2'
-                                                    }} reloadDocument to="/termsofservice">Policy Agreement</Link>
-                                                </Checkbox>
-                                            </Form.Item> */}
+
+
+
+
 
 
                                                 <Form.Item
                                                 >
                                                     <Button className='buttonBlack' htmlType="submit">
-                                                        Verify
+                                                        Contact Support
                                                     </Button>
                                                 </Form.Item>
 
                                             </ConfigProvider>
-
-                                            {
-                                                emailVerified ? <Alert
-                                                    message="This email address already registered. Please use a different one."
-                                                    type="error"
-                                                    closeIcon
-                                                /> : ''
-                                            }
-                                        </Form></>
+                                        </Form>
+                                    </>
 
 
                                     :
-                                    <><h1>Registration Complete</h1><p>Thank you for registering with Kcm Inc and choosing us as your preferred B2B service provider. Our enterprise is continually improving to provide you with the best possible experience and outstanding services. If you require any assistance in using our application, our support team is always available to help.
-                                    </p><Divider className='dividerHeader'></Divider><ConfigProvider
-                                        theme={{
-                                            token: {
-                                                fontFamily: 'Jost',
-                                                colorTextTertiary: 'black',
-                                                colorPrimaryHover: '#000000',
-                                                colorBgContainer: '#fafafa'
-                                            },
-                                        }}
-                                    >
-                                            <Link to='/'>
-                                                <Button htmlType="submit">Click here to login!</Button>
-                                            </Link>
-
-
-                                        </ConfigProvider></>}
+                                    <><h1>Message Received</h1>
+                                        <Divider className='dividerHeader'></Divider></>}
 
                             </motion.div>
                         </Col>
@@ -313,7 +215,7 @@ const SignUp: React.FC = () => {
                 </Content>
 
             </Layout>
-           
+
             <Footer className='footer_public'>
                 <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
                     <Col xs={22} md={10}>
@@ -375,7 +277,7 @@ const SignUp: React.FC = () => {
 
                             </ConfigProvider>
 
-                          
+
                             <ConfigProvider
                                 theme={{
                                     token: {
@@ -400,4 +302,4 @@ const SignUp: React.FC = () => {
         </Layout >)
 }
 
-export default SignUp; 
+export default Support
