@@ -3,37 +3,37 @@ import {
   createBrowserRouter,
 
 } from "react-router-dom";
-import Login from './FRONTEND/PAGE/PUBLIC/Login';
-import SignUp from './FRONTEND/PAGE/PUBLIC/Signup';
-import TermsOfService from './FRONTEND/PAGE/PUBLIC/TermsOfService';
-import ClientPortal from './FRONTEND/PAGE/PRIVATE/ClientPortal';
-import PrincipleAccountDetails from './FRONTEND/PAGE/PRIVATE/PrincipleAccountDetailsPage';
-import PrincipleBillingDetails from './FRONTEND/PAGE/PRIVATE/PrincipleBillingDetails';
-import PrincipleServiceDetails from './FRONTEND/PAGE/PRIVATE/PrincipleServiceDetails';
-import StoreInventory from './FRONTEND/PAGE/PRIVATE/StoreInventory';
-import Support from './FRONTEND/PAGE/PUBLIC/Support';
-import InventoryCheck from './FRONTEND/PAGE/PRIVATE/QRCode/Inventory';
+import HomePage from './FRONTEND/Page/Community/Login';
+import Registration from './FRONTEND/Page/Community/Signup';
+import LegalService from './FRONTEND/Page/Community/TermsOfService';
+import ClientPortal from './FRONTEND/Page/Partner/ClientPortal';
+import PrincipleAccountDetails from './FRONTEND/Page/Partner/PrincipleAccountDetailsPage';
+import PrincipleBillingDetails from './FRONTEND/Page/Partner/PrincipleBillingDetails';
+import PrincipleServiceDetails from './FRONTEND/Page/Partner/PrincipleServiceDetails';
+import StoreInventory from './FRONTEND/Page/Partner/StoreInventory';
+import ContactSupport from './FRONTEND/Page/Community/Support';
+import InventoryCheck from './FRONTEND/Page/Partner/StoreInventory';
 
 const App = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
+    element: <HomePage />,
 
   },
 
   {
     path: "signup",
-    element: <SignUp />,
+    element: <Registration />,
 
   },
   {
     path: "termsofservice",
-    element: <TermsOfService />,
+    element: <LegalService />,
 
   },
   {
     path: "support",
-    element: <Support/>,
+    element: <ContactSupport/>,
 
   },
 

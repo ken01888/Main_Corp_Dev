@@ -42,8 +42,8 @@ const $FRONTEND = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: './client/index.html', hash: false,
-      favicon: './client/favicon.ico',
+      template: './Client/index.html', hash: false,
+      favicon: './Client/favicon.ico',
       minify: 'auto',
       inject: true,
 

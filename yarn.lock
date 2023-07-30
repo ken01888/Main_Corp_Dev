@@ -23,9 +23,9 @@
     "@ctrl/tinycolor" "^3.4.0"
 
 "@ant-design/cssinjs@^1.13.2":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@ant-design/cssinjs/-/cssinjs-1.16.0.tgz#d792b830efb367d3958d28ef6af76fc430b2cf53"
-  integrity sha512-T+6btUa3VoiAM1TORZmY4KxsG/L6foUNN22GmSKTt4Jcy/ydxSCTE91Kkz8bWPDBTBZ0sIvJQ+F9EkFM6TInQw==
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/@ant-design/cssinjs/-/cssinjs-1.16.1.tgz#0032044db5678dd25ac12def1abb1d52e6a4d583"
+  integrity sha512-KKVB5Or6BDC1Bo3Y4KMlOkyQU0P+6GTodubrQ9YfrtXG1TgO4wpaEfg9I4ZA49R7M+Ij2KKNwb+5abvmXy6K8w==
   dependencies:
     "@babel/runtime" "^7.11.1"
     "@emotion/hash" "^0.8.0"
@@ -2055,13 +2055,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/antd@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/antd/-/antd-1.0.0.tgz#f04e2a84efd9ea937366cd3dfbada5d3c949471d"
-  integrity sha512-wnRh+S6vPMahsuSN6lFJQzNXuhUKr9JKic1L/NMdIChsuu9Fc+mDyF7H17eFPQlgpLVdT0DyYIgB1di8DA9AuQ==
-  dependencies:
-    antd "*"
-
 "@types/aria-query@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-5.0.1.tgz#3286741fb8f1e1580ac28784add4c7a1d49bdfbc"
@@ -2812,7 +2805,7 @@ ansi-styles@^6.1.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-6.2.1.tgz#0e62320cf99c21afff3b3012192546aacbfb05c5"
   integrity sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==
 
-antd@*, antd@^5.7.3:
+antd@^5.7.3:
   version "5.7.3"
   resolved "https://registry.yarnpkg.com/antd/-/antd-5.7.3.tgz#3a1b84fa3987554931b9d974efe9cb7454ff1347"
   integrity sha512-7sQeE86XkUrYDIKGu/Qu7kl+NWYzkVSGbGqWGIbITHkFZorCyOvvqgF63fiWo/tp2lZWbEOO0Cm7IiYnoeWh9A==

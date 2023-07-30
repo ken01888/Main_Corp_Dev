@@ -22,7 +22,7 @@ router.post('/insertInventoryItems', async (req: any, res) => {
 });
 
 router.get('/getInventoryItems', async (req: any, res) => {
-   let business_id = req.user.id
+   let business_id = req.cookies.user.id
     const resultInventory = await stores.getInventoryItems(business_id)
     
 
@@ -38,12 +38,14 @@ router.delete('/deleteInventoryItems', async (req: any, res) => {
 
 router.put('/updateInventoryItem', async (req: any, res) => {
     const current_store: any = await stores.updateInventoryItem(req.body.values, req.body.id)
-
-    res.json('hello')
+    res.json(current_store)
 
 });
 
 
+
+
+//Checklist Routes
 
 router.get('/getInventoryItemsForDailyChecklist/:id', async (req, res) => {
     const business_id = req.params.id
@@ -53,6 +55,7 @@ router.get('/getInventoryItemsForDailyChecklist/:id', async (req, res) => {
 });
 
 router.post('/insertInventoryChecklistItems', async (req: any, res) => {
+    console.log(req.body)
     req.body.order_quantity = req.body.stock_level - req.body.in_stock
 
     if (req.body.order_quantity <= 0) {
@@ -60,7 +63,7 @@ router.post('/insertInventoryChecklistItems', async (req: any, res) => {
     }
     delete req.body.stock_level
     const newReply = await stores.insertInventoryChecklistItems(req.body)
-    res.json('hello')
+    res.json(newReply)
 });
 
 
