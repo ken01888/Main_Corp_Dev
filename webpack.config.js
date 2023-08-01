@@ -13,7 +13,7 @@ const isProduction = "development";
 const stylesHandler = MiniCssExtractPlugin.loader;
 
 const $FRONTEND = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     frontend: './src/index.tsx', // file to enter into
   },
@@ -136,7 +136,7 @@ const $FRONTEND = {
 
 };
 const $BACKEND = {
-  mode: 'development',
+  mode: 'production',
   entry: './src/BACKEND/index.ts',
   devtool: 'inline-source-map',
   output: {

@@ -23,7 +23,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
     }, [])
 
     const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/updateClientinformation`, {
+        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

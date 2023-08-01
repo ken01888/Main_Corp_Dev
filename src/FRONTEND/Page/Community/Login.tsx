@@ -14,7 +14,7 @@ const Login: React.FC = () => {
 
 
   const onFinish = async (values: any) => {
-    let newData = await fetch('noted-lead-340306:us-east1:kmcinc-database/login_verification', {
+    let newData = await fetch('noted-lead-340306.ue.r.appspot.com /login_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

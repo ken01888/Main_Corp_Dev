@@ -25,7 +25,7 @@ const Support: React.FC = () => {
 
     const onFinish = async (values: any) => {
 
-        let newData = await fetch('noted-lead-340306:us-east1:kmcinc-database/support_message', {
+        let newData = await fetch('noted-lead-340306.ue.r.appspot.com /support_message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

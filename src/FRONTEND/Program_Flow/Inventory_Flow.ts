@@ -18,14 +18,14 @@ export class Inventory {
 
 
     getInventoryItems = async () => {
-        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/getInventoryItems`);
+        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /getInventoryItems`);
         const newData = await dataReply.json();
         this.inventory = newData;
         return this;
     };
 
     getInventoryChecklist = async () =>{
-        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/getInventoryItemsForDailyChecklist`);
+        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /getInventoryItemsForDailyChecklist`);
         const newData = await dataReply.json();
         this.inventory = newData;
         return this;    }

@@ -14,7 +14,7 @@ const SignUp: React.FC = () => {
 
     const onFinishLogin = async (values: any) => {
 
-        let newData = await fetch('noted-lead-340306:us-east1:kmcinc-database/registration', {
+        let newData = await fetch('noted-lead-340306.ue.r.appspot.com /registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -52,7 +52,7 @@ const StoreInventory: React.FC = (props) => {
                 const newUser = await JSON.parse(user)
                 setUserPin(newUser.pin)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/getInventoryItems`);
+                const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /getInventoryItems`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -65,7 +65,7 @@ const StoreInventory: React.FC = (props) => {
         addInventory.resetFields();
         setViewInventoryStore(!viewInventoryStore)
         values.business_id = userId;
-        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/insertInventoryItems`, {
+        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /insertInventoryItems`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -106,7 +106,7 @@ const StoreInventory: React.FC = (props) => {
 
 
     const onDeleteInventoryItem = async () => {
-        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/deleteInventoryItems`, {
+        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /deleteInventoryItems`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ const StoreInventory: React.FC = (props) => {
     const onItemUpdate = async (values: Object) => {
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/updateInventoryItem`, {
+        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /updateInventoryItem`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
