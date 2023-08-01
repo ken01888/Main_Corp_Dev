@@ -2,7 +2,6 @@
   "include": [
     "src/FRONTEND/**/*",
   ],
-  "extends": "@tsconfig/create-react-app/tsconfig.json",
   "exclude": [
     "node_modules"
   ],

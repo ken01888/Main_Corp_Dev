@@ -3,19 +3,18 @@ import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-
 import Main_Menu from '../Components/Navigation/Main_Menu';
 import { CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 
 const Login: React.FC = () => {
-  let [verified, setVerified] = React.useState(false)
+  let [verified, setVerified] = React.useState(false);
 
   const navigate = useNavigate()
 
 
   const onFinish = async (values: any) => {
-    let newData = await fetch('http://localhost:8080/login_verification', {
+    let newData = await fetch('noted-lead-340306:us-east1:kmcinc-database/login_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -43,7 +42,6 @@ const Login: React.FC = () => {
 
 
 
-
   return (
     <Layout className='layout'>
       <Header className='header'>
@@ -52,11 +50,10 @@ const Login: React.FC = () => {
       </Header>
       <Content >
         <Row justify={'space-around'} gutter={[0, 75]} >
-          <Col sm={22} md={8}>
+          <Col xs={22} md={8}>
             <div className='fixedSignupDiv'>
-              <h2>We provide affordable business solutions for both emerging and established companies in various industries.</h2>
-              <p><span className='industriesText'>Industries</span> We Currently Serve</p>
-              <p className='industriesServed'><span><span className='logoBlue'></span></span> Consumer Discretionary</p>
+              <h2>We are dedicated to creating business services that make a meaningful impact in people's lives.</h2>
+              <p className='industriesServed'><span><span className='logoBlue'></span></span> Consumer Discretionary Sector</p>
               <Space wrap>
                 <ConfigProvider
 
@@ -65,7 +62,6 @@ const Login: React.FC = () => {
                       fontFamily: 'Jost',
                       colorText: 'black',
                       colorTextHeading: 'black'
-
                     },
                   }}
                 >
@@ -73,6 +69,10 @@ const Login: React.FC = () => {
                     <Tag color="#000000" icon={<CheckOutlined />}>Inventory Management</Tag>
                     <Tag color="#000000" icon={<ClockCircleOutlined />}>Nutritional Analysis</Tag>
                     <Tag color="#000000" icon={<ClockCircleOutlined />}>Check Lists</Tag>
+                  </Space>
+
+                  <Space>
+                    <p></p>
                   </Space>
                 </ConfigProvider>
 
@@ -140,7 +140,7 @@ const Login: React.FC = () => {
                     name="password"
                     rules={[{ required: true, message: 'Enter your password to access your account' }]}
                   >
-                    <Input type='text' />
+                    <Input.Password />
                   </Form.Item>
 
 
@@ -200,20 +200,20 @@ const Login: React.FC = () => {
               needs of communities and clients.</p>
           </Col>
           <Col xs={22} md={5} >
-            
-              <ConfigProvider
-                theme={{
-                  token: {
-                    fontFamily: 'Jost',
-                    colorTextTertiary: 'black',
-                    colorPrimaryHover: '#000000',
-                    colorBgContainer: '#fafafa'
 
-                  },
-                }}
-              >
-                 <Space wrap direction='vertical' >
-                <Link reloadDocument to='/login'>
+            <ConfigProvider
+              theme={{
+                token: {
+                  fontFamily: 'Jost',
+                  colorTextTertiary: 'black',
+                  colorPrimaryHover: '#000000',
+                  colorBgContainer: '#fafafa'
+
+                },
+              }}
+            >
+              <Space wrap direction='vertical' >
+                <Link reloadDocument to='/'>
                   <Button htmlType="submit">Log In</Button>
                 </Link>
 
@@ -226,9 +226,11 @@ const Login: React.FC = () => {
 
 
                 <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
-                </Space>
+                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
 
-              </ConfigProvider>
+              </Space>
+
+            </ConfigProvider>
 
 
           </Col>

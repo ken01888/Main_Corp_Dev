@@ -25,7 +25,7 @@ const Support: React.FC = () => {
 
     const onFinish = async (values: any) => {
 
-        let newData = await fetch('http://localhost:8080/support_message', {
+        let newData = await fetch('noted-lead-340306:us-east1:kmcinc-database/support_message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,8 +59,8 @@ const Support: React.FC = () => {
                     <Row justify={'space-around'} gutter={[0, 75]}>
                         <Col xs={22} md={8}>
                             <div className='fixedSignupDiv'>
-                                <h2>Feel free to ask us any questions you may have. Our aim is to assist you and provide you with the information you need.</h2>
-                                <p><span className='industriesText'>Message Our Team!</span></p>
+                                <h1>😁</h1>
+                                <h2>Please don't hesitate to ask us anything that you may be curious about. Our top priority is to provide you with complete support and ensure that you have all the necessary information.</h2>
                             </div>
 
 
@@ -124,7 +124,7 @@ const Support: React.FC = () => {
                                                     name="first_name"
                                                     rules={[{ required: true, message: 'Please input your first name!' }]}
                                                 >
-                                                    <Input type='text' onChange={(e, value) => { e.target.value.toUpperCase(); value = e.target.value }}
+                                                    <Input type='text' 
                                                     />
                                                 </Form.Item>
 
@@ -291,6 +291,22 @@ const Support: React.FC = () => {
                             >
                                 <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
 
+
+                            </ConfigProvider>
+
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+
+                                    },
+                                }}
+                            >
+
+                                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
 
                             </ConfigProvider>
                         </Space>

@@ -12,9 +12,9 @@ const SignUp: React.FC = () => {
     const [emailVerified, setEmailVerified] = React.useState(false)
 
 
-    const onFinish = async (values: any, e) => {
+    const onFinishLogin = async (values: any) => {
 
-        let newData = await fetch('http://localhost:8080/registration', {
+        let newData = await fetch('noted-lead-340306:us-east1:kmcinc-database/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,9 +29,7 @@ const SignUp: React.FC = () => {
         }
     };
 
-    React.useEffect(() => {
 
-    })
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
@@ -99,7 +97,7 @@ const SignUp: React.FC = () => {
                                         <Form
                                             name="basic"
                                             initialValues={{ remember: true }}
-                                            onFinish={onFinish}
+                                            onFinish={onFinishLogin}
                                             onFinishFailed={onFinishFailed}
                                             autoComplete="one"
                                             size='large'
@@ -124,7 +122,7 @@ const SignUp: React.FC = () => {
                                                     name="first_name"
                                                     rules={[{ required: true, message: 'Please input your first name!' }]}
                                                 >
-                                                    <Input type='text' onChange={(e, value) => { e.target.value.toUpperCase(); value = e.target.value }}
+                                                    <Input type='text' 
                                                     />
                                                 </Form.Item>
 
@@ -241,6 +239,24 @@ const SignUp: React.FC = () => {
                                                             color: 'black',
                                                             textDecoration: '2px underline #e8dac2'
                                                         }} reloadDocument to="/termsofservice">Terms of Service</Link>
+                                                    </Checkbox>
+                                                </Form.Item>
+                                                <Form.Item
+                                                    name="privacy_policy"
+                                                    valuePropName="checked"
+                                                    rules={[
+                                                        {
+                                                            validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Terms of Service.')),
+                                                        },
+                                                    ]}
+                                                >
+                                                    <Checkbox >
+                                                        I agree to the <Link style={{
+                                                            fontSize: '1rem',
+                                                            fontFamily: 'Jost',
+                                                            color: 'black',
+                                                            textDecoration: '2px underline #e8dac2'
+                                                        }} reloadDocument to="/privacypolicy">Privacy Policy</Link>
                                                     </Checkbox>
                                                 </Form.Item>
                                                 {/* <Form.Item
@@ -389,6 +405,22 @@ const SignUp: React.FC = () => {
                             >
                                 <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
 
+
+                            </ConfigProvider>
+
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+
+                                    },
+                                }}
+                            >
+
+                                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
 
                             </ConfigProvider>
                         </Space>

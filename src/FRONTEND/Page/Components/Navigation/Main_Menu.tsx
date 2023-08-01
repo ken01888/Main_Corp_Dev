@@ -1,9 +1,10 @@
-import { Col, Row,RadioChangeEvent, DrawerProps, Drawer, Button, Space, Form, Input, ConfigProvider } from 'antd';
+import { Col, Row, RadioChangeEvent, DrawerProps, Drawer, Button, Space, Form, Input, ConfigProvider } from 'antd';
 import * as React from 'react';
 
 import { motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { MenuFoldOutlined, MenuUnfoldOutlined,QrcodeOutlined } from '@ant-design/icons'
 
 
 
@@ -22,11 +23,8 @@ const Main_Menu = () => {
         setOpen(false);
     };
 
-    const onChange = (e: RadioChangeEvent) => {
-        setPlacement(e.target.value);
-    };
+
     const OnSuccessFullyLogin = (values: any) => {
-        console.log(values)
         navigate(`/clientportal/${values.email}`)
     }
     return (
@@ -141,7 +139,7 @@ const Main_Menu = () => {
                                 },
                             }}
                         >
-                            <Button htmlType="submit">Login</Button>
+                            <Button htmlType="submit" icon={open ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={showDrawer} >Menu</Button>
 
                         </ConfigProvider>
 
@@ -157,7 +155,7 @@ const Main_Menu = () => {
 
 
             <Drawer
-                title='Enter your email and password to access your Private Client Portal. '
+                title='K.C. Morris Inc'
                 placement='left'
                 closable={true}
                 onClose={onClose}
@@ -168,65 +166,90 @@ const Main_Menu = () => {
                 bodyStyle={{ background: '#fafafa' }}
             >
 
-                <Form
-                    name="login_form"
-                    style={{ maxWidth: 600 }}
-                    initialValues={{ remember: true }}
-                    onFinish={OnSuccessFullyLogin}
-                    //   onFinishFailed={onFinishFailed}
-                    autoComplete="on"
-                    layout='horizontal'
-                    size='middle'
-                >
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                colorPrimary: '#B4CBD4',
-                                colorPrimaryHover: '#B4CBD4',
-                                lineWidth: 2,
-                                fontFamily: 'Nunito Sans',
-                                fontSize: 14,
-                            },
-                        }}
-                    >
-                        <Form.Item
+                <Row justify={'space-between'} className='ClientPortal' gutter={[0, 75]}>
+                    <Col xs={22} md={4} >
+                   
 
-                            label="Email"
-                            name="email"
-                            rules={[{ required: true, message: 'Input the email address you used to register the account!' }]}
+                        <NavLink
+                            to={`/`}
+                            className='clientMenuItem'
+                            style={({ isActive, isPending }) => {
+                                return {
+                                    fontWeight: isActive ? "bold" : "",
+                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                };
+                            }}
                         >
-                            <Input type='email' />
-                        </Form.Item>
+                            Login
+                        </NavLink>
 
-                        <Form.Item
-                            label="Password"
-                            name="password"
-                            rules={[{ required: true, message: 'Input your password!' }]}
+                        <NavLink
+                            to={`/signup`}
+                            className='clientMenuItem'
+                            style={({ isActive, isPending }) => {
+                                return {
+                                    fontWeight: isActive ? "bold" : "",
+                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                };
+                            }}
                         >
-                            <Input.Password type='password' visibilityToggle={true} />
-                        </Form.Item>
-
-
-
-
-
-
-
-                        <Form.Item
-                            className='formLoginButtons'
+                            Registration
+                        </NavLink>
+                        <NavLink
+                            to={`/termsofservice`}
+                            className='clientMenuItem'
+                            style={({ isActive, isPending }) => {
+                                return {
+                                    fontWeight: isActive ? "bold" : "",
+                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                };
+                            }}
                         >
-                            <Space>
-                                <button className='buttonBlack' type="submit">
-                                    Login
-                                </button>
-                                <button className='buttonBlack' type="submit">
-                                    Reset Password!
-                                </button>
-                            </Space>
+                            Terms of Service
+                        </NavLink>
+                        <NavLink
+                            to={`/privacypolicy`}
+                            className='clientMenuItem'
+                            style={({ isActive, isPending }) => {
+                                return {
+                                    fontWeight: isActive ? "bold" : "",
+                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                };
+                            }}
+                        >
+                            Privacy Policy
+                        </NavLink>
+                        <NavLink
+                            to={`/support`}
+                            className='clientMenuItem'
+                            style={({ isActive, isPending }) => {
+                                return {
+                                    fontWeight: isActive ? "bold" : "",
+                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                };
+                            }}
+                        >
+                            Contact Us
+                        </NavLink>
 
-                        </Form.Item>
-                    </ConfigProvider>
-                </Form>
+
+                    </Col>
+
+                </Row>
+
+                <Row gutter={[0,25]}>
+                    <Col>
+                  
+                 
+                   
+
+                    </Col>
+                    <Col>
+                    <a href="mailto:ken@kcminc.io"><Button className='buttonBlack'>Email Us</Button></a>
+                    <a href="tel:+1-404-740-0093"> <Button className='buttonBlack'>Call Us </Button></a>
+                    </Col>
+                    
+                </Row>
 
             </Drawer>
         </>

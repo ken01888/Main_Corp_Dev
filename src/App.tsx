@@ -12,7 +12,9 @@ import PrincipleBillingDetails from './FRONTEND/Page/Partner/PrincipleBillingDet
 import PrincipleServiceDetails from './FRONTEND/Page/Partner/PrincipleServiceDetails';
 import StoreInventory from './FRONTEND/Page/Partner/StoreInventory';
 import ContactSupport from './FRONTEND/Page/Community/Support';
-import InventoryCheck from './FRONTEND/Page/Partner/StoreInventory';
+import InventoryCheck from './FRONTEND/Page/Partner/QRCode/Inventory';
+import PrivacyPolicy from './FRONTEND/Page/Community/PrivacyPolicy';
+import InventoryAudit from './FRONTEND/Page/Partner/InventoryAudits';
 
 const App = createBrowserRouter([
   {
@@ -26,14 +28,10 @@ const App = createBrowserRouter([
     element: <Registration />,
 
   },
-  {
-    path: "termsofservice",
-    element: <LegalService />,
 
-  },
   {
     path: "support",
-    element: <ContactSupport/>,
+    element: <ContactSupport />,
 
   },
 
@@ -41,6 +39,29 @@ const App = createBrowserRouter([
   {
     path: "inventory_check",
     element: <InventoryCheck />,
+
+  },
+
+  {
+    path: "termsofservice",
+    element: <LegalService />,
+
+  },
+
+
+  {
+    path: "privacypolicy",
+    element: <PrivacyPolicy />,
+
+  },
+  {
+    path: "store",
+    element: <StoreInventory />,
+
+  },
+  {
+    path: "inventoryaudits",
+    element: <InventoryAudit />,
 
   },
 
@@ -58,16 +79,21 @@ const App = createBrowserRouter([
         element: <StoreInventory />,
 
       },
-    //   {
-    //     path: "billing",
-    //     element: <PrincipleBillingDetails />
-    //   },
-    //   {
-    //     path: "services",
-    //     element: <PrincipleServiceDetails />
-    //   }
-    //   ,
-    
+      {
+        path: "inventoryaudits",
+        element: <InventoryAudit />,
+
+      },
+      //   {
+      //     path: "billing",
+      //     element: <PrincipleBillingDetails />
+      //   },
+      //   {
+      //     path: "services",
+      //     element: <PrincipleServiceDetails />
+      //   }
+      //   ,
+
 
     ]
 
@@ -75,25 +101,19 @@ const App = createBrowserRouter([
 
 
 
-    {
-      path: "billing",
-      element: <PrincipleBillingDetails />
-    },
-    {
-      path: "services",
-      element: <PrincipleServiceDetails />
-    }
-    ,
-    // {
-    //   path: "store",
-    //   element: <StoreInventory />,
-
-    // }
+  {
+    path: "billing",
+    element: <PrincipleBillingDetails />
+  },
+  {
+    path: "services",
+    element: <PrincipleServiceDetails />
+  }
 
 
-  // {
-  //   path: "/access",
-  //   element: <h1>registration <Link to='/dashboard'>Dashboard</Link></h1>,
+
+
+
 
 
 ]);

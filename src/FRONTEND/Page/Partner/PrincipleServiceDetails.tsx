@@ -28,7 +28,7 @@ const PrincipleServiceDetails: React.FC = (props) => {
 
     // React.useEffect(() => {
     //     (async () => {
-    //         const dataReply = await fetch(`http://localhost:8080/getNotary_Service_Requests/3`)
+    //         const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/getNotary_Service_Requests/3`)
     //         const newData = await dataReply.json()
     //         setNotaryNotifications(newData.length)
     //         console.log(newData)
@@ -42,7 +42,7 @@ const PrincipleServiceDetails: React.FC = (props) => {
         values.notary_appointment_time = values.notary_appointment_time.format('hh:mm A')
         values.notary_appointment_date = values.notary_appointment_date.format('dddd, MMMM D, YYYY')
         values.userId = id
-        const dataReply = await fetch(`http://localhost:8080/requestNotary_Service_Requests/3`, {
+        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/requestNotary_Service_Requests/3`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -245,7 +245,6 @@ const PrincipleServiceDetails: React.FC = (props) => {
                             rules={[{ required: true, message: 'Select an appointment day' }]}
                         >
                             <DatePicker
-                                onChange={(date, dateString) => { console.log(date, dateString) }}
                                 disabledDate={disabledDate}
                                 format={'dddd, MMMM D, YYYY'}
                             />

@@ -23,7 +23,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
     }, [])
 
     const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`http://localhost:8080/updateClientinformation`, {
+        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
                         }}
                     >
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Principal Profile</h1>
+                            title={<><h1 className='h1_Header_Client_Portal'>Account Section</h1>
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>

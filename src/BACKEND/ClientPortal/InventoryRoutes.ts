@@ -1,7 +1,8 @@
 import * as express from 'express'
 import 'dotenv/config'
 import stores from '../ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/Inventory';
-import { reservationsUrl } from 'twilio/lib/jwt/taskrouter/util';
+import verify from '../ProgramControlFlow/SQL/Query.ts/Security/Verification'
+
 
 
 
@@ -15,7 +16,6 @@ router.post('/createStore', async (req: any, res) => {
 
 
 router.post('/insertInventoryItems', async (req: any, res) => {
-    console.log(req.body)
     const current_store = await stores.insertInventoryItem(req.body)
     res.json(current_store)
 
@@ -55,7 +55,6 @@ router.get('/getInventoryItemsForDailyChecklist/:id', async (req, res) => {
 });
 
 router.post('/insertInventoryChecklistItems', async (req: any, res) => {
-    console.log(req.body)
     req.body.order_quantity = req.body.stock_level - req.body.in_stock
 
     if (req.body.order_quantity <= 0) {
@@ -66,7 +65,39 @@ router.post('/insertInventoryChecklistItems', async (req: any, res) => {
     res.json(newReply)
 });
 
+router.post('/verify_associate_pin', async (req: any, res) => {
+  
+        const [newReply,error] = await verify.associateVerification(req.body.pin,req.body.id)
 
+        if (newReply){
+            res.json(true)
+        }else if (!newReply){
+            res.json(false)
+        }
+    
+
+});
+
+router.get('/inventory_reference_information', async (req: any, res) => {
+    let id = req.cookies.user.id
+    const reply = await stores.getInventoryReference(id)
+    console.log(reply)
+    res.json(reply)
+});
+
+router.delete('/deleteInventoryAuditItems', async (req: any, res) => {
+    const current_store: any = await stores.deleteInventoryAuditItem(req.body)
+    res.json(current_store.affectedRows)
+
+});
+
+
+
+router.put('/updateInventoryAuditItem', async (req: any, res) => {
+    const current_store: any = await stores.updateInventoryAuditItem(req.body.values, req.body.id)
+    res.json(current_store)
+
+});
 
 
 

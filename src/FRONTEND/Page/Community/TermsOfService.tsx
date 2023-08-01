@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Divider, Layout, Row, ConfigProvider,Space, Card, Button } from 'antd'
+import { Col, Divider, Layout, Row, ConfigProvider, Space, Card, Button } from 'antd'
 import Menu from '../Components/Navigation/Main_Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import 'isomorphic-fetch';
@@ -7,7 +7,7 @@ import 'isomorphic-fetch';
 
 
 
-import {  Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Meta from 'antd/es/card/Meta'
 
 
@@ -22,7 +22,7 @@ const TermsOfService: React.FC = () => {
 
             <Header className='header'>
 
-                <Menu/>
+                <Menu />
 
             </Header>
 
@@ -66,7 +66,7 @@ const TermsOfService: React.FC = () => {
 
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="2. INTELLECTUAL PROPERTY RIGHTS" >
@@ -85,7 +85,7 @@ const TermsOfService: React.FC = () => {
 
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="3. USER REPRESENTATIONS" >
@@ -104,7 +104,7 @@ const TermsOfService: React.FC = () => {
 
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="4. USER REGISTRATION" >
@@ -123,7 +123,7 @@ const TermsOfService: React.FC = () => {
 
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="5. PROHIBITED ACTIVITIES" >
@@ -141,7 +141,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="6. USER GENERATED CONTRIBUTIONS" >
@@ -169,7 +169,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="7. CONTRIBUTION LICENSE" >
@@ -188,7 +188,7 @@ const TermsOfService: React.FC = () => {
 
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="8. GUIDELINES FOR REVIEWS" >
@@ -206,7 +206,7 @@ const TermsOfService: React.FC = () => {
 
                         </Row> <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="9. MOBILE APPLICATION LICENSE" >
@@ -222,10 +222,10 @@ const TermsOfService: React.FC = () => {
                                 </div>
                             </Col>
 
-                        </Row> 
+                        </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="10. SOCIAL MEDIA" >
@@ -248,7 +248,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="11. SUBMISSIONS" >
@@ -266,7 +266,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="12. THIRD-PARTY WEBSITE AND CONTENT" >
@@ -284,7 +284,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="13. ADVERTISERS" >
@@ -302,7 +302,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="14. SITE MANAGEMENT" >
@@ -320,7 +320,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="15. PRIVACY POLICY" >
@@ -338,7 +338,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="16. COPVRIGHT INFRINGEMENTS" >
@@ -356,7 +356,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="17. TERM AND TERMINATION" >
@@ -374,7 +374,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="18. MODIFICATIONS AND INTERRUPTIONS" >
@@ -396,7 +396,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="19. GOVERNING LAW" >
@@ -412,7 +412,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="20. DISPUTE RESOLUTION" >
@@ -430,7 +430,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title='21. CORRECTIONS'>
@@ -448,7 +448,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="22. DISCLAIMER" >
@@ -466,7 +466,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="23. LIMITATIONS OF LIABILITY" >
@@ -484,7 +484,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="24. INDEMNIFICATION" >
@@ -502,7 +502,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="25 USER DATA" >
@@ -520,7 +520,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="26. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES" >
@@ -538,7 +538,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="27. CALIFORNIA USERS AND RESIDENTS" >
@@ -556,7 +556,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="28. MISCELLANEOUS" >
@@ -574,7 +574,7 @@ const TermsOfService: React.FC = () => {
                         </Row>
                         <Row justify={'space-evenly'} gutter={[0, 75]} >
                             <Col xs={22} md={12}>
-                               
+
 
                                 <div>
                                     <Card title="29. CONTACT US" >
@@ -659,7 +659,7 @@ const TermsOfService: React.FC = () => {
 
                             </ConfigProvider>
 
-                           
+
                             <ConfigProvider
                                 theme={{
                                     token: {
@@ -671,8 +671,24 @@ const TermsOfService: React.FC = () => {
                                     },
                                 }}
                             >
-                                <Link reloadDocument to='/terms_of_service'><Button htmlType="submit">Terms of Service</Button></Link>
+                                <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
 
+
+                            </ConfigProvider>
+
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+
+                                    },
+                                }}
+                            >
+
+                                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
 
                             </ConfigProvider>
                         </Space>

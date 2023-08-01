@@ -1,8 +1,9 @@
 import { Query } from "../../Conection";
 
 
-export const verifyInformation = async (emails: any) => Query('SELECT * FROM Credentials.Login_Credentials WHERE email=?',[emails]);
+const verifyInformation = async (emails: any) => Query('SELECT * FROM Credentials.Login_Credentials WHERE email=?',[emails]);
 const updateBearerToken = async (bearer_token,id)=>Query('UPDATE Credentials.Login_Credentials SET ? WHERE email =? ',[bearer_token,id])
+const associateVerification = async(pin,id) => Query('SELECT * FROM Credentials.Principle_Login_Credentials WHERE pin = ? and id = ? ',[pin,id])
 
 // const singleChirp = async (id:string) => Query('SELECT * FROM Chirps WHERE id = ?',[id]);
 // const deleteMessages = async (id: string) => Query('DELETE FROM contact WHERE id = ?', [id]);
@@ -12,6 +13,7 @@ const updateBearerToken = async (bearer_token,id)=>Query('UPDATE Credentials.Log
 // const updateMessages = async (newContent: any, id: any) => Query('UPDATE contact SET ? WHERE id = ?', [newContent, id])
 // const allUsers = async () => Query('SELECT * FROM Users');
 // const insertUsers = async(user :any )=>Query('INSERT INTO clients SET ?' ,[user]);
+
 // const insertPhysical = async(physical :any,clientid:number )=>Query('INSERT INTO client_lifestyle SET ?' ,[physical]);
 
 
@@ -21,5 +23,6 @@ const updateBearerToken = async (bearer_token,id)=>Query('UPDATE Credentials.Log
 export default {
     verifyInformation,
     updateBearerToken,
+    associateVerification
 
 }

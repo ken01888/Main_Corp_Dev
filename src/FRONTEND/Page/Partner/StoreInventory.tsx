@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag } from 'antd'
 import 'isomorphic-fetch';
 import { Inventory } from '../../Program_Flow/Inventory_Flow'
 import * as dayjs from 'dayjs'
@@ -34,6 +34,7 @@ const StoreInventory: React.FC = (props) => {
     const [singlePacks, setSinglePacks] = React.useState('')
     const [QRCodeGenerator, setQRCodeGenerator] = React.useState(false)
     const [userId, setUserId] = React.useState()
+    const [userPin,setUserPin] = React.useState()
 
     const [addInventory] = Form.useForm();
 
@@ -49,10 +50,10 @@ const StoreInventory: React.FC = (props) => {
 
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
+                setUserPin(newUser.pin)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/getInventoryItems`);
+                const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/getInventoryItems`);
                 const newData = await dataReply.json();
-                console.log(newData)
                 setInventoryList(newData)
             }
         )()
@@ -64,7 +65,7 @@ const StoreInventory: React.FC = (props) => {
         addInventory.resetFields();
         setViewInventoryStore(!viewInventoryStore)
         values.business_id = userId;
-        const dataReply = await fetch(`http://localhost:8080/insertInventoryItems`, {
+        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/insertInventoryItems`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -81,7 +82,6 @@ const StoreInventory: React.FC = (props) => {
                 const data = await new Inventory()
                 const newData = await data.getInventoryItems()
                 setInventoryList(newData.inventory)
-                console.log(viewInventoryStore)
             }
 
         )()
@@ -106,7 +106,7 @@ const StoreInventory: React.FC = (props) => {
 
 
     const onDeleteInventoryItem = async () => {
-        const dataReply = await fetch(`http://localhost:8080/deleteInventoryItems`, {
+        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/deleteInventoryItems`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ const StoreInventory: React.FC = (props) => {
     const onItemUpdate = async (values: Object) => {
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch(`http://localhost:8080/updateInventoryItem`, {
+        const dataReply = await fetch(`noted-lead-340306:us-east1:kmcinc-database/updateInventoryItem`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -155,7 +155,6 @@ const StoreInventory: React.FC = (props) => {
 
     const rowSelection = {
         onChange: async (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-            console.log(selectedRowKeys)
             await setSelectedRow([selectedRows, selectedRowKeys])
             await setSelectedRowActions(selectedRowKeys[0])
 
@@ -181,48 +180,64 @@ const StoreInventory: React.FC = (props) => {
         {
             title: 'Supplier',
             dataIndex: 'supplier',
+            responsive: ['md'],
         },
         {
             title: 'Brand',
             dataIndex: 'brand',
+            responsive: ['xs'],
         },
         {
             title: 'Description',
             dataIndex: 'description',
+            responsive: ['xs'],
+
         },
         {
             title: 'Pack',
             dataIndex: 'pack',
+            responsive: ['md'],
+
 
         },
         {
             title: 'PAR Level',
             dataIndex: 'size',
+            responsive: ['md'],
+
 
         },
         {
             title: 'Unit',
             dataIndex: 'unit',
+            responsive: ['md'],
+
 
         },
         {
             title: 'Category',
             dataIndex: 'category',
+            responsive: ['md'],
+
 
         },
         {
             title: 'Package Weight',
             dataIndex: 'total_package_weight',
-
+            responsive: ['md'],
         },
         {
             title: 'Serving Size',
             dataIndex: 'serving_size_g',
+            responsive: ['md'],
+
 
         },
         {
             title: 'Price',
             dataIndex: 'price',
+            responsive: ['xs'],
+
 
         },
         {
@@ -280,7 +295,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                     <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Inventory</h1>
+                        title={<><h1 className='h1_Header_Client_Portal'>Inventory Section</h1>
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
@@ -289,10 +304,11 @@ const StoreInventory: React.FC = (props) => {
 
                         </Descriptions.Item>
                         <Descriptions.Item span={3}>
-                            <Space>
+                            <Space wrap>
                                 {/* <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button> */}
                                 <Button className='tagUpdate' onClick={() => setViewInventoryStore(!viewInventoryStore)}> Add Inventory Items</Button>
                                 <Button icon={<QrcodeOutlined />} className='tagUpdate' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>Generate QRCode</Button>
+                                
 
                             </Space>
                         </Descriptions.Item>
@@ -410,7 +426,7 @@ const StoreInventory: React.FC = (props) => {
                             tooltip='Number of individual packages'
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber stringMode={true} min={0} step={10} />
+                            <InputNumber stringMode={true} min={0} step={5} />
                         </Form.Item>
                         <Form.Item
 
@@ -450,7 +466,7 @@ const StoreInventory: React.FC = (props) => {
                             name="size"
                             tooltip='Weight of a single package or container.'
                         >
-                            <InputNumber stringMode={true} min={0} step={10} />
+                            <InputNumber stringMode={true} min={0} step={5} />
                         </Form.Item> : ''}
 
 
@@ -460,7 +476,7 @@ const StoreInventory: React.FC = (props) => {
                             name="total_package_weight"
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber stringMode={true} min={0} step={10} type='number' />
+                            <InputNumber stringMode={true} min={0} step={5} type='number' />
                         </Form.Item>
 
                         <Form.Item
@@ -470,7 +486,7 @@ const StoreInventory: React.FC = (props) => {
                             tooltip='Average number of items to keep on hand.'
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber stringMode={true} min={0} step={10} type='number' />
+                            <InputNumber stringMode={true} min={0} step={5} type='number' />
                         </Form.Item>
                         <Form.Item
 
@@ -479,7 +495,7 @@ const StoreInventory: React.FC = (props) => {
                             tooltip='Serving size information is located on the nutritional fact sheet.'
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber stringMode={true} min={0} step={10} type='number' />
+                            <InputNumber stringMode={true} min={0} step={5} type='number' />
                         </Form.Item>
                         <Form.Item
 
@@ -517,7 +533,7 @@ const StoreInventory: React.FC = (props) => {
                             name="price"
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber stringMode={true} min={0} step={10} type='number' />
+                            <InputNumber stringMode={true} min={0} step={5} type='number' />
                         </Form.Item>
 
 
@@ -600,7 +616,7 @@ const StoreInventory: React.FC = (props) => {
                                     tooltip='Number of individual packages'
 
                                 >
-                                    <InputNumber min={0} step={10} />
+                                    <InputNumber min={0} step={5} />
                                 </Form.Item>
 
                                 <Form.Item
@@ -609,7 +625,7 @@ const StoreInventory: React.FC = (props) => {
                                     name="stock_level"
                                     tooltip='Average number of items to keep on hand.'
                                 >
-                                    <InputNumber stringMode={true} min={0} step={10} type='number' />
+                                    <InputNumber stringMode={true} min={0} step={5} type='number' />
                                 </Form.Item>
 
                                 <Form.Item
@@ -617,7 +633,7 @@ const StoreInventory: React.FC = (props) => {
                                     name="invidual_container_size"
                                     tooltip='Weight of each single packaged item.'
                                 >
-                                    <InputNumber min={0} step={10} />
+                                    <InputNumber min={0} step={5} />
                                 </Form.Item>
 
                                 <Form.Item
@@ -667,7 +683,7 @@ const StoreInventory: React.FC = (props) => {
                                     label="Total Package Weight"
                                     name="total_package_weight"
                                 >
-                                    <InputNumber min={0} step={10} type='number' />
+                                    <InputNumber min={0} step={5} type='number' />
                                 </Form.Item>
                                 <Form.Item
 
@@ -675,7 +691,7 @@ const StoreInventory: React.FC = (props) => {
                                     name="serving_size_g"
                                     tooltip='Serving size information is located on the nutritional fact sheet.'
                                 >
-                                    <InputNumber min={0} step={10} type='number' />
+                                    <InputNumber min={0} step={5} type='number' />
                                 </Form.Item>
                                 <Form.Item
 
@@ -710,7 +726,7 @@ const StoreInventory: React.FC = (props) => {
                                     label="Price"
                                     name="price"
                                 >
-                                    <InputNumber min={0} step={10} type='number' />
+                                    <InputNumber min={0} step={5} type='number' />
                                 </Form.Item>
 
                                 <Form.Item
@@ -725,12 +741,31 @@ const StoreInventory: React.FC = (props) => {
                 }
 
             </Modal>
-            <Drawer title="Inventory QRCode" placement="right" onClose={() => { setQRCodeGenerator(!QRCodeGenerator) }} open={QRCodeGenerator}>
+            <Drawer title="Inventory QRCode" placement="right" onClose={() => { setQRCodeGenerator(!QRCodeGenerator) }} open={QRCodeGenerator}
+
+                extra={
+                    <ConfigProvider
+                        theme={{
+                            token: {
+                                colorPrimary: 'black',
+                                colorPrimaryHover: '#fafafa',
+                                lineWidth: 2,
+                                fontFamily: 'Jost',
+                                fontSize: 14,
+                            },
+                        }}
+                    >
+                        <Button htmlType='button' className='buttonBlackDrawer' onClick={downloadQRCode}>
+                            Download
+                        </Button>
+                    </ConfigProvider>
+
+                }>
                 <div id="myqrcode">
-                    <QRCode value={`http://localhost:4000/inventory_check?business_id=${userId}`} bgColor="#fff" style={{ marginBottom: 16 }} />
-                    <Button type="primary" onClick={downloadQRCode}>
-                        Download
-                    </Button>
+                    <p>To access your inventory record system, we offer two options. The first is to download the QR code and display it in a convenient location, such as your office or employee area. Alternatively, you can copy the link we provide. We advise that you only share your account <Tag color="#000000">PIN</Tag> with trusted team members for conducting regular inventory audits. This <Tag color="#000000">PIN</Tag> associates your checklist with your account. </p>
+                    <QRCode value={`https://www.kcminc.io/inventory_check?business_id=${userId}`} bgColor="#fff" style={{ marginBottom: 16 }} />
+                    <p>Your Account Pin: <span>{userPin}</span></p>
+
                 </div>
             </Drawer>
 

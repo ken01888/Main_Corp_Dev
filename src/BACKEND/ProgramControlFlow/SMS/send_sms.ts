@@ -1,6 +1,7 @@
 
 import * as Twilio from 'twilio'
 import * as dotenv from 'dotenv'
+import * as dayjs from 'dayjs'
 dotenv.config()
 
 
@@ -25,16 +26,21 @@ export function MessageResponseFromHomePage(name:string,to?:string[]| any) {
     });
 }
 
-export const sendReply = (body = "Testing the api", to?: any) => {
-    _phonenumber.map(async (i) => {
-        const new_Message = await sms.messages.create({
-            body: body,
-            from: process.env.TWILIO_PHONE?.toString(),
-            to: i
-        })
-    })
 
-}
+// export function InventoryResponceMessage(reference_number:any,to?:string[]| any) {
+    
+//     to.map(async (i) => {
+//         await sms.messages.create({
+//             body: `Hello,This is a message from KCM Inc. We wanted to inform you that an inventory recording from ${dayjs().format('dddd, MMMM D, YYYY h:mm A')} has been submitted and its reference number is ${reference_number}. Thank you.`,
+//             from: process.env.TWILIO_PHONE,
+//             shortenUrls: true,
+//             to: i
+//         });
+        
+//     });
+// }
+
+
 
 
 

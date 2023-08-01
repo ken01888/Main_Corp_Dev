@@ -1,12 +1,9 @@
-import { Col, MenuProps, Row, Menu, RadioChangeEvent, DrawerProps, Drawer, Button, Space, Segmented, Avatar, List, Image, Form, Input, ConfigProvider } from 'antd';
+import { Col, Row, DrawerProps, Drawer, Image, } from 'antd';
 import * as React from 'react';
 
-import { AppstoreOutlined, CaretDownOutlined, DownloadOutlined, KeyOutlined, MailOutlined, SettingOutlined, SolutionOutlined, StepForwardOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { motion } from 'framer-motion';
-import { Buildings, Divide, DotsThreeCircleVertical, HouseLine, Key, Phone } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
-import user from '../../400ppi/user.png';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 
 
 
@@ -17,7 +14,6 @@ export const ClientMenu = (props) => {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<DrawerProps['placement']>('left');
-    const [info, setInfo] = React.useState<Array<string>>([])
 
     const showDrawer = () => {
         setOpen(true);
@@ -37,26 +33,24 @@ export const ClientMenu = (props) => {
 
 
                 <Col xs={22} className='menuLogoSide'>
-                    <Link to='/' className='menuMiddleItems'>
 
-                        <motion.div className='logo'>
+                    <motion.div className='logo'>
 
-                            <div style={{ height: 'fit-content' }}>
-                                <div className='logoBlue'></div>
-                                <div className='logoBeige'></div>
-                            </div>
-                            <div style={{ height: 'fit-content' }}>
-                                <div className='logoBeige'></div>
-                                <div className='logoBlue'></div>
+                        <div style={{ height: 'fit-content' }}>
+                            <div className='logoBlue'></div>
+                            <div className='logoBeige'></div>
+                        </div>
+                        <div style={{ height: 'fit-content' }}>
+                            <div className='logoBeige'></div>
+                            <div className='logoBlue'></div>
 
-                            </div>
-                        </motion.div>
-                    </Link>
+                        </div>
+                    </motion.div>
 
                     <div className='menuItemsDiv'>
 
                         <span onClick={showDrawer} className='menuMiddleItems'>
-                            <Image src={user} width={16} />{props.businessName}
+                            {props.businessName}
                         </span>
 
                     </div>
@@ -90,12 +84,10 @@ export const ClientMenu = (props) => {
                     </Link>
 
                     <div className='menuItemsDiv'>
-                        {/* <Link to='/login' onClick={showDrawer} className='menuMiddleItems'>
-                            Signup
-                        </Link> */}
-                        <Link to='#' onClick={showDrawer} className='menuMiddleItems'>
-                            Login
-                        </Link>
+
+                        <span onClick={showDrawer} className='menuMiddleItems'>
+                            {props.businessName}
+                        </span>
 
                     </div>
 
@@ -119,7 +111,41 @@ export const ClientMenu = (props) => {
                 headerStyle={{ background: '#fafafa' }}
                 bodyStyle={{ background: '#fafafa' }}
             >
+                {/* <Row justify={'space-between'} className='ClientPortal' gutter={[0, 75]}>
+                        <Col xs={22} md={4} className='ClientSideItems'>
+                            <NavLink
+                                to={`account`}
+                                className='clientMenuItem'
+                                style={({ isActive, isPending }) => {
+                                    return {
+                                        fontWeight: isActive ? "bold" : "",
+                                        backgroundColor: isActive ? "#e8dac2" : "",
+                                    };
+                                }}
+                            >
+                                <UserOutlined />Account
+                            </NavLink>
+                         
+                            <NavLink
+                                to={`store`}
+                                className='clientMenuItem'
+                                style={({ isActive, isPending }) => {
+                                    return {
+                                        fontWeight: isActive ? "bold" : "",
+                                        backgroundColor: isActive ? "#e8dac2" : "",
+                                    };
+                                }}
+                            >
+                                <ShopOutlined size={16} />Inventory
+                            </NavLink>
 
+                        </Col>
+
+                        <Col xs={22} md={18}>
+                            <Outlet />
+
+                        </Col>
+                    </Row> */}
 
             </Drawer>
         </>

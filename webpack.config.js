@@ -50,9 +50,9 @@ const $FRONTEND = {
     }),
 
     new MiniCssExtractPlugin(),
-    // new InterpolateHtmlPlugin({
-    //   PUBLIC_URL: '/' // can modify `static` to another name or get it from `process`
-    // })
+    new InterpolateHtmlPlugin({
+      PUBLIC_URL: '/' // can modify `static` to another name or get it from `process`
+    })
 
 
   ],
@@ -69,18 +69,12 @@ const $FRONTEND = {
         transpileOnly:true
       }
     },
-    {
-      test: /\.s[ac]ss$/i,
-      use: ['style-loader', 'css-loader', 'sass-loader']
-    },
+
     {
       test: /\.css$/i,
       use: ['style-loader', 'css-loader',]
     },
-    {
-      test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-      type: 'javascript/auto'
-    },
+
 
     {
       test: /\.(ts|js)x?$/,
@@ -101,14 +95,14 @@ const $FRONTEND = {
         'file-loader',
       ],
     },
-    // {
-    //   test: /\.(png|jpg|gif)$/i,
-    //   use: [
-    //     {
-    //       loader: 'url-loader',
-    //     },
-    //   ],
-    // },
+    {
+      test: /\.(png|jpg|gif)$/i,
+      use: [
+        {
+          loader: 'url-loader',
+        },
+      ],
+    },
     {
       test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
       type: 'javascript/auto',
