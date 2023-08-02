@@ -14,7 +14,7 @@ const SignUp: React.FC = () => {
 
     const onFinishLogin = async (values: any) => {
 
-        let newData = await fetch('noted-lead-340306.ue.r.appspot.com /registration', {
+        let newData = await fetch('/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ const SignUp: React.FC = () => {
                     <Row justify={'space-around'} gutter={[0, 75]}>
                         <Col xs={22} md={8}>
                             <div className='fixedSignupDiv'>
-                            <h2>Our offerings are meticulously crafted to equip you with a distinctive edge in your industry</h2>
+                            <h2>Our offerings are meticulously crafted to equip you with a distinctive edge within your industry.</h2>
                             <p><span className='industriesText'>Simple sign up process!</span></p>
                             </div>
                           
@@ -188,7 +188,7 @@ const SignUp: React.FC = () => {
                                                     rules={[
                                                         {
                                                             required: true,
-                                                            message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]',
+                                                            message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]. Passwords must be at least 8 characters long.',
                                                             min: 8,
                                                             max: 8,
                                                             pattern:/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&?]).{8}$/

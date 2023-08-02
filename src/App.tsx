@@ -8,8 +8,6 @@ import Registration from './FRONTEND/Page/Community/Signup';
 import LegalService from './FRONTEND/Page/Community/TermsOfService';
 import ClientPortal from './FRONTEND/Page/Partner/ClientPortal';
 import PrincipleAccountDetails from './FRONTEND/Page/Partner/PrincipleAccountDetailsPage';
-import PrincipleBillingDetails from './FRONTEND/Page/Partner/PrincipleBillingDetails';
-import PrincipleServiceDetails from './FRONTEND/Page/Partner/PrincipleServiceDetails';
 import StoreInventory from './FRONTEND/Page/Partner/StoreInventory';
 import ContactSupport from './FRONTEND/Page/Community/Support';
 import InventoryCheck from './FRONTEND/Page/Partner/QRCode/Inventory';
@@ -98,18 +96,6 @@ const App = createBrowserRouter([
     ]
 
   },
-
-
-
-  {
-    path: "billing",
-    element: <PrincipleBillingDetails />
-  },
-  {
-    path: "services",
-    element: <PrincipleServiceDetails />
-  }
-
 
 
 

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Col, Layout, Row, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space } from 'antd'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import { Bank, Book, Question } from '@phosphor-icons/react'
-import { ShopOutlined, UserOutlined } from '@ant-design/icons';
+import { FileTextOutlined, FolderOpenOutlined, FolderOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import 'isomorphic-fetch';
 import { ClientMenu } from '../Components/Navigation/ClientMenu'
 import { Link, NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom'
@@ -11,7 +11,7 @@ import { Link, NavLink, Outlet, useLoaderData, useParams } from 'react-router-do
 
 const ClientPortal: React.FC = () => {
     const [businessName, setBusinessName] = React.useState();
-    const [subInventory,setSubInventory] = React.useState(false);
+    const [subInventory, setSubInventory] = React.useState(false);
 
 
     React.useEffect(() => {
@@ -30,7 +30,7 @@ const ClientPortal: React.FC = () => {
         <Layout>
 
             <Header className='ClientPortalHeader'>
-                <ClientMenu businessName={businessName}/>
+                <ClientMenu businessName={businessName} />
             </Header>
             <Layout >
                 <Content >
@@ -49,9 +49,9 @@ const ClientPortal: React.FC = () => {
                             >
                                 <UserOutlined />Account
                             </NavLink>
-                         
+
                             <NavLink
-                                onClick={()=>setSubInventory(!subInventory)}
+                                onClick={() => setSubInventory(!subInventory)}
                                 to={`store`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
@@ -61,18 +61,24 @@ const ClientPortal: React.FC = () => {
                                     };
                                 }}
                             >
-                                <ShopOutlined size={16} />Inventory
+                                {subInventory?<FolderOpenOutlined size={16}/> : <FolderOutlined size={16}/>}Inventory
                             </NavLink>
                             {
-                                subInventory?   <NavLink
-                                to={`inventoryaudits`}
-                                className='clientMenuItem'
-                              
-                            >
-                                <ShopOutlined size={16} />Audits
-                            </NavLink>:''
+                                subInventory ? <NavLink
+                                    to={`inventoryaudits`}
+                                    className='clientMenuItem'
+                                    style={({ isActive, isPending }) => {
+                                        return {
+                                            fontWeight: isActive ? "bold" : "",
+                                            backgroundColor: isActive ? "#e8dac2" : "",
+                                        };
+                                    }}
+
+                                >
+                                    <FileTextOutlined />Audits
+                                </NavLink> : ''
                             }
-                            
+
 
                         </Col>
 

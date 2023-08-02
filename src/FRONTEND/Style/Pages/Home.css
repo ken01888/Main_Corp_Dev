@@ -463,3 +463,20 @@
     font-weight: 900;
     font-family:Jost, Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.activeTag{
+    background-color: var(--light_blue);
+    color: var(--solid_black);
+    border: 1px solid black;
+}
+
+.tagStagesofSignup{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.alignCol{
+    display: flex;
+    align-items: center;
+}

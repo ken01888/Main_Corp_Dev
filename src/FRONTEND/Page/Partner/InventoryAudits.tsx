@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Space, Input, Table} from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Space, Input, Table, Tooltip } from 'antd'
 import 'isomorphic-fetch';
 import { Inventory } from '../../Program_Flow/Inventory_Flow'
 
 import { ColumnsType } from 'antd/es/table';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 
 interface DataType {
@@ -45,10 +46,9 @@ const InventoryAudit: React.FC = (props) => {
 
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
-          
-                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
+
+                const dataReply = await fetch(`/inventory_reference_information`);
                 const newData = await dataReply.json();
-                console.log(newData)
                 setInventoryList(newData)
             }
         )()
@@ -61,9 +61,8 @@ const InventoryAudit: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
+                const dataReply = await fetch(`/inventory_reference_information`);
                 const newData = await dataReply.json();
-                console.log(newData)
                 setInventoryList(newData)
             }
 
@@ -89,7 +88,7 @@ const InventoryAudit: React.FC = (props) => {
 
 
     const onDeleteInventoryItem = async () => {
-        const dataReply = await fetch(`http://localhost:8080/deleteInventoryAuditItems`, {
+        const dataReply = await fetch(`/deleteInventoryAuditItems`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -100,9 +99,8 @@ const InventoryAudit: React.FC = (props) => {
         if (dataParse === 1) {
             (
                 async () => {
-                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
+                    const dataReply = await fetch(`/inventory_reference_information`);
                     const newData = await dataReply.json();
-                    console.log(newData)
                     setInventoryList(newData)
                 }
             )()
@@ -115,7 +113,7 @@ const InventoryAudit: React.FC = (props) => {
     const onItemUpdate = async (values: Object) => {
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch(`http://localhost:8080/updateInventoryAuditItem`, {
+        const dataReply = await fetch(`/updateInventoryAuditItem`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -186,7 +184,7 @@ const InventoryAudit: React.FC = (props) => {
         {
             title: 'Description',
             dataIndex: 'description',
-            responsive: ['xs'],
+            responsive: ['lg'],
 
         },
 
@@ -226,14 +224,35 @@ const InventoryAudit: React.FC = (props) => {
             render: (_, record: any) => {
                 if (record.id === selectedRowAction) {
                     return (
-                        <Space wrap>
-                            <Button htmlType="submit" onClick={onDeleteInventoryItem} className='buttonBlackDrawer' >
-                                Delete
-                            </Button>
-                            <Button htmlType="submit" onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} className='buttonBlackDrawer' >
-                                Update
-                            </Button>
-                        </Space>
+
+
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa',
+                                },
+                            }}
+                        >
+                            <Space>
+                                <Tooltip title="Delete selected item from audit record">
+                                    <Button htmlType="submit" onClick={onDeleteInventoryItem} className='buttonBlackDrawer' icon={<DeleteOutlined />}>
+                                    </Button>
+                                </Tooltip>
+
+                                <Tooltip title="Modify selected item">
+                                    <Button htmlType="submit" onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} className='buttonBlackDrawer' icon={<EditOutlined />}>
+
+                                    </Button>
+                                </Tooltip>
+                            </Space>
+                        </ConfigProvider>
+
+
+
+
                     )
                 } else {
                     return (
@@ -280,7 +299,10 @@ const InventoryAudit: React.FC = (props) => {
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                                In order to begin constructing your digital storage space and organizing your inventory, the initial step is to establish a facility. From there, you can incorporate additional items and formulate crafting recipes.
+                                After finishing an auditing session, you can check your Inventory Audits.
+                                But before that, you need to add inventory items to your account. Once you are done with that,
+                                you can get a QR Code or use the link available in the QR Code Generator section to access
+                                your recording network.
                             </p>
 
                         </Descriptions.Item>
@@ -364,7 +386,7 @@ const InventoryAudit: React.FC = (props) => {
                                     <Input type='text' />
                                 </Form.Item>
 
-                                
+
 
                                 <Form.Item
                                 >
@@ -378,7 +400,7 @@ const InventoryAudit: React.FC = (props) => {
                 }
 
             </Modal>
-           
+
 
         </>
 

@@ -6,10 +6,12 @@ import 'dotenv/config';
 
 
 export const mysqlAccess = mysql.createPool({
-    port:3306,
     user:process.env.MYSQL_USER,
     password:process.env.MYSQL_PASSWORD,
-    host:process.env.MYSQL_HOST
+    host:process.env.MYSQL_HOST,
+    database: process.env.DB_NAME,
+    port:3306,
+    // socketPath:process.env.INSTANCE_UNIX_SOCKET
 })
 
 export const Query = (query:string,values?:Array<string|number>)=>{

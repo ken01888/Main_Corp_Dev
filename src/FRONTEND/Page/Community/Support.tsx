@@ -25,7 +25,7 @@ const Support: React.FC = () => {
 
     const onFinish = async (values: any) => {
 
-        let newData = await fetch('noted-lead-340306.ue.r.appspot.com /support_message', {
+        let newData = await fetch('/support_message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,7 +59,6 @@ const Support: React.FC = () => {
                     <Row justify={'space-around'} gutter={[0, 75]}>
                         <Col xs={22} md={8}>
                             <div className='fixedSignupDiv'>
-                                <h1>😁</h1>
                                 <h2>Please don't hesitate to ask us anything that you may be curious about. Our top priority is to provide you with complete support and ensure that you have all the necessary information.</h2>
                             </div>
 

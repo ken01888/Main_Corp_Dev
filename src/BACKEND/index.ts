@@ -61,6 +61,7 @@ app.use('/', express.static( 'public'))
 app.use('/signup', express.static( 'public'))
 app.use('/store', express.static( 'public'))
 app.use('/support', express.static( 'public'))
+app.use('/support', express.static( 'public'))
 app.use('/principle/', validateUser, express.static('public'))
 
 
@@ -71,6 +72,7 @@ app.use(registration)
 app.use(support)
 app.use(client)
 app.use(inventory)
+
 
  
 app.get("*", (req, res) => {

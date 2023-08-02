@@ -1,4 +1,4 @@
-import { Col, Row, DrawerProps, Drawer, Image, } from 'antd';
+import { Col, Row, DrawerProps, Drawer, Image, ConfigProvider, Button, } from 'antd';
 import * as React from 'react';
 
 import { motion } from 'framer-motion';
@@ -45,15 +45,32 @@ export const ClientMenu = (props) => {
                             <div className='logoBlue'></div>
 
                         </div>
-                    </motion.div>
-
-                    <div className='menuItemsDiv'>
-
-                        <span onClick={showDrawer} className='menuMiddleItems'>
+                        <span className='menuMiddleItems'>
                             {props.businessName}
                         </span>
+                    </motion.div>
 
-                    </div>
+                    {/* <div className='menuItemsDiv'>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                           <Button htmlType="submit">
+                            Guidance
+                           </Button>
+
+
+                        </ConfigProvider>
+
+
+                    </div> */}
 
                 </Col>
 
@@ -84,11 +101,7 @@ export const ClientMenu = (props) => {
                     </Link>
 
                     <div className='menuItemsDiv'>
-
-                        <span onClick={showDrawer} className='menuMiddleItems'>
-                            {props.businessName}
-                        </span>
-
+                        {props.businessName}
                     </div>
 
                 </Col>

@@ -41,7 +41,7 @@ const InventoryCheck: React.FC = (props) => {
                 let params = await new URLSearchParams(document.location.search);
                 let urlid: any = await params.get("business_id");
                 setBusinessId(urlid)
-                const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /getInventoryItemsForDailyChecklist/${urlid}`)
+                const dataReply = await fetch(`/getInventoryItemsForDailyChecklist/${urlid}`)
                 const newData = await dataReply.json();
                 if (newData.length <= 0) {
                     setInventoryExist(false)
@@ -61,7 +61,7 @@ const InventoryCheck: React.FC = (props) => {
 
     const onAddInventoryItems = async (values: any) => {
         setInventoryLength(inventoryLength - 1)
-        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /insertInventoryChecklistItems`, {
+        const dataReply = await fetch(`/insertInventoryChecklistItems`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ const InventoryCheck: React.FC = (props) => {
 
     const onVerifyFinish = async (values: any) => {
         values.id = business_id_number
-        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /verify_associate_pin`, {
+        const dataReply = await fetch(`/verify_associate_pin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -103,10 +103,10 @@ const InventoryCheck: React.FC = (props) => {
     };
 
     const SendNotificationInventory = async () => {
-        const values:any = {}
-       values.reference_number = inventoryReferenceId
-       values.id = business_id_number
-        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /inventory_notification_to_business`, {
+        const values: any = {}
+        values.reference_number = inventoryReferenceId
+        values.id = business_id_number
+        const dataReply = await fetch(`/inventory_notification_to_business`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -147,7 +147,7 @@ const InventoryCheck: React.FC = (props) => {
                             </motion.div>
                         </h2>
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Inventory Audit Sheet {inventoryLength}</h1>
+                            title={<><h1 className='h1_Header_Client_Portal'>Inventory Audit Sheet</h1>
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>

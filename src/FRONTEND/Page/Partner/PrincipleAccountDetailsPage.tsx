@@ -23,7 +23,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
     }, [])
 
     const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`noted-lead-340306.ue.r.appspot.com /updateClientinformation`, {
+        const dataReply = await fetch(`/updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -73,8 +73,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
-                                    To view your information, click on "View" in the bottom left corner.
-                                    If you need to make any changes, click on "Update" to modify your personal details.
+                                    If you need to make any changes, click on "Update" to modify your account details.
                                 </p>
 
                             </Descriptions.Item>
