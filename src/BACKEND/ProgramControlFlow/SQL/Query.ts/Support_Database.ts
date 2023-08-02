@@ -12,6 +12,7 @@ const insertMessage= async (values: any) => Query('INSERT INTO Communication.Sup
 // const updateMessages = async (newContent: any, id: any) => Query('UPDATE contact SET ? WHERE id = ?', [newContent, id])
 // const allUsers = async () => Query('SELECT * FROM Users');
 // const insertUsers = async(user :any )=>Query('INSERT INTO clients SET ?' ,[user]);
+
 // const insertPhysical = async(physical :any,clientid:number )=>Query('INSERT INTO client_lifestyle SET ?' ,[physical]);
 
 

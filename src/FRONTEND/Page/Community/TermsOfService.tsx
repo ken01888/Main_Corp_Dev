@@ -13,7 +13,7 @@ import Meta from 'antd/es/card/Meta'
 
 
 const TermsOfService: React.FC = () => {
-
+document.title = 'Kcm Inc Terms Of Service'
 
 
     return (

@@ -17,7 +17,6 @@ const ClientPortal: React.FC = () => {
     React.useEffect(() => {
         const user: any = window.localStorage.getItem('user')
         const newUser = JSON.parse(user)
-        console.log(newUser)
         delete newUser.id
         delete newUser.access_token
         const newUserArray = Object.entries(newUser)

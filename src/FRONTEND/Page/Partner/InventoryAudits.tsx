@@ -137,7 +137,6 @@ const InventoryAudit: React.FC = (props) => {
 
     const rowSelection = {
         onChange: async (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-            console.log(selectedRows, selectedRowKeys)
             await setSelectedRow([selectedRows, selectedRowKeys])
             await setSelectedRowActions(selectedRowKeys[0])
 

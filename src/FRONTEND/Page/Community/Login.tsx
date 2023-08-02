@@ -8,11 +8,12 @@ import { CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { Barcode } from '@phosphor-icons/react';
 
+
 const Login: React.FC = () => {
   let [verified, setVerified] = React.useState(false);
 
   const navigate = useNavigate()
-
+document.title='Kcm Inc Stakeholder Intelligence Corporation'
 
 
 

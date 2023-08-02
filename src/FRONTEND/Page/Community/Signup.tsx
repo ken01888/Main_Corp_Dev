@@ -10,7 +10,7 @@ import Menu from '../Components/Navigation/Main_Menu';
 const SignUp: React.FC = () => {
     const [showForm, setForm] = React.useState(true)
     const [emailVerified, setEmailVerified] = React.useState(false)
-
+document.title='Kcm Inc Service Registration'
 
     const onFinishLogin = async (values: any) => {
 

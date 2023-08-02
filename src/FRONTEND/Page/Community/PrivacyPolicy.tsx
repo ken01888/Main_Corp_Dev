@@ -13,7 +13,7 @@ import Meta from 'antd/es/card/Meta'
 
 
 const PrivacyPolicy: React.FC = () => {
-
+document.title='Kcm Inc Privacy Policy'
 
 
     return (

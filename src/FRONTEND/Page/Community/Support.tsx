@@ -19,7 +19,7 @@ import { motion } from 'framer-motion';
 
 
 const Support: React.FC = () => {
-
+document.title='Kcm Inc Community Support'
 
     const [showForm, setForm] = React.useState(true)
 
