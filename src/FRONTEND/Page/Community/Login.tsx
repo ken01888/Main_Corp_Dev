@@ -193,7 +193,7 @@ const Login: React.FC = () => {
 
                   <p>This inventory management system is designed with a simple interface, enabling you to effortlessly add, 
                     record, and track inventory items. Our service is equipped with QR codes, and a company access pin to ensure 
-                    efficient access for your team members to a digital inventory auditing sytem.</p>
+                    efficient access for your team members to a digital inventory auditing system.</p>
 
 
 
