@@ -5,6 +5,7 @@
   "exclude": [
     "node_modules"
   ],
+  
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
@@ -29,6 +30,7 @@
     "sourceMap": true,
     "noEmit": false,
     "moduleDetection": "auto",
+
 
   },
 }

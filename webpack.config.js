@@ -8,6 +8,8 @@ const InterpolateHtmlPlugin = require("interpolate-html-plugin");
 const nodeExternals = require("webpack-node-externals");
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 var HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 
 
@@ -45,18 +47,20 @@ const $FRONTEND = {
   },
 
   plugins: [
+    new NodePolyfillPlugin(),
     new HtmlWebpackPlugin({
       template: './Client/index.html', hash: false,
       favicon: './Client/favicon.ico',
       minify: 'auto',
       inject: true,
-      meta:{
-        
-        'viewport':'content=width=device-width, initial-scale=1.0',
-        'description':'KMC Inc provides a range of B2B services tailored to meet diverse business needs across various sectors. Our services include inventory management, nutritional analysis, business funding, lead generation, and more. We are committed to delivering personalized solutions to our clients while upholding standards of professionalism, reliability, and quality service. Additionally, we prioritize the wellbeing of stakeholders.'
-        
+      meta: {
+
+        'viewport': 'content=width=device-width, initial-scale=1.0',
+        'description': 'KMC Inc provides a range of B2B services tailored to meet diverse business needs across various sectors. Our services include inventory management, nutritional analysis, business funding, lead generation, and more. We are committed to delivering personalized solutions to our clients while upholding standards of professionalism, reliability, and quality service. Additionally, we prioritize the wellbeing of stakeholders.',
+        "theme-color": "#b4cbd4",
+
       },
-   
+
 
     }),
 
@@ -66,85 +70,84 @@ const $FRONTEND = {
       PUBLIC_URL: '/' // can modify `static` to another name or get it from `process`
     }),
     new WebpackManifestPlugin({
-      seed:{
+      seed: {
         short_name: "Kcm Inc",
         name: "K.C. Morris Inc A Stakeholder Intelligence Corporation",
         icons: [
           {
             src: "favicon.ico",
-            sizes: "64x64 32x32 24x24 16x16",
+            sizes: "48x48",
             type: "image/x-icon"
           },
           {
-            src: "android-chrome-192x192.png",
-            type: "image/png",
-            sizes: "192x192"
+            src: "Large512x512.png",
+            sizes: "512x512",
+            type: "image/png"
           },
           {
-            src: "android-chrome-512x512.png",
-            type: "image/png",
-            sizes: "512x512"
+            "src": "Large512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
           }
         ],
-        start_url: "https://www.kcminc.io/ ",
         display_override: ["window-control-overlay", "minimal-ui"],
         display: "standalone",
-        theme_color: "#fafafa",
-        background_color: "#ffffff"
+        theme_color: "#b4cbd4",
+        background_color: "#ffffff",
+        start_url: '/',
       }
-        
-      }
+
+    }
     ),
 
-    new HtmlWebpackTagsPlugin({
-      tags: [],
-      links: [
-        {
-          path: '../Client/apple-touch-icon.png',
-          publicPath: false,
-          attributes: {
-            rel: 'apple-touch-icon',
-            size:'180x180'
-          }
-        },
-        {
-          path: '../Client/apple-touch-icon.png',
-          publicPath: false,
-          attributes: {
-            rel: 'apple-touch-icon',
-            size:'32x32'
-          }
-        },
-        {
-          path: '../Client/android-chrome-192x192.png',
-          publicPath: false,
-          attributes: {
-            rel: 'android-touch-icon',
-            size:'32x32'
-          }
-        },
+    // new HtmlWebpackTagsPlugin({
+    //   links: [
+    //     {
+    //       path: '../Client/apple-touch-icon.png',
+    //       publicPath: false,
+    //       attributes: {
+    //         rel: 'apple-touch-icon',
+    //         size: '180x180'
+    //       }
+    //     },
+    //     {
+    //       path: '../Client/apple-touch-icon.png',
+    //       publicPath: false,
+    //       attributes: {
+    //         rel: 'apple-touch-icon',
+    //         size: '32x32'
+    //       }
+    //     },
 
+    //     {
+    //       path: '../Client/favicon-32x32.png',
+    //       publicPath: false,
+    //       attributes: {
+    //         rel: 'icon',
+    //         size: '32x32',
+    //         type: 'image/png'
+    //       }
+    //     },
+    //     {
+    //       path: '../Client/favicon-16x16.png',
+    //       publicPath: false,
+    //       attributes: {
+    //         rel: 'icon',
+    //         size: '16x16',
+    //         type: 'image/png'
+    //       }
+    //     },
+    //   ]
+    // })
+    new CopyPlugin({
+      patterns: [
         {
-          path: '../Client/favicon-32x32.png',
-          publicPath: false,
-          attributes: {
-            rel: 'icon',
-            size:'32x32',
-            type:'image/png'
-          }
+          from: "Client/*.png",
+          to:"[name][ext]",
         },
-        {
-          path: '../Client/favicon-16x16.png',
-          publicPath: false,
-          attributes: {
-            rel: 'icon',
-            size:'16x16',
-            type:'image/png'
-          }
-        },
-      ]
-    })
-
+      ],
+    }),
 
   ],
   module: {

@@ -4,29 +4,31 @@
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "48x48",
       "type": "image/x-icon"
     },
     {
-      "src": "android-chrome-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "Large512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     },
     {
-      "src": "android-chrome-512x512.png",
+      "src": "Large512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "any maskable"
     }
   ],
-  "start_url": "https://www.kcminc.io/ ",
   "display_override": [
     "window-control-overlay",
     "minimal-ui"
   ],
   "display": "standalone",
-  "theme_color": "#fafafa",
+  "theme_color": "#b4cbd4",
   "background_color": "#ffffff",
+  "start_url": "/",
   "frontend.js": "auto/main.js",
+  "Large512x512.png": "auto/Large512x512.png",
   "favicon.ico": "auto/favicon.ico",
   "index.html": "auto/index.html"
 }

@@ -17,7 +17,7 @@ document.title='Kcm Inc Stakeholder Intelligence Corporation'
 
 
 
-
+console.log('serviceWorker' in navigator)
 
 
 
