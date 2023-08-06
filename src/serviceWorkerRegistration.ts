@@ -3,10 +3,10 @@
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
-    // [::1] is the IPv6 localhost address.
-    window.location.hostname === '[::1]' ||
-    // 127.0.0.0/8 are considered localhost for IPv4.
-    window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+  // [::1] is the IPv6 localhost address.
+  window.location.hostname === '[::1]' ||
+  // 127.0.0.0/8 are considered localhost for IPv4.
+  window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
 );
 
 type Config = {
@@ -15,11 +15,12 @@ type Config = {
 };
 
 export function register(config?: Config) {
-
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL('https://www.kcminc.io', window.location.href);
+    console.log(publicUrl)
     if (publicUrl.origin !== window.location.origin) {
+      console.log([publicUrl.origin, window.location.origin])
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
@@ -27,7 +28,8 @@ export function register(config?: Config) {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${'https://www.kcminc.io'}/service-worker.js`;
+      const swUrl = 'https://www.kcminc.io/service-worker.js`'
+      console.log(swUrl)
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -38,7 +40,7 @@ export function register(config?: Config) {
         navigator.serviceWorker.ready.then(() => {
           console.log(
             'This web app is being served cache-first by a service ' +
-              'worker. To learn more, visit https://cra.link/PWA'
+            'worker. To learn more, visit https://cra.link/PWA'
           );
         });
       } else {
@@ -50,27 +52,44 @@ export function register(config?: Config) {
 }
 
 function registerValidSW(swUrl: string, config?: Config) {
+
   navigator.serviceWorker
+
     .register(swUrl)
+
     .then((registration) => {
+      console.log(
+        registration, swUrl
+      )
       registration.onupdatefound = () => {
+
         const installingWorker = registration.installing;
+        console.log(installingWorker)
+
         if (installingWorker == null) {
+
           return;
+
         }
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
+            console.log({ installingWorker: installingWorker })
+
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
+              console.log({
+                controller: navigator.serviceWorker.controller
+              })
               console.log(
                 'New content is available and will be used when all ' +
-                  'tabs for this page are closed. See https://cra.link/PWA.'
+                'tabs for this page are closed. See https://cra.link/PWA.'
               );
 
               // Execute callback
               if (config && config.onUpdate) {
+                console.log(config, config.onUpdate)
                 config.onUpdate(registration);
               }
             } else {
@@ -81,6 +100,7 @@ function registerValidSW(swUrl: string, config?: Config) {
 
               // Execute callback
               if (config && config.onSuccess) {
+                console.log(config.onSuccess)
                 config.onSuccess(registration);
               }
             }
@@ -106,13 +126,16 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
         // No service worker found. Probably a different app. Reload the page.
+        console.log(contentType, contentType?.indexOf('javascript'))
         navigator.serviceWorker.ready.then((registration) => {
+          console.log(registration)
           registration.unregister().then(() => {
             window.location.reload();
           });
         });
       } else {
         // Service worker found. Proceed as normal.
+        console.log(swUrl, config)
         registerValidSW(swUrl, config);
       }
     })
@@ -121,14 +144,3 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
     });
 }
 
-export function unregister() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready
-      .then((registration) => {
-        registration.unregister();
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  }
-}

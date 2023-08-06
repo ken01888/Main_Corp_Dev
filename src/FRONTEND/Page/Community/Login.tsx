@@ -4,22 +4,18 @@ import * as React from 'react'
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import Main_Menu from '../Components/Navigation/Main_Menu';
-import { CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { CaretRightOutlined, CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { Barcode } from '@phosphor-icons/react';
+import missionPhoto from '../400ppi/missionPhoto.png';
+
 
 
 const Login: React.FC = () => {
   let [verified, setVerified] = React.useState(false);
 
   const navigate = useNavigate()
-document.title='Kcm Inc Stakeholder Intelligence Corporation'
-
-
-
-console.log('serviceWorker' in navigator)
-
-
+  document.title = 'Kcm Inc Stakeholder Intelligence Corporation'
 
   const onFinish = async (values: any) => {
     let newData = await fetch('/login_verification', {
@@ -65,7 +61,9 @@ console.log('serviceWorker' in navigator)
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={22} md={8} className='alignCol'>
                 <div >
-                  <h2>Our organization is committed to providing outstanding B2B services to enterprises of all size in throughout various sectors.</h2>
+                  <h2>Our organization empowers emerging enterprises to thrive with equitable business services. </h2>
+                  <p><Link className='homeLinks' to='/signup'> <span>Sign up for an account today </span></Link> and benefit from our newest enterprise solution that aids in minimizing environmental and inventory waste, managing costs, and monitoring the nutritional value of food products for various demographics.</p>
+
 
                 </div>
 
@@ -80,7 +78,7 @@ console.log('serviceWorker' in navigator)
 
                   <p>Please enter your username and password that you
                     used to create your account. If you are having difficulties
-                    logging in, message our <Link to='/support'>support</Link> center for assistance. </p>
+                    logging in, message our <Link className='homeLinks' to='/support'>support</Link> center for assistance. </p>
                   <Divider className='dividerHeader'></Divider>
                   <Form
                     name="basic"
@@ -95,11 +93,12 @@ console.log('serviceWorker' in navigator)
                     <ConfigProvider
                       theme={{
                         token: {
+
                           colorPrimary: 'black',
-                          colorPrimaryHover: '#fafafa',
-                          lineWidth: 2,
+                          lineWidth: 1,
                           fontFamily: 'Jost',
                           fontSize: 14,
+
                         },
                       }}
                     >
@@ -146,11 +145,51 @@ console.log('serviceWorker' in navigator)
 
             </Row>
 
+
+
+            <Row justify={'space-around'} gutter={[0, 75]} >
+              <Col xs={{span:22,order:1}} md={{span:8,order:2}} className='alignCol'>
+                <div >
+                  <h2>Together, we can create a more equitable and just society for all.</h2>
+                  <p>Our organization is dedicated to assisting businesses in achieving sustainable practices and enhancing their operational models in order to positively impact the communities they serve. Our customized services are designed to effectively address disparities that affect individuals, ultimately leading to the improvement and betterment of these communities.</p>
+
+
+                </div>
+
+              </Col>
+
+         
+
+              <Col xs={{span:22,order:2}} md={{span:8,order:1}} className='alignColBigLogo'>
+                <motion.div className='logo'>
+
+                  <div style={{ height: 'fit-content' }}>
+                    <div className='biglogoBlue'>Health Disparities</div>
+                    <div className='biglogoBeige'>Wealth Disparities</div>
+                  </div>
+                  <div style={{ height: 'fit-content' }}>
+                    <div className='biglogoBeige'>Education Disparities</div>
+                    <div className='biglogoBlue'>Housing Disparities</div>
+
+                  </div>
+           
+                </motion.div>
+
+
+              </Col>
+
+
+            </Row>
+
+
+
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={22} md={8}>
                 <div >
                   <h2>Consumer Discretionary Sector</h2>
-                  <Space wrap size={[0, 75]}>
+                  <p>Our partnerships extend beyond traditional industries, including those that strive to meet the demands of their customers, like dining, entertainment and leisure establishments.</p>
+
+                  <Space wrap size={[0, 25]}>
                     <ConfigProvider
 
                       theme={{
@@ -161,22 +200,15 @@ console.log('serviceWorker' in navigator)
                         },
                       }}
                     >
-                      <Space wrap size={[25,25]}>
-                      <Space wrap size={[25, 25]}>
-                        <Tag className='activeTag' icon={<CheckOutlined />}>Inventory Management</Tag>
-                        <Tag color="#000000" icon={<ClockCircleOutlined />}>Nutritional Analysis</Tag>
-                        <Tag color="#000000" icon={<ClockCircleOutlined />}>Check Lists</Tag>
+                      <Space wrap size={[25, 0]}>
+                        <Space wrap size={[25, 25]}>
+                          <Tag className='activeTag' icon={<CheckOutlined />}>Inventory Management</Tag>
+                          <Tag color="#000000" icon={<ClockCircleOutlined />}>Nutritional Analysis</Tag>
+                          <Tag color="#000000" icon={<ClockCircleOutlined />}>Check Lists</Tag>
+                        </Space>
+
                       </Space>
 
-                      <motion.div>
-                      <p className='tagStagesofSignup'> <span className='logoBeige'></span> Record inventory items and data.</p>
-                      <p className='tagStagesofSignup'> <span className='logoBeige'></span> Generate QR Code for instore inventory tracking.</p>
-                      <p className='tagStagesofSignup'> <span className='logoBeige'></span> Perform routine inventory inspections.</p>
-                      <p className='tagStagesofSignup'> <span className='logoBeige'></span> Management inventory audits before ordering.</p>
-
-                      </motion.div>
-                      </Space>
-                      
 
 
                     </ConfigProvider>
@@ -192,8 +224,8 @@ console.log('serviceWorker' in navigator)
 
                   <Barcode size={64} />
 
-                  <p>This inventory management system is designed with a simple interface, enabling you to effortlessly add, 
-                    record, and track inventory items. Our service is equipped with QR codes, and a company access pin to ensure 
+                  <p>This inventory management system is designed with a simple interface, enabling you to effortlessly add,
+                    record, and track inventory items. Our service is equipped with QR codes, and a company access pin to ensure
                     efficient access for your team members to a digital inventory auditing system.</p>
 
 
@@ -202,7 +234,39 @@ console.log('serviceWorker' in navigator)
 
               </Col>
             </Row>
+            <Row justify={'center'} gutter={[0, 75]} >
+              <Col xs={22} md={10} className='missionSection'>
+                <div>
+                  <Image src={missionPhoto} preview={false} width={250} />
+
+                </div>
+
+                <motion.div initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: .5 }}>
+
+
+                  <p style={{ textAlign: 'center', fontWeight: 500, fontSize: '1.25rem' }}>Our goal is to create equitable business services that prioritize
+                    the needs of communities by addressing challenges related to health,
+                    wealth, education,housing and the environment; by way of <span className='dbd'>Downward Benefit Drift</span>.
+                  </p>
+
+                  <Alert className='dbdMessage'
+                    message="What is Downward Benefit Drift?"
+                    description="Our organization utilizes the methodology of Downward Benefit Drift to distribute benefits to stakeholders, both internal and external. This approach involves developing services for enterprises that are intentionally designed to positively impact communities by aiding businesses in optimizing their operations.
+                    "
+                    type="info"
+                  />
+
+
+
+                </motion.div>
+
+              </Col>
+            </Row>
+
           </Space>
+
 
 
 

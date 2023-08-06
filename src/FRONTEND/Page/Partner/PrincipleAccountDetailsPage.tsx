@@ -125,13 +125,12 @@ const PrincipleAccountDetails: React.FC = (props) => {
                                             <ConfigProvider
                                                 theme={{
                                                     token: {
-                                                        colorPrimary: 'black',
-                                                        colorPrimaryHover: '#fafafa',
-                                                        lineWidth: 2,
-                                                        fontFamily: 'Jost',
-                                                        fontSize: 14,
+                                                      colorPrimary: 'black',
+                                                      lineWidth: 1,
+                                                      fontFamily: 'Jost',
+                                                      fontSize: 14,
                                                     },
-                                                }}
+                                                  }}
                                             >
 
                                                 <Button className='tagSubmit' htmlType="submit">

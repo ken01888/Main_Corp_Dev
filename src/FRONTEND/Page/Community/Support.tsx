@@ -109,13 +109,12 @@ document.title='Kcm Inc Community Support'
                                             <ConfigProvider
                                                 theme={{
                                                     token: {
-                                                        colorPrimary: '#b4cbd4',
-                                                        colorPrimaryHover: 'black',
-                                                        lineWidth: 2,
-                                                        fontFamily: 'Jost',
-                                                        fontSize: 16,
+                                                      colorPrimary: 'black',
+                                                      lineWidth: 1,
+                                                      fontFamily: 'Jost',
+                                                      fontSize: 14,
                                                     },
-                                                }}
+                                                  }}
                                             >
                                                 <Form.Item
 

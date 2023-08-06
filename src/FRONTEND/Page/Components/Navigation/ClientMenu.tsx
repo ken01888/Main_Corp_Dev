@@ -50,28 +50,6 @@ export const ClientMenu = (props) => {
                         </span>
                     </motion.div>
 
-                    {/* <div className='menuItemsDiv'>
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    fontFamily: 'Jost',
-                                    colorTextTertiary: 'black',
-                                    colorPrimaryHover: '#000000',
-                                    colorBgContainer: '#fafafa'
-
-                                },
-                            }}
-                        >
-                           <Button htmlType="submit">
-                            Guidance
-                           </Button>
-
-
-                        </ConfigProvider>
-
-
-                    </div> */}
-
                 </Col>
 
 

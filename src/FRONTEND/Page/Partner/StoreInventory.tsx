@@ -13,12 +13,10 @@ interface DataType {
     supplier: number | string;
     brand: number | string;
     description: number | string;
-    pack: number | string;
-    size: number | string;
-    unit: number | string | string;
+    package_per_container: number | string;
     category: number | string | string;
     total_package_weight: number | string;
-    serving_size_g: number | string;
+    recommended_stock_level: number | string,
     price: number | string;
 
 }
@@ -180,7 +178,7 @@ const StoreInventory: React.FC = (props) => {
         {
             title: 'Category',
             dataIndex: 'category',
-            responsive: ['xs','md','lg'],
+            responsive: ['xs', 'md', 'lg'],
 
 
 
@@ -193,53 +191,40 @@ const StoreInventory: React.FC = (props) => {
         {
             title: 'Brand',
             dataIndex: 'brand',
-            responsive: ['xs','md','lg'],
+            responsive: ['xs', 'md', 'lg'],
 
         },
         {
             title: 'Description',
             dataIndex: 'description',
-            responsive: ['xs','md','lg'],
+            responsive: ['xs', 'md', 'lg'],
 
 
         },
         {
             title: 'Packages',
-            dataIndex: 'pack',
+            dataIndex: 'package_per_container',
             responsive: ['lg'],
 
 
         },
-        {
-            title: 'Unit of Measurement',
-            dataIndex: 'unit',
-            responsive: ['lg'],
 
-
-        },
         {
-            title: 'Package Weight',
+            title: 'Package Weight (lb)',
             dataIndex: 'total_package_weight',
             responsive: ['lg'],
         },
         {
             title: 'PAR Level',
-            dataIndex: 'size',
-            responsive: ['lg'],
-
-
-        }, 
-        {
-            title: 'Serving Size',
-            dataIndex: 'serving_size_g',
-            responsive: ['lg'],
+            dataIndex: 'recommended_stock_level',
+            responsive: ['xs', 'md', 'lg'],
 
 
         },
         {
             title: '$ Price',
             dataIndex: 'price',
-            responsive: ['xs','md','lg'],
+            responsive: ['xs', 'md', 'lg'],
 
 
         },
@@ -248,29 +233,29 @@ const StoreInventory: React.FC = (props) => {
             render: (_, record: any) => {
                 if (record.id === selectedRowAction) {
                     return (
-                        
-                            <ConfigProvider
-                                        theme={{
-                                            token: {
-                                                fontFamily: 'Jost',
-                                                colorTextTertiary: 'black',
-                                                colorPrimaryHover: '#000000',
-                                                colorBgContainer: '#fafafa',
-                                            },
-                                        }}
-                                    >
-                                        <Space>
-                                          <Tooltip  title="Delete selected item from inventory record">
-                            <Button htmlType="button" onClick={onDeleteInventoryItem} className='buttonBlack' icon={<DeleteOutlined />}></Button>
-                            </Tooltip>
-                                
-                            <Tooltip title="Modify selected item">
-                            <Button htmlType="button" onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} className='buttonBlack' icon={<EditOutlined />}>
-                            </Button>
-                            </Tooltip>
+
+                        <ConfigProvider
+                        theme={{
+                            token: {
+                              colorPrimary: 'black',
+                              lineWidth: 1,
+                              fontFamily: 'Jost',
+                              fontSize: 14,
+                            },
+                          }}
+                        >
+                            <Space>
+                                <Tooltip title="Delete selected item from inventory record">
+                                    <Button htmlType="button" onClick={onDeleteInventoryItem} className='buttonBlack' icon={<DeleteOutlined />}></Button>
+                                </Tooltip>
+
+                                <Tooltip title="Modify selected item">
+                                    <Button htmlType="button" onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} className='buttonBlack' icon={<EditOutlined />}>
+                                    </Button>
+                                </Tooltip>
                             </Space>
-                            </ConfigProvider>
-                       
+                        </ConfigProvider>
+
                     )
                 } else {
                     return (
@@ -317,16 +302,16 @@ const StoreInventory: React.FC = (props) => {
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                            To begin regular inventory audits for your business, please use this section to enter new items.
-                             Once added, they can be accessed through our inventory auditing network, which is protected by a 
-                             unique PIN specific to your company. Only authorized personnel can access it, and you can change 
-                             your PIN at any time in the Account section. You can access the network using our QR Code generator
-                              or by following link at the bottom of the QR Code.
+                                To begin regular inventory audits for your business, please use this section to enter new items.
+                                Once added, they can be accessed through our inventory auditing network, which is protected by a
+                                unique PIN specific to your company. Only authorized personnel can access it, and you can change
+                                your PIN at any time in the Account section. You can access the network using our QR Code generator
+                                or by following link at the bottom of the QR Code.
                             </p>
 
                         </Descriptions.Item>
                         <Descriptions.Item span={3}>
-                           
+
                             <ConfigProvider
                                 theme={{
                                     token: {
@@ -337,15 +322,15 @@ const StoreInventory: React.FC = (props) => {
                                     },
                                 }}
                             >
-                                 <Space wrap size={[25,0]}>
-                                {/* <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button> */}
-                                <Button icon={<PlusOutlined />} className='tagUpdate' onClick={() => setViewInventoryStore(!viewInventoryStore)}> Add Inventory Items</Button>
-                                <Button icon={<QrcodeOutlined />} className='tagUpdate' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>Generate QRCode</Button>
+                                <Space wrap size={[25, 0]}>
+                                    {/* <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button> */}
+                                    <Button icon={<PlusOutlined />} className='tagUpdate' onClick={() => setViewInventoryStore(!viewInventoryStore)}> Add Inventory Items</Button>
+                                    <Button icon={<QrcodeOutlined />} className='tagUpdate' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>Generate QRCode</Button>
                                 </Space>
-                                </ConfigProvider>
+                            </ConfigProvider>
 
 
-                         
+
                         </Descriptions.Item>
 
                     </Descriptions>
@@ -391,15 +376,7 @@ const StoreInventory: React.FC = (props) => {
                 onCancel={() => setViewInventoryStore(!viewInventoryStore)}
                 footer={null}
             >
-                <ConfigProvider
-                    theme={{
-                        token: {
-                            fontFamily: 'Jost',
-                            colorPrimaryHover: '#b4cbd4',
-                            colorBgContainerDisabled: 'ffffff',
-                        },
-                    }}
-                ></ConfigProvider>
+              
                 <p>It is essential to enter this information accurately to ensure its proper usage. If you require any help with data entry, please reach out to our support team.</p>
                 <Form
                     name="Add"
@@ -457,52 +434,14 @@ const StoreInventory: React.FC = (props) => {
                         <Form.Item
 
                             label="Containers Per Case"
-                            name="pack"
+                            name="package_per_container"
                             tooltip='Number of individual packages'
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
                             <InputNumber stringMode={true} min={0} step={5} />
                         </Form.Item>
-                        <Form.Item
 
-                            label="Unit of measurement"
-                            name="unit"
-                            tooltip='Units used to measure the weight of each package. Single Count represents individual containers ex: Ketchup Packets'
-                            rules={[{ required: true, message: 'Enter the required information' }]}
-                        >
-                            <Select
-                                style={{ width: 200 }}
-                                onChange={(value => { setSinglePacks(value) })}
-                                options={[
-                                    {
-                                        label: 'Mass',
-                                        options: [
-                                            { label: 'Grams', value: 'g' },
-                                            { label: 'Kilogram', value: 'kg' },
-                                            { label: 'Ounce', value: 'oz' },
-                                            { label: 'Pound', value: 'lb' },
-                                            { label: 'Megatonne', value: 'mt' },
-                                            { label: 'Tonne', value: 't' },
-                                        ],
-                                    },
-                                    {
-                                        label: 'Other',
-                                        options: [
 
-                                            { label: 'Single Count', value: 'ct' },
-                                        ],
-                                    }
-                                ]}
-                            />
-
-                        </Form.Item>
-                        {singlePacks !== 'ct' ? <Form.Item
-                            label="Container Weight"
-                            name="size"
-                            tooltip='Weight of a single package or container.'
-                        >
-                            <InputNumber stringMode={true} min={0} step={5} />
-                        </Form.Item> : ''}
 
 
                         <Form.Item
@@ -517,17 +456,8 @@ const StoreInventory: React.FC = (props) => {
                         <Form.Item
 
                             label="Stock Level"
-                            name="stock_level"
+                            name="recommended_stock_level"
                             tooltip='Average number of items to keep on hand.'
-                            rules={[{ required: true, message: 'Enter the required information' }]}
-                        >
-                            <InputNumber stringMode={true} min={0} step={5} type='number' />
-                        </Form.Item>
-                        <Form.Item
-
-                            label="Serving size"
-                            name="serving_size_g"
-                            tooltip='Serving size information is located on the nutritional fact sheet.'
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
                             <InputNumber stringMode={true} min={0} step={5} type='number' />
@@ -612,16 +542,43 @@ const StoreInventory: React.FC = (props) => {
 
                         >
                             <ConfigProvider
-                                theme={{
+                                 theme={{
                                     token: {
-                                        colorPrimary: 'black',
-                                        colorPrimaryHover: '#fafafa',
-                                        lineWidth: 2,
-                                        fontFamily: 'Jost',
-                                        fontSize: 14,
+                                      colorPrimary: 'black',
+                                      lineWidth: 1,
+                                      fontFamily: 'Jost',
+                                      fontSize: 14,
                                     },
-                                }}
+                                  }}
                             >
+                                <Form.Item
+                                    label="Supplier"
+                                    name="supplier"
+                                >
+                                    <Input type='text' />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Brand"
+                                    name="brand"
+
+                                >
+                                    <Input type='text' />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Product"
+                                    name="description"
+                                >
+                                    <Input type='text' />
+                                </Form.Item>
+                                <Form.Item
+
+                                    label="Packages"
+                                    name="package_per_container"
+                                    tooltip='Number of individual packages per container'
+
+                                >
+                                    <InputNumber min={0} step={5} />
+                                </Form.Item>
                                 <Form.Item
 
                                     label="Inventory category"
@@ -649,122 +606,23 @@ const StoreInventory: React.FC = (props) => {
 
                                 </Form.Item>
                                 <Form.Item
-                                    label="Supplier"
-                                    name="supplier"
-                                >
-                                    <Input type='text' />
-                                </Form.Item>
-
-                                <Form.Item
-                                    label="Brand"
-                                    name="brand"
-
-                                >
-                                    <Input type='text' />
-                                </Form.Item>
-
-                                <Form.Item
-                                    label="Product"
-                                    name="description"
-                                >
-                                    <Input type='text' />
-                                </Form.Item>
-
-
-                                <Form.Item
-
-                                    label="Packages"
-                                    name="pack"
-                                    tooltip='Number of individual packages per container'
-
-                                >
-                                    <InputNumber min={0} step={5} />
-                                </Form.Item>
-
-                                <Form.Item
-                                    label="Weight of single package"
-                                    name="invidual_container_size"
-                                    tooltip='Weight of each single packaged item in a container.'
-                                >
-                                    <InputNumber min={0} step={5} />
-                                </Form.Item>
-
-                                <Form.Item
 
                                     label="Stock Level"
-                                    name="stock_level"
+                                    name="recommended_stock_level"
                                     tooltip='Preferred inventory to keep on hand.'
                                 >
                                     <InputNumber stringMode={true} min={0} step={5} type='number' />
                                 </Form.Item>
-
-                                <Form.Item
-                                    label="Weight of single package"
-                                    name="invidual_container_size"
-                                    tooltip='Weight of each single packaged item.'
-                                >
-                                    <InputNumber min={0} step={5} />
-                                </Form.Item>
-
                                 <Form.Item
 
-                                    label="Unit of measurement"
-                                    name="unit"
-                                    tooltip='Units used to measure the weight of individual packages.'
-
-                                >
-                                    <Select
-                                        style={{ width: 200 }}
-                                        options={[
-                                            {
-                                                label: 'Mass',
-                                                options: [
-
-                                                    { label: 'Grams', value: 'g' },
-                                                    { label: 'Kilogram', value: 'kg' },
-                                                    { label: 'Ounce', value: 'oz' },
-                                                    { label: 'Pound', value: 'lb' },
-                                                    { label: 'Megatonne', value: 'mt' },
-                                                    { label: 'Tonne', value: 't' },
-
-
-                                                ],
-
-                                            },
-                                            {
-                                                label: 'Other',
-                                                options: [
-
-                                                    { label: 'Single Count', value: 'ct' },
-
-
-
-                                                ],
-
-                                            }
-
-
-                                        ]}
-                                    />
-
-                                </Form.Item>
-                                <Form.Item
-
-                                    label="Total package weight"
+                                    label="Total package weight (lb)"
                                     name="total_package_weight"
                                     tooltip='Total weight of entire package in pounds.'
 
                                 >
                                     <InputNumber min={0} step={5} type='number' />
                                 </Form.Item>
-                                <Form.Item
 
-                                    label="Serving size"
-                                    name="serving_size_g"
-                                    tooltip='Serving size information is located on the nutritional fact sheet.'
-                                >
-                                    <InputNumber min={0} step={5} type='number' />
-                                </Form.Item>
 
 
 
@@ -792,15 +650,14 @@ const StoreInventory: React.FC = (props) => {
 
                 extra={
                     <ConfigProvider
-                        theme={{
-                            token: {
-                                colorPrimary: 'black',
-                                colorPrimaryHover: '#fafafa',
-                                lineWidth: 2,
-                                fontFamily: 'Jost',
-                                fontSize: 14,
-                            },
-                        }}
+                    theme={{
+                        token: {
+                          colorPrimary: 'black',
+                          lineWidth: 1,
+                          fontFamily: 'Jost',
+                          fontSize: 14,
+                        },
+                      }}
                     >
                         <Button htmlType='button' className='buttonBlackDrawer' onClick={downloadQRCode}>
                             Download

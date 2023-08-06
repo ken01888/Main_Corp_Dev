@@ -53,6 +53,7 @@ p {
   line-height: 30px;
   margin-top: 2rem;
   font-family: 'Nunito';
+  font-weight: 500;
 }
 
 @media only screen and (max-width: 749px) {
@@ -143,4 +144,11 @@ p {
     position: relative;
   }
 }
+
+.homeLinks{
+  font-weight: 900;
+    text-decoration: 3px underline #b4cbd4;
+    color:var(--solid_black)
+}
+
 

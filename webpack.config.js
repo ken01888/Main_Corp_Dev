@@ -58,7 +58,7 @@ const $FRONTEND = {
         'viewport': 'content=width=device-width, initial-scale=1.0',
         'description': 'KMC Inc provides a range of B2B services tailored to meet diverse business needs across various sectors. Our services include inventory management, nutritional analysis, business funding, lead generation, and more. We are committed to delivering personalized solutions to our clients while upholding standards of professionalism, reliability, and quality service. Additionally, we prioritize the wellbeing of stakeholders.',
         "theme-color": "#b4cbd4",
-
+        "facebook-domain-verification":"9b6a57vsw9o413dc81354hr667r63c"
       },
 
 

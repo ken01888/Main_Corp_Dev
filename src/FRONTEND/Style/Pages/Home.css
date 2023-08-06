@@ -436,7 +436,7 @@
 }
 
 .form_login{
-    border: 5px solid black;
+    border: 1px solid black;
     padding: 1rem;
     border-radius: 5px;
     background: #fafafa;
@@ -480,3 +480,28 @@
     display: flex;
     align-items: center;
 }
+
+.alignColBigLogo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.missionSection{
+    display: flex;
+    align-items: center;
+    flex-direction: column; 
+}
+
+.dbd{
+    font-weight: 900;
+    text-decoration: 3px underline #b4cbd4;
+}
+
+.dbdMessage{
+    background-color: #b4cbd463;
+    border: 1px solid var(--light_grey);
+}
+
+
