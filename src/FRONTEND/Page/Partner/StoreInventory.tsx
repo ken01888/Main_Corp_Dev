@@ -2,8 +2,6 @@ import * as React from 'react'
 import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Tooltip } from 'antd'
 import 'isomorphic-fetch';
 import { Inventory } from '../../Program_Flow/Inventory_Flow'
-import * as dayjs from 'dayjs'
-import convert from 'convert-units'
 import { ColumnsType } from 'antd/es/table';
 import { DeleteOutlined, EditOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
 
@@ -29,7 +27,6 @@ const StoreInventory: React.FC = (props) => {
     const [selectedRowAction, setSelectedRowActions] = React.useState<any>(null)
     const [updateInventoryForm, setUpdateInventoryForm] = React.useState<any>(false)
     const [viewInventoryStore, setViewInventoryStore] = React.useState<boolean>(false)
-    const [singlePacks, setSinglePacks] = React.useState('')
     const [QRCodeGenerator, setQRCodeGenerator] = React.useState(false)
     const [userId, setUserId] = React.useState()
     const [userPin, setUserPin] = React.useState()
@@ -50,7 +47,7 @@ const StoreInventory: React.FC = (props) => {
                 const newUser = await JSON.parse(user)
                 setUserPin(newUser.pin)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`/getInventoryItems`);
+                const dataReply = await fetch(`http://localhost:8080/getInventoryItems`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -63,7 +60,7 @@ const StoreInventory: React.FC = (props) => {
         addInventory.resetFields();
         setViewInventoryStore(!viewInventoryStore)
         values.business_id = userId;
-        const dataReply = await fetch(`/insertInventoryItems`, {
+        const dataReply = await fetch(`http://localhost:8080/insertInventoryItems`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -104,7 +101,7 @@ const StoreInventory: React.FC = (props) => {
 
 
     const onDeleteInventoryItem = async () => {
-        const dataReply = await fetch(`/deleteInventoryItems`, {
+        const dataReply = await fetch(`http://localhost:8080/deleteInventoryItems`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -129,7 +126,7 @@ const StoreInventory: React.FC = (props) => {
     const onItemUpdate = async (values: Object) => {
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch(`/updateInventoryItem`, {
+        const dataReply = await fetch(`http://localhost:8080/updateInventoryItem`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

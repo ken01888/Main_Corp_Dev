@@ -11,9 +11,7 @@ import 'isomorphic-fetch';
 
 
 
-import { MedicineBoxOutlined, ShopOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import Meta from 'antd/es/card/Meta'
 import { motion } from 'framer-motion';
 
 
@@ -25,7 +23,7 @@ document.title='Kcm Inc Community Support'
 
     const onFinish = async (values: any) => {
 
-        let newData = await fetch('/support_message', {
+        let newData = await fetch('http://localhost:8080/support_message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

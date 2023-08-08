@@ -4,10 +4,7 @@
 
 }
 
-.ClientPortalMain {
-    padding: 5rem 0rem 0rem 2.5rem;
-    row-gap: 75px;
-}
+
 
 .clientMenuItem {
     box-sizing: border-box;
@@ -68,12 +65,7 @@
       margin-top: 1rem;
   }
     }
-    
-.ClientPortalAccount {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
+
 
 .h1_Header_Client_Portal{
     width: fit-content;
@@ -117,10 +109,7 @@
 }
 
 
-.inventoryItemDescription{
-    border-bottom: 2.5px solid var(--solid_black);
-    font-size: 1.25rem;
-}
+
 
 
 

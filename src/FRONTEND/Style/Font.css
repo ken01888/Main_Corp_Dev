@@ -63,38 +63,12 @@ p {
   }
 }
 
-.p_services_header {
-  display: flex;
-  align-items: end;
-  font-weight: 500;
-}
 
 
 
-.forms_background {
-  padding: 0.5rem;
-  border-radius: 5px;
-  background: var(--light_blue);
-  color: var(--solid_black);
-  text-align: justify;
-}
 
-.h1_services {
-  color: var(--light_beige);
-  width: fit-content;
-}
 
-.h3_services {
-  font-size: 1.5rem;
-  font-weight: 900;
-  font-family: Jost;
-  text-decoration: 2.5px underline var(--light_blue);
-  color: var(--light_beige);
-}
 
-.p_services {
-  color: white
-}
 
 .footer_h1 {
   flex-shrink: 0;
@@ -114,19 +88,9 @@ p {
 }
 
 
-.industriesServed{
-  display: flex;
-  align-items: center;
-  column-gap: 5px;
-}
 
-.industriesText{
-  color: var(--light_beige);
-    font-size: 2rem;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
-    font-family: Jost;
-}
+
+
 
 
 /* move to signup css */

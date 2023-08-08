@@ -1,10 +1,10 @@
-import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button, Space, Tag, Grid, Image } from 'antd';
+import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button, Space, Tag, Grid, Image, Popover } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import Main_Menu from '../Components/Navigation/Main_Menu';
-import { CaretRightOutlined, CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import {CheckOutlined, QuestionCircleTwoTone } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { Barcode } from '@phosphor-icons/react';
 import missionPhoto from '../400ppi/missionPhoto.png';
@@ -18,7 +18,7 @@ const Login: React.FC = () => {
   document.title = 'Kcm Inc Stakeholder Intelligence Corporation'
 
   const onFinish = async (values: any) => {
-    let newData = await fetch('/login_verification', {
+    let newData = await fetch('http://localhost:8080/login_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -35,7 +35,6 @@ const Login: React.FC = () => {
       setVerified(!verified)
     }
   };
-
 
 
   const onFinishFailed = (errorInfo: any) => {
@@ -148,31 +147,31 @@ const Login: React.FC = () => {
 
 
             <Row justify={'space-around'} gutter={[0, 75]} >
-              <Col xs={{span:22,order:1}} md={{span:8,order:2}} className='alignCol'>
+              <Col xs={{ span: 22, order: 1 }} md={{ span: 8, order: 2 }} className='alignCol'>
                 <div >
-                  <h2>Together, we can create a more equitable and just society for all.</h2>
-                  <p>Our organization is dedicated to assisting businesses in achieving sustainable practices and enhancing their operational models in order to positively impact the communities they serve. Our customized services are designed to effectively address disparities that affect individuals, ultimately leading to the improvement and betterment of these communities.</p>
+                  <h2>We enhance communities by recognizing the interdependence between enterprises and their consumers.</h2>
+                  <p>Our organization is dedicated to assisting businesses in achieving sustainable practices and enhancing their operational models in order to positively impact the communities they serve.</p>
 
 
                 </div>
 
               </Col>
 
-         
 
-              <Col xs={{span:22,order:2}} md={{span:8,order:1}} className='alignColBigLogo'>
+
+              <Col xs={{ span: 22, order: 2 }} md={{ span: 8, order: 1 }} className='alignColBigLogo'>
                 <motion.div className='logo'>
 
                   <div style={{ height: 'fit-content' }}>
-                    <div className='biglogoBlue'>Health Disparities</div>
-                    <div className='biglogoBeige'>Wealth Disparities</div>
+                    <div className='biglogoBlue'>Health</div>
+                    <div className='biglogoBeige'>Wealth</div>
                   </div>
                   <div style={{ height: 'fit-content' }}>
-                    <div className='biglogoBeige'>Education Disparities</div>
-                    <div className='biglogoBlue'>Housing Disparities</div>
+                    <div className='biglogoBeige'>Education</div>
+                    <div className='biglogoBlue'>Housing</div>
 
                   </div>
-           
+
                 </motion.div>
 
 
@@ -186,8 +185,14 @@ const Login: React.FC = () => {
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={22} md={8}>
                 <div >
-                  <h2>Consumer Discretionary Sector</h2>
-                  <p>Our partnerships extend beyond traditional industries, including those that strive to meet the demands of their customers, like dining, entertainment and leisure establishments.</p>
+                  <h2>Inventory Managment</h2>
+                  <h3>Consumer Discretionary Sector  <Popover placement="bottom" overlayStyle={{ width: 350 }} content={'This category includes hotels, resorts, cruise ships, travel agencies, leisure facilities, restaurants, casino-hotels,entertainment venues, and catering services. '} title="Consumer Discretionary Sector">
+                    <QuestionCircleTwoTone />
+                  </Popover>
+
+
+                  </h3>
+                  <p>Our inventory management system offers a cost-effective solution for monitoring and managing inventory lifecycles. Through the utilization of this tool, you will be able to greatly reduce unnecessary purchases, minimize occurrences of stockouts, and effectively control waste and spoilage.</p>
 
                   <Space wrap size={[0, 25]}>
                     <ConfigProvider
@@ -202,9 +207,8 @@ const Login: React.FC = () => {
                     >
                       <Space wrap size={[25, 0]}>
                         <Space wrap size={[25, 25]}>
-                          <Tag className='activeTag' icon={<CheckOutlined />}>Inventory Management</Tag>
-                          <Tag color="#000000" icon={<ClockCircleOutlined />}>Nutritional Analysis</Tag>
-                          <Tag color="#000000" icon={<ClockCircleOutlined />}>Check Lists</Tag>
+                          <Tag className='activeTag' icon={<CheckOutlined />}>Inventory Tracking</Tag>
+                          <Tag className='activeTag' icon={<CheckOutlined />}>Digital Auditing Sheet</Tag>
                         </Space>
 
                       </Space>
@@ -224,9 +228,7 @@ const Login: React.FC = () => {
 
                   <Barcode size={64} />
 
-                  <p>This inventory management system is designed with a simple interface, enabling you to effortlessly add,
-                    record, and track inventory items. Our service is equipped with QR codes, and a company access pin to ensure
-                    efficient access for your team members to a digital inventory auditing system.</p>
+                  <p>Individualized in-store QR codes are used to conduct routine inventory inspections. To access the digital auditing sheet, a business pin that can be easily modified is used for security purposes.</p>
 
 
 

@@ -1,13 +1,11 @@
 import * as React from 'react'
-import { Col, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space, Table } from 'antd'
+import { Col,Form, Input, ConfigProvider,  Button, Descriptions, Space} from 'antd'
 import 'isomorphic-fetch';
-import { useLoaderData, useParams } from 'react-router-dom';
 
 
 
 
 const PrincipleAccountDetails: React.FC = (props) => {
-    const [ViewPersonalInformation, setViewPersonalInformation] = React.useState<boolean>(false)
     const [EditPersonalInformation, setEditPersonalInformation] = React.useState<boolean>(true)
     const [clientInformation, setclientInformation] = React.useState<any>([])
 
@@ -23,7 +21,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
     }, [])
 
     const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`/updateClientinformation`, {
+        const dataReply = await fetch(`http://localhost:8080/updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

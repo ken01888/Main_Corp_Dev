@@ -55,12 +55,12 @@ router.get('/getInventoryItemsForDailyChecklist/:id', async (req, res) => {
 });
 
 router.post('/insertInventoryChecklistItems', async (req: any, res) => {
-    req.body.order_quantity = req.body.stock_level - req.body.in_stock
+    req.body.order_quantity = req.body.recommended_stock_level - req.body.in_stock
 
     if (req.body.order_quantity <= 0) {
         req.body.order_quantity = 0
     }
-    delete req.body.stock_level
+    delete req.body.recommended_stock_level
     const newReply = await stores.insertInventoryChecklistItems(req.body)
     res.json(newReply)
 });
@@ -68,6 +68,7 @@ router.post('/insertInventoryChecklistItems', async (req: any, res) => {
 router.post('/verify_associate_pin', async (req: any, res) => {
   
         const [newReply,error] = await verify.associateVerification(req.body.pin,req.body.id)
+        
 
         if (newReply){
             res.json(true)

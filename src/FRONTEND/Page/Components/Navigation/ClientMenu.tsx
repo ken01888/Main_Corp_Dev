@@ -1,4 +1,4 @@
-import { Col, Row, DrawerProps, Drawer, Image, ConfigProvider, Button, } from 'antd';
+import { Col, Row, DrawerProps, Drawer, } from 'antd';
 import * as React from 'react';
 
 import { motion } from 'framer-motion';
@@ -11,7 +11,6 @@ import { useNavigate, } from "react-router-dom";
 
 
 export const ClientMenu = (props) => {
-    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<DrawerProps['placement']>('left');
 

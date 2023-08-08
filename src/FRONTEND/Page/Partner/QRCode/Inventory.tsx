@@ -41,12 +41,13 @@ const InventoryCheck: React.FC = (props) => {
                 let params = await new URLSearchParams(document.location.search);
                 let urlid: any = await params.get("business_id");
                 setBusinessId(urlid)
-                const dataReply = await fetch(`/getInventoryItemsForDailyChecklist/${urlid}`)
+                const dataReply = await fetch(`http://localhost:8080/getInventoryItemsForDailyChecklist/${urlid}`)
                 const newData = await dataReply.json();
                 if (newData.length <= 0) {
                     setInventoryExist(false)
                 } else if (newData.length >= 1) {
                     setInventoryLength(newData.length)
+                    
                     setInventoryExist(true)
                     setInventoryList(newData)
                 }
@@ -61,7 +62,7 @@ const InventoryCheck: React.FC = (props) => {
 
     const onAddInventoryItems = async (values: any) => {
         setInventoryLength(inventoryLength - 1)
-        const dataReply = await fetch(`/insertInventoryChecklistItems`, {
+        const dataReply = await fetch(`http://localhost:8080/insertInventoryChecklistItems`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,7 +76,7 @@ const InventoryCheck: React.FC = (props) => {
 
     const onVerifyFinish = async (values: any) => {
         values.id = business_id_number
-        const dataReply = await fetch(`/verify_associate_pin`, {
+        const dataReply = await fetch(`http://localhost:8080/verify_associate_pin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -106,7 +107,7 @@ const InventoryCheck: React.FC = (props) => {
         const values: any = {}
         values.reference_number = inventoryReferenceId
         values.id = business_id_number
-        const dataReply = await fetch(`/inventory_notification_to_business`, {
+        const dataReply = await fetch(`http://localhost:8080/inventory_notification_to_business`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -209,7 +210,7 @@ const InventoryCheck: React.FC = (props) => {
                                                 <Descriptions.Item key={uuidv4()}
                                                     label="Brand">{String(v.brand).toUpperCase()}</Descriptions.Item>
                                                 <Descriptions.Item key={uuidv4()}
-                                                    label="Required Stock Level">{String(v.stock_level).toUpperCase()}</Descriptions.Item>
+                                                    label="Required Stock Level">{String(v.recommended_stock_level).toUpperCase()}</Descriptions.Item>
                                                 <Descriptions.Item key={uuidv4()}
                                                     label="On Hand">
                                                     <Form.Item
@@ -259,9 +260,9 @@ const InventoryCheck: React.FC = (props) => {
                                                     </Form.Item>
                                                     <Form.Item
                                                         hidden
-                                                        name={`stock_level`}
+                                                        name={`recommended_stock_level`}
                                                         rules={[{ required: true, message: 'Enter the number of items ' }]}
-                                                        initialValue={Number(v.stock_level)}
+                                                        initialValue={Number(v.recommended_stock_level)}
                                                     >
                                                         <Input />
 
@@ -330,14 +331,14 @@ const InventoryCheck: React.FC = (props) => {
 
                             >
                                 <ConfigProvider
-                                     theme={{
+                                    theme={{
                                         token: {
-                                          colorPrimary: 'black',
-                                          lineWidth: 1,
-                                          fontFamily: 'Jost',
-                                          fontSize: 14,
+                                            colorPrimary: 'black',
+                                            lineWidth: 1,
+                                            fontFamily: 'Jost',
+                                            fontSize: 14,
                                         },
-                                      }}
+                                    }}
                                 >
 
 

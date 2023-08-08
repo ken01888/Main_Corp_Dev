@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, Image, ConfigProvider, Space, Alert } from 'antd';
+import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, ConfigProvider, Space, Alert } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
@@ -14,7 +14,7 @@ document.title='Kcm Inc Service Registration'
 
     const onFinishLogin = async (values: any) => {
 
-        let newData = await fetch('/registration', {
+        let newData = await fetch('http://localhost:8080/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -66,7 +66,6 @@ document.title='Kcm Inc Service Registration'
                         <Col xs={22} md={8}>
                             <div className='fixedSignupDiv'>
                             <h2>Our offerings are meticulously crafted to equip you with a distinctive edge within your industry.</h2>
-                            <p><span className='industriesText'>Simple sign up process!</span></p>
                             </div>
                           
                             

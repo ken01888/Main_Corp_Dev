@@ -26,10 +26,16 @@
   "display": "standalone",
   "theme_color": "#b4cbd4",
   "background_color": "#ffffff",
+  "prefer_related_applications": true,
+  "id": "/",
   "start_url": "/",
   "frontend.js": "auto/main.js",
+  "131.main.js": "auto/131.main.js",
+  "service-worker.js": "auto/service-worker.js",
   "Large512x512.png": "auto/Large512x512.png",
   "missionPhoto.png": "auto/dd5c2a17487b581e36328d8f5a102d25.png",
   "favicon.ico": "auto/favicon.ico",
-  "index.html": "auto/index.html"
+  "index.html": "auto/index.html",
+  "index.js": "auto/index.js",
+  "robots.txt": "auto/robots.txt"
 }

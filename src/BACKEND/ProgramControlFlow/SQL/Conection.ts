@@ -11,7 +11,7 @@ export const mysqlAccess = mysql.createPool({
     host:process.env.MYSQL_HOST,
     database: process.env.DB_NAME,
     port:3306,
-    socketPath:process.env.INSTANCE_UNIX_SOCKET
+    // socketPath:process.env.INSTANCE_UNIX_SOCKET
 })
 
 export const Query = (query:string,values?:Array<string|number>)=>{

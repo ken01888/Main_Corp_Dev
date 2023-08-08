@@ -10,6 +10,8 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 var HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
 
 
 
@@ -48,6 +50,11 @@ const $FRONTEND = {
 
   plugins: [
     new NodePolyfillPlugin(),
+    new WorkboxWebpackPlugin.InjectManifest({
+      swSrc: "./src/service-worker.ts",
+      swDest: "service-worker.js",
+      maximumFileSizeToCacheInBytes: 50000000
+    }),
     new HtmlWebpackPlugin({
       template: './Client/index.html', hash: false,
       favicon: './Client/favicon.ico',
@@ -58,7 +65,7 @@ const $FRONTEND = {
         'viewport': 'content=width=device-width, initial-scale=1.0',
         'description': 'KMC Inc provides a range of B2B services tailored to meet diverse business needs across various sectors. Our services include inventory management, nutritional analysis, business funding, lead generation, and more. We are committed to delivering personalized solutions to our clients while upholding standards of professionalism, reliability, and quality service. Additionally, we prioritize the wellbeing of stakeholders.',
         "theme-color": "#b4cbd4",
-        "facebook-domain-verification":"9b6a57vsw9o413dc81354hr667r63c"
+        "facebook-domain-verification": "9b6a57vsw9o413dc81354hr667r63c"
       },
 
 
@@ -95,56 +102,72 @@ const $FRONTEND = {
         display: "standalone",
         theme_color: "#b4cbd4",
         background_color: "#ffffff",
-        start_url: '/',
+        prefer_related_applications: true,
+        id: '/',
+        start_url: '/'
       }
 
     }
     ),
 
-    // new HtmlWebpackTagsPlugin({
-    //   links: [
-    //     {
-    //       path: '../Client/apple-touch-icon.png',
-    //       publicPath: false,
-    //       attributes: {
-    //         rel: 'apple-touch-icon',
-    //         size: '180x180'
-    //       }
-    //     },
-    //     {
-    //       path: '../Client/apple-touch-icon.png',
-    //       publicPath: false,
-    //       attributes: {
-    //         rel: 'apple-touch-icon',
-    //         size: '32x32'
-    //       }
-    //     },
+    new HtmlWebpackTagsPlugin({
+      // links: [
+      //   {
+      //     path: '../Client/apple-touch-icon.png',
+      //     publicPath: false,
+      //     attributes: {
+      //       rel: 'apple-touch-icon',
+      //       size: '180x180'
+      //     }
+      //   },
+      //   {
+      //     path: '../Client/apple-touch-icon.png',
+      //     publicPath: false,
+      //     attributes: {
+      //       rel: 'apple-touch-icon',
+      //       size: '32x32'
+      //     }
+      //   },
 
-    //     {
-    //       path: '../Client/favicon-32x32.png',
-    //       publicPath: false,
-    //       attributes: {
-    //         rel: 'icon',
-    //         size: '32x32',
-    //         type: 'image/png'
-    //       }
-    //     },
-    //     {
-    //       path: '../Client/favicon-16x16.png',
-    //       publicPath: false,
-    //       attributes: {
-    //         rel: 'icon',
-    //         size: '16x16',
-    //         type: 'image/png'
-    //       }
-    //     },
-    //   ]
-    // })
+      //   {
+      //     path: '../Client/favicon-32x32.png',
+      //     publicPath: false,
+      //     attributes: {
+      //       rel: 'icon',
+      //       size: '32x32',
+      //       type: 'image/png'
+      //     }
+      //   },
+      //   {
+      //     path: '../Client/favicon-16x16.png',
+      //     publicPath: false,
+      //     attributes: {
+      //       rel: 'icon',
+      //       size: '16x16',
+      //       type: 'image/png'
+      //     }
+      //   },
+      // ]
+      scripts: [
+        {
+          path: 'service-worker.js',
+          append: true,
+        },
+      ]
+    }),
     new CopyPlugin({
       patterns: [
         {
           from: "Client/*.png",
-          to:"[name][ext]",
+          to: "[name][ext]",
+        },
+        {
+          from: "Client/*.txt",
+          to: "[name][ext]",
+        },
+        {
+          from: "Client/*.js",
+          to: "[name][ext]",
         },
       ],
     }),

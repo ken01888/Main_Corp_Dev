@@ -32,8 +32,6 @@ const InventoryAudit: React.FC = (props) => {
     const [viewInventoryStore, setViewInventoryStore] = React.useState<boolean>(false)
 
 
-    const [addInventory] = Form.useForm();
-
     const [updateInventory] = Form.useForm();
 
 
@@ -47,7 +45,7 @@ const InventoryAudit: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
 
-                const dataReply = await fetch(`/inventory_reference_information`);
+                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -61,7 +59,7 @@ const InventoryAudit: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-                const dataReply = await fetch(`/inventory_reference_information`);
+                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -88,7 +86,7 @@ const InventoryAudit: React.FC = (props) => {
 
 
     const onDeleteInventoryItem = async () => {
-        const dataReply = await fetch(`/deleteInventoryAuditItems`, {
+        const dataReply = await fetch(`http://localhost:8080/deleteInventoryAuditItems`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -99,7 +97,7 @@ const InventoryAudit: React.FC = (props) => {
         if (dataParse === 1) {
             (
                 async () => {
-                    const dataReply = await fetch(`/inventory_reference_information`);
+                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
                     const newData = await dataReply.json();
                     setInventoryList(newData)
                 }
@@ -113,7 +111,7 @@ const InventoryAudit: React.FC = (props) => {
     const onItemUpdate = async (values: Object) => {
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch(`/updateInventoryAuditItem`, {
+        const dataReply = await fetch(`http://localhost:8080/updateInventoryAuditItem`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

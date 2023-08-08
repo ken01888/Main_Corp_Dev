@@ -36,12 +36,6 @@
 
 }
 
-.businessNameH1 {
-    text-decoration: 11px var(--light_blue) underline;
-    font-weight: 400;
-    font-size: 18px;
-    display: contents;
-}
 
 .menuLogoSide{
     display: flex;
