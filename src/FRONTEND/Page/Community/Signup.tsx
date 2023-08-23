@@ -4,17 +4,18 @@ import * as React from 'react'
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Menu from '../Components/Navigation/Main_Menu';
+import { useForm } from 'antd/es/form/Form';
 
 
 
 const SignUp: React.FC = () => {
     const [showForm, setForm] = React.useState(true)
     const [emailVerified, setEmailVerified] = React.useState(false)
-document.title='Kcm Inc Service Registration'
+    document.title = 'Kcm Inc Service Registration'
 
     const onFinishLogin = async (values: any) => {
 
-        let newData = await fetch('http://localhost:8080/registration', {
+        let newData = await fetch('/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,6 +52,8 @@ document.title='Kcm Inc Service Registration'
         },
     ];
 
+
+    const [form] = useForm()
     return (
         <Layout className='layout'>
             <Header className='header'>
@@ -63,14 +66,7 @@ document.title='Kcm Inc Service Registration'
 
                 <Content >
                     <Row justify={'space-around'} gutter={[0, 75]}>
-                        <Col xs={22} md={8}>
-                            <div className='fixedSignupDiv'>
-                            <h2>Our offerings are meticulously crafted to equip you with a distinctive edge within your industry.</h2>
-                            </div>
-                          
-                            
-                        </Col>
-                        <Col xs={22} md={8}>
+                        <Col xs={22} md={12}>
                             <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: .5 }}>
@@ -100,6 +96,7 @@ document.title='Kcm Inc Service Registration'
                                             onFinishFailed={onFinishFailed}
                                             autoComplete="one"
                                             size='large'
+                                            form= {form}
 
                                         >
 
@@ -107,12 +104,12 @@ document.title='Kcm Inc Service Registration'
                                             <ConfigProvider
                                                 theme={{
                                                     token: {
-                                                      colorPrimary: 'black',
-                                                      lineWidth: 1,
-                                                      fontFamily: 'Jost',
-                                                      fontSize: 14,
+                                                        colorPrimary: 'black',
+                                                        lineWidth: 1,
+                                                        fontFamily: 'Jost',
+                                                        fontSize: 16,
                                                     },
-                                                  }}
+                                                }}
                                             >
                                                 <Form.Item
 
@@ -120,7 +117,7 @@ document.title='Kcm Inc Service Registration'
                                                     name="first_name"
                                                     rules={[{ required: true, message: 'Please input your first name!' }]}
                                                 >
-                                                    <Input type='text' 
+                                                    <Input type='text'
                                                     />
                                                 </Form.Item>
 
@@ -140,9 +137,9 @@ document.title='Kcm Inc Service Registration'
                                                     <Input type='text' />
                                                 </Form.Item>
                                                 <Form.Item
-                                                    label="Business Size"
+                                                    label="Number of employees"
                                                     name="business_size"
-                                                    rules={[{ required: true, message: 'Please select your business size!' }]}
+                                                    rules={[{ required: true, message: 'How many employees do you have?' }]}
                                                 >
                                                     <Select bordered>
                                                         <Select.Option value="micro">Less than 10</Select.Option>
@@ -189,7 +186,7 @@ document.title='Kcm Inc Service Registration'
                                                             message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]. Passwords must be at least 8 characters long.',
                                                             min: 8,
                                                             max: 8,
-                                                            pattern:/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&?]).{8}$/
+                                                            pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&?]).{8}$/
                                                         },
                                                     ]}
                                                     hasFeedback
@@ -327,7 +324,7 @@ document.title='Kcm Inc Service Registration'
                 </Content>
 
             </Layout>
-           
+
             <Footer className='footer_public'>
                 <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
                     <Col xs={22} md={10}>
@@ -389,7 +386,7 @@ document.title='Kcm Inc Service Registration'
 
                             </ConfigProvider>
 
-                          
+
                             <ConfigProvider
                                 theme={{
                                     token: {

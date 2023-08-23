@@ -61,9 +61,11 @@ const validateUser = (req, res, next) => {
 app.use('/', express.static( 'public'))
 app.use('/signup', express.static( 'public'))
 app.use('/store', express.static( 'public'))
-app.use('/support', express.static( 'public'))
-app.use('/support', express.static( 'public'))
-app.use('/principle/', validateUser, express.static('public'))
+app.use('/principle/',  express.static('public'))
+
+// app.use('/principle/', validateUser, express.static('public'))
+
+
 
 
 

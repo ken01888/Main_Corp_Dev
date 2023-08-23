@@ -41,7 +41,7 @@ h2 {
   font-style: normal;
   color: var(--token-b9c3c957-2c66-49c4-9732-fa196fddac20, #001122);
   font-size: 2.25rem;
-  letter-spacing: -2.1px;
+  letter-spacing: .25px;
   line-height: 1.2;
   font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
 }
@@ -51,7 +51,6 @@ h2 {
 p {
   font-size: 1rem;
   line-height: 30px;
-  margin-top: 2rem;
   font-family: 'Nunito';
   font-weight: 500;
 }
@@ -95,24 +94,56 @@ p {
 
 /* move to signup css */
 
-  .fixedSignupDiv{
-    width: 400px;
-    position: fixed;
-  }
+.fixedSignupDiv {
+  width: 400px;
+  position: fixed;
+}
 
 
 @media only screen and (max-width: 749px) {
 
-  .fixedSignupDiv{
+  .fixedSignupDiv {
     width: fit-content;
     position: relative;
   }
 }
 
-.homeLinks{
+.homeLinks {
   font-weight: 900;
-    text-decoration: 3px underline #b4cbd4;
-    color:var(--solid_black)
+  color: var(--solid_black)
+}
+
+.impactWord {
+  font-weight: 400;
+  color: var(--light_beige)
+}
+
+.serviceOutline {}
+
+.serviceOutline>h2 {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.serviceOutline>p {
+  font-size: .875rem;
+  border-bottom: 5px solid var(--light_beige);
+
 }
 
 
+.popoverh3{
+  background: var(--light_beige);
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;}
+
+  .inputIngredients{
+    padding: 5px;
+    border: 1px solid var(--light_grey);
+    border-radius: 5px;
+    background: var(--light_blue);
+    width: fit-content;
+  }

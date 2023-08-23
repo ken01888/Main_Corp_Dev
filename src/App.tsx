@@ -13,6 +13,7 @@ import ContactSupport from './FRONTEND/Page/Community/Support';
 import InventoryCheck from './FRONTEND/Page/Partner/QRCode/Inventory';
 import PrivacyPolicy from './FRONTEND/Page/Community/PrivacyPolicy';
 import InventoryAudit from './FRONTEND/Page/Partner/InventoryAudits';
+import Products from './FRONTEND/Page/Partner/Products';
 
 const App = createBrowserRouter([
   {
@@ -62,6 +63,11 @@ const App = createBrowserRouter([
     element: <InventoryAudit />,
 
   },
+  {
+    path: "products",
+    element: <Products />,
+
+  },
 
   {
     path: '/principle',
@@ -82,6 +88,12 @@ const App = createBrowserRouter([
         element: <InventoryAudit />,
 
       },
+      {
+        path: "products",
+        element: <Products />,
+
+      },
+ 
       //   {
       //     path: "billing",
       //     element: <PrincipleBillingDetails />

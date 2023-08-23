@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { Col,Form, Input, ConfigProvider,  Button, Descriptions, Space} from 'antd'
+import { Col, Form, Input, ConfigProvider, Button, Descriptions, Space } from 'antd'
 import 'isomorphic-fetch';
+import { Pencil } from '@phosphor-icons/react';
 
 
 
@@ -10,18 +11,19 @@ const PrincipleAccountDetails: React.FC = (props) => {
     const [clientInformation, setclientInformation] = React.useState<any>([])
 
 
-
     React.useEffect(() => {
         const user: any = window.localStorage.getItem('user')
         const newUser = JSON.parse(user)
         delete newUser.id
         delete newUser.access_token
+        delete newUser.account_type
+        delete newUser.business_size
         const newUserArray = Object.entries(newUser)
         setclientInformation(newUserArray)
     }, [])
 
     const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`http://localhost:8080/updateClientinformation`, {
+        const dataReply = await fetch(`/updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -45,6 +47,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
 
         <Col xs={22} md={18}>
+
             <div className='clientPortalDiv'>
                 <Form
                     name="client"
@@ -60,7 +63,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
                             token: {
                                 fontFamily: 'Jost',
                                 colorTextTertiary: 'black',
-                                colorPrimaryHover: '#b4cbd4',
+                                colorPrimaryHover: '#000000',
                                 colorBgContainerDisabled: '#ffffff',
 
                             },
@@ -71,15 +74,13 @@ const PrincipleAccountDetails: React.FC = (props) => {
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
-                                    If you need to make any changes, click on "Update" to modify your account details.
+                                    On this page, you can view and modify your account information.
+                                    Keep in mind that if you change your access pin, it's important
+                                    to inform the representatives who assist you with your regular tasks.
                                 </p>
 
                             </Descriptions.Item>
-                            <Descriptions.Item span={3}>
-                                <Space>
-                                    <Button className='tagUpdate' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }}> Update</Button>
-                                </Space>
-                            </Descriptions.Item>
+
 
 
 
@@ -103,10 +104,12 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
                                             >
 
+
                                                 <Input key={n} bordered={EditPersonalInformation} placeholder={i[1]} disabled={EditPersonalInformation}></Input>
                                             </Form.Item>
 
                                         </Descriptions.Item>
+
 
 
                                     )
@@ -114,29 +117,56 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
 
                                 {EditPersonalInformation ?
-                                    ''
+                                    <Descriptions.Item span={3}>
+                                        <Button className='buttonBlack' htmlType="submit" onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }} icon={<Pencil size={16} />}>
+                                            Update
+                                        </Button>
+
+                                    </Descriptions.Item>
                                     :
-                                    <Descriptions.Item label='Update Account Details' span={1}>
+                                    <><Descriptions.Item span={1}>
 
                                         <Form.Item
                                         >
                                             <ConfigProvider
                                                 theme={{
                                                     token: {
-                                                      colorPrimary: 'black',
-                                                      lineWidth: 1,
-                                                      fontFamily: 'Jost',
-                                                      fontSize: 14,
+                                                        colorPrimary: 'black',
+                                                        lineWidth: 1,
+                                                        fontFamily: 'Jost',
+                                                        fontSize: 14,
                                                     },
-                                                  }}
+                                                }}
                                             >
 
-                                                <Button className='tagSubmit' htmlType="submit">
-                                                    Submit Changes
+
+                                                <Button className='buttonBlack' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }} htmlType='button'>
+                                                    Cancel
                                                 </Button>
                                             </ConfigProvider>
                                         </Form.Item>
-                                    </Descriptions.Item>
+                                    </Descriptions.Item><Descriptions.Item span={1}>
+
+                                            <Form.Item
+                                            >
+                                                <ConfigProvider
+                                                    theme={{
+                                                        token: {
+                                                            colorPrimary: 'black',
+                                                            lineWidth: 1,
+                                                            fontFamily: 'Jost',
+                                                            fontSize: 14,
+                                                        },
+                                                    }}
+                                                >
+
+
+                                                    <Button className='buttonBlack' htmlType="submit">
+                                                        Submit
+                                                    </Button>
+                                                </ConfigProvider>
+                                            </Form.Item>
+                                        </Descriptions.Item></>
 
                                 }
                             </>

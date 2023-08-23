@@ -28,7 +28,7 @@ export const ClientMenu = (props) => {
 
     return (
         <>
-            <Row className='webMenu'>
+            <Row className='webMenu' justify={'space-between'}>
 
 
                 <Col xs={22} className='menuLogoSide'>
@@ -44,10 +44,11 @@ export const ClientMenu = (props) => {
                             <div className='logoBlue'></div>
 
                         </div>
-                        <span className='menuMiddleItems'>
+                      
+                    </motion.div>
+                    <span className='menuMiddleItems'>
                             {props.businessName}
                         </span>
-                    </motion.div>
 
                 </Col>
 

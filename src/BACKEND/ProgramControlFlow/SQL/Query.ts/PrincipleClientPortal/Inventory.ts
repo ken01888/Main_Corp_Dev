@@ -10,13 +10,27 @@ const selectStore = async (id) => Query('SELECT * FROM Inventory.Store WHERE ?;'
 const insertInventoryItem = async (values: any) => Query('INSERT INTO Inventory.Inventory_Items SET ?', values);
 const getInventoryItems = async (business_id) => Query('SELECT * FROM Inventory.Inventory_Items WHERE business_id = ?', [business_id]);
 const deleteInventoryItem = async (id) => Query('DELETE FROM Inventory.Inventory_Items WHERE ?', [id]);
-const updateInventoryItem = async (values,id) => Query('UPDATE Inventory.Inventory_Items SET ? WHERE id = ?',[values,id]);
-const getInventoryChecklistItems = async(business_id) => Query('SELECT id,category,recommended_stock_level,brand,supplier,description FROM Inventory.Inventory_Items WHERE business_id = ? ORDER BY category', [business_id]);
+const updateInventoryItem = async (values, id) => Query('UPDATE Inventory.Inventory_Items SET ? WHERE id = ?', [values, id]);
+const getInventoryChecklistItems = async (business_id) => Query('SELECT id,category,recommended_stock_level,brand,supplier,description FROM Inventory.Inventory_Items WHERE business_id = ? ORDER BY category', [business_id]);
 const insertInventoryChecklistItems = async (...values: any) => Query('INSERT INTO Inventory.Inventory_checklist SET ?', values);
-const getPhoneNumbers = async(business_id) => Query('SELECT phone_number,business_name FROM Credentials.Principle_Login_Credentials WHERE id = 80', [business_id]);
-const getInventoryReference = async(business_id) => Query('SELECT Inventory.Inventory_checklist.audit_reference_number, Inventory.Inventory_checklist.date_of_audit,Inventory.Inventory_checklist.in_stock,Inventory.Inventory_checklist.order_quantity,Inventory.Inventory_Items.supplier,Inventory.Inventory_Items.brand,Inventory.Inventory_Items.description,Inventory.Inventory_Items.category,Inventory.Inventory_Items.price,Inventory.Inventory_checklist.id,Inventory.Inventory_checklist.order_quantity FROM Inventory.Inventory_checklist INNER JOIN Inventory.Inventory_Items WHERE Inventory.Inventory_checklist.business_id = ? and Inventory.Inventory_checklist.inventory_item_id=Inventory.Inventory_Items.id ORDER BY Inventory.Inventory_checklist.date_of_audit', [business_id]);
+const getPhoneNumbers = async (business_id) => Query('SELECT phone_number,business_name FROM Credentials.Principle_Login_Credentials WHERE id = 80', [business_id]);
+const getInventoryReference = async (business_id, date_of_audit) => Query(`SELECT Inventory.Inventory_checklist.audit_reference_number, Inventory.Inventory_checklist.date_of_audit,Inventory.Inventory_checklist.in_stock,Inventory.Inventory_checklist.order_quantity,Inventory.Inventory_Items.supplier,Inventory.Inventory_Items.brand,Inventory.Inventory_Items.description,Inventory.Inventory_Items.category,Inventory.Inventory_Items.price,Inventory.Inventory_checklist.id,Inventory.Inventory_checklist.order_quantity FROM Inventory.Inventory_checklist INNER JOIN Inventory.Inventory_Items WHERE Inventory.Inventory_checklist.business_id = ? and Inventory.Inventory_checklist.date_of_audit = ? ORDER BY Inventory.Inventory_checklist.date_of_audit`, [business_id, date_of_audit]);
 const deleteInventoryAuditItem = async (id) => Query('DELETE FROM Inventory.Inventory_checklist WHERE ?', [id]);
-const updateInventoryAuditItem = async (values,id) => Query('UPDATE Inventory.Inventory_checklist SET ? WHERE id = ?',[values,id]);
+const updateInventoryAuditItem = async (values, id) => Query('UPDATE Inventory.Inventory_checklist SET ? WHERE id = ?', [values, id]);
+const selectUniqueInventoryPeriod = async () => Query('SELECT date_of_audit FROM Inventory.Inventory_checklist');
+const insertNutritionalInformation = async (values, id) => Query('UPDATE  Inventory.Inventory_Items SET ? WHERE id = ?', [values, id])
+const insertProductRecipeName = async (values) => Query('INSERT Recipe.Products SET ?', [values])
+const upDateProductRecipeCost = async (values) => Query('INSERT Recipe.Products SET ?',[values])
+const getRecipeProduct = async (id) => Query('SELECT * FROM Recipe.Products WHERE business_id = ?', [id])
+const getInventoryItemsforSelect = async(id) => Query('select id ,description,category,total_package_weight,price_per_gram from Inventory.Inventory_Items where business_id = ? ORDER BY category', [id])
+const getInventoryItemsforRecording = async(id) => Query('select total_package_weight,price_per_gram from Inventory.Inventory_Items where id = ?', [id])
+const insertIngredients = async(values,product_id) => Query('INSERT Recipe.Product_Inputs SET ?  ', [values,product_id])
+const sumOfAllIngredients = async(productId) =>Query('select sum(input_cost) from Recipe.Product_Inputs where product_id = ?',[productId])
+const insertInputItemCost = async(total_cost,product_id) => Query('UPDATE Recipe.Products SET total_cost = ? WHERE id = ?',[total_cost,product_id])
+
+
+
+
 
 
 
@@ -43,5 +57,17 @@ export default {
     getPhoneNumbers,
     getInventoryReference,
     deleteInventoryAuditItem,
-    updateInventoryAuditItem
+    updateInventoryAuditItem,
+    selectUniqueInventoryPeriod,
+    insertNutritionalInformation,
+    insertProductRecipeName,
+    getRecipeProduct,
+    getInventoryItemsforSelect,
+    getInventoryItemsforRecording,
+    insertIngredients,
+    sumOfAllIngredients,
+    insertInputItemCost,
+    upDateProductRecipeCost
+
+
 }

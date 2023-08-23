@@ -1,11 +1,22 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Space, Input, Table, Tooltip } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Space, Input, Table, Tooltip, Calendar, DatePicker, DatePickerProps, Dropdown, MenuProps } from 'antd'
 import 'isomorphic-fetch';
 import { Inventory } from '../../Program_Flow/Inventory_Flow'
 
 import { ColumnsType } from 'antd/es/table';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DownOutlined, EditOutlined, SmileOutlined } from '@ant-design/icons';
+import * as dayjs from 'dayjs'
+import { CalendarMode } from 'antd/es/calendar/generateCalendar';
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
+
+
+// interface DataType {
+//     key: number | string;
+//     audit_reference_number: number | string;
+//     date_of_audit: number | string;
+// }
 
 interface DataType {
     key: number | string;
@@ -14,13 +25,10 @@ interface DataType {
     description: number | string;
     category: number | string | string;
     price: number | string;
-    audit_reference_number: number | string;
-    date_of_audit: number | string;
     in_stock: number | string;
     order_quantity: number | string
-
-
 }
+
 
 
 
@@ -29,7 +37,10 @@ const InventoryAudit: React.FC = (props) => {
     const [selectedRow, setSelectedRow] = React.useState<any>([])
     const [selectedRowAction, setSelectedRowActions] = React.useState<any>(null)
     const [updateInventoryForm, setUpdateInventoryForm] = React.useState<any>(false)
-    const [viewInventoryStore, setViewInventoryStore] = React.useState<boolean>(false)
+    const [inventoryDate, setInventoryDate] = React.useState<any>([])
+    const [requestedDate, setrequestedDate] = React.useState<any>()
+    const [rowModify, setRowModify] = React.useState(false)
+    const [totalCost, setTotalCost] = React.useState('')
 
 
     const [updateInventory] = Form.useForm();
@@ -37,55 +48,58 @@ const InventoryAudit: React.FC = (props) => {
 
 
     // Retrieve Inventory information from database
-
     React.useEffect(() => {
         (
             async () => {
 
-                const user: any = await window.localStorage.getItem('user')
-                const newUser = await JSON.parse(user)
-
-                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
+                const dataReply = await fetch(`http://localhost:8080/inventoryPeriod`);
                 const newData = await dataReply.json();
-                setInventoryList(newData)
+                const newDate = newData.map((i, n, a) => {
+                    return i.date_of_audit
+                })
+                setInventoryDate(newDate)
             }
         )()
     }, [])
 
-    /* Form Inventory Add*/
-
-
-
     React.useEffect(() => {
         (
             async () => {
-                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
+                const newDate = requestedDate
+                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
                 const newData = await dataReply.json();
+                const newArray = newData.map((i, n, a) => {
+                    return i.price * i.order_quantity
+                })
+                const sumWithInitial = newArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+                setTotalCost(sumWithInitial)
                 setInventoryList(newData)
             }
-
         )()
-
-
-    }, [viewInventoryStore, updateInventoryForm])
-
-
-
-    /*Select table rows for update of product or delete*/
+    }, [inventoryDate, rowModify, totalCost])
 
 
 
+    const onChange: DatePickerProps['onChange'] = async (date, dateString) => {
+        const newDate = await dayjs(dateString).format('dddd, MMMM D, YYYY')
+        setrequestedDate(newDate)
+        const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
+        const newData = await dataReply.json();
+        const newArray = newData.map((i, n, a) => {
+            return i.price * i.order_quantity
+        })
 
-
-
-
-    /*Form Failure*/
+        const sumWithInitial = newArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+        setTotalCost(sumWithInitial)
+        setInventoryList(newData)
+    }
 
 
     /*Form Delete */
 
 
     const onDeleteInventoryItem = async () => {
+        setRowModify(!rowModify)
         const dataReply = await fetch(`http://localhost:8080/deleteInventoryAuditItems`, {
             method: 'DELETE',
             headers: {
@@ -97,8 +111,15 @@ const InventoryAudit: React.FC = (props) => {
         if (dataParse === 1) {
             (
                 async () => {
-                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information`);
+                    const newDate = requestedDate
+                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
                     const newData = await dataReply.json();
+                    const newArray = newData.map((i, n, a) => {
+                        return i.price * i.order_quantity
+                    })
+
+                    const sumWithInitial = newArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+                    setTotalCost(sumWithInitial)
                     setInventoryList(newData)
                 }
             )()
@@ -109,25 +130,34 @@ const InventoryAudit: React.FC = (props) => {
     /*Form Update */
 
     const onItemUpdate = async (values: Object) => {
+        setRowModify(!rowModify)
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch(`http://localhost:8080/updateInventoryAuditItem`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ values, id: selectedRow[1][0] })
-        });
-        const dataParse = await dataReply.json();
-        if (dataParse === 1) {
-            (
-                async () => {
-                    const data = await new Inventory()
-                    const newData = await data.getInventoryItems()
-                    setInventoryList(newData.inventory)
-                }
-            )()
-        }
+        // const dataReply = await fetch(`http://localhost:8080/updateInventoryAuditItem`, {
+        //     method: 'PUT',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({ values, id: selectedRow[1][0] })
+        // });
+        // const dataParse = await dataReply.json();
+        // if (dataParse === 1) {
+        //     (
+        //         async () => {
+        //             const newDate = requestedDate
+        //             const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
+        //             const newData = await dataReply.json();
+        //             const newArray = newData.map((i, n, a) => {
+        //                 return i.price * i.order_quantity
+        //             })
+
+        //             const sumWithInitial = newArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+        //             setTotalCost(sumWithInitial)
+        //             setInventoryList(newData)
+        //         }
+        //     )()
+        // }
+        console.log(updateInventory)
         updateInventory.resetFields();
     };
 
@@ -151,67 +181,71 @@ const InventoryAudit: React.FC = (props) => {
     };
 
 
+    const items: MenuProps['items'] = [
+        {
+            key: '1',
+            label: (
+                <a onClick={onDeleteInventoryItem}  >
+                    Delete
+                </a>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <a onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} >
+                    Modify
+                </a>
+            ),
+        }
+    ];
 
 
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Date',
-            dataIndex: 'date_of_audit',
-            responsive: ['lg'],
-
-
-        },
-        {
-            title: 'Reference Number',
-            dataIndex: 'audit_reference_number',
-            responsive: ['lg'],
-
-
+            title: 'Category',
+            dataIndex: 'category',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
         },
         {
             title: 'Supplier',
             dataIndex: 'supplier',
-            responsive: ['lg'],
+            responsive: ['lg', 'xl', 'xxl'],
         },
         {
             title: 'Brand',
             dataIndex: 'brand',
-            responsive: ['lg'],
+            responsive: ['lg', 'xl', 'xxl'],
         },
         {
             title: 'Description',
             dataIndex: 'description',
-            responsive: ['lg'],
-
-        },
-
-        {
-            title: 'Category',
-            dataIndex: 'category',
-            responsive: ['lg'],
-
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
 
         },
         {
-            title: 'Price',
-            dataIndex: 'price',
-            responsive: ['lg'],
-
-
-        },
-        {
-            title: 'On Hand',
+            title: 'Available',
             dataIndex: 'in_stock',
-            responsive: ['lg'],
+            responsive: ['lg', 'xl', 'xxl'],
 
 
         },
         {
-            title: 'Order Quantity',
+            title: 'Acquire',
             dataIndex: 'order_quantity',
-            responsive: ['lg'],
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
 
+        },
+        {
+            title: 'Cost',
+            dataIndex: 'order_quantity',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                return (
+                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.order_quantity) * Number(record.price))
 
+                )
+            }
         },
 
 
@@ -222,30 +256,34 @@ const InventoryAudit: React.FC = (props) => {
                 if (record.id === selectedRowAction) {
                     return (
 
+                        <Dropdown menu={{ items }}>
+                            <Button>
+                                <Space>
+                                    Edit
+                                    <DownOutlined />
+                                </Space>
+                            </Button>
+                        </Dropdown>
+                        // <ConfigProvider
+                        //     theme={{
+                        //         token: {
+                        //             fontFamily: 'Jost',
+                        //             colorTextTertiary: 'black',
+                        //             colorPrimaryHover: '#white',
+                        //             colorBgContainer: '#fafafa',
+                        //         },
+                        //     }}
+                        // >
+                        //     <Space>
+                        //         <Tooltip title="Delete selected item from audit record">
 
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    fontFamily: 'Jost',
-                                    colorTextTertiary: 'black',
-                                    colorPrimaryHover: '#000000',
-                                    colorBgContainer: '#fafafa',
-                                },
-                            }}
-                        >
-                            <Space>
-                                <Tooltip title="Delete selected item from audit record">
-                                    <Button htmlType="submit" onClick={onDeleteInventoryItem} className='buttonBlackDrawer' icon={<DeleteOutlined />}>
-                                    </Button>
-                                </Tooltip>
+                        //         </Tooltip>
 
-                                <Tooltip title="Modify selected item">
-                                    <Button htmlType="submit" onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} className='buttonBlackDrawer' icon={<EditOutlined />}>
+                        //         <Tooltip title="Modify selected item">
 
-                                    </Button>
-                                </Tooltip>
-                            </Space>
-                        </ConfigProvider>
+                        //         </Tooltip>
+                        //     </Space>
+                        // </ConfigProvider>
 
 
 
@@ -266,19 +304,6 @@ const InventoryAudit: React.FC = (props) => {
 
 
 
-    const downloadQRCode = () => {
-        const canvas = document.getElementById('myqrcode')?.querySelector<HTMLCanvasElement>('canvas');
-        if (canvas) {
-            const url = canvas.toDataURL();
-            const a = document.createElement('a');
-            a.download = 'QRCode.png';
-            a.href = url;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-    };
-
 
     return (
 
@@ -292,17 +317,56 @@ const InventoryAudit: React.FC = (props) => {
 
 
                     <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Inventory Audit</h1>
+                        title={<><h1 className='h1_Header_Client_Portal'> Audit</h1>
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                                After finishing an auditing session, you can check your Inventory Audits.
-                                But before that, you need to add inventory items to your account. Once you are done with that,
-                                you can get a QR Code or use the link available in the QR Code Generator section to access
-                                your recording network.
+                                Use this section to review all past inventory auditing sessions.
+                                Please select a date to view previous inventory audits. Modifying your
+                                items is simple. Select the item you wish to change to begin updating it.
+
                             </p>
 
+
+
                         </Descriptions.Item>
+                        <Descriptions.Item span={3}>
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorBgContainer: '#fafafa',
+                                        colorPrimary: 'black'
+                                    },
+                                }}
+                            >
+                                <DatePicker
+                                    onChange={onChange}
+                                    cellRender={(current, info) => {
+                                        if (info.type !== 'date') return info.originNode;
+                                        const style: React.CSSProperties = {};
+                                        inventoryDate.map((i, n, a) => {
+                                            if (current.format('dddd, MMMM D, YYYY') === i) {
+                                                style.fontFamily = 'Jost';
+                                                style.background = 'var(--light_beige)';
+                                                style.color = 'black';
+                                                style.fontWeight = 900
+                                            }
+                                        })
+                                        return (
+                                            <div className="ant-picker-cell-inner" style={style}>
+                                                {current.date()}
+                                            </div>
+                                        );
+                                    }}
+                                />
+
+                            </ConfigProvider>
+
+                        </Descriptions.Item>
+
+
                     </Descriptions>
 
 
@@ -310,6 +374,7 @@ const InventoryAudit: React.FC = (props) => {
 
 
                 </div>
+
                 <div>
                     <ConfigProvider
                         theme={{
@@ -322,7 +387,18 @@ const InventoryAudit: React.FC = (props) => {
                         }}
                     >
                         <Table rowKey={(record: any) => record.id}
-                            rowSelection={rowSelection} columns={columns} dataSource={InventoryList} pagination={{ pageSize: 10 }} bordered />
+                            rowSelection={rowSelection} columns={columns} dataSource={InventoryList} pagination={{ pageSize: 10 }} bordered footer={(record: any) =>
+                                InventoryList[0] ?
+                                    <Descriptions>
+                                        <Descriptions.Item label="Audit Date" span={2}>{record[0].date_of_audit}</Descriptions.Item>
+                                        <Descriptions.Item label="Cost" span={1}>{new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(totalCost))}</Descriptions.Item>
+                                        <Descriptions.Item label="Reference Number" span={3}>{record[0].audit_reference_number}</Descriptions.Item>
+                                        <Descriptions.Item label="Time Since Audit" span={3}>{dayjs(record[0].date_of_audit).fromNow(true)}</Descriptions.Item>
+
+
+
+                                    </Descriptions> : ''}
+                        />
                     </ConfigProvider>
                 </div>
 
@@ -335,7 +411,7 @@ const InventoryAudit: React.FC = (props) => {
 
             <Modal
                 title="Update Inventory Item"
-                style={{ top: 20 }}
+                style={{ top: 10 }}
                 open={updateInventoryForm}
                 onCancel={() => setUpdateInventoryForm(!updateInventoryForm)}
                 footer={null}
@@ -347,7 +423,6 @@ const InventoryAudit: React.FC = (props) => {
                     selectedRow ?
                         <Form
                             name="Update"
-                            style={{ maxWidth: 600 }}
                             form={updateInventory}
                             initialValues={{ reset: true }}
                             onFinish={onItemUpdate}

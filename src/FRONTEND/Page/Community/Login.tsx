@@ -4,21 +4,23 @@ import * as React from 'react'
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import Main_Menu from '../Components/Navigation/Main_Menu';
-import {CheckOutlined, QuestionCircleTwoTone } from '@ant-design/icons';
+import { CheckOutlined, QrcodeOutlined, QuestionCircleTwoTone } from '@ant-design/icons';
 import 'antd/dist/reset.css';
-import { Barcode } from '@phosphor-icons/react';
-import missionPhoto from '../400ppi/missionPhoto.png';
+import { ArrowRight, Barcode, Book, Graph, PersonSimpleRun, QrCode } from '@phosphor-icons/react';
+import qrcode from '../400ppi/generateQRCode.jpeg';
+
 
 
 
 const Login: React.FC = () => {
   let [verified, setVerified] = React.useState(false);
+  
 
   const navigate = useNavigate()
   document.title = 'Kcm Inc Stakeholder Intelligence Corporation'
 
   const onFinish = async (values: any) => {
-    let newData = await fetch('http://localhost:8080/login_verification', {
+    let newData = await fetch('/login_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -41,7 +43,6 @@ const Login: React.FC = () => {
     console.log('Failed:', errorInfo);
 
   };
-  const screen = Grid.useBreakpoint();
 
 
 
@@ -55,13 +56,13 @@ const Login: React.FC = () => {
       <Layout className='homeScreenDesktop'>
 
         <Content >
-          <Space wrap size={[0, 125]}>
+          <Space wrap size={[0, 250]}>
 
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={22} md={8} className='alignCol'>
                 <div >
-                  <h2>Our organization empowers emerging enterprises to thrive with equitable business services. </h2>
-                  <p><Link className='homeLinks' to='/signup'> <span>Sign up for an account today </span></Link> and benefit from our newest enterprise solution that aids in minimizing environmental and inventory waste, managing costs, and monitoring the nutritional value of food products for various demographics.</p>
+                  <h1><span className='impactWord'>Scale</span> your business without sacrificing your budget.</h1>
+                  <p>We offer a variety of enterprise development services, both complimentary and paid, that do not require any setup fees. This is an ideal chance to discover our range of services without any initial financial obligation.</p>
 
 
                 </div>
@@ -96,6 +97,7 @@ const Login: React.FC = () => {
                           colorPrimary: 'black',
                           lineWidth: 1,
                           fontFamily: 'Jost',
+
                           fontSize: 14,
 
                         },
@@ -124,7 +126,7 @@ const Login: React.FC = () => {
                       <Form.Item
                       >
                         <Button className='buttonBlack' htmlType="submit">
-                          Verify
+                          Enter
                         </Button>
                       </Form.Item>
                     </ConfigProvider>
@@ -149,8 +151,8 @@ const Login: React.FC = () => {
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={{ span: 22, order: 1 }} md={{ span: 8, order: 2 }} className='alignCol'>
                 <div >
-                  <h2>We enhance communities by recognizing the interdependence between enterprises and their consumers.</h2>
-                  <p>Our organization is dedicated to assisting businesses in achieving sustainable practices and enhancing their operational models in order to positively impact the communities they serve.</p>
+                  <h1> Strengthen enterprise and stakeholders bonds. </h1>
+                  <p>Our goal is to create thriving businesses by providing accessible business services that empower organizations while enhancing the well-being of the communities they serve and the individuals within them.</p>
 
 
                 </div>
@@ -163,12 +165,40 @@ const Login: React.FC = () => {
                 <motion.div className='logo'>
 
                   <div style={{ height: 'fit-content' }}>
-                    <div className='biglogoBlue'>Health</div>
-                    <div className='biglogoBeige'>Wealth</div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: .5 }}
+                    >
+                      <div className='biglogoBlue'>No Setup Fee</div>
+
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 1 }}
+                    >
+                      <div className='biglogoBeige'>Simple Setup</div>
+
+                    </motion.div>
                   </div>
                   <div style={{ height: 'fit-content' }}>
-                    <div className='biglogoBeige'>Education</div>
-                    <div className='biglogoBlue'>Housing</div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: .75 }}
+                    >
+                      <div className='biglogoBeige'>Only $10 Per Month</div>
+
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 1.25 }}
+                    >
+                      <div className='biglogoBlue'>People Focused</div>
+
+                    </motion.div>
 
                   </div>
 
@@ -182,16 +212,19 @@ const Login: React.FC = () => {
 
 
 
+
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={22} md={8}>
                 <div >
                   <h2>Inventory Managment</h2>
-                  <h3>Consumer Discretionary Sector  <Popover placement="bottom" overlayStyle={{ width: 350 }} content={'This category includes hotels, resorts, cruise ships, travel agencies, leisure facilities, restaurants, casino-hotels,entertainment venues, and catering services. '} title="Consumer Discretionary Sector">
-                    <QuestionCircleTwoTone />
+
+                  <Popover placement="bottom" overlayStyle={{ width: 350 }} content={'This category includes hotels, resorts, cruise ships, travel agencies, leisure facilities, restaurants, casino-hotels,entertainment venues, and catering services. '} title="Consumer Discretionary Sector">
+                    <h3 className='popoverh3'>Consumer Discretionary Sector                    </h3>
                   </Popover>
 
 
-                  </h3>
+
+
                   <p>Our inventory management system offers a cost-effective solution for monitoring and managing inventory lifecycles. Through the utilization of this tool, you will be able to greatly reduce unnecessary purchases, minimize occurrences of stockouts, and effectively control waste and spoilage.</p>
 
                   <Space wrap size={[0, 25]}>
@@ -208,10 +241,14 @@ const Login: React.FC = () => {
                       <Space wrap size={[25, 0]}>
                         <Space wrap size={[25, 25]}>
                           <Tag className='activeTag' icon={<CheckOutlined />}>Inventory Tracking</Tag>
-                          <Tag className='activeTag' icon={<CheckOutlined />}>Digital Auditing Sheet</Tag>
+                          <Tag className='activeTag' icon={<QrcodeOutlined />}>Digital Auditing Sheet</Tag>
                         </Space>
 
+
+
                       </Space>
+
+
 
 
 
@@ -222,50 +259,65 @@ const Login: React.FC = () => {
 
               </Col>
               <Col xs={22} md={8} className='alignCol'>
-                <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: .5 }}>
-
-                  <Barcode size={64} />
-
-                  <p>Individualized in-store QR codes are used to conduct routine inventory inspections. To access the digital auditing sheet, a business pin that can be easily modified is used for security purposes.</p>
-
-
-
+                <motion.div className='form_login' >
+                  <Image className='imageInventory' src={qrcode} preview={false}></Image>
                 </motion.div>
 
               </Col>
+
+
+              <Row justify={'space-around'} gutter={[0, 75]} >
+                <Col xs={22} md={4} >
+                  <div className='serviceOutline'>
+                    <h2>Quick Setup <div className='iconsmalllogoBlue'>
+                      <PersonSimpleRun size={24} />
+                    </div></h2>
+                    <p>With our self-managed implementation process, you have complete control over your integration.</p>
+                  </div>
+
+                </Col>
+
+                <Col xs={22} md={4}>
+                  <div className='serviceOutline'>
+
+
+                    <h2>Lifecycle Controls <div className='iconsmalllogoBlue'>
+                      <Graph size={24} />
+
+
+                    </div></h2>
+
+
+
+                    <p>Our comprehensive inventory control system allows for seamless recording and tracking of your expanding inventory.</p>
+
+
+                  </div>
+
+                </Col>
+
+                <Col xs={22} md={4}>
+                  <div className='serviceOutline'>
+                    <h2>Digital Auditing <div className='iconsmalllogoBlue'>
+                      <QrCode size={24} />
+                    </div></h2>
+
+
+
+
+                    <p>A QR Code system that provides a more comprehensive view of your inventory and helps reduces auditing times.</p>
+
+
+                  </div>
+                </Col>
+
+
+              </Row>
+
             </Row>
-            <Row justify={'center'} gutter={[0, 75]} >
-              <Col xs={22} md={10} className='missionSection'>
-                <div>
-                  <Image src={missionPhoto} preview={false} width={250} />
-
-                </div>
-
-                <motion.div initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: .5 }}>
-
-
-                  <p style={{ textAlign: 'center', fontWeight: 500, fontSize: '1.25rem' }}>Our goal is to create equitable business services that prioritize
-                    the needs of communities by addressing challenges related to health,
-                    wealth, education,housing and the environment; by way of <span className='dbd'>Downward Benefit Drift</span>.
-                  </p>
-
-                  <Alert className='dbdMessage'
-                    message="What is Downward Benefit Drift?"
-                    description="Our organization utilizes the methodology of Downward Benefit Drift to distribute benefits to stakeholders, both internal and external. This approach involves developing services for enterprises that are intentionally designed to positively impact communities by aiding businesses in optimizing their operations.
-                    "
-                    type="info"
-                  />
 
 
 
-                </motion.div>
-
-              </Col>
-            </Row>
 
           </Space>
 

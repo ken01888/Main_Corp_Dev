@@ -60,22 +60,41 @@ const ClientPortal: React.FC = () => {
                                     };
                                 }}
                             >
-                                {subInventory?<FolderOpenOutlined size={16}/> : <FolderOutlined size={16}/>}Inventory
+                                {subInventory ? <FolderOpenOutlined size={16} /> : <FolderOutlined size={16} />}Inventory
                             </NavLink>
                             {
-                                subInventory ? <NavLink
-                                    to={`inventoryaudits`}
-                                    className='clientMenuItem'
-                                    style={({ isActive, isPending }) => {
-                                        return {
-                                            fontWeight: isActive ? "bold" : "",
-                                            backgroundColor: isActive ? "#e8dac2" : "",
-                                        };
-                                    }}
+                                subInventory ?
+                                    <Space wrap size={[55,0]}>
 
-                                >
-                                    <FileTextOutlined />Audits
-                                </NavLink> : ''
+                                        <NavLink
+                                            to={`products`}
+                                            className='clientMenuItem'
+                                            style={({ isActive, isPending }) => {
+                                                return {
+                                                    fontWeight: isActive ? "bold" : "",
+                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : "",
+                                                };
+                                            }}
+
+                                        >
+                                            <FileTextOutlined />Products
+                                        </NavLink>
+                                        <NavLink
+                                            to={`inventoryaudits`}
+                                            className='clientMenuItem'
+                                            style={({ isActive, isPending }) => {
+                                                return {
+                                                    fontWeight: isActive ? "bold" : "",
+                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : "",
+                                                };
+                                            }}
+
+                                        >
+                                            <FileTextOutlined />Audits
+                                        </NavLink>
+                                    </Space>
+
+                                    : ''
                             }
 
 

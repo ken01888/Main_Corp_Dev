@@ -50,11 +50,11 @@ const $FRONTEND = {
 
   plugins: [
     new NodePolyfillPlugin(),
-    new WorkboxWebpackPlugin.InjectManifest({
-      swSrc: "./src/service-worker.ts",
-      swDest: "service-worker.js",
-      maximumFileSizeToCacheInBytes: 50000000
-    }),
+    // new WorkboxWebpackPlugin.InjectManifest({
+    //   swSrc: "./src/service-worker.ts",
+    //   swDest: "service-worker.js",
+    //   maximumFileSizeToCacheInBytes: 50000000
+    // }),
     new HtmlWebpackPlugin({
       template: './Client/index.html', hash: false,
       favicon: './Client/favicon.ico',
@@ -157,6 +157,10 @@ const $FRONTEND = {
     }),
     new CopyPlugin({
       patterns: [
+        {
+          from: "Client/*.ico",
+          to: "[name][ext]",
+        },
         {
           from: "Client/*.png",
           to: "[name][ext]",

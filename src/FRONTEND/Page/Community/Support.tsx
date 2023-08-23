@@ -23,7 +23,7 @@ document.title='Kcm Inc Community Support'
 
     const onFinish = async (values: any) => {
 
-        let newData = await fetch('http://localhost:8080/support_message', {
+        let newData = await fetch('/support_message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -55,15 +55,9 @@ document.title='Kcm Inc Community Support'
 
                 <Content >
                     <Row justify={'space-around'} gutter={[0, 75]}>
-                        <Col xs={22} md={8}>
-                            <div className='fixedSignupDiv'>
-                                <h2>Please don't hesitate to ask us anything that you may be curious about. Our top priority is to provide you with complete support and ensure that you have all the necessary information.</h2>
-                            </div>
+                    
 
-
-                        </Col>
-
-                        <Col xs={22} md={8}>
+                        <Col xs={22} md={12}>
                             <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: .5 }}>
