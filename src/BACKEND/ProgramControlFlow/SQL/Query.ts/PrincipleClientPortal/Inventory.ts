@@ -18,15 +18,24 @@ const getInventoryReference = async (business_id, date_of_audit) => Query(`SELEC
 const deleteInventoryAuditItem = async (id) => Query('DELETE FROM Inventory.Inventory_checklist WHERE ?', [id]);
 const updateInventoryAuditItem = async (values, id) => Query('UPDATE Inventory.Inventory_checklist SET ? WHERE id = ?', [values, id]);
 const selectUniqueInventoryPeriod = async () => Query('SELECT date_of_audit FROM Inventory.Inventory_checklist');
-const insertNutritionalInformation = async (values, id) => Query('UPDATE  Inventory.Inventory_Items SET ? WHERE id = ?', [values, id])
+const insertNutritionalInformation = async (values, id) => Query('UPDATE Inventory.Inventory_Items SET ? WHERE id = ?', [values, id])
 const insertProductRecipeName = async (values) => Query('INSERT Recipe.Products SET ?', [values])
 const upDateProductRecipeCost = async (values) => Query('INSERT Recipe.Products SET ?',[values])
 const getRecipeProduct = async (id) => Query('SELECT * FROM Recipe.Products WHERE business_id = ?', [id])
 const getInventoryItemsforSelect = async(id) => Query('select id ,description,category,total_package_weight,price_per_gram from Inventory.Inventory_Items where business_id = ? ORDER BY category', [id])
-const getInventoryItemsforRecording = async(id) => Query('select total_package_weight,price_per_gram from Inventory.Inventory_Items where id = ?', [id])
+const getInventoryItemsforRecording = async(id) => Query('select total_package_weight,price_per_gram,price from Inventory.Inventory_Items where id = ?', [id])
 const insertIngredients = async(values,product_id) => Query('INSERT Recipe.Product_Inputs SET ?  ', [values,product_id])
 const sumOfAllIngredients = async(productId) =>Query('select sum(input_cost) from Recipe.Product_Inputs where product_id = ?',[productId])
-const insertInputItemCost = async(total_cost,product_id) => Query('UPDATE Recipe.Products SET total_cost = ? WHERE id = ?',[total_cost,product_id])
+const insertInputItemMeta = async(total_cost = 0,total_input_count = 0,total_weight=0,id) => Query('UPDATE Recipe.Products SET total_cost = ?, total_input_count = ?, total_weight = ? WHERE id = ?',[total_cost, total_input_count,total_weight,id])
+const getIngredientCount = async(id) => Query('SELECT COUNT(inventory_item_id) FROM Recipe.Product_Inputs WHERE product_id = ?;',[id])
+const totalInputWeight = async(productId) =>Query('select sum(input_weight) from Recipe.Product_Inputs where product_id = ?',[productId])
+const deleteProduct = async(id) =>Query('DELETE FROM Recipe.Products WHERE id = ?',[id])
+
+const deleteInput = async(productId) =>Query('DELETE FROM Recipe.Product_Inputs WHERE product_id = ?',[productId])
+
+
+
+
 
 
 
@@ -66,8 +75,12 @@ export default {
     getInventoryItemsforRecording,
     insertIngredients,
     sumOfAllIngredients,
-    insertInputItemCost,
-    upDateProductRecipeCost
+    insertInputItemMeta,
+    upDateProductRecipeCost,
+    getIngredientCount,
+    totalInputWeight,
+    deleteInput,
+    deleteProduct
 
 
 }

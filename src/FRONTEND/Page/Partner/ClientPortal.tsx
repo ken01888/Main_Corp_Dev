@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Col, Layout, Row, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space } from 'antd'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import { Bank, Book, Question } from '@phosphor-icons/react'
-import { FileTextOutlined, FolderOpenOutlined, FolderOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
+import { CaretDownOutlined, CaretUpOutlined, FileTextOutlined, FolderOpenOutlined, FolderOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import 'isomorphic-fetch';
 import { ClientMenu } from '../Components/Navigation/ClientMenu'
 import { Link, NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom'
@@ -35,14 +35,13 @@ const ClientPortal: React.FC = () => {
                 <Content >
 
                     <Row justify={'space-between'} className='ClientPortal' gutter={[0, 75]}>
-                        <Col xs={22} md={4} className='ClientSideItems'>
+                        <Col xs={22} md={3} className='ClientSideItems'>
                             <NavLink
                                 to={`account`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
                                     return {
                                         fontWeight: isActive ? "bold" : "",
-                                        backgroundColor: isActive ? "#e8dac2" : "",
                                     };
                                 }}
                             >
@@ -51,12 +50,13 @@ const ClientPortal: React.FC = () => {
 
                             <NavLink
                                 onClick={() => setSubInventory(!subInventory)}
-                                to={`store`}
+                                to={`#`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
+                                    <span className={isActive ? "active" : ""}>Tasks</span>
+
                                     return {
                                         fontWeight: isActive ? "bold" : "",
-                                        backgroundColor: isActive ? "#e8dac2" : "",
                                     };
                                 }}
                             >
@@ -64,7 +64,23 @@ const ClientPortal: React.FC = () => {
                             </NavLink>
                             {
                                 subInventory ?
-                                    <Space wrap size={[55,0]}>
+
+                                    <Space wrap size={[55, 0]}>
+                                        <NavLink
+                                            to={`store`}
+                                            className='clientMenuItem'
+                                            style={({ isActive, isPending }) => {
+                                                return {
+                                                    fontWeight: isActive ? "bold" : "",
+                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
+                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+
+
+                                                };
+                                            }}
+                                        >
+                                             <FileTextOutlined />Items
+                                        </NavLink>
 
                                         <NavLink
                                             to={`products`}
@@ -72,7 +88,8 @@ const ClientPortal: React.FC = () => {
                                             style={({ isActive, isPending }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
-                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : "",
+                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
+                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
                                                 };
                                             }}
 
@@ -85,7 +102,8 @@ const ClientPortal: React.FC = () => {
                                             style={({ isActive, isPending }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
-                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : "",
+                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
+                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
                                                 };
                                             }}
 

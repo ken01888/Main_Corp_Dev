@@ -58,6 +58,7 @@ const StoreInventory: React.FC = (props) => {
     /* Form Inventory Add*/
 
     const onAddInventoryItems = async (values: any) => {
+        console.log(values)
         addInventory.resetFields();
         setViewInventoryStore(!viewInventoryStore)
         values.business_id = userId;
@@ -75,13 +76,16 @@ const StoreInventory: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-                const data = await new Inventory()
-                const newData = await data.getInventoryItems()
-                setInventoryList(newData.inventory)
+
+                const user: any = await window.localStorage.getItem('user')
+                const newUser = await JSON.parse(user)
+                setUserPin(newUser.pin)
+                setUserId(newUser.id)
+                const dataReply = await fetch(`http://localhost:8080/getInventoryItems`);
+                const newData = await dataReply.json();
+                setInventoryList(newData)
             }
-
         )()
-
 
     }, [viewInventoryStore, updateInventoryForm])
 
@@ -113,9 +117,14 @@ const StoreInventory: React.FC = (props) => {
         if (dataParse === 1) {
             (
                 async () => {
-                    const data = await new Inventory()
-                    const newData = await data.getInventoryItems()
-                    setInventoryList(newData.inventory)
+
+                    const user: any = await window.localStorage.getItem('user')
+                    const newUser = await JSON.parse(user)
+                    setUserPin(newUser.pin)
+                    setUserId(newUser.id)
+                    const dataReply = await fetch(`http://localhost:8080/getInventoryItems`);
+                    const newData = await dataReply.json();
+                    setInventoryList(newData)
                 }
             )()
         }
@@ -135,15 +144,22 @@ const StoreInventory: React.FC = (props) => {
             body: JSON.stringify({ values, id: selectedRow[1][0] })
         });
         const dataParse = await dataReply.json();
-        if (dataParse === 1) {
-            (
-                async () => {
-                    const data = await new Inventory()
-                    const newData = await data.getInventoryItems()
-                    setInventoryList(newData.inventory)
-                }
-            )()
-        }
+        console.log(dataParse)
+        // if (dataParse.affectedRows === 1) {
+        //     (
+        //         async () => {
+
+        //             const user: any = await window.localStorage.getItem('user')
+        //             const newUser = await JSON.parse(user)
+        //             setUserPin(newUser.pin)
+        //             setUserId(newUser.id)
+        //             const dataReply_1 = await fetch(`http://localhost:8080/getInventoryItems`);
+        //             console.log(dataReply_1)
+        //             const newData = await dataReply_1.json();
+        //             setInventoryList(newData)
+        //         }
+        //     )()
+        // }
         updateInventory.resetFields();
     };
 
@@ -242,17 +258,16 @@ const StoreInventory: React.FC = (props) => {
             title: 'Product',
             dataIndex: 'description',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
-
         },
 
         {
             title: 'Package Weight',
             dataIndex: 'total_package_weight',
             responsive: ['lg', 'xl', 'xxl'],
+            sorter: (a: any, b: any) => a.total_package_weight - b.total_package_weight,
             render: (_, record) => {
                 return (
-                    convert(record.total_package_weight).from('g').to('lb')
+                    record.total_package_weight + ' lb'
                 )
             }
         },
@@ -261,20 +276,25 @@ const StoreInventory: React.FC = (props) => {
             dataIndex: 'recommended_stock_level',
             responsive: ['lg', 'xl', 'xxl'],
 
-
+            sorter: (a: any, b: any) => a.recommended_stock_level - b.recommended_stock_level,
+            render: (_, record) => {
+                return (
+                    record.recommended_stock_level + ' cs'
+                )
+            }
         },
         {
             title: 'Price',
             dataIndex: 'price',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            sorter: (a: any, b: any) => a.price - b.price,
+
             render: (_, record) => {
                 return (
                     new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.price))
 
                 )
             }
-
-
         },
         {
             title: 'Action',
@@ -334,18 +354,14 @@ const StoreInventory: React.FC = (props) => {
 
 
                     <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Inventory Section</h1>
+                        title={<><h1 className='h1_Header_Client_Portal'>Inventory</h1>
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                                To initiate regular inventory audits for your business,
-                                use this section to add new items. After adding them,
-                                you can commence your routine inventory audits. Only
-                                authorized personnel are authorized to carry out audits,
-                                and you are at liberty to modify your PIN anytime in
-                                the Account section. To access the network, utilize
-                                our QR Code generator or follow the link at the bottom
-                                of the QR Code.
+                                To conduct regular inventory audits and effectively manage food costs for your business,
+                                adding new items to the designated section is necessary. Please remember that only authorized
+                                personnel with access to your company's "PIN" can conduct these audits. Additionally,
+                                the SECURITY PIN can be changed at any time under the Account section for added security.
                             </p>
 
                         </Descriptions.Item>
@@ -362,9 +378,8 @@ const StoreInventory: React.FC = (props) => {
                                 }}
                             >
                                 <Space wrap size={[25, 25]}>
-                                    {/* <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button> */}
                                     <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}> Add Inventory Items</Button>
-                                    <Button icon={<QrcodeOutlined />} className='buttonBlack' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>In-Store Digital Barcode</Button>
+                                    <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>In-Store Digital Barcode</Button>
                                 </Space>
                             </ConfigProvider>
 
@@ -379,7 +394,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                 </div>
-                <div>
+                <div className='tableScrollDiv'>
                     <ConfigProvider
                         theme={{
                             token: {
@@ -391,7 +406,8 @@ const StoreInventory: React.FC = (props) => {
                         }}
                     >
                         <Table rowKey={(record: any) => record.id}
-                            rowSelection={rowSelection} columns={columns} dataSource={InventoryList} scroll={{ x: 250 }} pagination={{ pageSize: 10 }} bordered />
+                            scroll={{ x: '-webkit-fill-available' }}
+                            rowSelection={rowSelection} columns={columns} dataSource={InventoryList} pagination={{ pageSize: 10 }} bordered />
                     </ConfigProvider>
                 </div>
 
@@ -448,22 +464,17 @@ const StoreInventory: React.FC = (props) => {
                                     initialValue={0}
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['serving_size', 'unit']}
                                     noStyle
                                     initialValue={'g'}
                                 >
+
                                     <Select>
-                                        <Select.Option value="mcg">mcg</Select.Option>
-                                        <Select.Option value="mg">mg</Select.Option>
+
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -479,7 +490,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['calories', 'unit']}
@@ -505,7 +516,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['total_fat', 'unit']}
@@ -517,11 +528,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -538,7 +545,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['saturated_fat', 'unit']}
@@ -550,11 +557,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -571,7 +574,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['trans_fat', 'unit']}
@@ -583,11 +586,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -604,7 +603,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['cholesterol', 'unit']}
@@ -616,11 +615,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -638,7 +633,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['sodium', 'unit']}
@@ -650,11 +645,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -671,7 +662,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['carbohydrates', 'unit']}
@@ -683,11 +674,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -704,7 +691,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['fiber', 'unit']}
@@ -716,11 +703,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -737,7 +720,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['sugar', 'unit']}
@@ -749,11 +732,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -770,7 +749,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['added_sugar', 'unit']}
@@ -782,11 +761,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -803,7 +778,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['protein', 'unit']}
@@ -815,11 +790,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -836,7 +807,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['calcium', 'unit']}
@@ -848,29 +819,20 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
                         </Form.Item>
 
-
                         <Form.Item label="Iron">
                             <Space.Compact>
-
                                 <Form.Item
                                     name={['iron', 'amount']}
                                     noStyle
                                     initialValue={0}
-
-
-
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['iron', 'unit']}
@@ -882,11 +844,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -903,7 +861,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['potassium', 'unit']}
@@ -915,11 +873,7 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -936,7 +890,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber />
+                                    <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['vitamin_d', 'unit']}
@@ -948,32 +902,11 @@ const StoreInventory: React.FC = (props) => {
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
+
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
                         </Form.Item>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                         <Form.Item
                         >
@@ -1002,7 +935,7 @@ const StoreInventory: React.FC = (props) => {
                 footer={null}
             >
 
-                <p>It is essential to enter this information accurately to ensure its proper usage. If you require any help with data entry, please reach out to our support team.</p>
+                <p>It is essential to enter this information accurately to ensure its proper usage.</p>
                 <Form
                     name="Add"
                     form={addInventory}
@@ -1057,13 +990,46 @@ const StoreInventory: React.FC = (props) => {
 
 
 
+
                         <Form.Item
 
                             label="Total Weight Per Case"
-                            name="total_package_weight"
-                            rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber stringMode={true} min={0} step={5} type='number' />
+                            <Space.Compact>
+                                <Form.Item
+
+                                    name={['total_package_weight', 'unit']}
+                                    rules={[{ required: true, message: 'Enter the required information' }]}
+                                    initialValue={0}
+                                >
+                                    <InputNumber min={0} />
+
+                                </Form.Item>
+                                <Form.Item
+
+                                    name={['total_package_weight', 'weight']}
+                                    rules={[{ required: true, message: 'Enter the required information' }]}
+                                    initialValue={'lb'}
+
+                                >
+                                    <Select
+                                        style={{ width: 120 }}
+                                    >
+                                        <Select.Option value="mcg">mcg</Select.Option>
+                                        <Select.Option value="mg">mg</Select.Option>
+                                        <Select.Option value="g">g</Select.Option>
+                                        <Select.Option value="kg">kg</Select.Option>
+                                        <Select.Option value="oz">oz</Select.Option>
+                                        <Select.Option value="lb">lb</Select.Option>
+                                        <Select.Option value="mt">mt</Select.Option>
+                                        <Select.Option value="t">t</Select.Option>
+                                    </Select>
+                                </Form.Item>
+
+
+
+                            </Space.Compact>
+
                         </Form.Item>
 
                         <Form.Item
@@ -1242,6 +1208,7 @@ const StoreInventory: React.FC = (props) => {
 
                                     label="Price"
                                     name="price"
+
                                 >
                                     <InputNumber min={0} step={5} type='number' />
                                 </Form.Item>

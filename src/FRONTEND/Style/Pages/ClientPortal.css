@@ -32,8 +32,7 @@
 }
 
 .clientMenuItem:hover {
-    background-color: var(--light_blue);
-    color: #000000
+    color: #000000;
 }
 
 .clientPortalDiv {
@@ -102,7 +101,11 @@
     cursor: pointer;
 }
 
-
+.tableScrollDiv{
+    position: absolute;
+    width: max-content;
+    scroll-behavior: smooth;
+}
 
 
 

@@ -70,13 +70,14 @@ const PrincipleAccountDetails: React.FC = (props) => {
                         }}
                     >
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Account Section</h1>
+                            title={<><h1 className='h1_Header_Client_Portal'>Account</h1>
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
-                                    On this page, you can view and modify your account information.
-                                    Keep in mind that if you change your access pin, it's important
-                                    to inform the representatives who assist you with your regular tasks.
+                                    Greetings and welcome to the account information page.
+                                    We offer a convenient process for viewing and
+                                    modifying your account details. Click Update to modify your information.
+
                                 </p>
 
                             </Descriptions.Item>

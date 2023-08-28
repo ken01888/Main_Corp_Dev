@@ -229,6 +229,7 @@ const InventoryAudit: React.FC = (props) => {
             responsive: ['lg', 'xl', 'xxl'],
 
 
+
         },
         {
             title: 'Acquire',
@@ -321,9 +322,10 @@ const InventoryAudit: React.FC = (props) => {
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                                Use this section to review all past inventory auditing sessions.
-                                Please select a date to view previous inventory audits. Modifying your
-                                items is simple. Select the item you wish to change to begin updating it.
+                                In this section, you can review previous inventory audits by
+                                selecting a specific date. The previous audits will be clearly
+                                marked for easy identification, allowing for comprehensive monitoring
+                                of the inventory management processes and real time modifications.
 
                             </p>
 
@@ -375,11 +377,11 @@ const InventoryAudit: React.FC = (props) => {
 
                 </div>
 
-                <div>
+                <div className='tableScrollDiv'>
                     <ConfigProvider
                         theme={{
                             token: {
-                                lineWidth: 2,
+                                lineWidth: 1,
                                 fontFamily: 'Jost',
                                 fontSize: 14,
                                 colorBorderSecondary: 'black'

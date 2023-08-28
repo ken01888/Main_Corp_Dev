@@ -1,16 +1,18 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Tooltip, Dropdown, MenuProps } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Tooltip, Dropdown, MenuProps, Popconfirm, message } from 'antd'
 import 'isomorphic-fetch';
 import { Inventory } from '../../Program_Flow/Inventory_Flow'
 import { ColumnsType } from 'antd/es/table';
 import { DeleteOutlined, DownOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
 import * as convert from 'convert-units'
+import { Pie } from '@ant-design/plots';
 
 
 interface DataType {
     key: number | string;
     product_name: number | string;
     total_cost: number | string;
+    total_weight: number | string;
 }
 
 
@@ -97,27 +99,39 @@ const Products: React.FC = (props) => {
     };
 
     const addInput = async (values: any) => {
-        FormInputs.resetFields()
-        values.inputs.forEach((i, n, a) => {
-            i.product_id = selectedRowAction
-        })
-        const dataReply = await fetch(`http://localhost:8080/insertProductInputs`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
-        });
-        console.log(dataReply)
 
-        if (dataReply.ok === true){
-            const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
-            const newData = await dataReply.json();
-            setInventoryList(newData)
+        const newData = values.inputs
+        if (newData == undefined || newData.length <= 0) {
+            FormInputs.resetFields()
+            setAddRecipes(!addRecipes)
+
+        } else {
+            values.inputs.forEach((i, n, a) => {
+                i.product_id = selectedRowAction
+            })
+            const dataReply = await fetch(`http://localhost:8080/insertProductInputs`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values)
+            });
+            console.log(dataReply)
+
+            if (dataReply.ok === true) {
+                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const newData = await dataReply.json();
+                setInventoryList(newData)
+            }
+
+            setAddRecipes(!addRecipes)
+            setItemsUpdated(!itemsUpdated)
+            FormInputs.resetFields()
         }
 
-        setAddRecipes(!addRecipes)
-        setItemsUpdated(!itemsUpdated)
+        console.log(newData)
+
+
 
     };
 
@@ -125,16 +139,36 @@ const Products: React.FC = (props) => {
     const rowSelection = {
 
         onSelect: (record, selected, selectedRows, nativeEvent) => {
-            console.log(record.id,selected)
-            if (selected === true){
+            console.log(record.id, selected)
+            if (selected === true) {
                 setSelectedRowActions(record.id)
-            }else if (selected == false){
+            } else if (selected == false) {
                 setSelectedRowActions('')
 
             }
         },
         hideSelectAll: true
     };
+
+
+
+    const itemDelete = async () => {
+        console.log('at delete', selectedRowAction)
+        const dataReply = await fetch(`http://localhost:8080/deleteProduct`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify([selectedRowAction])
+        });
+        const newResponse = await dataReply.json()
+        const deleteResponse = await fetch(`http://localhost:8080/getRecipeProduct`);
+        const newData = await deleteResponse.json();
+        setInventoryList(newData)
+
+    };
+
+
 
 
     const onFinishFailed = (errorInfo: any) => {
@@ -154,25 +188,35 @@ const Products: React.FC = (props) => {
         {
             key: '1',
             label: (
-                <a onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} >
-                    Modify Product
+                <a onClick={() => { setAddRecipes(!addRecipes) }} >
+                    Add Ingredients
                 </a>
             ),
         },
         {
             key: '2',
             label: (
-                <a onClick={() => { setAddRecipes(!addRecipes) }} >
-                    Add Input Products
+                <a onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} >
+                    Modify Product
                 </a>
             ),
         },
         {
             key: '3',
             label: (
-                <a onClick={() => { setUpdateInventoryForm(!updateInventoryForm) }} >
-                    Delete
-                </a>
+
+                <Popconfirm
+                    placement="top"
+                    title={"Deleted Item's will be lost forever."}
+                    description={'Delete selected item?'}
+                    onConfirm={itemDelete}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <a>
+                        Delete Item
+                    </a>
+                </Popconfirm>
             ),
         },
 
@@ -189,12 +233,28 @@ const Products: React.FC = (props) => {
 
         },
         {
-            title: 'Cost',
+            title: 'Final Cost',
             dataIndex: 'total_cost',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             render: (_, record) => {
                 return (
                     new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.total_cost))
+
+                )
+            }
+        },
+        {
+            title: 'Inputs',
+            dataIndex: 'total_input_count',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+        },
+        {
+            title: 'Weight',
+            dataIndex: 'total_weight',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                return (
+                    convert(record.total_weight).from('g').to('oz').toFixed() + " oz"
 
                 )
             }
@@ -227,7 +287,72 @@ const Products: React.FC = (props) => {
         },
     ];
 
+    const data = [
+        {
+            type: '分类一',
+            value: 27,
+        },
+        {
+            type: '分类二',
+            value: 25,
+        },
+        {
+            type: '分类三',
+            value: 18,
+        },
+        {
+            type: '分类四',
+            value: 15,
+        },
+        {
+            type: '分类五',
+            value: 10,
+        },
+        {
+            type: '其他',
+            value: 5,
+        },
+    ];
+    const config = {
+        appendPadding: 10,
+        data,
+        angleField: 'value',
+        radius: 1,
 
+        colorField: 'type', // or seriesField in some cases
+        color: ['#d62728', '#2ca02c', '#000000', 'blue'],
+
+        innerRadius: 0.6,
+        label: {
+            type: 'inner',
+            offset: '-50%',
+            content: '{value}',
+            style: {
+                textAlign: 'center',
+                fontSize: 14,
+            },
+        },
+        interactions: [
+
+            {
+                type: 'element-selected',
+            },
+            {
+                type: 'element-active',
+            },
+        ],
+        statistic: {
+            title: false,
+            content: {
+                style: {
+                    whiteSpace: 'pre-wrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                },
+                content: 'AntV\nG2Plot',
+            },
+        },
+    };
 
 
 
@@ -243,12 +368,11 @@ const Products: React.FC = (props) => {
 
 
                     <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Recipes</h1>
+                        title={<><h1 className='h1_Header_Client_Portal'>Products</h1>
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                                Kindly take note of this section where you can record any modifications
-                                to your final product as deemed necessary. To establish a build specification
+                                To establish a build specification
                                 for your product, it is essential to designate a name for it. Once you have named
                                 your product, you may proceed to add other input items to further refine its features.
                             </p>
@@ -268,8 +392,8 @@ const Products: React.FC = (props) => {
                             >
                                 <Space wrap size={[25, 25]}>
                                     {/* <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button> */}
-                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}> Design Recipe Item</Button>
-                                    <Button icon={<QrcodeOutlined />} className='buttonBlack' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>In-Store Digital Barcode</Button>
+                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Add Product</Button>
+                                    <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>In-Store Digital Barcode</Button>
                                 </Space>
                             </ConfigProvider>
 
@@ -284,11 +408,11 @@ const Products: React.FC = (props) => {
 
 
                 </div>
-                <div>
+                <div className='tableScrollDiv'>
                     <ConfigProvider
                         theme={{
                             token: {
-                                lineWidth: 2,
+                                lineWidth: 1,
                                 fontFamily: 'Jost',
                                 fontSize: 14,
                                 colorBorderSecondary: 'black'
@@ -296,15 +420,19 @@ const Products: React.FC = (props) => {
                         }}
                     >
                         <Table
-                            rowKey={(record: any, index: any) => record.id}
+                            scroll={{ x: '-webkit-fill-available' }}
+                            rowKey={(record: any) => record.id}
                             rowSelection={rowSelection}
                             columns={columns}
                             dataSource={InventoryList}
-                            scroll={{ x: 250 }}
                             pagination={{ pageSize: 10 }}
                             bordered />
                     </ConfigProvider>
                 </div>
+
+                {/* <div>
+                    <Pie {...config} />
+                </div> */}
 
 
             </Space>
@@ -359,6 +487,14 @@ const Products: React.FC = (props) => {
                         >
                             <Input type='text' />
                         </Form.Item>
+                        <Form.Item
+
+                            label="Price"
+                            name="sales_price"
+                            rules={[{ required: true, message: 'Enter the required information' }]}
+                        >
+                            <InputNumber stringMode={true} min={0} step={5} type='number' />
+                        </Form.Item>
 
                         <Form.Item
                         >
@@ -407,34 +543,39 @@ const Products: React.FC = (props) => {
                                 {fields.map(({ key, name, ...restField }) => (
                                     <div key={key}>
 
+                                        <p>Entry Queue {key + 1}</p>
 
                                         <Space style={{ display: 'flex', marginBottom: 8, flexWrap: 'wrap' }} align="baseline">
-
                                             <Form.Item
                                                 {...restField}
                                                 name={[name, 'inventory_item_id']}
                                                 rules={[{ required: true, message: 'Missing item' }]}
-                                                label="Item selection"
+
                                             >
                                                 <Select
+                                                    placeholder='Select Item'
                                                     style={{ width: 120 }}
                                                     options={selectItems} />
+
                                             </Form.Item>
                                             <Form.Item
                                                 {...restField}
                                                 name={[name, 'input_weight']}
                                                 noStyle
-                                                initialValue={0}
+                                                label="Weight"
+
                                             >
-                                                <InputNumber min={0} max={9999} step={5} type='number' />
+                                                <InputNumber placeholder='Weight' min={0} max={9999} step={5} type='number' />
                                             </Form.Item>
                                             <Form.Item
                                                 {...restField}
                                                 name={[name, 'unit']}
                                                 noStyle
-                                                initialValue={'g'}
+                                                label="Unit"
+
                                             >
                                                 <Select
+                                                    placeholder='Unit'
                                                     style={{ width: 120 }}
                                                 >
                                                     <Select.Option value="mcg">mcg</Select.Option>
@@ -465,13 +606,14 @@ const Products: React.FC = (props) => {
                                                 fontFamily: 'Jost',
                                                 colorTextTertiary: 'black',
                                                 colorPrimaryHover: '#000000',
+
+
                                                 colorBgContainer: '#fafafa'
                                             },
                                         }}
                                     >
-                                        <Button className='buttonBlack' onClick={() => add()} block icon={<PlusOutlined />}>
-                                            Add Input
-                                        </Button>
+                                        <PlusOutlined onClick={() => add()} />
+
                                     </ConfigProvider>
 
                                 </Form.Item>
