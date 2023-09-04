@@ -167,6 +167,7 @@ const InventoryAudit: React.FC = (props) => {
         onChange: async (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             await setSelectedRow([selectedRows, selectedRowKeys])
             await setSelectedRowActions(selectedRowKeys[0])
+            
 
         },
         hideSelectAll: true
@@ -312,13 +313,13 @@ const InventoryAudit: React.FC = (props) => {
 
 
         <><Col xs={22} md={18}>
-            <Space wrap>
+            <Space wrap size={[12,64]}>
 
                 <div className='clientPortalDiv'>
 
 
                     <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'> Audit</h1>
+                        title={<><h1 className='h1_Header_Client_Portal'>Audits</h1>
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
@@ -388,7 +389,7 @@ const InventoryAudit: React.FC = (props) => {
                             },
                         }}
                     >
-                        <Table rowKey={(record: any) => record.id}
+                        <Table  scroll={{ x: '-webkit-fill-available' }} rowKey={(record: any) => record.id}
                             rowSelection={rowSelection} columns={columns} dataSource={InventoryList} pagination={{ pageSize: 10 }} bordered footer={(record: any) =>
                                 InventoryList[0] ?
                                     <Descriptions>

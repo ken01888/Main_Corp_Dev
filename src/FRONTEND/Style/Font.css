@@ -129,21 +129,70 @@ p {
 
 .serviceOutline>p {
   font-size: .875rem;
-  border-bottom: 5px solid var(--light_beige);
 
 }
 
 
-.popoverh3{
+.popoverh3 {
   background: var(--light_beige);
   width: fit-content;
   padding: 5px;
-  border-radius: 5px;}
+  border-radius: 5px;
+}
 
-  .inputIngredients{
-    padding: 5px;
-    border: 1px solid var(--light_grey);
-    border-radius: 5px;
-    background: var(--light_blue);
-    width: fit-content;
-  }
+.inputIngredients {
+  padding: 5px;
+  border: 1px solid var(--light_grey);
+  border-radius: 5px;
+  background: var(--light_blue);
+  width: fit-content;
+}
+
+
+.foodFraudWarning {
+  font-size: .875rem;
+  line-height: 30px;
+  font-family: 'Nunito';
+  font-weight: 400;
+  padding: 1rem
+}
+
+.productionPageFormParagraph {
+  background: #b4cbd450;
+  border: 2.5px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  color: black;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.columnBlue {
+  background: #b4cbd4;
+}
+
+.columnLightBlue {
+  background: #b4cbd450;
+
+}
+
+.columnBeige {
+  background: var(--light_beige);
+}
+
+.columnLightBeige {
+  background: var(--light_beige);
+
+}
+
+.breadcrumbsForm {
+  font-size: 1rem;
+  line-height: 30px;
+  font-family: 'Jost';
+  font-weight: 500;
+}
+
+.breadcrumbsForm>span {
+  color: var(--light_blue);
+  font-size: 8px;
+}

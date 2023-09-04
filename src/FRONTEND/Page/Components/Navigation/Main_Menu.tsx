@@ -4,7 +4,7 @@ import * as React from 'react';
 import { motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { MenuFoldOutlined, MenuUnfoldOutlined,QrcodeOutlined } from '@ant-design/icons'
+import { MenuFoldOutlined, MenuUnfoldOutlined, QrcodeOutlined } from '@ant-design/icons'
 
 
 
@@ -168,7 +168,7 @@ const Main_Menu = () => {
 
                 <Row justify={'space-between'} className='ClientPortal' gutter={[0, 75]}>
                     <Col xs={22} md={4} >
-                   
+
 
                         <NavLink
                             to={`/`}
@@ -237,18 +237,18 @@ const Main_Menu = () => {
 
                 </Row>
 
-                <Row gutter={[0,25]}>
+                <Row gutter={[0, 25]}>
                     <Col>
-                  
-                 
-                   
+
+
+
 
                     </Col>
                     <Col>
-                    <a href="mailto:ken@kcminc.io"><Button className='buttonBlack'>Email Us</Button></a>
-                    <a href="tel:+1-404-740-0093"> <Button className='buttonBlack'>Call Us </Button></a>
+                        <a href="mailto:ken@kcminc.io"><Button className='buttonBlack'>Email Us</Button></a>
+                        <a href="tel:+1-404-740-0093"> <Button className='buttonBlack'>Call Us </Button></a>
                     </Col>
-                    
+
                 </Row>
 
             </Drawer>

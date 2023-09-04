@@ -3,7 +3,7 @@ import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, 
 import 'isomorphic-fetch';
 import { Inventory } from '../../Program_Flow/Inventory_Flow'
 import { ColumnsType } from 'antd/es/table';
-import { DeleteOutlined, DownOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined, QrcodeOutlined, TableOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DownOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
 import * as convert from 'convert-units'
 import { Pie } from '@ant-design/plots';
 
@@ -14,9 +14,6 @@ interface DataType {
     total_cost: number | string;
     total_weight: number | string;
     sales_price: number | string;
-    serving_size: number | string;
-    units: number | string
-
 }
 
 
@@ -49,6 +46,7 @@ const Products: React.FC = (props) => {
                 setUserId(newUser.id)
                 const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
                 const newData = await dataReply.json();
+                console.log(newData)
                 setInventoryList(newData)
             }
         )()
@@ -66,7 +64,6 @@ const Products: React.FC = (props) => {
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
                 const dataReply = await fetch(`http://localhost:8080/inventoryItemsForSelectRecipes`);
-
                 const newData = await dataReply.json();
                 setSelectItems(newData)
             }
@@ -237,7 +234,7 @@ const Products: React.FC = (props) => {
 
                 <Popconfirm
                     placement="top"
-                    title={"Deleted items will be lost forever."}
+                    title={"Deleted Item's will be lost forever."}
                     description={'Delete selected item?'}
                     onConfirm={itemDelete}
                     okText="Yes"
@@ -255,236 +252,96 @@ const Products: React.FC = (props) => {
 
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Name',
+            title: ' Product',
             dataIndex: 'product_name',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-            className: 'columnLightBlue',
-            fixed: 'left',
-
-
-
-        },
-
-        {
-            title: 'Production',
-            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             children: [
-
                 {
-                    title: 'Inputs',
-                    dataIndex: 'total_input_count',
+                    title: 'Name',
+                    dataIndex: 'product_name',
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    sorter: (a: any, b: any) => a.total_input_count - b.total_input_count,
-                },
-                {
-                    title: 'Cost',
-                    dataIndex: 'total_cost',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    sorter: (a: any, b: any) => a.total_cost - b.total_cost,
-                    render: (_, record) => {
-                        return (
-                            '$' + record.total_cost
-
-                        )
-                    }
                 },
                 {
                     title: 'Weight',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    children: [
-                        {
-                            title: 'Manufactured',
-                            dataIndex: 'total_weight',
-                            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                            render: (_, record) => {
-                                return (
-                                    convert(record.total_weight).from('g').to('oz').toFixed() + " oz"
-
-                                )
-                            }
-                        },
-
-                        {
-                            title: 'Packaged',
-                            dataIndex: 'serving_size',
-                            className: 'columnLightBlue',
-
-                            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                            render: (_, record) => {
-                                return (
-                                    convert(record.serving_size).from('g').to('oz').toFixed() + " oz"
-
-                                )
-                            }
-                        },
-
-                    ]
-                },
-
-
-
-
-
-
-            ]
-        },
-        {
-            title: 'Units',
-            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-            children: [
-                {
-                    title: 'Made',
+                    dataIndex: 'total_weight',
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
                     render: (_, record) => {
                         return (
-                            (Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
-
-                        )
-                    }
-                },
-
-                {
-                    title: 'Per Sale ',
-                    dataIndex: 'units',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    className: 'columnLightBlue',
-                    sorter: (a: any, b: any) => a.units - b.units,
-
-                    render: (_, record) => {
-                        return (
-                            record.units
-
-
+                            convert(record.total_weight).from('g').to('oz').toFixed() + " oz"
+        
                         )
                     }
                 },
                 {
-                    title: 'Waste',
-                    dataIndex: 'sales_price',
-                    sorter: (a: any, b: any) => a.sales_price - b.sales_price,
+                    title: 'Serving Size',
+                    dataIndex: 'total_input_count',
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
-                    render: (_, record) => {
-                        return (
-                            Number(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)) - Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))).toFixed(2)
-
-                        )
-                    }
-                },
-                {
-                    title: 'Cycles',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    render: (_, record) => {
-
-
-                        return (
-                            Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))
-                        )
-
-
-                    }
-                }
-
-            ]
-        },
-
-        {
-            title: 'Per Sale',
-            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-            children: [
-                {
-                    title: 'Cost',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    render: (_, record) => {
-
-
-                        let productionCost = record.total_cost
-                        let units = record.units
-                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
-                        let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield)))
-                        let costConversion = new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(finalCost))
-                        if (costConversion == '$NaN') {
+                        render: (_, record) => {
                             return (
-                                new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(0))
-                            )
-                        } else {
-                            return (
-                                costConversion
+                                <Input defaultValue={record.total_cost} type='text' />
+            
                             )
                         }
 
-                    }
-                },
-
-
-                {
-                    title: 'Price',
-                    dataIndex: 'sales_price',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    className: 'columnLightBlue',
-                    sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-
-
-                    render: (_, record) => {
-                        return (
-                            new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.sales_price))
-
-                        )
-                    }
+                    
                 },
                 {
-                    title: 'Return',
-                    dataIndex: 'sales_price',
+                    title: 'Servings',
+                    dataIndex: 'total_input_count',
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-
-
-                    render: (_, record) => {
-                        let productionCost = record.total_cost
-                        let units = record.units
-                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
-                        let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield))) || 0
-                        let totalReturn = Number(record.sales_price) - finalCost
-
-                        return (
-
-                            new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(totalReturn))
-
-                        )
-                    }
                 },
-                {
-                    title: 'Margin ',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-
-                    render: (_, record: any) => {
-                        let productionCost = record.total_cost
-                        let units = record.units
-                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
-                        let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield))) || 0
-                        let margin = (Number(record.sales_price) - Number(finalCost)) / Number(record.sales_price)
-
-                        return (
-
-                            new Intl.NumberFormat("en-US", {
-                                style: "percent",
-                            }).format(margin)
-
-                        )
-                    }
-                },
+              
+           
+             
             ]
-
-
         },
 
 
+        {
+            title: 'Weight',
+            dataIndex: 'total_weight',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                return (
+                    convert(record.total_weight).from('g').to('oz').toFixed() + " oz"
 
+                )
+            }
+        },
+        {
+            title: 'Sell Price',
+            dataIndex: 'sales_price',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                return (
+                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.sales_price))
 
+                )
+            }
+        },
+        {
+            title: 'Final Cost',
+            dataIndex: 'total_cost',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                return (
+                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.total_cost))
 
+                )
+            }
+        },
+        {
+            title: 'Profit ',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record: any) => {
+                const pay = ((record.sales_price - record.total_cost) / record.sales_price) * 100 || 0
 
+                return (
+                    pay.toFixed(2) + '%'
 
+                )
+            }
+        },
 
         {
             title: 'Action',
@@ -595,7 +452,7 @@ const Products: React.FC = (props) => {
 
 
                     <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Products</h1>
+                        title={<><h1 className='h1_Header_Client_Portal'>Nutritional Fact Panel</h1>
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
@@ -621,6 +478,7 @@ const Products: React.FC = (props) => {
                                 <Space wrap size={[25, 25]}>
                                     {/* <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button> */}
                                     <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Add Product</Button>
+                                    <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>In-Store Digital Barcode</Button>
                                 </Space>
                             </ConfigProvider>
 
@@ -643,13 +501,11 @@ const Products: React.FC = (props) => {
                                 fontFamily: 'Jost',
                                 fontSize: 14,
                                 colorBorderSecondary: 'black'
-
                             },
                         }}
                     >
                         <Table
                             scroll={{ x: '-webkit-fill-available' }}
-
                             rowKey={(record: any) => record.id}
                             rowSelection={rowSelection}
                             columns={columns}
@@ -694,7 +550,7 @@ const Products: React.FC = (props) => {
                     onFinish={onInsertProductName}
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
-                    layout='vertical'
+                    layout='horizontal'
                     size='middle'
 
 
@@ -713,108 +569,28 @@ const Products: React.FC = (props) => {
                     >
                         <Form.Item
 
-                            label="What would you like to name your retail product? (Name)"
+                            label="Product name"
                             name="product_name"
-                            rules={[{ required: true, message: 'Enter details' }]}
-                            tooltip='Production Name'
-
+                            rules={[{ required: true, message: 'Enter the required information' }]}
                         >
                             <Input type='text' />
                         </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Production</h3>
-
-
-                        <p className='breadcrumbsForm'>Production <span>▶︎</span> Weight <span>▶︎</span> Packaged</p>
-                        <Form.Item label={`${`How much of the manufactured weight is individually packaged? 
-                                         \n Set the weight to the manufactured weight if selling one unit.`}`}
-                            tooltip='Package Weight'
-                        >
-                            <Space.Compact>
-
-                                <Form.Item
-                                    name={['serving_size', 'amount']}
-                                    initialValue={1}
-                                    rules={[{ required: true, message: 'Enter details' }]}
-
-
-                                >
-                                    <InputNumber min={1} />
-                                </Form.Item>
-                                <Form.Item
-                                    name={['serving_size', 'unit']}
-                                    initialValue={'oz'}
-                                    rules={[{ required: true, message: 'Enter details' }]}
-
-
-                                >
-
-                                    <Select
-                                        placeholder='Unit'
-                                        style={{ width: 120 }}
-                                    >
-                                        <Select.Option value="mcg">mcg</Select.Option>
-                                        <Select.Option value="mg">mg</Select.Option>
-                                        <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
-                                    </Select>
-                                </Form.Item>
-                            </Space.Compact>
-                        </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Units</h3>
-                        <p className='breadcrumbsForm'> Units <span>▶︎</span> Per Sale</p>
-
                         <Form.Item
 
-                            label="What is the number of Units Manufactured that can be sold in a single transaction?"
-                            tooltip='Retail Units'
-
-                            name="units"
-                            rules={[{ required: true, message: 'Enter details' }]}
-
-                        >
-                            <InputNumber min={0} />
-                        </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Sales</h3>
-
-                        <p className='breadcrumbsForm'> Per Sale <span>▶︎</span> Price</p>
-
-
-                        <Form.Item
-
-                            label="What is the price that consumers will pay for your product? (Price)"
+                            label="Sell price"
                             name="sales_price"
-                            rules={[{ required: true, message: 'Enter details' }]}
-                            tooltip='Retail Price'
-
+                            rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber min={0} />
+                            <Input type='text' />
                         </Form.Item>
 
 
-
-
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    fontFamily: 'Jost',
-                                    colorTextTertiary: 'black',
-                                    colorPrimaryHover: '#000000',
-                                    colorBgContainer: '#fafafa'
-                                },
-                            }}
+                        <Form.Item
                         >
-                            <Form.Item
-                            >
-                                <Button htmlType="submit" className='buttonBlack' >
-                                    Add Product
-                                </Button>
-                            </Form.Item>
-                        </ConfigProvider>
-
+                            <Button htmlType="submit" className='buttonBlack' >
+                                Add Product
+                            </Button>
+                        </Form.Item>
                     </ConfigProvider>
                 </Form>
             </Modal>
@@ -919,6 +695,8 @@ const Products: React.FC = (props) => {
                                                 fontFamily: 'Jost',
                                                 colorTextTertiary: 'black',
                                                 colorPrimaryHover: '#000000',
+
+
                                                 colorBgContainer: '#fafafa'
                                             },
                                         }}
@@ -955,22 +733,22 @@ const Products: React.FC = (props) => {
             </Modal>
 
 
-            <Drawer
+            <Modal
                 title="Update Product"
                 style={{ top: 10 }}
                 open={displayAddProduct}
-                onClose={() => setDisplayAddProduct(!displayAddProduct)}
+                onCancel={() => setDisplayAddProduct(!displayAddProduct)}
                 footer={null}
-                mask={false}
             >
 
+                <p>To start creating recipes, the first step is to name your product. Once you've accomplished this, you can proceed to input ingredients and check the total cost of the item.</p>
                 <Form
                     name="Update Product"
                     form={updateProduct}
                     onFinish={onUpdateProduct}
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
-                    layout='vertical'
+                    layout='horizontal'
                     size='middle'
 
 
@@ -989,75 +767,15 @@ const Products: React.FC = (props) => {
                     >
                         <Form.Item
 
-                            label="What would you like to name your retail product? (Name)"
+                            label="Product name"
                             name="product_name"
-                            tooltip='Production Name'
-
                         >
                             <Input type='text' />
                         </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Production</h3>
-
-
-                        <p className='breadcrumbsForm'>Production <span>▶︎</span> Weight <span>▶︎</span> Packaged</p>
-                        <Form.Item label={`${`How much of the manufactured weight is individually packaged? 
-             \n Set the weight to the manufactured weight if selling one unit.`}`}
-                            tooltip='Package Weight'
-                        >
-                            <Space.Compact>
-
-                                <Form.Item
-                                    name={['serving_size', 'amount']}
-
-
-                                >
-                                    <InputNumber min={1} />
-                                </Form.Item>
-                                <Form.Item
-                                    name={['serving_size', 'unit']}
-
-
-                                >
-
-                                    <Select
-                                        placeholder='Unit'
-                                        style={{ width: 120 }}
-                                    >
-                                        <Select.Option value="mcg">mcg</Select.Option>
-                                        <Select.Option value="mg">mg</Select.Option>
-                                        <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
-                                    </Select>
-                                </Form.Item>
-                            </Space.Compact>
-                        </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Units</h3>
-                        <p className='breadcrumbsForm'> Units <span>▶︎</span> Per Sale</p>
-
                         <Form.Item
 
-                            label="What is the number of Units Manufactured that can be sold in a single transaction?"
-                            tooltip='Retail Units'
-                            name="units"
-
-                        >
-                            <InputNumber min={0} />
-                        </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Sales</h3>
-
-                        <p className='breadcrumbsForm'> Per Sale <span>▶︎</span> Price</p>
-
-
-                        <Form.Item
-
-                            label="What is the price that consumers will pay for your product? (Price)"
+                            label="Sell price"
                             name="sales_price"
-                            tooltip='Retail Price'
-
                         >
                             <InputNumber min={0} />
                         </Form.Item>
@@ -1065,24 +783,13 @@ const Products: React.FC = (props) => {
 
                         <Form.Item
                         >
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-                                    },
-                                }}
-                            >
-                                <Button htmlType="submit" className='buttonBlack'>
-                                    Update Product
-                                </Button>
-                            </ConfigProvider>
+                            <Button htmlType="submit" className='buttonBlack' >
+                                Update Product
+                            </Button>
                         </Form.Item>
                     </ConfigProvider>
                 </Form>
-            </Drawer>
+            </Modal>
 
 
 

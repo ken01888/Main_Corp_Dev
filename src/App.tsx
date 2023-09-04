@@ -14,6 +14,7 @@ import InventoryCheck from './FRONTEND/Page/Partner/QRCode/Inventory';
 import PrivacyPolicy from './FRONTEND/Page/Community/PrivacyPolicy';
 import InventoryAudit from './FRONTEND/Page/Partner/InventoryAudits';
 import Products from './FRONTEND/Page/Partner/Products';
+import NutritionalFactPanel from './FRONTEND/Page/Partner/NutritionalFactPanel';
 
 const App = createBrowserRouter([
   {
@@ -68,6 +69,11 @@ const App = createBrowserRouter([
     element: <Products />,
 
   },
+  {
+    path: "nutrition",
+    element: <NutritionalFactPanel />,
+
+  },
 
   {
     path: '/principle',
@@ -93,6 +99,11 @@ const App = createBrowserRouter([
         element: <Products />,
 
       },
+      {
+        path: "nutrition",
+        element: <NutritionalFactPanel />,
+    
+      }
  
       //   {
       //     path: "billing",

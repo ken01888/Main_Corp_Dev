@@ -17,13 +17,14 @@ import { motion } from 'framer-motion';
 
 
 const Support: React.FC = () => {
-document.title='Kcm Inc Community Support'
+    document.title = 'Kcm Inc Community Support'
 
     const [showForm, setForm] = React.useState(true)
 
     const onFinish = async (values: any) => {
 
-        let newData = await fetch('/support_message', {
+        let newData = await fetch('http://localhost:8080/support_message', {
+
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -55,7 +56,7 @@ document.title='Kcm Inc Community Support'
 
                 <Content >
                     <Row justify={'space-around'} gutter={[0, 75]}>
-                    
+
 
                         <Col xs={22} md={12}>
                             <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
@@ -101,12 +102,12 @@ document.title='Kcm Inc Community Support'
                                             <ConfigProvider
                                                 theme={{
                                                     token: {
-                                                      colorPrimary: 'black',
-                                                      lineWidth: 1,
-                                                      fontFamily: 'Jost',
-                                                      fontSize: 14,
+                                                        colorPrimary: 'black',
+                                                        lineWidth: 1,
+                                                        fontFamily: 'Jost',
+                                                        fontSize: 16,
                                                     },
-                                                  }}
+                                                }}
                                             >
                                                 <Form.Item
 
@@ -114,7 +115,7 @@ document.title='Kcm Inc Community Support'
                                                     name="first_name"
                                                     rules={[{ required: true, message: 'Please input your first name!' }]}
                                                 >
-                                                    <Input type='text' 
+                                                    <Input type='text'
                                                     />
                                                 </Form.Item>
 
@@ -171,12 +172,6 @@ document.title='Kcm Inc Community Support'
                                                 >
                                                     <Input.TextArea> </Input.TextArea>
                                                 </Form.Item>
-
-
-
-
-
-
                                                 <Form.Item
                                                 >
                                                     <Button className='buttonBlack' htmlType="submit">
@@ -226,80 +221,65 @@ document.title='Kcm Inc Community Support'
                         <p>KCM Inc is dedicated to offering B2B services that
                             provide practical and advantageous solutions to businesses.
                             Our team conducts comprehensive research and development,
-                            utilizing publicly available data from both public and private
+                            utilizing data from both public and private
                             institutions. We meticulously analyze this data to develop
                             innovative and effective business services that cater to the
                             needs of communities and clients.</p>
                     </Col>
                     <Col xs={22} md={5} >
-                        <Space wrap direction='vertical' >
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
 
-                                    },
-                                }}
-                            >
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                            <Space wrap direction='vertical' >
+                                <h2>Free for a limited time! </h2>
+                            </Space>
+
+                        </ConfigProvider>
+
+
+                    </Col>
+                    <Col xs={22} md={5} >
+
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                            <Space wrap direction='vertical' >
                                 <Link reloadDocument to='/'>
                                     <Button htmlType="submit">Log In</Button>
                                 </Link>
 
 
-                            </ConfigProvider>
 
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
 
-                                    },
-                                }}
-                            >
                                 <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
 
 
-                            </ConfigProvider>
 
 
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-
-                                    },
-                                }}
-                            >
                                 <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
-
-
-                            </ConfigProvider>
-
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-
-                                    },
-                                }}
-                            >
-
                                 <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
 
-                            </ConfigProvider>
-                        </Space>
+                            </Space>
+
+                        </ConfigProvider>
+
 
                     </Col>
 

@@ -53,7 +53,6 @@ const ClientPortal: React.FC = () => {
                                 to={`#`}
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
-                                    <span className={isActive ? "active" : ""}>Tasks</span>
 
                                     return {
                                         fontWeight: isActive ? "bold" : "",
@@ -79,7 +78,7 @@ const ClientPortal: React.FC = () => {
                                                 };
                                             }}
                                         >
-                                             <FileTextOutlined />Items
+                                            <FileTextOutlined />Stock
                                         </NavLink>
 
                                         <NavLink
@@ -94,7 +93,7 @@ const ClientPortal: React.FC = () => {
                                             }}
 
                                         >
-                                            <FileTextOutlined />Products
+                                            <FileTextOutlined />Product
                                         </NavLink>
                                         <NavLink
                                             to={`inventoryaudits`}
@@ -108,7 +107,21 @@ const ClientPortal: React.FC = () => {
                                             }}
 
                                         >
-                                            <FileTextOutlined />Audits
+                                            <FileTextOutlined />Audit
+                                        </NavLink>
+                                        <NavLink
+                                            to={`nutrition`}
+                                            className='clientMenuItem'
+                                            style={({ isActive, isPending }) => {
+                                                return {
+                                                    fontWeight: isActive ? "bold" : "",
+                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
+                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+                                                };
+                                            }}
+
+                                        >
+                                            <FileTextOutlined />Nutrition
                                         </NavLink>
                                     </Space>
 
@@ -122,10 +135,13 @@ const ClientPortal: React.FC = () => {
                             <Outlet />
 
                         </Col>
+
+
                     </Row>
+
                 </Content>
             </Layout>
-
+           
 
         </Layout >
 

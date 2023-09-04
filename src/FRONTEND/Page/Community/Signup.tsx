@@ -15,7 +15,7 @@ const SignUp: React.FC = () => {
 
     const onFinishLogin = async (values: any) => {
 
-        let newData = await fetch('/registration', {
+        let newData = await fetch('http://localhost:8080/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -326,104 +326,89 @@ const SignUp: React.FC = () => {
             </Layout>
 
             <Footer className='footer_public'>
-                <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
-                    <Col xs={22} md={10}>
-                        <h2 style={{ display: 'flex' }} className='footer_h1'>
-                            <div className='logo'>
+        <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
+          <Col xs={22} md={10}>
+            <h2 style={{ display: 'flex' }} className='footer_h1'>
+              <div className='logo'>
 
-                                <div style={{ height: 'fit-content' }}>
-                                    <div className='logoBlue'></div>
-                                    <div className='logoBeige'></div>
-                                </div>
-                                <div style={{ height: 'fit-content' }}>
-                                    <div className='logoBeige'></div>
-                                    <div className='logoBlue'></div>
+                <div style={{ height: 'fit-content' }}>
+                  <div className='logoBlue'></div>
+                  <div className='logoBeige'></div>
+                </div>
+                <div style={{ height: 'fit-content' }}>
+                  <div className='logoBeige'></div>
+                  <div className='logoBlue'></div>
 
-                                </div>
-                            </div>Kcm Inc
-                        </h2>
-                        <p>KCM Inc is dedicated to offering B2B services that
-                            provide practical and advantageous solutions to businesses.
-                            Our team conducts comprehensive research and development,
-                            utilizing publicly available data from both public and private
-                            institutions. We meticulously analyze this data to develop
-                            innovative and effective business services that cater to the
-                            needs of communities and clients.</p>
-                    </Col>
-                    <Col xs={22} md={5} >
-                        <Space wrap direction='vertical' >
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
+                </div>
+              </div>Kcm Inc
+            </h2>
+            <p>KCM Inc is dedicated to offering B2B services that
+              provide practical and advantageous solutions to businesses.
+              Our team conducts comprehensive research and development,
+              utilizing data from both public and private
+              institutions. We meticulously analyze this data to develop
+              innovative and effective business services that cater to the
+              needs of communities and clients.</p>
+          </Col>
+          <Col xs={22} md={5} >
 
-                                    },
-                                }}
-                            >
-                                <Link reloadDocument to='/'>
-                                    <Button htmlType="submit">Log In</Button>
-                                </Link>
+            <ConfigProvider
+              theme={{
+                token: {
+                  fontFamily: 'Jost',
+                  colorTextTertiary: 'black',
+                  colorPrimaryHover: '#000000',
+                  colorBgContainer: '#fafafa'
 
+                },
+              }}
+            >
+              <Space wrap direction='vertical' >
+                <h2>Free for a limited time! </h2>
+              </Space>
 
-                            </ConfigProvider>
-
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-
-                                    },
-                                }}
-                            >
-                                <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
+            </ConfigProvider>
 
 
-                            </ConfigProvider>
+          </Col>
+          <Col xs={22} md={5} >
+
+            <ConfigProvider
+              theme={{
+                token: {
+                  fontFamily: 'Jost',
+                  colorTextTertiary: 'black',
+                  colorPrimaryHover: '#000000',
+                  colorBgContainer: '#fafafa'
+
+                },
+              }}
+            >
+              <Space wrap direction='vertical' >
+                <Link reloadDocument to='/'>
+                  <Button htmlType="submit">Log In</Button>
+                </Link>
 
 
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-
-                                    },
-                                }}
-                            >
-                                <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
 
 
-                            </ConfigProvider>
+                <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
 
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
 
-                                    },
-                                }}
-                            >
 
-                                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
 
-                            </ConfigProvider>
-                        </Space>
+                <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
+                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
 
-                    </Col>
+              </Space>
 
-                </Row>
-            </Footer>
+            </ConfigProvider>
+
+
+          </Col>
+
+        </Row>
+      </Footer>
         </Layout >)
 }
 

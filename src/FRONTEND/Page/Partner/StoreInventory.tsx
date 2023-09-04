@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Tooltip, Dropdown, MenuProps } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Tooltip, Dropdown, MenuProps, Alert } from 'antd'
 import 'isomorphic-fetch';
 import { Inventory } from '../../Program_Flow/Inventory_Flow'
 import { ColumnsType } from 'antd/es/table';
@@ -17,7 +17,9 @@ interface DataType {
     total_package_weight: number | string;
     recommended_stock_level: number | string,
     price: number | string;
+    price_per_gram: number | string;
 }
+
 
 
 
@@ -30,13 +32,14 @@ const StoreInventory: React.FC = (props) => {
     const [QRCodeGenerator, setQRCodeGenerator] = React.useState(false)
     const [userId, setUserId] = React.useState()
     const [userPin, setUserPin] = React.useState()
-    const [addInventory] = Form.useForm();
-    const [updateInventory] = Form.useForm();
-    const [addNutrition] = Form.useForm();
-
     const [nutrition, setNutrition] = React.useState(false)
 
 
+
+
+const [addInventory] = Form.useForm();
+const [updateInventory] = Form.useForm();
+const [formNutrition] = Form.useForm();
 
     // Retrieve Inventory information from database
 
@@ -144,27 +147,29 @@ const StoreInventory: React.FC = (props) => {
             body: JSON.stringify({ values, id: selectedRow[1][0] })
         });
         const dataParse = await dataReply.json();
-        console.log(dataParse)
-        // if (dataParse.affectedRows === 1) {
-        //     (
-        //         async () => {
+        if (dataParse.affectedRows === 1) {
+            (
+                async () => {
 
-        //             const user: any = await window.localStorage.getItem('user')
-        //             const newUser = await JSON.parse(user)
-        //             setUserPin(newUser.pin)
-        //             setUserId(newUser.id)
-        //             const dataReply_1 = await fetch(`http://localhost:8080/getInventoryItems`);
-        //             console.log(dataReply_1)
-        //             const newData = await dataReply_1.json();
-        //             setInventoryList(newData)
-        //         }
-        //     )()
-        // }
+                    const user: any = await window.localStorage.getItem('user')
+                    const newUser = await JSON.parse(user)
+                    setUserPin(newUser.pin)
+                    setUserId(newUser.id)
+                    const dataReply_1 = await fetch(`http://localhost:8080/getInventoryItems`);
+                    console.log(dataReply_1)
+                    const newData = await dataReply_1.json();
+                    setInventoryList(newData)
+                }
+            )()
+        }
         updateInventory.resetFields();
+        console.log(values)
+
     };
 
     const onAddInventoryNutritionInformation = async (values) => {
 
+        console.log(values, formNutrition)
         const dataReply = await fetch(`http://localhost:8080/addNutritionInformation`, {
             method: 'PUT',
             headers: {
@@ -174,7 +179,7 @@ const StoreInventory: React.FC = (props) => {
         });
         const dataParse = await dataReply.json();
         setNutrition(!nutrition)
-        addNutrition.resetFields()
+        formNutrition.resetFields()
 
     };
 
@@ -230,7 +235,8 @@ const StoreInventory: React.FC = (props) => {
                     Nutrition
                 </a>
             ),
-        }
+        },
+
     ];
 
 
@@ -239,6 +245,11 @@ const StoreInventory: React.FC = (props) => {
             title: 'Category',
             dataIndex: 'category',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                return (
+                    String(record.category).toUpperCase()
+                )
+            }
 
 
 
@@ -246,12 +257,12 @@ const StoreInventory: React.FC = (props) => {
         {
             title: 'Supplier',
             dataIndex: 'supplier',
-            responsive: ['lg', 'xl', 'xxl'],
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
         },
         {
             title: 'Brand',
             dataIndex: 'brand',
-            responsive: ['lg', 'xl', 'xxl'],
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
 
         },
         {
@@ -263,18 +274,18 @@ const StoreInventory: React.FC = (props) => {
         {
             title: 'Package Weight',
             dataIndex: 'total_package_weight',
-            responsive: ['lg', 'xl', 'xxl'],
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             sorter: (a: any, b: any) => a.total_package_weight - b.total_package_weight,
             render: (_, record) => {
                 return (
-                    record.total_package_weight + ' lb'
+                    (convert(record.total_package_weight).from('g').to('lb')).toFixed(2) + ' lb'
                 )
             }
         },
         {
             title: 'Safety Stock',
             dataIndex: 'recommended_stock_level',
-            responsive: ['lg', 'xl', 'xxl'],
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
 
             sorter: (a: any, b: any) => a.recommended_stock_level - b.recommended_stock_level,
             render: (_, record) => {
@@ -287,11 +298,24 @@ const StoreInventory: React.FC = (props) => {
             title: 'Price',
             dataIndex: 'price',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-            sorter: (a: any, b: any) => a.price - b.price,
 
+            sorter: (a: any, b: any) => a.price - b.price,
             render: (_, record) => {
                 return (
                     new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.price))
+
+                )
+            }
+        },
+        {
+            title: 'PPG',
+            dataIndex: 'price_per_gram',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+
+            sorter: (a: any, b: any) => a.price - b.price,
+            render: (_, record) => {
+                return (
+                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD',minimumFractionDigits: 4 }).format(Number(record.price_per_gram))
 
                 )
             }
@@ -354,7 +378,7 @@ const StoreInventory: React.FC = (props) => {
 
 
                     <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Inventory</h1>
+                        title={<><h1 className='h1_Header_Client_Portal'>Stock</h1>
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
@@ -364,7 +388,9 @@ const StoreInventory: React.FC = (props) => {
                                 the SECURITY PIN can be changed at any time under the Account section for added security.
                             </p>
 
+
                         </Descriptions.Item>
+
                         <Descriptions.Item span={3}>
 
                             <ConfigProvider
@@ -378,14 +404,29 @@ const StoreInventory: React.FC = (props) => {
                                 }}
                             >
                                 <Space wrap size={[25, 25]}>
-                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}> Add Inventory Items</Button>
-                                    <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>In-Store Digital Barcode</Button>
+                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}> Add Stock Item</Button>
+                                    <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>Download Audit Barcode </Button>
                                 </Space>
                             </ConfigProvider>
 
 
 
                         </Descriptions.Item>
+
+
+
+                        <Descriptions.Item span={1}>
+
+
+                            <Alert
+                                message={<h3>PPG</h3>}
+                                description="Price Per Gram is the price you pay per gram of product."
+                                type="warning"
+                                className='alert'
+                            />
+
+                        </Descriptions.Item>
+
 
                     </Descriptions>
 
@@ -412,7 +453,11 @@ const StoreInventory: React.FC = (props) => {
                 </div>
 
 
+
+
             </Space>
+
+
 
         </Col>
 
@@ -427,17 +472,26 @@ const StoreInventory: React.FC = (props) => {
                 onCancel={() => setNutrition(!nutrition)}
                 footer={null}
             >
+                <Space wrap>
                 <p>To ensure accurate inventory information, please add the nutritional information for each item.
                     You can usually find this information on the back of the product's package, on the nutritional fact label.
                 </p>
+                <Tag color="#000000">Food Fraud Warning</Tag>
+                <p className='foodFraudWarning'>Economically motivated adulteration (EMA) is the intentional exclusion, removal, or substitution of a valuable ingredient or part of a food. Submitting false information is unlawful.</p>
+               
+                </Space>
+                
+             
+
                 <Form
                     name="Nutrition"
-                    form={addNutrition}
+                    form={formNutrition}
                     onFinish={onAddInventoryNutritionInformation}
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='horizontal'
                     size='middle'
+
 
 
 
@@ -455,24 +509,29 @@ const StoreInventory: React.FC = (props) => {
                     >
 
 
-                        <Form.Item label="Serving Size">
+                        <Form.Item label="Serving Size"
+                        >
                             <Space.Compact>
 
                                 <Form.Item
                                     name={['serving_size', 'amount']}
-                                    noStyle
-                                    initialValue={0}
+                                    rules={[{ required: true, message: 'Enter serving size information' }]}
+                                    initialValue={1}
+
+
+
 
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['serving_size', 'unit']}
-                                    noStyle
+                                    rules={[{ required: true, message: 'Enter serving size information' }]}
                                     initialValue={'g'}
-                                >
 
-                                    <Select>
+
+                                >
+                                    <Select style={{ width: 88 }}>
 
                                         <Select.Option value="g">g</Select.Option>
                                     </Select>
@@ -484,47 +543,41 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['calories', 'amount']}
-                                    noStyle
                                     initialValue={0}
-
-
-
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['calories', 'unit']}
-                                    noStyle
                                     initialValue={'kcal'}
 
                                 >
-                                    <Select >
+
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="kcal">kcal</Select.Option>
 
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
                         </Form.Item>
+
                         <Form.Item label="Total Fat">
                             <Space.Compact>
 
                                 <Form.Item
                                     name={['total_fat', 'amount']}
-                                    noStyle
                                     initialValue={0}
-
-
-
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['total_fat', 'unit']}
-                                    noStyle
                                     initialValue={'g'}
 
+
+
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -539,25 +592,19 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['saturated_fat', 'amount']}
-                                    noStyle
                                     initialValue={0}
-
-
-
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['saturated_fat', 'unit']}
-                                    noStyle
                                     initialValue={'g'}
 
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -568,7 +615,7 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['trans_fat', 'amount']}
-                                    noStyle
+
                                     initialValue={0}
 
 
@@ -578,11 +625,12 @@ const StoreInventory: React.FC = (props) => {
                                 </Form.Item>
                                 <Form.Item
                                     name={['trans_fat', 'unit']}
-                                    noStyle
                                     initialValue={'g'}
 
+
+
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -597,21 +645,15 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['cholesterol', 'amount']}
-                                    noStyle
                                     initialValue={0}
-
-
-
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['cholesterol', 'unit']}
-                                    noStyle
-                                    initialValue={'g'}
-
+                                    initialValue={'mg'}
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -627,7 +669,7 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['sodium', 'amount']}
-                                    noStyle
+
                                     initialValue={0}
 
 
@@ -637,11 +679,12 @@ const StoreInventory: React.FC = (props) => {
                                 </Form.Item>
                                 <Form.Item
                                     name={['sodium', 'unit']}
-                                    noStyle
-                                    initialValue={'g'}
+                                    initialValue={'mg'}
+
+
 
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -656,21 +699,16 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['carbohydrates', 'amount']}
-                                    noStyle
                                     initialValue={0}
-
-
-
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['carbohydrates', 'unit']}
-                                    noStyle
                                     initialValue={'g'}
 
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -685,21 +723,16 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['fiber', 'amount']}
-                                    noStyle
                                     initialValue={0}
-
-
-
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['fiber', 'unit']}
-                                    noStyle
                                     initialValue={'g'}
 
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -714,26 +747,25 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['sugar', 'amount']}
-                                    noStyle
                                     initialValue={0}
-
-
 
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['sugar', 'unit']}
-                                    noStyle
                                     initialValue={'g'}
 
                                 >
-                                    <Select>
+
+                                    <Select style={{ width: 88 }}>
+
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
 
                                     </Select>
+
                                 </Form.Item>
                             </Space.Compact>
                         </Form.Item>
@@ -743,8 +775,8 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['added_sugar', 'amount']}
-                                    noStyle
                                     initialValue={0}
+
 
 
 
@@ -753,11 +785,12 @@ const StoreInventory: React.FC = (props) => {
                                 </Form.Item>
                                 <Form.Item
                                     name={['added_sugar', 'unit']}
-                                    noStyle
                                     initialValue={'g'}
 
+
+
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -772,8 +805,8 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['protein', 'amount']}
-                                    noStyle
                                     initialValue={0}
+
 
 
 
@@ -782,11 +815,12 @@ const StoreInventory: React.FC = (props) => {
                                 </Form.Item>
                                 <Form.Item
                                     name={['protein', 'unit']}
-                                    noStyle
                                     initialValue={'g'}
 
+
+
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -801,9 +835,9 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['calcium', 'amount']}
-                                    noStyle
-                                    initialValue={0}
 
+
+                                    initialValue={0}
 
 
                                 >
@@ -811,11 +845,12 @@ const StoreInventory: React.FC = (props) => {
                                 </Form.Item>
                                 <Form.Item
                                     name={['calcium', 'unit']}
-                                    noStyle
-                                    initialValue={'g'}
+                                    initialValue={'mg'}
+
+
 
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -829,18 +864,19 @@ const StoreInventory: React.FC = (props) => {
                             <Space.Compact>
                                 <Form.Item
                                     name={['iron', 'amount']}
-                                    noStyle
                                     initialValue={0}
+
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['iron', 'unit']}
-                                    noStyle
-                                    initialValue={'g'}
+                                    initialValue={'mcg'}
+
+
 
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -855,8 +891,8 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['potassium', 'amount']}
-                                    noStyle
                                     initialValue={0}
+
 
 
 
@@ -865,11 +901,12 @@ const StoreInventory: React.FC = (props) => {
                                 </Form.Item>
                                 <Form.Item
                                     name={['potassium', 'unit']}
-                                    noStyle
-                                    initialValue={'g'}
+                                    initialValue={'mg'}
+
+
 
                                 >
-                                    <Select>
+                                    <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -884,8 +921,8 @@ const StoreInventory: React.FC = (props) => {
 
                                 <Form.Item
                                     name={['vitamin_d', 'amount']}
-                                    noStyle
                                     initialValue={0}
+
 
 
 
@@ -894,11 +931,13 @@ const StoreInventory: React.FC = (props) => {
                                 </Form.Item>
                                 <Form.Item
                                     name={['vitamin_d', 'unit']}
-                                    noStyle
-                                    initialValue={'g'}
+                                    initialValue={'mcg'}
 
                                 >
-                                    <Select>
+                                    <Select
+                                        style={{ width: 88 }}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -906,6 +945,36 @@ const StoreInventory: React.FC = (props) => {
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
+                        </Form.Item>
+                        <Form.Item
+                            name={'allergies'}
+                            label='Allergies'
+
+
+                        >
+                            <Select
+                                style={{ width: 120 }}
+                                mode="tags"
+
+
+                            >
+                                <Select.Option value="milk">Milk</Select.Option>
+                                <Select.Option value="egg">Egg</Select.Option>
+                                <Select.Option value="fish">Fish</Select.Option>
+                                <Select.Option value="shellfish">Shellfish</Select.Option>
+                                <Select.Option value="tree_nuts">Tree nuts</Select.Option>
+                                <Select.Option value="wheat">Wheat</Select.Option>
+                                <Select.Option value="peanuts">Peanut</Select.Option>
+                                <Select.Option value="soybeans">Soybeans</Select.Option>
+                                <Select.Option value="Sesame">Sesame</Select.Option>
+                                <Select.Option value="allergy_free">Allergy Free</Select.Option>
+
+
+
+
+
+
+                            </Select>
                         </Form.Item>
 
                         <Form.Item
@@ -928,7 +997,7 @@ const StoreInventory: React.FC = (props) => {
 
 
             <Modal
-                title="Add Inventory Item"
+                title="Add Stock Item"
                 style={{ top: 10 }}
                 open={viewInventoryStore}
                 onCancel={() => setViewInventoryStore(!viewInventoryStore)}
@@ -1034,7 +1103,7 @@ const StoreInventory: React.FC = (props) => {
 
                         <Form.Item
 
-                            label="Stock Level"
+                            label="Safety Stock"
                             name="recommended_stock_level"
                             tooltip='Average number of items to keep on hand.'
                             rules={[{ required: true, message: 'Enter the required information' }]}
@@ -1193,14 +1262,44 @@ const StoreInventory: React.FC = (props) => {
                                 </Form.Item>
                                 <Form.Item
 
-                                    label="Total package weight (lb)"
-                                    name="total_package_weight"
-                                    tooltip='Total weight of entire package in pounds.'
-
+                                    label="Total Weight Per Case"
                                 >
-                                    <InputNumber min={0} step={5} type='number' />
-                                </Form.Item>
+                                    <Space.Compact>
+                                        <Form.Item
 
+                                            name={['total_package_weight', 'unit']}
+                                            rules={[{ required: true, message: 'Enter the required information' }]}
+                                            initialValue={0}
+                                        >
+                                            <InputNumber min={0} />
+
+                                        </Form.Item>
+                                        <Form.Item
+
+                                            name={['total_package_weight', 'weight']}
+                                            rules={[{ required: true, message: 'Enter the required information' }]}
+                                            initialValue={'lb'}
+
+                                        >
+                                            <Select
+                                                style={{ width: 120 }}
+                                            >
+                                                <Select.Option value="mcg">mcg</Select.Option>
+                                                <Select.Option value="mg">mg</Select.Option>
+                                                <Select.Option value="g">g</Select.Option>
+                                                <Select.Option value="kg">kg</Select.Option>
+                                                <Select.Option value="oz">oz</Select.Option>
+                                                <Select.Option value="lb">lb</Select.Option>
+                                                <Select.Option value="mt">mt</Select.Option>
+                                                <Select.Option value="t">t</Select.Option>
+                                            </Select>
+                                        </Form.Item>
+
+
+
+                                    </Space.Compact>
+
+                                </Form.Item>
 
 
 

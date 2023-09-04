@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt'
 import * as jwt from 'jsonwebtoken'
 import { registrationInformation, checkAccount } from '../ProgramControlFlow/SQL/Query.ts/Login'
 import { UnderlineOutlined } from '@ant-design/icons';
+import { SignUpMessage } from '../ProgramControlFlow/SMS/send_sms';
 const router = express.Router()
 
 const checkCredentials = async (req, res, next) => {
@@ -27,6 +28,7 @@ router.post('/registration',checkCredentials, async (req, res) => {
   req.body.password = hash
   req.body.access_token = token
   req.body.pin = Math.floor(Math.random() * 999999) + 111111
+  SignUpMessage(req.body.business_name,req.body.phone_number,req.body.email)
   registrationInformation(req.body)
   res.json(false)
 });

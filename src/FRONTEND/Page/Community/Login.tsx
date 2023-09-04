@@ -1,4 +1,4 @@
-import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button, Space, Tag, Grid, Image, Popover } from 'antd';
+import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button, Space, Tag, Grid, Image, Popover, Tabs } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
@@ -14,7 +14,7 @@ import qrcode from '../400ppi/generateQRCode.jpeg';
 
 const Login: React.FC = () => {
   let [verified, setVerified] = React.useState(false);
-  
+
 
   const navigate = useNavigate()
   document.title = 'Kcm Inc Stakeholder Intelligence Corporation'
@@ -61,8 +61,8 @@ const Login: React.FC = () => {
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={22} md={8} className='alignCol'>
                 <div >
-                  <h1><span className='impactWord'>Scale</span> your business without sacrificing your budget.</h1>
-                  <p>We offer a variety of enterprise development services, both complimentary and paid, that do not require any setup fees. This is an ideal chance to discover our range of services without any initial financial obligation.</p>
+                  <h1> We engineer <span className='impactWord'>equitable</span> business services. </h1>
+                  <p>Our aim is to utilize technology-driven solutions to enhance both enterprises and consumers.</p>
 
 
                 </div>
@@ -76,7 +76,7 @@ const Login: React.FC = () => {
 
                   <h1>Login</h1>
 
-                  <p>Please enter your username and password that you
+                  <p>Please enter the username and password you
                     used to create your account. If you are having difficulties
                     logging in, message our <Link className='homeLinks' to='/support'>support</Link> center for assistance. </p>
                   <Divider className='dividerHeader'></Divider>
@@ -120,7 +120,12 @@ const Login: React.FC = () => {
                         <Input.Password />
                       </Form.Item>
 
-
+                      <Alert
+                        message="Notice"
+                        description="By entering our client site, you agree to our terms of service and privacy policy and agree to receive SMS-based messages. "
+                        type="warning"
+                        className='alert'
+                      />
 
 
                       <Form.Item
@@ -131,6 +136,7 @@ const Login: React.FC = () => {
                       </Form.Item>
                     </ConfigProvider>
                   </Form>
+
 
                   {
                     verified ? <Alert
@@ -151,8 +157,8 @@ const Login: React.FC = () => {
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={{ span: 22, order: 1 }} md={{ span: 8, order: 2 }} className='alignCol'>
                 <div >
-                  <h1> Strengthen enterprise and stakeholders bonds. </h1>
-                  <p>Our goal is to create thriving businesses by providing accessible business services that empower organizations while enhancing the well-being of the communities they serve and the individuals within them.</p>
+                  <h1><span className='impactWord'>Equitable</span> Through and Through</h1>
+                  <p>We aim to provide a hassle-free setup process that won't break the bank for growing or established businesses. We believe every enterprise should have access to specialized services without high activation fees or unreasonable monthly costs.</p>
 
 
                 </div>
@@ -168,7 +174,7 @@ const Login: React.FC = () => {
                     <motion.div
                       initial={{ opacity: 0, scale: 0 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: .5 }}
+                      transition={{ duration: .25 }}
                     >
                       <div className='biglogoBlue'>No Setup Fee</div>
 
@@ -176,7 +182,7 @@ const Login: React.FC = () => {
                     <motion.div
                       initial={{ opacity: 0, scale: 0 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 1 }}
+                      transition={{ duration: .75 }}
                     >
                       <div className='biglogoBeige'>Simple Setup</div>
 
@@ -186,7 +192,7 @@ const Login: React.FC = () => {
                     <motion.div
                       initial={{ opacity: 0, scale: 0 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: .75 }}
+                      transition={{ duration: .5 }}
                     >
                       <div className='biglogoBeige'>Only $10 Per Month</div>
 
@@ -194,7 +200,7 @@ const Login: React.FC = () => {
                     <motion.div
                       initial={{ opacity: 0, scale: 0 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 1.25 }}
+                      transition={{ duration: 1 }}
                     >
                       <div className='biglogoBlue'>People Focused</div>
 
@@ -216,16 +222,24 @@ const Login: React.FC = () => {
             <Row justify={'space-around'} gutter={[0, 75]} >
               <Col xs={22} md={8}>
                 <div >
-                  <h2>Inventory Managment</h2>
+                  <h1>Public <span className='impactWord'>Health</span></h1>
+
+                  <h2></h2>
 
                   <Popover placement="bottom" overlayStyle={{ width: 350 }} content={'This category includes hotels, resorts, cruise ships, travel agencies, leisure facilities, restaurants, casino-hotels,entertainment venues, and catering services. '} title="Consumer Discretionary Sector">
-                    <h3 className='popoverh3'>Consumer Discretionary Sector                    </h3>
+                    <h3 className='popoverh3'>Nutritional Support Institutions</h3>
                   </Popover>
 
 
 
 
-                  <p>Our inventory management system offers a cost-effective solution for monitoring and managing inventory lifecycles. Through the utilization of this tool, you will be able to greatly reduce unnecessary purchases, minimize occurrences of stockouts, and effectively control waste and spoilage.</p>
+                  <p>Our technology is specifically developed to aid organizations that provide food or
+                    nutritional assistance. With our service, these organizations can easily keep track
+                    of their products, manage them and carry out cost and nutritional analyses.
+                    One of the most notable features of our service is the use of QRCodes.
+                    These QRCodes allow organizations to conduct in-store inventory checks
+                    and provide customers with accurate nutritional information for specific
+                    products, all via mobile phone.</p>
 
                   <Space wrap size={[0, 25]}>
                     <ConfigProvider
@@ -240,8 +254,10 @@ const Login: React.FC = () => {
                     >
                       <Space wrap size={[25, 0]}>
                         <Space wrap size={[25, 25]}>
-                          <Tag className='activeTag' icon={<CheckOutlined />}>Inventory Tracking</Tag>
-                          <Tag className='activeTag' icon={<QrcodeOutlined />}>Digital Auditing Sheet</Tag>
+                          <Tag className='activeTag' icon={<CheckOutlined />}>Inventory Management</Tag>
+                          <Tag className='activeTag' icon={<CheckOutlined />}>Research and Development</Tag>
+                          <Tag className='activeTag' icon={<CheckOutlined />}>Product Costing</Tag>
+                          <Tag className='activeTag' icon={<CheckOutlined />}>Auditing and Tracking</Tag>
                         </Space>
 
 
@@ -266,53 +282,10 @@ const Login: React.FC = () => {
               </Col>
 
 
-              <Row justify={'space-around'} gutter={[0, 75]} >
-                <Col xs={22} md={4} >
-                  <div className='serviceOutline'>
-                    <h2>Quick Setup <div className='iconsmalllogoBlue'>
-                      <PersonSimpleRun size={24} />
-                    </div></h2>
-                    <p>With our self-managed implementation process, you have complete control over your integration.</p>
-                  </div>
-
-                </Col>
-
-                <Col xs={22} md={4}>
-                  <div className='serviceOutline'>
-
-
-                    <h2>Lifecycle Controls <div className='iconsmalllogoBlue'>
-                      <Graph size={24} />
-
-
-                    </div></h2>
-
-
-
-                    <p>Our comprehensive inventory control system allows for seamless recording and tracking of your expanding inventory.</p>
-
-
-                  </div>
-
-                </Col>
-
-                <Col xs={22} md={4}>
-                  <div className='serviceOutline'>
-                    <h2>Digital Auditing <div className='iconsmalllogoBlue'>
-                      <QrCode size={24} />
-                    </div></h2>
 
 
 
 
-                    <p>A QR Code system that provides a more comprehensive view of your inventory and helps reduces auditing times.</p>
-
-
-                  </div>
-                </Col>
-
-
-              </Row>
 
             </Row>
 
@@ -369,7 +342,7 @@ const Login: React.FC = () => {
               }}
             >
               <Space wrap direction='vertical' >
-                <h2>Only $10 per month per user </h2>
+                <h2>Free for a limited time! </h2>
               </Space>
 
             </ConfigProvider>

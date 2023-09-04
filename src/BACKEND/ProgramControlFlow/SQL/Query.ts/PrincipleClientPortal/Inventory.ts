@@ -23,15 +23,18 @@ const insertProductRecipeName = async (values) => Query('INSERT Recipe.Products 
 const upDateProductRecipeCost = async (values) => Query('INSERT Recipe.Products SET ?',[values])
 const getRecipeProduct = async (id) => Query('SELECT * FROM Recipe.Products WHERE business_id = ?', [id])
 const getInventoryItemsforSelect = async(id) => Query('select id ,description,category,total_package_weight,price_per_gram from Inventory.Inventory_Items where business_id = ? ORDER BY category', [id])
-const getInventoryItemsforRecording = async(id) => Query('select total_package_weight,price_per_gram,price from Inventory.Inventory_Items where id = ?', [id])
+const getInventoryItemsforRecording = async(id) => Query('select * from Inventory.Inventory_Items where id = ?', [id])
 const insertIngredients = async(values,product_id) => Query('INSERT Recipe.Product_Inputs SET ?  ', [values,product_id])
 const sumOfAllIngredients = async(productId) =>Query('select sum(input_cost) from Recipe.Product_Inputs where product_id = ?',[productId])
 const insertInputItemMeta = async(total_cost = 0,total_input_count = 0,total_weight=0,id) => Query('UPDATE Recipe.Products SET total_cost = ?, total_input_count = ?, total_weight = ? WHERE id = ?',[total_cost, total_input_count,total_weight,id])
 const getIngredientCount = async(id) => Query('SELECT COUNT(inventory_item_id) FROM Recipe.Product_Inputs WHERE product_id = ?;',[id])
 const totalInputWeight = async(productId) =>Query('select sum(input_weight) from Recipe.Product_Inputs where product_id = ?',[productId])
 const deleteProduct = async(id) =>Query('DELETE FROM Recipe.Products WHERE id = ?',[id])
-
+const UpdateProduct = async (values, id) => Query('UPDATE Recipe.Products SET ? WHERE id = ?', [values, id])
+const inputNutritionalInformation = async (productId)=>Query('select sum(input_cost) as total_cost, sum(input_weight) as total_weight, COUNT(inventory_item_id) as total_input_count, sum(calories) as calories,sum(total_fat) as total_fat,sum(saturated_fat) as saturated_fat,sum(trans_fat) as trans_fat,sum(cholesterol) as cholesterol,sum(sodium) as sodium,sum(carbohydrates) as carbohydrates,sum(fiber) as fiber,sum(sugar) as sugar,sum(added_sugar) added_sugar,sum(protein) as protein,sum(calcium) as calcium,sum(iron) as iron,sum(potassium) as potassium,sum(vitamin_d) as vitamin_d from Recipe.Product_Inputs where product_id = ?',[productId])
 const deleteInput = async(productId) =>Query('DELETE FROM Recipe.Product_Inputs WHERE product_id = ?',[productId])
+const insertInputItemMetaFull = async(values,id) => Query('UPDATE Recipe.Products SET ? WHERE id = ?',[values,id])
+
 
 
 
@@ -80,7 +83,10 @@ export default {
     getIngredientCount,
     totalInputWeight,
     deleteInput,
-    deleteProduct
+    deleteProduct,
+    UpdateProduct,
+    inputNutritionalInformation,
+    insertInputItemMetaFull
 
 
 }

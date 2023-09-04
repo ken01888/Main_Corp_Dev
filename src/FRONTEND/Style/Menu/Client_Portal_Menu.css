@@ -13,6 +13,16 @@
 
 }
 
+@media only screen and (max-width: 749px) {
+    .ClientSideItems{
+
+        display: none;
+       
+    
+    }
+  }
+
+
 .ClientPortalHeader {
     background: white;
     width: -webkit-fill-available;
