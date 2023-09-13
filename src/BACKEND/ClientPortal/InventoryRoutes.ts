@@ -3,6 +3,7 @@ import 'dotenv/config'
 import stores from '../ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/Inventory';
 import verify from '../ProgramControlFlow/SQL/Query.ts/Security/Verification'
 import * as convert from 'convert-units'
+import { json } from 'stream/consumers';
 
 
 
@@ -13,8 +14,9 @@ const router = express.Router()
 // Inventory Item Routes
 
 router.post('/insertInventoryItems', async (req: any, res) => {
+    let business_id = req.cookies.user.id
 
-    console.log(req)
+
     const weightGrams = convert(req.body.total_package_weight.unit).from(req.body.total_package_weight.weight).to('g')
     req.body.price_per_gram = req.body.price / weightGrams
     req.body.total_package_weight = weightGrams
@@ -26,10 +28,7 @@ router.post('/insertInventoryItems', async (req: any, res) => {
 
 router.get('/getInventoryItems', async (req: any, res) => {
 
-
-    //    let business_id = req.cookies.user.id
-    let business_id = 80
-
+    let business_id = req.cookies.user.id
     const resultInventory = await stores.getInventoryItems(business_id)
 
     res.json(resultInventory)
@@ -46,45 +45,34 @@ router.delete('/deleteInventoryItems', async (req: any, res) => {
 
 router.put('/updateInventoryItem',
 
-    async (req, res, next) => {
+    async (req, res) => {
         const getProducts = await stores.getInventoryItemsforRecording(req.body.id)
-        if (req.body.values.price && req.body.values.total_package_weight !== undefined) {
-            const weightGrams = convert(req.body.values.total_package_weight.unit).from(req.body.values.total_package_weight.weight).to('g')
-            console.log('here at middle ware 1')
 
-            const price_per_gram = Number(req.body.values.price / weightGrams).toFixed(2)
-            req.body.values.price_per_gram = price_per_gram
-            req.body.values.total_package_weight = req.body.values.total_package_weight.unit
-            console.log(req.body)
+        if (req.body.values.total_package_weight && !req.body.values.price) {
+            const weightGrams = convert(req.body.values.total_package_weight.unit).from(req.body.values.total_package_weight.weight).to('g')
+            const price_per_gram = Number(getProducts[0].price/ weightGrams)
+            req.body.values.price_per_gram = Number(price_per_gram).toFixed(2)
+            req.body.values.total_package_weight = weightGrams
+            const current_store: any = await stores.updateInventoryItem(req.body.values, req.body.id)
+            res.json(current_store)
+
+
+        }else if (!req.body.values.total_package_weight && req.body.values.price ){
+            
+            const price_per_gram = Number(req.body.values.price/ getProducts[0].total_package_weight)
+            req.body.values.price_per_gram = Number(price_per_gram).toFixed(2)
             const current_store: any = await stores.updateInventoryItem(req.body.values, req.body.id)
             res.json(current_store)
         } else {
-            next()
+            const current_store: any = await stores.updateInventoryItem(req.body.values, req.body.id)
+            res.json(current_store)
+
+
         }
-    },
 
-    async (req: any, res) => {
-        const newData = Object.entries(req.body.values)
-        const getProducts = await stores.getInventoryItemsforRecording(req.body.id)
-        const newMap = newData.forEach(async (i: any, n, a) => {
-            if ((i[0] === 'price' && i[1] != getProducts[0].price || undefined)) {
-                const weightGrams = convert(getProducts[0].total_package_weight).from(req.body.values.total_package_weight.unit).to('g')
-                const price_per_gram = i[1] / weightGrams
-                req.body.values.price_per_gram = Number(price_per_gram).toFixed(2)
-                const current_store: any = await stores.updateInventoryItem(req.body.values, req.body.id)
+    } 
 
-                res.json(current_store)
-            } else if (i[0] === 'total_package_weight' && i[1]['total_package_weight'] != getProducts[0].total_package_weight || undefined) {
-                const weightGrams = convert(i[1].unit).from(i[1].weight).to('g')
-                const price_per_gram = getProducts[0].price / weightGrams
-                req.body.values.price_per_gram = Number(price_per_gram).toFixed(2)
-                req.body.values.total_package_weight = i[1].unit
-                const current_store: any = await stores.updateInventoryItem(req.body.values, req.body.id)
-                res.json(current_store)
-            }
-
-        })
-    });
+);
 
 
 
@@ -124,11 +112,10 @@ router.post('/verify_associate_pin', async (req: any, res) => {
 });
 
 router.get('/inventory_reference_information', async (req: any, res) => {
-    // let id = req.cookies.user.id
-    let business_id = 80
-    let date_of_audit = 'Sunday, July 30, 2023'
-
+    let business_id = req.cookies.user.id
+    console.log(req.query.auditDate)
     const reply = await stores.getInventoryReference(business_id, req.query.auditDate)
+    console.log(reply)
     res.json(reply)
 });
 
@@ -147,7 +134,9 @@ router.put('/updateInventoryAuditItem', async (req: any, res) => {
 });
 
 router.get('/inventoryPeriod', async (req, res) => {
-    const inventory_period = await stores.selectUniqueInventoryPeriod()
+    let business_id = req.cookies.user.id
+    console.log(business_id)
+    const inventory_period = await stores.selectUniqueInventoryPeriod(business_id)
     res.json(inventory_period)
 })
 
@@ -156,12 +145,11 @@ router.get('/inventoryPeriod', async (req, res) => {
 // Add Nutrition Information
 
 router.put('/addNutritionInformation', async (req, res) => {
-    console.log(req.body.values.total_fat.unit)
 
-    const divider = 1 / req.body.values.serving_size
+    const divider = 1 / req.body.values.serving_size.amount
 
 
-    req.body.values.calories = req.body.values.calories.amount
+    req.body.values.calories = req.body.values.calories.amount * divider
     req.body.values.total_fat = ((convert(req.body.values.total_fat.amount).from(req.body.values.total_fat.unit).to('g')) * divider)
     req.body.values.saturated_fat = convert(req.body.values.saturated_fat.amount).from(req.body.values.saturated_fat.unit).to('g') * divider
     req.body.values.trans_fat = convert(req.body.values.trans_fat.amount).from(req.body.values.trans_fat.unit).to('g') * divider
@@ -177,13 +165,15 @@ router.put('/addNutritionInformation', async (req, res) => {
     req.body.values.added_sugar = convert(req.body.values.added_sugar.amount).from(req.body.values.added_sugar.unit).to('g') * divider
     req.body.values.vitamin_d = convert(req.body.values.vitamin_d.amount).from(req.body.values.vitamin_d.unit).to('mcg') * divider
     req.body.values.allergies = JSON.stringify(req.body.values.allergies)
+    req.body.values.serving_size = req.body.values.serving_size.amount
     const addedNewNutritionItem = await stores.insertNutritionalInformation(req.body.values, req.body.id)
     res.json(addedNewNutritionItem)
 })
 
 
 router.post('/insertProductName', async (req: any, res: any) => {
-    req.body.business_id = 80
+    let business_id = req.cookies.user.id
+
     req.body.serving_size = convert(req.body.serving_size.amount).from(req.body.serving_size.unit).to('g')
 
 
@@ -194,7 +184,7 @@ router.post('/insertProductName', async (req: any, res: any) => {
 
 router.get('/getRecipeProduct', async (req, res) => {
 
-    const business_id = 80;
+    let business_id = req.cookies.user.id
     const getProducts = await stores.getRecipeProduct(business_id);
     const newProduct = await getProducts.map(async (i, n, a) => {
         const getInfo = await stores.sumOfAllIngredients(i.id)
@@ -214,7 +204,8 @@ router.get('/getRecipeProduct', async (req, res) => {
 })
 
 router.get('/inventoryItemsForSelectRecipes', async (req, res) => {
-    let business_id = 80
+    let business_id = req.cookies.user.id
+
     const getProducts = await stores.getInventoryItemsforSelect(business_id)
     const selectItem = getProducts.map((i, n, a) => {
         return {
@@ -228,12 +219,12 @@ router.get('/inventoryItemsForSelectRecipes', async (req, res) => {
 
 
 router.post('/insertProductInputs', async (req, res) => {
-    let business_id = 80
+    let business_id = req.cookies.user.id
+
 
     const dataExhange = await req.body.inputs.forEach(async (i, n, a) => {
         i.input_weight = convert(i.input_weight).from(i.unit).to('g')
         const getProducts: any = await stores.getInventoryItemsforRecording(i.inventory_item_id)
-        console.log(getProducts)
 
         i.input_cost = parseInt(i.input_weight) * getProducts[0].price_per_gram
         i.calories = parseInt(i.input_weight) * getProducts[0].calories
@@ -262,12 +253,10 @@ router.post('/insertProductInputs', async (req, res) => {
 
 
     const data_3 = await stores.inputNutritionalInformation(req.body.inputs[0].product_id)
-    console.log(data_3)
 
 
 
     const costUpload = await stores.insertInputItemMetaFull(data_3[0], req.body.inputs[0].product_id)
-    console.log(costUpload)
     res.json('costUpload')
 });
 
@@ -284,19 +273,95 @@ router.delete('/deleteProduct', async (req: any, res: any) => {
 });
 
 router.put('/updateProductInformation', async (req: any, res) => {
-    console.log(req.body)
 
     if (req.body.values.serving_size.amount == undefined && req.body.values.serving_size.unit == undefined && req.body.values.product_name == undefined && req.body.values.sales_price == undefined && req.body.values.units == undefined) {
-        console.log('all off:', req.body)
-        res.json({ affectedRows: 1})
-    }else if (req.body.values.serving_size.amount == undefined || req.body.values.serving_size.unit == undefined) {
+        res.json({ affectedRows: 1 })
+    } else if (req.body.values.serving_size.amount == undefined || req.body.values.serving_size.unit == undefined) {
 
-                delete req.body.values.serving_size
-                console.log('delete serving_size:', req.body)
-                const current_store: any = await stores.UpdateProduct(req.body.values, req.body.id)
-                res.json(current_store)
-            } 
+        delete req.body.values.serving_size
+        const current_store: any = await stores.UpdateProduct(req.body.values, req.body.id)
+        res.json(current_store)
+    } else {
+        const weightGrams = convert(req.body.values.serving_size.amount).from(req.body.values.serving_size.unit).to('g')
+        req.body.values.serving_size = weightGrams
+
+        const current_store: any = await stores.UpdateProduct(req.body.values, req.body.id)
+        res.json(current_store)
+    }
 });
+
+router.get('/allProductInputs', async (req, res) => {
+    const getInputs = await stores.selectAllInputs(req.query.product_id)
+
+    res.json(getInputs)
+})
+
+router.put('/updateInputs', (req, res) => {
+
+    const newUpdate = Object.values(req.body).map(async (i: any, n, a) => {
+
+        try {
+            const getProducts: any = await stores.getInventoryItemsforRecording(i.inventory_item_id)
+            const input_weight = convert(Number(i.amount)).from(i.unit).to('g')
+            const input_cost = i.price_per_gram * input_weight
+            i.input_weight = input_weight
+            i.input_cost = input_cost
+            i.calories = parseInt(i.input_weight) * getProducts[0].calories
+            i.total_fat = parseInt(i.input_weight) * getProducts[0].total_fat
+            i.saturated_fat = parseInt(i.input_weight) * getProducts[0].saturated_fat
+            i.trans_fat = parseInt(i.input_weight) * getProducts[0].trans_fat
+            i.cholesterol = parseInt(i.input_weight) * getProducts[0].cholesterol
+            i.sodium = parseInt(i.input_weight) * getProducts[0].sodium
+            i.carbohydrates = parseInt(i.input_weight) * getProducts[0].carbohydrates
+            i.fiber = parseInt(i.input_weight) * getProducts[0].fiber
+            i.sugar = parseInt(i.input_weight) * getProducts[0].sugar
+            i.added_sugar = parseInt(i.input_weight) * getProducts[0].added_sugar
+            i.protein = parseInt(i.input_weight) * getProducts[0].protein
+            i.calcium = parseInt(i.input_weight) * getProducts[0].calcium
+            i.iron = parseInt(i.input_weight) * getProducts[0].iron
+            i.potassium = parseInt(i.input_weight) * getProducts[0].potassium
+            i.vitamin_d = parseInt(i.input_weight) * getProducts[0].vitamin_d
+            const inputId = i.id
+            const product_id = i.product_id // 
+            delete i.id
+            delete i.product_id
+            delete i.price_per_gram
+            delete i.description
+            delete i.amount
+            delete i.unit
+            const newReply = await stores.UpdateProductInputs(i, inputId)
+            const getInfo = await stores.sumOfAllIngredients(product_id)
+            const getProducts_2 = await stores.getIngredientCount(product_id);
+            const data_2 = await stores.totalInputWeight(product_id)
+            const newReply2 = await stores.insertInputItemMeta(getInfo[0]['sum(input_cost)'], getProducts_2[0]['COUNT(inventory_item_id)'], Number(data_2[0]['sum(input_weight)']).toFixed(2), product_id)
+        } catch (error) {
+            return error
+        }
+    })
+    const affectedRows = 1
+    res.json(affectedRows)
+
+
+})
+
+
+router.delete('/deleteInputs', async (req, res) => {
+
+    const current_product_inputs: any = await stores.deleteInputMeta(req.body[0])
+
+    res.json(current_product_inputs)
+})
+
+// router.get('/syncChangesToProduct', async (req, res) => {
+//     // const allProducts = await stores.selectAllInputs();
+//     const allProductReply = allProducts.map(async (i, n, a) => {
+//         const allProductInventoryTable = await stores.selectAllInputs(i.id)
+//         console.log(allProductInventoryTable)
+//     })
+//     res.json(allProducts)
+
+
+// })
 
 
 

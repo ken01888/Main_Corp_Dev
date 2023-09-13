@@ -1,12 +1,10 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Space, Input, Table, Tooltip, Calendar, DatePicker, DatePickerProps, Dropdown, MenuProps } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Space, Input, Table,DatePicker, DatePickerProps, Dropdown, MenuProps } from 'antd'
 import 'isomorphic-fetch';
-import { Inventory } from '../../Program_Flow/Inventory_Flow'
 
 import { ColumnsType } from 'antd/es/table';
-import { DeleteOutlined, DownOutlined, EditOutlined, SmileOutlined } from '@ant-design/icons';
+import { DownOutlined} from '@ant-design/icons';
 import * as dayjs from 'dayjs'
-import { CalendarMode } from 'antd/es/calendar/generateCalendar';
 import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
@@ -54,10 +52,11 @@ const InventoryAudit: React.FC = (props) => {
 
                 const dataReply = await fetch(`http://localhost:8080/inventoryPeriod`);
                 const newData = await dataReply.json();
-                const newDate = newData.map((i, n, a) => {
+                console.log(newData)
+                const newDate_1 = newData.map((i, n, a) => {
                     return i.date_of_audit
                 })
-                setInventoryDate(newDate)
+                setInventoryDate(newDate_1)
             }
         )()
     }, [])
@@ -133,31 +132,30 @@ const InventoryAudit: React.FC = (props) => {
         setRowModify(!rowModify)
         setUpdateInventoryForm(!updateInventoryForm)
 
-        // const dataReply = await fetch(`http://localhost:8080/updateInventoryAuditItem`, {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ values, id: selectedRow[1][0] })
-        // });
-        // const dataParse = await dataReply.json();
-        // if (dataParse === 1) {
-        //     (
-        //         async () => {
-        //             const newDate = requestedDate
-        //             const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
-        //             const newData = await dataReply.json();
-        //             const newArray = newData.map((i, n, a) => {
-        //                 return i.price * i.order_quantity
-        //             })
+        const dataReply = await fetch(`http://localhost:8080/updateInventoryAuditItem`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ values, id: selectedRow[1][0] })
+        });
+        const dataParse = await dataReply.json();
+        if (dataParse === 1) {
+            (
+                async () => {
+                    const newDate = requestedDate
+                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
+                    const newData = await dataReply.json();
+                    const newArray = newData.map((i, n, a) => {
+                        return i.price * i.order_quantity
+                    })
 
-        //             const sumWithInitial = newArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-        //             setTotalCost(sumWithInitial)
-        //             setInventoryList(newData)
-        //         }
-        //     )()
-        // }
-        console.log(updateInventory)
+                    const sumWithInitial = newArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+                    setTotalCost(sumWithInitial)
+                    setInventoryList(newData)
+                }
+            )()
+        }
         updateInventory.resetFields();
     };
 
@@ -209,43 +207,38 @@ const InventoryAudit: React.FC = (props) => {
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
         },
         {
-            title: 'Supplier',
-            dataIndex: 'supplier',
-            responsive: ['lg', 'xl', 'xxl'],
-        },
-        {
             title: 'Brand',
             dataIndex: 'brand',
+            className: 'columnLightBlue',
             responsive: ['lg', 'xl', 'xxl'],
         },
         {
             title: 'Description',
             dataIndex: 'description',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
         },
         {
             title: 'Available',
             dataIndex: 'in_stock',
+            className: 'columnLightBlue',
+            sorter: (a: any, b: any) => a.in_stock - b.in_stock,
             responsive: ['lg', 'xl', 'xxl'],
-
-
-
         },
         {
-            title: 'Acquire',
+            title: 'Purchase',
             dataIndex: 'order_quantity',
+            sorter: (a: any, b: any) => a.order_quantity - b.order_quantity,
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
         },
         {
             title: 'Cost',
             dataIndex: 'order_quantity',
+            className: 'columnLightBlue',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            sorter: (a: any, b: any) => a.order_quantity - b.order_quantity,
             render: (_, record) => {
                 return (
                     new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.order_quantity) * Number(record.price))
-
                 )
             }
         },
@@ -395,7 +388,7 @@ const InventoryAudit: React.FC = (props) => {
                                     <Descriptions>
                                         <Descriptions.Item label="Audit Date" span={2}>{record[0].date_of_audit}</Descriptions.Item>
                                         <Descriptions.Item label="Cost" span={1}>{new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(totalCost))}</Descriptions.Item>
-                                        <Descriptions.Item label="Reference Number" span={3}>{record[0].audit_reference_number}</Descriptions.Item>
+                                        {/* <Descriptions.Item label="Reference Number" span={3}>{record[0].audit_reference_number}</Descriptions.Item> */}
                                         <Descriptions.Item label="Time Since Audit" span={3}>{dayjs(record[0].date_of_audit).fromNow(true)}</Descriptions.Item>
 
 
@@ -461,6 +454,7 @@ const InventoryAudit: React.FC = (props) => {
                                     <Input type='text' />
                                 </Form.Item>
 
+                             
 
 
                                 <Form.Item

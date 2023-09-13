@@ -1,11 +1,9 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Tooltip, Dropdown, MenuProps, Popconfirm, message } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, Dropdown, MenuProps, Popconfirm} from 'antd'
 import 'isomorphic-fetch';
-import { Inventory } from '../../Program_Flow/Inventory_Flow'
 import { ColumnsType } from 'antd/es/table';
-import { DeleteOutlined, DownOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined, QrcodeOutlined, TableOutlined } from '@ant-design/icons';
+import { DownOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import * as convert from 'convert-units'
-import { Pie } from '@ant-design/plots';
 
 
 interface DataType {
@@ -15,7 +13,8 @@ interface DataType {
     total_weight: number | string;
     sales_price: number | string;
     serving_size: number | string;
-    units: number | string
+    units: number | string;
+    total_input_count: number | string
 
 }
 
@@ -26,15 +25,28 @@ const Products: React.FC = (props) => {
     const [selectedRowAction, setSelectedRowActions] = React.useState<any>()
     const [updateInventoryForm, setUpdateInventoryForm] = React.useState<any>(false)
     const [viewInventoryStore, setViewInventoryStore] = React.useState<boolean>(false)
-    const [QRCodeGenerator, setQRCodeGenerator] = React.useState(false)
-    const [userId, setUserId] = React.useState()
+    const [userId, setUserId] = React.useState<number>()
     const [itemsUpdated, setItemsUpdated] = React.useState(false)
     const [addRecipes, setAddRecipes] = React.useState<boolean>(false)
     const [selectItems, setSelectItems] = React.useState([])
     const [displayAddProduct, setDisplayAddProduct] = React.useState<boolean>(false)
+    const [formInputs, setFormInputs] = React.useState([])
+    const [openInputsDrawer, setOpenInputsDrawer] = React.useState(false)
+    const [deleteInput, setDeleteInput] = React.useState(false)
+
+
+
+
     const [addInventory] = Form.useForm();
-    const [FormInputs] = Form.useForm();
     const [updateProduct] = Form.useForm();
+
+    const [addFormInputs] = Form.useForm();
+    const [viewEditFormInputs] = Form.useForm();
+
+
+
+
+
 
 
 
@@ -76,7 +88,6 @@ const Products: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
@@ -87,7 +98,7 @@ const Products: React.FC = (props) => {
         )()
 
 
-    }, [viewInventoryStore, updateInventoryForm, itemsUpdated, selectedRowAction])
+    }, [viewInventoryStore, updateInventoryForm, itemsUpdated, selectedRowAction, openInputsDrawer, deleteInput])
 
     /* Form Inventory Add*/
 
@@ -109,7 +120,7 @@ const Products: React.FC = (props) => {
     const addInput = async (values: any) => {
         const newData = values.inputs
         if (newData == undefined || newData.length <= 0) {
-            FormInputs.resetFields()
+            addFormInputs.resetFields()
             setAddRecipes(!addRecipes)
 
         } else {
@@ -132,14 +143,13 @@ const Products: React.FC = (props) => {
 
             setAddRecipes(!addRecipes)
             setItemsUpdated(!itemsUpdated)
-            FormInputs.resetFields()
+            addFormInputs.resetFields()
         }
 
     };
 
     const onUpdateProduct = async (values: any) => {
         setDisplayAddProduct(!displayAddProduct)
-
         const dataReply = await fetch(`http://localhost:8080/updateProductInformation`, {
             method: 'PUT',
             headers: {
@@ -152,7 +162,6 @@ const Products: React.FC = (props) => {
         if (dataParse.affectedRows === 1) {
             (
                 async () => {
-
                     const user: any = await window.localStorage.getItem('user')
                     const newUser = await JSON.parse(user)
                     setUserId(newUser.id)
@@ -167,15 +176,48 @@ const Products: React.FC = (props) => {
 
     };
 
+    const onUpdateInput = async (values: any) => {
+
+        const dataReply = await fetch(`http://localhost:8080/updateInputs`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
+        });
+        const dataParse = await dataReply.json();
+        (
+            async () => {
+                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const newData = await dataReply.json();
+                setInventoryList(newData)
+                const dataReply1 = await fetch(`http://localhost:8080/allProductInputs?product_id=${values[0].product_id}`);
+                const newData1 = await dataReply1.json();
+                setSelectedRowActions(values[0].product_id)
+                setFormInputs(newData1)
+            }
+        )()
+
+        setOpenInputsDrawer(!openInputsDrawer)
+
+    };
+
 
     const rowSelection = {
-
         onSelect: (record, selected, selectedRows, nativeEvent) => {
             if (selected === true) {
-                setSelectedRowActions(record.id)
+
+                (
+                    async () => {
+                        const dataReply = await fetch(`http://localhost:8080/allProductInputs?product_id=${record.id}`);
+                        const newData = await dataReply.json();
+                        setSelectedRowActions(record.id)
+                        setFormInputs(newData)
+
+                    }
+                )()
             } else if (selected == false) {
                 setSelectedRowActions('')
-
             }
         },
         hideSelectAll: true
@@ -191,10 +233,7 @@ const Products: React.FC = (props) => {
             },
             body: JSON.stringify([selectedRowAction])
         });
-        const newResponse = await dataReply.json()
-        const deleteResponse = await fetch(`http://localhost:8080/getRecipeProduct`);
-        const newData = await deleteResponse.json();
-        setInventoryList(newData)
+
 
     };
 
@@ -248,7 +287,7 @@ const Products: React.FC = (props) => {
                     </a>
                 </Popconfirm>
             ),
-        },
+        }
 
     ];
 
@@ -275,6 +314,13 @@ const Products: React.FC = (props) => {
                     dataIndex: 'total_input_count',
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
                     sorter: (a: any, b: any) => a.total_input_count - b.total_input_count,
+                    render: (_, record) => {
+                        return (
+                            <a onClick={() => { setOpenInputsDrawer(!openInputsDrawer) }}>{record.total_input_count}</a>
+
+                        )
+                    }
+
                 },
                 {
                     title: 'Cost',
@@ -283,7 +329,7 @@ const Products: React.FC = (props) => {
                     sorter: (a: any, b: any) => a.total_cost - b.total_cost,
                     render: (_, record) => {
                         return (
-                            '$' + record.total_cost
+                            new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.total_cost))
 
                         )
                     }
@@ -293,30 +339,57 @@ const Products: React.FC = (props) => {
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
                     children: [
                         {
-                            title: 'Manufactured',
+                            title: 'Total Yield',
                             dataIndex: 'total_weight',
                             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
                             render: (_, record) => {
                                 return (
-                                    convert(record.total_weight).from('g').to('oz').toFixed() + " oz"
+                                    convert(record.total_weight).from('g').to('oz').toFixed(2) + " oz"
 
                                 )
                             }
                         },
 
                         {
-                            title: 'Packaged',
+                            title: 'Per Unit',
                             dataIndex: 'serving_size',
                             className: 'columnLightBlue',
 
                             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
                             render: (_, record) => {
                                 return (
-                                    convert(record.serving_size).from('g').to('oz').toFixed() + " oz"
+                                    convert(record.serving_size).from('g').to('oz').toFixed(0) + " oz"
 
                                 )
                             }
                         },
+                        // {
+                        //     title: 'Loss',
+                        //     dataIndex: 'serving_size',
+
+                        //     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+                        //     render: (_, record) => {
+                        //         const waste = (Number(Number((Number(record.total_weight) / Number(record.serving_size))) / Number(record.units)) - Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))).toFixed(2)
+                        //         const weight = convert(record.serving_size).from('g').to('oz')
+                        //         const totalWeight = (Number(waste) * Number(weight))
+
+                        //         if (Number.isNaN(totalWeight) || Infinity) {
+                        //             return (
+                        //                 Math.round(0) + ' oz'
+
+                        //             )
+
+                        //         } else {
+                        //             return (
+
+                        //                 Math.round(totalWeight) + ' oz'
+                        //             )
+                        //         }
+
+
+                        //     }
+                        // },
+
 
                     ]
                 },
@@ -337,7 +410,7 @@ const Products: React.FC = (props) => {
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
                     render: (_, record) => {
                         return (
-                            (Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
+                            Math.floor((Number(record.total_weight) / Number(record.serving_size)))
 
                         )
                     }
@@ -359,31 +432,42 @@ const Products: React.FC = (props) => {
                     }
                 },
                 {
-                    title: 'Waste',
-                    dataIndex: 'sales_price',
-                    sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
-                    render: (_, record) => {
-                        return (
-                            Number(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)) - Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))).toFixed(2)
-
-                        )
-                    }
-                },
-                {
                     title: 'Cycles',
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    render: (_, record) => {
+                    children: [
+                        {
+                            title: 'Gain',
+                            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+                            render: (_, record) => {
 
 
-                        return (
-                            Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))
-                        )
+                                return (
+                                    Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))
+                                )
 
 
-                    }
-                }
+                            }
+                        },
+                        {
+                            title: 'Loss',
+                            dataIndex: 'sales_price',
+                            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+
+                            render: (_, record) => {
+                                const totalUnitLoss = (Number(Number((Number(record.total_weight) / Number(record.serving_size))) / Number(record.units)) - Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))).toFixed(2)
+
+
+                                return (
+
+                                    Number(totalUnitLoss)
+                                )
+
+
+                            }
+                        }
+                    ]
+                },
+
 
             ]
         },
@@ -391,6 +475,7 @@ const Products: React.FC = (props) => {
         {
             title: 'Per Sale',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+
             children: [
                 {
                     title: 'Cost',
@@ -434,7 +519,6 @@ const Products: React.FC = (props) => {
                 },
                 {
                     title: 'Return',
-                    dataIndex: 'sales_price',
                     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
                     sorter: (a: any, b: any) => a.sales_price - b.sales_price,
 
@@ -442,7 +526,7 @@ const Products: React.FC = (props) => {
                     render: (_, record) => {
                         let productionCost = record.total_cost
                         let units = record.units
-                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
+                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(2)
                         let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield))) || 0
                         let totalReturn = Number(record.sales_price) - finalCost
 
@@ -461,9 +545,10 @@ const Products: React.FC = (props) => {
                     render: (_, record: any) => {
                         let productionCost = record.total_cost
                         let units = record.units
-                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
+                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(2)
                         let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield))) || 0
                         let margin = (Number(record.sales_price) - Number(finalCost)) / Number(record.sales_price)
+
 
                         return (
 
@@ -582,6 +667,19 @@ const Products: React.FC = (props) => {
     };
 
 
+    const onDeleteInput = async (id: any) => {
+        const dataReply = await fetch(`http://localhost:8080/deleteInputs`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify([id])
+        });
+        const newResponse = await dataReply.json()
+
+        setDeleteInput(!deleteInput)
+    }
+
 
     return (
 
@@ -599,10 +697,10 @@ const Products: React.FC = (props) => {
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                                In order to obtain information about your products and their nutrition,
-                                you need to first click <Tag color="#000000">Add Product</Tag> and share its consumer pricing details.
-                                Once done, you can make changes to the product by checking the button to the left and selecting an item from the dropdown menu.
-                                The finished products are created by combining items from the <Tag color="#000000">Item</Tag> page.
+                            To generate the merchandise you intend to offer, utilize the "Design Product" button situated on this page.
+                             You will construct your products by utilizing the inventory items you have previously included on the "Stock" page. 
+                             After you have provided all essential details for your product, you may make modifications by selecting
+                              the item and clicking the dropdown button that appears in the "Action" column.
                             </p>
 
                         </Descriptions.Item>
@@ -619,8 +717,12 @@ const Products: React.FC = (props) => {
                                 }}
                             >
                                 <Space wrap size={[25, 25]}>
-                                    {/* <Button className='tagReview' onClick={() => { setViewPersonalInformation(!ViewPersonalInformation) }}> View</Button> */}
-                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Add Product</Button>
+                               
+                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Design Product</Button>
+                                    {/* <Button icon={<SyncOutlined  />} className='buttonBlack'></Button> */}
+
+                                   
+
                                 </Space>
                             </ConfigProvider>
 
@@ -648,6 +750,8 @@ const Products: React.FC = (props) => {
                         }}
                     >
                         <Table
+
+
                             scroll={{ x: '-webkit-fill-available' }}
 
                             rowKey={(record: any) => record.id}
@@ -810,7 +914,7 @@ const Products: React.FC = (props) => {
                             <Form.Item
                             >
                                 <Button htmlType="submit" className='buttonBlack' >
-                                    Add Product
+                                    Upload
                                 </Button>
                             </Form.Item>
                         </ConfigProvider>
@@ -828,10 +932,10 @@ const Products: React.FC = (props) => {
                 onCancel={() => setAddRecipes(!addRecipes)}
                 footer={null}
                 onOk={() => {
-                    FormInputs
+                    addFormInputs
                         .validateFields()
                         .then((values) => {
-                            FormInputs.resetFields();
+                            addFormInputs.resetFields();
                             setSelectedRowActions(undefined)
                         })
                         .catch((info) => {
@@ -847,7 +951,7 @@ const Products: React.FC = (props) => {
                     onFinish={addInput}
                     style={{ maxWidth: 600 }}
                     autoComplete="off"
-                    form={FormInputs}
+                    form={addFormInputs}
 
                 >
                     <Form.List name="inputs">
@@ -960,6 +1064,7 @@ const Products: React.FC = (props) => {
                 style={{ top: 10 }}
                 open={displayAddProduct}
                 onClose={() => setDisplayAddProduct(!displayAddProduct)}
+                className='drawerBackground'
                 footer={null}
                 mask={false}
             >
@@ -1083,6 +1188,169 @@ const Products: React.FC = (props) => {
                     </ConfigProvider>
                 </Form>
             </Drawer>
+
+            <Modal
+                title='Edit input items.'
+                style={{ top: 20 }}
+                open={openInputsDrawer}
+                onCancel={() => setOpenInputsDrawer(!openInputsDrawer)}
+                footer={null}
+                onOk={() => {
+                    addFormInputs
+                        .validateFields()
+                        .then((values) => {
+                            addFormInputs.resetFields();
+                            setSelectedRowActions(undefined)
+                        })
+                        .catch((info) => {
+                            console.log('Validate Failed:', info);
+                        });
+                }}
+            >
+
+
+
+                <Form
+                    name="Unpdate Inputs"
+                    onFinish={onUpdateInput}
+                    style={{ maxWidth: 600 }}
+                    autoComplete="off"
+                    form={viewEditFormInputs}
+                >
+
+                    {formInputs.map((i: any, n, a) => {
+
+                        return (
+                            <div key={i.id}>
+
+
+                                <Space style={{ display: 'flex', marginBottom: 8, flexWrap: 'wrap' }} align="baseline">
+                                    <Form.Item
+                                        rules={[{ required: true, message: 'Missing item' }]}
+                                        initialValue={i.id}
+                                        name={[n, 'id']}
+                                        hidden
+                                    >
+                                        <Input />
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        rules={[{ required: true, message: 'Missing item' }]}
+                                        initialValue={i.product_id}
+                                        name={[n, 'product_id']}
+                                        hidden
+                                    >
+                                        <Input />
+
+                                    </Form.Item>
+                                    <Form.Item
+                                        rules={[{ required: true, message: 'Missing item' }]}
+                                        initialValue={i.inventory_item_id}
+                                        name={[n, 'inventory_item_id']}
+                                        hidden
+                                    >
+                                        <Input />
+
+                                    </Form.Item>
+                                    <Form.Item
+                                        rules={[{ required: true, message: 'Missing item' }]}
+                                        initialValue={i.price_per_gram}
+                                        name={[n, 'price_per_gram']}
+                                        hidden
+                                    >
+                                        <Input />
+
+                                    </Form.Item>
+                                    <Form.Item
+                                        rules={[{ required: true, message: 'Missing item' }]}
+                                        initialValue={i.description}
+                                        name={[n, 'description']}
+                                    >
+                                        <Select
+                                            placeholder='Select Item'
+                                            style={{ width: 150 }}
+                                            options={selectItems} />
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        rules={[{ required: true, message: 'Missing item' }]}
+                                        initialValue={convert(i.input_weight).from('g').to('oz').toFixed(0)}
+                                        name={[n, 'amount']}
+
+
+
+                                    >
+
+                                        <InputNumber min={1} />
+
+
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        noStyle
+                                        rules={[{ required: true, message: 'Missing item' }]}
+                                        initialValue={'oz'}
+                                        name={[n, 'unit']}
+
+                                    >
+                                        <Select
+                                            placeholder='Unit'
+
+                                        >
+                                            <Select.Option value="mcg">mcg</Select.Option>
+                                            <Select.Option value="mg">mg</Select.Option>
+                                            <Select.Option value="g">g</Select.Option>
+                                            <Select.Option value="kg">kg</Select.Option>
+                                            <Select.Option value="oz">oz</Select.Option>
+                                            <Select.Option value="lb">lb</Select.Option>
+                                            <Select.Option value="mt">mt</Select.Option>
+                                            <Select.Option value="t">t</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+
+
+
+
+
+                                    {new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(i.input_cost))}
+
+
+                                    <MinusCircleOutlined onClick={() => onDeleteInput(i.id)} />
+
+                                </Space>
+                            </div>
+                        )
+
+                    }
+
+
+                    )}
+
+
+
+
+
+                    <Form.Item>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+                                },
+                            }}
+                        >
+                            <Button htmlType="submit" className='buttonBlack'>
+                                Submit
+                            </Button>
+                        </ConfigProvider>
+
+                    </Form.Item>
+
+
+                </Form>
+            </Modal>
 
 
 

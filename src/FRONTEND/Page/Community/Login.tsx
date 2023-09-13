@@ -1,13 +1,14 @@
-import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button, Space, Tag, Grid, Image, Popover, Tabs } from 'antd';
+import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button, Space, Tag,Image } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import Main_Menu from '../Components/Navigation/Main_Menu';
-import { CheckOutlined, QrcodeOutlined, QuestionCircleTwoTone } from '@ant-design/icons';
+import { CheckOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
-import { ArrowRight, Barcode, Book, Graph, PersonSimpleRun, QrCode } from '@phosphor-icons/react';
 import qrcode from '../400ppi/generateQRCode.jpeg';
+import logo from '../400ppi/kcmincprofilepicture.png';
+
 
 
 
@@ -20,7 +21,7 @@ const Login: React.FC = () => {
   document.title = 'Kcm Inc Stakeholder Intelligence Corporation'
 
   const onFinish = async (values: any) => {
-    let newData = await fetch('/login_verification', {
+    let newData = await fetch('http://localhost:8080/login_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -32,6 +33,7 @@ const Login: React.FC = () => {
     if (newData.status == 200) {
       const principleData = await newData.json()
       window.localStorage.setItem('user', JSON.stringify(principleData))
+
       navigate('/principle/account/')
     } else if (newData.status == 401) {
       setVerified(!verified)
@@ -59,6 +61,7 @@ const Login: React.FC = () => {
           <Space wrap size={[0, 250]}>
 
             <Row justify={'space-around'} gutter={[0, 75]} >
+              <Image hidden src={logo}></Image>
               <Col xs={22} md={8} className='alignCol'>
                 <div >
                   <h1> We engineer <span className='impactWord'>equitable</span> business services. </h1>
@@ -150,6 +153,7 @@ const Login: React.FC = () => {
               </Col>
 
 
+
             </Row>
 
 
@@ -158,7 +162,7 @@ const Login: React.FC = () => {
               <Col xs={{ span: 22, order: 1 }} md={{ span: 8, order: 2 }} className='alignCol'>
                 <div >
                   <h1><span className='impactWord'>Equitable</span> Through and Through</h1>
-                  <p>We aim to provide a hassle-free setup process that won't break the bank for growing or established businesses. We believe every enterprise should have access to specialized services without high activation fees or unreasonable monthly costs.</p>
+                  <p>We aim to provide a hassle-free setup process that won't break the bank for growing or established businesses. Every enterprise should have access to specialized services without high activation fees or unreasonable monthly costs, and we make that possible. </p>
 
 
                 </div>
@@ -220,26 +224,20 @@ const Login: React.FC = () => {
 
 
             <Row justify={'space-around'} gutter={[0, 75]} >
+          
               <Col xs={22} md={8}>
-                <div >
-                  <h1>Public <span className='impactWord'>Health</span></h1>
+              <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: .5 }}>
+                  <h1>Product <span className='impactWord'>Management</span></h1>
 
-                  <h2></h2>
-
-                  <Popover placement="bottom" overlayStyle={{ width: 350 }} content={'This category includes hotels, resorts, cruise ships, travel agencies, leisure facilities, restaurants, casino-hotels,entertainment venues, and catering services. '} title="Consumer Discretionary Sector">
-                    <h3 className='popoverh3'>Nutritional Support Institutions</h3>
-                  </Popover>
-
-
-
-
-                  <p>Our technology is specifically developed to aid organizations that provide food or
-                    nutritional assistance. With our service, these organizations can easily keep track
-                    of their products, manage them and carry out cost and nutritional analyses.
-                    One of the most notable features of our service is the use of QRCodes.
-                    These QRCodes allow organizations to conduct in-store inventory checks
-                    and provide customers with accurate nutritional information for specific
-                    products, all via mobile phone.</p>
+                  <p>Do you find managing your inventory challenging?
+                    Our service simplifies the process and provides valuable insights into your purchases.
+                    Our platform enables you to effortlessly store item data, design products,
+                    conduct cost analysis, and carry out routine inventory audits using QR codes -
+                    all in one convenient location. This is the perfect solution for businesses
+                    looking to optimize their inventory management at an affordable cost, reduce waste and control costs.
+                  </p>
 
                   <Space wrap size={[0, 25]}>
                     <ConfigProvider
@@ -248,21 +246,26 @@ const Login: React.FC = () => {
                         token: {
                           fontFamily: 'Jost',
                           colorText: 'black',
-                          colorTextHeading: 'black'
+                          colorTextHeading: 'black',
+                          colorPrimary: 'black'
+
                         },
                       }}
                     >
-                      <Space wrap size={[25, 0]}>
+                      <Space wrap size={[25, 10]}>
                         <Space wrap size={[25, 25]}>
                           <Tag className='activeTag' icon={<CheckOutlined />}>Inventory Management</Tag>
                           <Tag className='activeTag' icon={<CheckOutlined />}>Research and Development</Tag>
                           <Tag className='activeTag' icon={<CheckOutlined />}>Product Costing</Tag>
                           <Tag className='activeTag' icon={<CheckOutlined />}>Auditing and Tracking</Tag>
                         </Space>
-
-
-
                       </Space>
+
+
+                      <Link to='/signup' reloadDocument>  <Button className='buttonBlack' htmlType="submit">
+                        Sign up today
+                      </Button></Link>
+
 
 
 
@@ -271,7 +274,7 @@ const Login: React.FC = () => {
                     </ConfigProvider>
 
                   </Space>
-                </div>
+                </motion.div>
 
               </Col>
               <Col xs={22} md={8} className='alignCol'>

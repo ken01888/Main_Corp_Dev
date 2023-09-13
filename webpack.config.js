@@ -50,11 +50,11 @@ const $FRONTEND = {
 
   plugins: [
     new NodePolyfillPlugin(),
-    // new WorkboxWebpackPlugin.InjectManifest({
-    //   swSrc: "./src/service-worker.ts",
-    //   swDest: "service-worker.js",
-    //   maximumFileSizeToCacheInBytes: 50000000
-    // }),
+    new WorkboxWebpackPlugin.InjectManifest({
+      swSrc: "./src/service-worker.ts",
+      swDest: "service-worker.js",
+      maximumFileSizeToCacheInBytes: 50000000
+    }),
     new HtmlWebpackPlugin({
       template: './Client/index.html', hash: false,
       favicon: './Client/favicon.ico',
@@ -104,50 +104,14 @@ const $FRONTEND = {
         background_color: "#ffffff",
         prefer_related_applications: true,
         id: '/',
-        start_url: '/'
+        start_url:'https://www.kcminc.io/'
       }
 
     }
     ),
 
     new HtmlWebpackTagsPlugin({
-      // links: [
-      //   {
-      //     path: '../Client/apple-touch-icon.png',
-      //     publicPath: false,
-      //     attributes: {
-      //       rel: 'apple-touch-icon',
-      //       size: '180x180'
-      //     }
-      //   },
-      //   {
-      //     path: '../Client/apple-touch-icon.png',
-      //     publicPath: false,
-      //     attributes: {
-      //       rel: 'apple-touch-icon',
-      //       size: '32x32'
-      //     }
-      //   },
-
-      //   {
-      //     path: '../Client/favicon-32x32.png',
-      //     publicPath: false,
-      //     attributes: {
-      //       rel: 'icon',
-      //       size: '32x32',
-      //       type: 'image/png'
-      //     }
-      //   },
-      //   {
-      //     path: '../Client/favicon-16x16.png',
-      //     publicPath: false,
-      //     attributes: {
-      //       rel: 'icon',
-      //       size: '16x16',
-      //       type: 'image/png'
-      //     }
-      //   },
-      // ]
+     
       scripts: [
         {
           path: 'service-worker.js',
@@ -286,6 +250,5 @@ module.exports = () => {
     return [$FRONTEND, $BACKEND]
 
   }
-  // return [$FRONTEND, $BACKEND];
 };
 

@@ -37,12 +37,6 @@ const App = createBrowserRouter([
 
 
   {
-    path: "inventory_check",
-    element: <InventoryCheck />,
-
-  },
-
-  {
     path: "termsofservice",
     element: <LegalService />,
 
@@ -54,26 +48,7 @@ const App = createBrowserRouter([
     element: <PrivacyPolicy />,
 
   },
-  {
-    path: "store",
-    element: <StoreInventory />,
 
-  },
-  {
-    path: "inventoryaudits",
-    element: <InventoryAudit />,
-
-  },
-  {
-    path: "products",
-    element: <Products />,
-
-  },
-  {
-    path: "nutrition",
-    element: <NutritionalFactPanel />,
-
-  },
 
   {
     path: '/principle',
@@ -104,16 +79,6 @@ const App = createBrowserRouter([
         element: <NutritionalFactPanel />,
     
       }
- 
-      //   {
-      //     path: "billing",
-      //     element: <PrincipleBillingDetails />
-      //   },
-      //   {
-      //     path: "services",
-      //     element: <PrincipleServiceDetails />
-      //   }
-      //   ,
 
 
     ]

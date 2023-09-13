@@ -22,7 +22,6 @@ export function MessageResponseFromHomePage(name:string,phone?:string[]| any,ema
             messagingServiceSid: process.env.TWILIO_MESSAGE_SERVICE,
             shortenUrls: true,
             to: phone,
-            mediaUrl:'https://www.kcminc.io/Large512x512.png'
     
         
     });

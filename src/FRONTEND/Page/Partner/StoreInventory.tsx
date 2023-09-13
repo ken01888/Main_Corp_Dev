@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Tooltip, Dropdown, MenuProps, Alert } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Dropdown, MenuProps, Alert } from 'antd'
 import 'isomorphic-fetch';
-import { Inventory } from '../../Program_Flow/Inventory_Flow'
 import { ColumnsType } from 'antd/es/table';
-import { DeleteOutlined, DownOutlined, EditOutlined, PlusOutlined, QrcodeOutlined, SettingOutlined } from '@ant-design/icons';
+import { DownOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
 import * as convert from 'convert-units'
 
 
@@ -37,9 +36,9 @@ const StoreInventory: React.FC = (props) => {
 
 
 
-const [addInventory] = Form.useForm();
-const [updateInventory] = Form.useForm();
-const [formNutrition] = Form.useForm();
+    const [addInventory] = Form.useForm();
+    const [updateInventory] = Form.useForm();
+    const [formNutrition] = Form.useForm();
 
     // Retrieve Inventory information from database
 
@@ -58,24 +57,6 @@ const [formNutrition] = Form.useForm();
         )()
     }, [])
 
-    /* Form Inventory Add*/
-
-    const onAddInventoryItems = async (values: any) => {
-        console.log(values)
-        addInventory.resetFields();
-        setViewInventoryStore(!viewInventoryStore)
-        values.business_id = userId;
-        const dataReply = await fetch(`http://localhost:8080/insertInventoryItems`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
-        });
-        const dataParse = await dataReply.json();
-
-    };
-
     React.useEffect(() => {
         (
             async () => {
@@ -91,6 +72,25 @@ const [formNutrition] = Form.useForm();
         )()
 
     }, [viewInventoryStore, updateInventoryForm])
+
+    /* Form Inventory Add*/
+
+    const onAddInventoryItems = async (values: any) => {
+        addInventory.resetFields();
+        setViewInventoryStore(!viewInventoryStore)
+        values.business_id = userId;
+        const dataReply = await fetch(`http://localhost:8080/insertInventoryItems`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
+        });
+        const dataParse = await dataReply.json();
+
+    };
+
+
 
 
 
@@ -136,7 +136,11 @@ const [formNutrition] = Form.useForm();
 
     /*Form Update */
 
-    const onItemUpdate = async (values: Object) => {
+    const onItemUpdate = async (values: any) => {
+        const newArray = Object.values(values.total_package_weight)
+        if(newArray[0] == undefined || newArray[1] == undefined){
+            delete values.total_package_weight
+        }
         setUpdateInventoryForm(!updateInventoryForm)
 
         const dataReply = await fetch(`http://localhost:8080/updateInventoryItem`, {
@@ -145,31 +149,29 @@ const [formNutrition] = Form.useForm();
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ values, id: selectedRow[1][0] })
+
+
         });
         const dataParse = await dataReply.json();
         if (dataParse.affectedRows === 1) {
             (
                 async () => {
 
-                    const user: any = await window.localStorage.getItem('user')
-                    const newUser = await JSON.parse(user)
-                    setUserPin(newUser.pin)
-                    setUserId(newUser.id)
+                
                     const dataReply_1 = await fetch(`http://localhost:8080/getInventoryItems`);
-                    console.log(dataReply_1)
                     const newData = await dataReply_1.json();
                     setInventoryList(newData)
                 }
             )()
+        }else {
+            setInventoryList([])
         }
         updateInventory.resetFields();
-        console.log(values)
 
     };
 
     const onAddInventoryNutritionInformation = async (values) => {
 
-        console.log(values, formNutrition)
         const dataReply = await fetch(`http://localhost:8080/addNutritionInformation`, {
             method: 'PUT',
             headers: {
@@ -315,7 +317,7 @@ const [formNutrition] = Form.useForm();
             sorter: (a: any, b: any) => a.price - b.price,
             render: (_, record) => {
                 return (
-                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD',minimumFractionDigits: 4 }).format(Number(record.price_per_gram))
+                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD', minimumFractionDigits: 4 }).format(Number(record.price_per_gram))
 
                 )
             }
@@ -382,10 +384,12 @@ const [formNutrition] = Form.useForm();
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                                To conduct regular inventory audits and effectively manage food costs for your business,
-                                adding new items to the designated section is necessary. Please remember that only authorized
-                                personnel with access to your company's "PIN" can conduct these audits. Additionally,
-                                the SECURITY PIN can be changed at any time under the Account section for added security.
+                                To add items to your inventory record, utilize this section.
+                                These items are beneficial for designing and creating products
+                                on your "Product" page, as well as conducting audits.
+                                To access your audit page, preview links, and download your
+                                QR code, simply click on the "Download Audit Barcode" button once you've added items to your inventory.
+
                             </p>
 
 
@@ -473,15 +477,15 @@ const [formNutrition] = Form.useForm();
                 footer={null}
             >
                 <Space wrap>
-                <p>To ensure accurate inventory information, please add the nutritional information for each item.
-                    You can usually find this information on the back of the product's package, on the nutritional fact label.
-                </p>
-                <Tag color="#000000">Food Fraud Warning</Tag>
-                <p className='foodFraudWarning'>Economically motivated adulteration (EMA) is the intentional exclusion, removal, or substitution of a valuable ingredient or part of a food. Submitting false information is unlawful.</p>
-               
+                    <p>To ensure accurate inventory information, please add the nutritional information for each item.
+                        You can usually find this information on the back of the product's package, on the nutritional fact label.
+                    </p>
+                    <Tag color="#000000">Food Fraud Warning</Tag>
+                    <p className='foodFraudWarning'>Economically motivated adulteration (EMA) is the intentional exclusion, removal, or substitution of a valuable ingredient or part of a food. Submitting false information is unlawful.</p>
+
                 </Space>
-                
-             
+
+
 
                 <Form
                     name="Nutrition"
@@ -490,7 +494,7 @@ const [formNutrition] = Form.useForm();
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='horizontal'
-                    size='middle'
+                    size='small'
 
 
 
@@ -510,6 +514,7 @@ const [formNutrition] = Form.useForm();
 
 
                         <Form.Item label="Serving Size"
+
                         >
                             <Space.Compact>
 
@@ -1012,7 +1017,8 @@ const [formNutrition] = Form.useForm();
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='horizontal'
-                    size='middle'
+                    size='small'
+
 
 
 
@@ -1184,7 +1190,8 @@ const [formNutrition] = Form.useForm();
                             onFinishFailed={onUpdateFinishFailed}
                             autoComplete="on"
                             layout='horizontal'
-                            size='middle'
+                            size='small'
+
 
 
                         >
@@ -1268,8 +1275,6 @@ const [formNutrition] = Form.useForm();
                                         <Form.Item
 
                                             name={['total_package_weight', 'unit']}
-                                            rules={[{ required: true, message: 'Enter the required information' }]}
-                                            initialValue={0}
                                         >
                                             <InputNumber min={0} />
 
@@ -1277,8 +1282,6 @@ const [formNutrition] = Form.useForm();
                                         <Form.Item
 
                                             name={['total_package_weight', 'weight']}
-                                            rules={[{ required: true, message: 'Enter the required information' }]}
-                                            initialValue={'lb'}
 
                                         >
                                             <Select

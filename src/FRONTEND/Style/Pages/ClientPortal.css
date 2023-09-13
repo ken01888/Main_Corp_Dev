@@ -4,7 +4,9 @@
 }
 
 .drawerBackground{
-    background-color: var(--white-gray);
+    width: 378px;
+    border: 2.5px solid black;
+    background: var(--white-gray);
 
 }
 

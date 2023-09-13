@@ -8,3 +8,70 @@ runtime: nodejs18
 # - url: /.*
 #   static_files: public/index.html
 #   upload: public/index.html
+
+---
+kind: dns#resourceRecordSet
+name: 'kcminc.io.'
+rrdatas:
+- '216.239.32.21'
+- '216.239.34.21'
+- '216.239.36.21'
+- '216.239.38.21'
+ttl: 600
+type: A
+---
+kind: dns#resourceRecordSet
+name: 'kcminc.io.'
+rrdatas:
+- '2001:4860:4802:32::15'
+- '2001:4860:4802:34::15'
+- '2001:4860:4802:36::15'
+- '2001:4860:4802:38::15'
+ttl: 600
+type: AAAA
+---
+kind: dns#resourceRecordSet
+name: 'kcminc.io.'
+rrdatas:
+- '"google-site-verification=DUXM9iBQUJa-Kfr62go63eAFaAegTA9ld78viww3FTI"'
+ttl: 600
+type: TXT
+---
+kind: dns#resourceRecordSet
+name: 'www.kcminc.io.'
+rrdatas:
+- 'ghs.googlehosted.com.'
+ttl: 600
+type: CNAME
+---
+kind: dns#resourceRecordSet
+name: 'kcminc.io.'
+rrdatas:
+- '1 aspmx.l.google.com.'
+- '5 alt1.aspmx.l.google.com.'
+- '5 alt2.aspmx.l.google.com.'
+- '10 alt3.aspmx.l.google.com.'
+- '10 alt4.aspmx.l.google.com.'
+ttl: 3600
+type: MX
+---
+kind: dns#resourceRecordSet
+name: 'kcminc.io.'
+rrdatas:
+- '"v=spf1 include:_spf.google.com ~all"'
+ttl: 3600
+type: SPF
+---
+kind: dns#resourceRecordSet
+name: 'kcminc.io.'
+rrdatas:
+- '"v=spf1 include:_spf.google.com ~all"'
+ttl: 600
+type: TXT
+---
+kind: dns#resourceRecordSet
+name: 'google._domainkey.kcminc.io.'
+rrdatas:
+- '"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsPUznsjOhwJFu6Atsq8hv1FIdctuIkmcsvdngRfWkS3pC4bT0ToO01vgZpXjGBCuKWNLRAhXJDqT3BmKuwVpLDO9ECeCtNCzf+lSPi9/D5JIyVR/oCS+0VMx3rXWGAQoVqwIEccEjwKteSbOw3+JYqEDMkq7B5S2JarTHH7AToMw2/NHbuCYJNLsDUO2zNxvw" "IMJxVT7L4AHAWc0q5CqQg28QxeUQmXGb8lvXtEZ8Z+gFHjZ1I/3KRAsNELeKmr+eEF9PgbGO0/8eYXQLCAzuqdqQZp5zniX63kTcO8PlfyWMqNun/UZMNrxKM2G9DqthPsg670NaoUtEWCVdcvnJQIDAQAB"'
+ttl: 3600
+type: TXT

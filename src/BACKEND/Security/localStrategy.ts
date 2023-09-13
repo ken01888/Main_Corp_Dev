@@ -56,11 +56,10 @@ passport.deserializeUser((user: any, done) => {
 router.post('/login_verification', passport.authenticate('local'), (req: any, res) => {
   if (req.user) {
     req.logIn(req.user, function (err) {
-      
-      return res.cookie('user',req.user).json(req.user);
+      return res.cookie('user', req.user).json(req.user);
     });
   } else if (!req.user) {
-    
+
     res.sendStatus(401)
   }
 });

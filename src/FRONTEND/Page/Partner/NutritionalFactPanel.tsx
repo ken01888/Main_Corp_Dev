@@ -1,11 +1,9 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Tooltip, Dropdown, MenuProps, Popconfirm, message } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table,  Tag, Dropdown, MenuProps, Popconfirm } from 'antd'
 import 'isomorphic-fetch';
-import { Inventory } from '../../Program_Flow/Inventory_Flow'
 import { ColumnsType } from 'antd/es/table';
-import { DeleteOutlined, DownOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
+import { DownOutlined, MinusCircleOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
 import * as convert from 'convert-units'
-import { Pie } from '@ant-design/plots';
 
 
 interface DataType {
@@ -44,9 +42,8 @@ const Products: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
-                console.log(newData)
                 setInventoryList(newData)
             }
         )()
@@ -63,7 +60,7 @@ const Products: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/inventoryItemsForSelectRecipes`);
+                const dataReply = await fetch(`/inventoryItemsForSelectRecipes`);
                 const newData = await dataReply.json();
                 setSelectItems(newData)
             }
@@ -77,7 +74,7 @@ const Products: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -92,7 +89,7 @@ const Products: React.FC = (props) => {
         addInventory.resetFields();
         setViewInventoryStore(!viewInventoryStore)
         values.business_id = userId;
-        const dataReply = await fetch(`http://localhost:8080/insertProductName`, {
+        const dataReply = await fetch(`/insertProductName`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -113,7 +110,7 @@ const Products: React.FC = (props) => {
             values.inputs.forEach((i, n, a) => {
                 i.product_id = selectedRowAction
             })
-            const dataReply = await fetch(`http://localhost:8080/insertProductInputs`, {
+            const dataReply = await fetch(`/insertProductInputs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -122,7 +119,7 @@ const Products: React.FC = (props) => {
             });
 
             if (dataReply.ok === true) {
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -137,7 +134,7 @@ const Products: React.FC = (props) => {
     const onUpdateProduct = async (values: any) => {
         setDisplayAddProduct(!displayAddProduct)
 
-        const dataReply = await fetch(`http://localhost:8080/updateProductInformation`, {
+        const dataReply = await fetch(`/updateProductInformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -153,7 +150,7 @@ const Products: React.FC = (props) => {
                     const user: any = await window.localStorage.getItem('user')
                     const newUser = await JSON.parse(user)
                     setUserId(newUser.id)
-                    const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                    const dataReply = await fetch(`/getRecipeProduct`);
                     const newData = await dataReply.json();
                     setInventoryList(newData)
                 }
@@ -181,7 +178,7 @@ const Products: React.FC = (props) => {
 
 
     const itemDelete = async () => {
-        const dataReply = await fetch(`http://localhost:8080/deleteProduct`, {
+        const dataReply = await fetch(`/deleteProduct`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -189,7 +186,7 @@ const Products: React.FC = (props) => {
             body: JSON.stringify([selectedRowAction])
         });
         const newResponse = await dataReply.json()
-        const deleteResponse = await fetch(`http://localhost:8080/getRecipeProduct`);
+        const deleteResponse = await fetch(`/getRecipeProduct`);
         const newData = await deleteResponse.json();
         setInventoryList(newData)
 

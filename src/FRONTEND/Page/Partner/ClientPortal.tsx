@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { Col, Layout, Row, Image, Form, Input, Tag, ConfigProvider, FloatButton, Button, Descriptions, Space } from 'antd'
-import { Content, Footer, Header } from 'antd/es/layout/layout'
-import { Bank, Book, Question } from '@phosphor-icons/react'
-import { CaretDownOutlined, CaretUpOutlined, FileTextOutlined, FolderOpenOutlined, FolderOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
+import { Col, Layout, Row, Space } from 'antd'
+import { Content,Header } from 'antd/es/layout/layout'
+import {FileTextOutlined, FolderOpenOutlined, FolderOutlined,UserOutlined } from '@ant-design/icons';
 import 'isomorphic-fetch';
 import { ClientMenu } from '../Components/Navigation/ClientMenu'
-import { Link, NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom'
+import { NavLink, Outlet} from 'react-router-dom'
 
 
 
@@ -109,7 +108,7 @@ const ClientPortal: React.FC = () => {
                                         >
                                             <FileTextOutlined />Audit
                                         </NavLink>
-                                        <NavLink
+                                        {/* <NavLink
                                             to={`nutrition`}
                                             className='clientMenuItem'
                                             style={({ isActive, isPending }) => {
@@ -122,7 +121,7 @@ const ClientPortal: React.FC = () => {
 
                                         >
                                             <FileTextOutlined />Nutrition
-                                        </NavLink>
+                                        </NavLink> */}
                                     </Space>
 
                                     : ''

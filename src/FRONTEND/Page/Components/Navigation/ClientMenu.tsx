@@ -3,9 +3,8 @@ import * as React from 'react';
 
 import { motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
-import { useNavigate, } from "react-router-dom";
-import { FileTextOutlined, FolderOpenOutlined, FolderOutlined, InfoCircleOutlined, MenuFoldOutlined, UserOutlined } from '@ant-design/icons';
-import { CirclesFour, CirclesThreePlus, DotsThreeOutline, Lifebuoy } from '@phosphor-icons/react';
+import { FileTextOutlined, FolderOpenOutlined, FolderOutlined,UserOutlined } from '@ant-design/icons';
+import { CirclesFour, DotsThreeOutline,  } from '@phosphor-icons/react';
 
 
 
@@ -176,20 +175,6 @@ export const ClientMenu = (props) => {
 
                                     >
                                         <FileTextOutlined />Audits
-                                    </NavLink>
-                                    <NavLink
-                                        to={`nutrition`}
-                                        className='clientMenuItem'
-                                        style={({ isActive, isPending }) => {
-                                            return {
-                                                fontWeight: isActive ? "bold" : "",
-                                                backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
-                                            };
-                                        }}
-
-                                    >
-                                        <FileTextOutlined />Nutrition
                                     </NavLink>
                                 </Space>
 
