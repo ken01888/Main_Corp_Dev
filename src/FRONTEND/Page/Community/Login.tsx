@@ -15,13 +15,14 @@ import logo from '../400ppi/kcmincprofilepicture.png';
 
 const Login: React.FC = () => {
   let [verified, setVerified] = React.useState(false);
+   
 
 
   const navigate = useNavigate()
   document.title = 'Kcm Inc Stakeholder Intelligence Corporation'
 
   const onFinish = async (values: any) => {
-    let newData = await fetch('http://localhost:8080/login_verification', {
+    let newData = await fetch('/login_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -65,16 +66,14 @@ const Login: React.FC = () => {
               <Col xs={22} md={8} className='alignCol'>
                 <div >
                   <h1> We engineer <span className='impactWord'>equitable</span> business services. </h1>
-                  <p>Our aim is to utilize technology-driven solutions to enhance both enterprises and consumers.</p>
+                  <p>We target internal and external weaknesses in organizations and communities to address health, wealth, education, and housing disparities.</p>
 
 
                 </div>
 
               </Col>
               <Col xs={22} md={8}>
-                <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: .5 }}>
+                <motion.div className='form_login'>
 
 
                   <h1>Login</h1>
@@ -158,7 +157,7 @@ const Login: React.FC = () => {
 
 
 
-            <Row justify={'space-around'} gutter={[0, 75]} >
+            <Row justify={'space-around'} gutter={[0, 16]} >
               <Col xs={{ span: 22, order: 1 }} md={{ span: 8, order: 2 }} className='alignCol'>
                 <div >
                   <h1><span className='impactWord'>Equitable</span> Through and Through</h1>
@@ -229,7 +228,7 @@ const Login: React.FC = () => {
               <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: .5 }}>
-                  <h1>Product <span className='impactWord'>Management</span></h1>
+                  <h1>Product <span className='impactWord'>Design</span></h1>
 
                   <p>Do you find managing your inventory challenging?
                     Our service simplifies the process and provides valuable insights into your purchases.

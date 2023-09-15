@@ -11,7 +11,7 @@ import 'dotenv/config'
 import support from './MESSAGE_SUPPORT/support'
 import client from './ClientPortal/ClientPersonalDetails'
 // import billing from './ClientPortal/ClientBilling';
-// import notary from './ClientPortal/ClientServiceRequest';
+import store from './ClientPortal/StorePage';
 import inventory from './ClientPortal/InventoryRoutes';
 
 import registration from './Homepage/registration'
@@ -45,6 +45,7 @@ app.use(session({
 
 
 app.use(passport.initialize());
+
 app.use(passport.session());
 
 
@@ -53,7 +54,7 @@ app.use(UPStrategy)
 const validateUser = (req, res, next) => {
   if (!req.user) {
     res.redirect('/signup')
-  } else {
+  } else if(req.user) {
     next()
   }
 }
@@ -61,15 +62,18 @@ const validateUser = (req, res, next) => {
 
 
 app.use('/', express.static( 'public'))
+app.use('/inventorycheck', express.static( 'public'))
 app.use('/signup', express.static( 'public'))
 app.use('/store', express.static( 'public'))
 app.use('/principle/', validateUser, express.static('public'))
-app.use('/inventory_check', express.static( 'public'))
 
 app.use(registration)
 app.use(support)
 app.use(client)
 app.use(inventory)
+app.use(store)
+
+
 
 
 

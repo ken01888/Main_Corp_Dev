@@ -23,7 +23,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
     }, [])
 
     const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`http://localhost:8080/updateClientinformation`, {
+        const dataReply = await fetch(`/updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

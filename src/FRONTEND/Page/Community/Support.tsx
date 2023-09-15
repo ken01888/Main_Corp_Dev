@@ -23,7 +23,7 @@ const Support: React.FC = () => {
 
     const onFinish = async (values: any) => {
 
-        let newData = await fetch('http://localhost:8080/support_message', {
+        let newData = await fetch('/support_message', {
 
             method: 'POST',
             headers: {

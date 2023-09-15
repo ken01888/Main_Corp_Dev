@@ -22,6 +22,16 @@ const App = createBrowserRouter([
     element: <HomePage />,
 
   },
+  {
+    path: "inventorycheck",
+    element: <InventoryCheck />,
+
+  },
+  {
+    path: "privacypolicy",
+    element: <PrivacyPolicy />,
+
+  },
 
   {
     path: "signup",
@@ -41,15 +51,6 @@ const App = createBrowserRouter([
     element: <LegalService />,
 
   },
-
-
-  {
-    path: "privacypolicy",
-    element: <PrivacyPolicy />,
-
-  },
-
-
   {
     path: '/principle',
     element: <ClientPortal />,
@@ -77,7 +78,7 @@ const App = createBrowserRouter([
       {
         path: "nutrition",
         element: <NutritionalFactPanel />,
-    
+
       }
 
 

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, Dropdown, MenuProps, Popconfirm} from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, Dropdown, MenuProps, Popconfirm } from 'antd'
 import 'isomorphic-fetch';
 import { ColumnsType } from 'antd/es/table';
 import { DownOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -59,7 +59,7 @@ const Products: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -77,7 +77,7 @@ const Products: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/inventoryItemsForSelectRecipes`);
+                const dataReply = await fetch(`/inventoryItemsForSelectRecipes`);
 
                 const newData = await dataReply.json();
                 setSelectItems(newData)
@@ -91,7 +91,7 @@ const Products: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -106,7 +106,7 @@ const Products: React.FC = (props) => {
         addInventory.resetFields();
         setViewInventoryStore(!viewInventoryStore)
         values.business_id = userId;
-        const dataReply = await fetch(`http://localhost:8080/insertProductName`, {
+        const dataReply = await fetch(`/insertProductName`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -127,7 +127,7 @@ const Products: React.FC = (props) => {
             values.inputs.forEach((i, n, a) => {
                 i.product_id = selectedRowAction
             })
-            const dataReply = await fetch(`http://localhost:8080/insertProductInputs`, {
+            const dataReply = await fetch(`/insertProductInputs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -136,7 +136,7 @@ const Products: React.FC = (props) => {
             });
 
             if (dataReply.ok === true) {
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -150,7 +150,7 @@ const Products: React.FC = (props) => {
 
     const onUpdateProduct = async (values: any) => {
         setDisplayAddProduct(!displayAddProduct)
-        const dataReply = await fetch(`http://localhost:8080/updateProductInformation`, {
+        const dataReply = await fetch(`/updateProductInformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -160,16 +160,12 @@ const Products: React.FC = (props) => {
         const dataParse = await dataReply.json();
 
         if (dataParse.affectedRows === 1) {
-            (
-                async () => {
-                    const user: any = await window.localStorage.getItem('user')
-                    const newUser = await JSON.parse(user)
-                    setUserId(newUser.id)
-                    const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
-                    const newData = await dataReply.json();
-                    setInventoryList(newData)
-                }
-            )()
+            const user: any = await window.localStorage.getItem('user')
+            const newUser = await JSON.parse(user)
+            setUserId(newUser.id)
+            const dataReply = await fetch(`/getRecipeProduct`);
+            const newData = await dataReply.json();
+            setInventoryList(newData)
         }
         updateProduct.resetFields();
 
@@ -178,25 +174,22 @@ const Products: React.FC = (props) => {
 
     const onUpdateInput = async (values: any) => {
 
-        const dataReply = await fetch(`http://localhost:8080/updateInputs`, {
+        const dataReply = await fetch(`/updateInputs`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(values)
         });
-        const dataParse = await dataReply.json();
-        (
-            async () => {
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
-                const newData = await dataReply.json();
-                setInventoryList(newData)
-                const dataReply1 = await fetch(`http://localhost:8080/allProductInputs?product_id=${values[0].product_id}`);
-                const newData1 = await dataReply1.json();
-                setSelectedRowActions(values[0].product_id)
-                setFormInputs(newData1)
-            }
-        )()
+
+        const dataReply1 = await fetch(`/getRecipeProduct`);
+        const newData = await dataReply1.json();
+        setInventoryList(newData)
+        const dataReply2 = await fetch(`/allProductInputs?product_id=${values[0].product_id}`);
+        const newData1 = await dataReply2.json();
+        setSelectedRowActions(values[0].product_id)
+        setFormInputs(newData1)
+
 
         setOpenInputsDrawer(!openInputsDrawer)
 
@@ -209,7 +202,7 @@ const Products: React.FC = (props) => {
 
                 (
                     async () => {
-                        const dataReply = await fetch(`http://localhost:8080/allProductInputs?product_id=${record.id}`);
+                        const dataReply = await fetch(`/allProductInputs?product_id=${record.id}`);
                         const newData = await dataReply.json();
                         setSelectedRowActions(record.id)
                         setFormInputs(newData)
@@ -226,13 +219,15 @@ const Products: React.FC = (props) => {
 
 
     const itemDelete = async () => {
-        const dataReply = await fetch(`http://localhost:8080/deleteProduct`, {
+        const dataReply = await fetch(`/deleteProduct`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify([selectedRowAction])
         });
+        setDeleteInput(!deleteInput)
+
 
 
     };
@@ -668,7 +663,7 @@ const Products: React.FC = (props) => {
 
 
     const onDeleteInput = async (id: any) => {
-        const dataReply = await fetch(`http://localhost:8080/deleteInputs`, {
+        const dataReply = await fetch(`/deleteInputs`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -697,10 +692,10 @@ const Products: React.FC = (props) => {
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                            To generate the merchandise you intend to offer, utilize the "Design Product" button situated on this page.
-                             You will construct your products by utilizing the inventory items you have previously included on the "Stock" page. 
-                             After you have provided all essential details for your product, you may make modifications by selecting
-                              the item and clicking the dropdown button that appears in the "Action" column.
+                                To generate the merchandise you intend to offer, utilize the "Design Product" button situated on this page.
+                                You will construct your products by utilizing the inventory items you have previously included on the "Stock" page.
+                                After you have provided all essential details for your product, you may make modifications by selecting
+                                the item and clicking the dropdown button that appears in the "Action" column.
                             </p>
 
                         </Descriptions.Item>
@@ -717,11 +712,11 @@ const Products: React.FC = (props) => {
                                 }}
                             >
                                 <Space wrap size={[25, 25]}>
-                               
+
                                     <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Design Product</Button>
                                     {/* <Button icon={<SyncOutlined  />} className='buttonBlack'></Button> */}
 
-                                   
+
 
                                 </Space>
                             </ConfigProvider>

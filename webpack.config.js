@@ -62,7 +62,7 @@ const $FRONTEND = {
       inject: true,
       meta: {
 
-        'viewport': 'content=width=device-width, initial-scale=1.0',
+        'viewport': 'content=width=device-width, initial-scale=1',
         'description': 'KMC Inc provides a range of B2B services tailored to meet diverse business needs across various sectors. Our services include inventory management, nutritional analysis, business funding, lead generation, and more. We are committed to delivering personalized solutions to our clients while upholding standards of professionalism, reliability, and quality service. Additionally, we prioritize the wellbeing of stakeholders.',
         "theme-color": "#b4cbd4",
         "facebook-domain-verification": "9b6a57vsw9o413dc81354hr667r63c"
@@ -73,9 +73,9 @@ const $FRONTEND = {
 
 
     new MiniCssExtractPlugin(),
-    new InterpolateHtmlPlugin({
-      PUBLIC_URL: '/' // can modify `static` to another name or get it from `process`
-    }),
+    // new InterpolateHtmlPlugin({
+    //   PUBLIC_URL: 'https://www.kcminc.io' // can modify `static` to another name or get it from `process`
+    // }),
     new WebpackManifestPlugin({
       seed: {
         short_name: "Kcm Inc",
@@ -103,8 +103,9 @@ const $FRONTEND = {
         theme_color: "#b4cbd4",
         background_color: "#ffffff",
         prefer_related_applications: true,
-        id: '/',
-        start_url:'https://www.kcminc.io/'
+        id:'/',
+        scope:'https://www.kcminc.io/',
+        start_url:'/index.html'
       }
 
     }
@@ -245,7 +246,9 @@ const $BACKEND = {
 }
 module.exports = () => {
   if (isProduction == 'production') {
-    $FRONTEND.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+    // $FRONTEND.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+    return [$FRONTEND,$BACKEND]
+
   } else {
     return [$FRONTEND, $BACKEND]
 

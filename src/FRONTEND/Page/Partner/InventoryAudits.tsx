@@ -50,7 +50,7 @@ const InventoryAudit: React.FC = (props) => {
         (
             async () => {
 
-                const dataReply = await fetch(`http://localhost:8080/inventoryPeriod`);
+                const dataReply = await fetch(`/inventoryPeriod`);
                 const newData = await dataReply.json();
                 console.log(newData)
                 const newDate_1 = newData.map((i, n, a) => {
@@ -65,7 +65,7 @@ const InventoryAudit: React.FC = (props) => {
         (
             async () => {
                 const newDate = requestedDate
-                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
+                const dataReply = await fetch(`/inventory_reference_information?auditDate=${newDate}`)
                 const newData = await dataReply.json();
                 const newArray = newData.map((i, n, a) => {
                     return i.price * i.order_quantity
@@ -82,7 +82,7 @@ const InventoryAudit: React.FC = (props) => {
     const onChange: DatePickerProps['onChange'] = async (date, dateString) => {
         const newDate = await dayjs(dateString).format('dddd, MMMM D, YYYY')
         setrequestedDate(newDate)
-        const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
+        const dataReply = await fetch(`/inventory_reference_information?auditDate=${newDate}`)
         const newData = await dataReply.json();
         const newArray = newData.map((i, n, a) => {
             return i.price * i.order_quantity
@@ -99,7 +99,7 @@ const InventoryAudit: React.FC = (props) => {
 
     const onDeleteInventoryItem = async () => {
         setRowModify(!rowModify)
-        const dataReply = await fetch(`http://localhost:8080/deleteInventoryAuditItems`, {
+        const dataReply = await fetch(`/deleteInventoryAuditItems`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ const InventoryAudit: React.FC = (props) => {
             (
                 async () => {
                     const newDate = requestedDate
-                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
+                    const dataReply = await fetch(`/inventory_reference_information?auditDate=${newDate}`)
                     const newData = await dataReply.json();
                     const newArray = newData.map((i, n, a) => {
                         return i.price * i.order_quantity
@@ -132,7 +132,7 @@ const InventoryAudit: React.FC = (props) => {
         setRowModify(!rowModify)
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch(`http://localhost:8080/updateInventoryAuditItem`, {
+        const dataReply = await fetch(`/updateInventoryAuditItem`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -144,7 +144,7 @@ const InventoryAudit: React.FC = (props) => {
             (
                 async () => {
                     const newDate = requestedDate
-                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
+                    const dataReply = await fetch(`/inventory_reference_information?auditDate=${newDate}`)
                     const newData = await dataReply.json();
                     const newArray = newData.map((i, n, a) => {
                         return i.price * i.order_quantity
