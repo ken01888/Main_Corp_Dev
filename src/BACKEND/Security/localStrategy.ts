@@ -5,6 +5,8 @@ import 'passport-local';
 import * as passport from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local'
 import { checkAccount } from '../ProgramControlFlow/SQL/Query.ts/Login/index'
+import verify from '../ProgramControlFlow/SQL/Query.ts/Security/Verification'
+
 import * as bcrypt from 'bcrypt'
 
 
@@ -62,6 +64,20 @@ router.post('/login_verification', passport.authenticate('local'), (req: any, re
 
     res.sendStatus(401)
   }
+});
+
+router.post('/verify_associate_pin', async (req: any, res) => {
+
+  const [newReply, error] = await verify.associateVerification(req.body.pin, req.body.id)
+
+
+  if (newReply) {
+      res.json(true)
+  } else if (!newReply) {
+      res.json(false)
+  }
+
+
 });
 
 

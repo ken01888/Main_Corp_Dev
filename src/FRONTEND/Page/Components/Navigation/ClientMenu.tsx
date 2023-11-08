@@ -93,7 +93,7 @@ export const ClientMenu = (props) => {
                 placement='bottom'
                 onClose={onClose}
                 open={open}
-                closable={false}
+                closable={true}
                 key={placement}
                 mask={false}
                 headerStyle={{ background: '#fafafa' }}
@@ -145,7 +145,7 @@ export const ClientMenu = (props) => {
                                             };
                                         }}
                                     >
-                                        <FileTextOutlined />Items
+                                        <FileTextOutlined />Stock
                                     </NavLink>
 
                                     <NavLink
@@ -160,7 +160,21 @@ export const ClientMenu = (props) => {
                                         }}
 
                                     >
-                                        <FileTextOutlined />Products
+                                        <FileTextOutlined />Product
+                                    </NavLink>
+                                    <NavLink
+                                        to={`nutrition`}
+                                        className='clientMenuItem'
+                                        style={({ isActive, isPending }) => {
+                                            return {
+                                                fontWeight: isActive ? "bold" : "",
+                                                backgroundColor: isActive ? "#fafafa" : "#fafafa",
+                                                textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+                                            };
+                                        }}
+
+                                    >
+                                        <FileTextOutlined />Nutrition
                                     </NavLink>
                                     <NavLink
                                         to={`inventoryaudits`}
@@ -174,8 +188,9 @@ export const ClientMenu = (props) => {
                                         }}
 
                                     >
-                                        <FileTextOutlined />Audits
+                                        <FileTextOutlined />Audit
                                     </NavLink>
+                                   
                                 </Space>
 
                                 : ''

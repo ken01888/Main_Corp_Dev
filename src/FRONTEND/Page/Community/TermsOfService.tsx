@@ -3,10 +3,7 @@ import { Col, Divider, Layout, Row, ConfigProvider, Space, Card, Button } from '
 import Menu from '../Components/Navigation/Main_Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import 'isomorphic-fetch';
-
-
-
-
+import { TwitterLogo, MetaLogo, LinkedinLogo } from "@phosphor-icons/react";
 import { Link } from 'react-router-dom'
 import Meta from 'antd/es/card/Meta'
 
@@ -615,13 +612,9 @@ document.title = 'Kcm Inc Terms Of Service'
                 </div>
               </div>Kcm Inc
             </h2>
-            <p>KCM Inc is dedicated to offering B2B services that
-              provide practical and advantageous solutions to businesses.
-              Our team conducts comprehensive research and development,
-              utilizing data from both public and private
-              institutions. We meticulously analyze this data to develop
-              innovative and effective business services that cater to the
-              needs of communities and clients.</p>
+            <p>At KCM Inc, we are committed to delivering responsible business services that foster sustainable progress and development, while upholding equitable treatment for all stakeholders.
+
+            </p>
           </Col>
           <Col xs={22} md={5} >
 
@@ -658,20 +651,22 @@ document.title = 'Kcm Inc Terms Of Service'
               }}
             >
               <Space wrap direction='vertical' >
-                <Link reloadDocument to='/'>
-                  <Button htmlType="submit">Log In</Button>
+                <Link reloadDocument to='https://www.facebook.com/KCMIncEngine'>
+                  <MetaLogo size={32} weight="fill" color='#b4cbd4' />
                 </Link>
 
 
 
 
-                <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
+                <Link reloadDocument to='https://twitter.com/KCMINC1'> <TwitterLogo size={32} weight="fill" color='#b4cbd4' />
+                </Link>
 
 
 
 
-                <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
-                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
+                <Link reloadDocument to='https://www.linkedin.com/company/k-c-morris-inc-stakeholder-intelligence-corporations/?viewAsMember=true'>
+                  <LinkedinLogo size={32} weight="fill" color='#b4cbd4' />
+                </Link>
 
               </Space>
 

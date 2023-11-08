@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Form, Input, ConfigProvider, Button, Descriptions, Space } from 'antd'
+import { Col, Form, Input, ConfigProvider, Button, Descriptions, Space, Row, Tag } from 'antd'
 import 'isomorphic-fetch';
 import { Pencil } from '@phosphor-icons/react';
 
@@ -45,6 +45,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
 
 
+        <Row justify={'center'} gutter={[0, 75]} >
 
         <Col xs={22} md={18}>
 
@@ -74,10 +75,8 @@ const PrincipleAccountDetails: React.FC = (props) => {
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
-                                    Greetings and welcome to the account information page.
-                                    We offer a convenient process for viewing and
-                                    modifying your account details. Click Update to modify your information.
-
+                                Welcome to your account page. Here you can easily update your contact information and security PIN. 
+                                Click the <span className='inlineTextSpan'>Update</span> button to make changes and then <span className='inlineTextSpan'>Save</span>. Click <span className='inlineTextSpan'>Cancel</span> to disregard.
                                 </p>
 
                             </Descriptions.Item>
@@ -119,7 +118,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
                                 {EditPersonalInformation ?
                                     <Descriptions.Item span={3}>
-                                        <Button className='buttonBlack' htmlType="submit" onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }} icon={<Pencil size={16} />}>
+                                        <Button className='buttonBlack' htmlType="submit" onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }} >
                                             Update
                                         </Button>
 
@@ -163,7 +162,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
 
                                                     <Button className='buttonBlack' htmlType="submit">
-                                                        Submit
+                                                        Save
                                                     </Button>
                                                 </ConfigProvider>
                                             </Form.Item>
@@ -177,6 +176,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
                 </Form>
             </div>
         </Col>
+        </Row>
 
     )
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, Dropdown, MenuProps, Popconfirm } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, Dropdown, MenuProps, Popconfirm, Row } from 'antd'
 import 'isomorphic-fetch';
 import { ColumnsType } from 'antd/es/table';
 import { DownOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -105,7 +105,6 @@ const Products: React.FC = (props) => {
     const onInsertProductName = async (values: any) => {
         addInventory.resetFields();
         setViewInventoryStore(!viewInventoryStore)
-        values.business_id = userId;
         const dataReply = await fetch(`/insertProductName`, {
             method: 'POST',
             headers: {
@@ -291,288 +290,268 @@ const Products: React.FC = (props) => {
         {
             title: 'Name',
             dataIndex: 'product_name',
+            className: 'columnLightBlue',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+
+
+
+
+        },
+        {
+            title: 'Cost',
+            dataIndex: 'total_cost',
+
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            sorter: (a: any, b: any) => a.total_cost - b.total_cost,
+            render: (_, record) => {
+                return (
+                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.total_cost))
+
+                )
+            }
+        },
+        {
+            title: 'Inputs',
+            dataIndex: 'total_input_count',
+
+
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            sorter: (a: any, b: any) => a.total_input_count - b.total_input_count,
+            render: (_, record) => {
+                return (
+                    <a onClick={() => { setOpenInputsDrawer(!openInputsDrawer) }}>{record.total_input_count}</a>
+
+                )
+            }
+
+        },
+        {
+            title: 'Total Yield',
+            dataIndex: 'total_weight',
+
+
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                return (
+                    convert(record.total_weight).from('g').to('oz').toFixed(1) + " oz"
+
+                )
+            }
+        },
+        {
+            title: 'Yields Per Unit',
+            dataIndex: 'serving_size',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             className: 'columnLightBlue',
-            fixed: 'left',
+
+
+            sorter: (a: any, b: any) => a.serving_size - b.serving_size,
+
+            render: (_, record) => {
+                return (
+                    convert(record.serving_size).from('g').to('oz').toFixed(1) + " oz"
 
 
 
+                )
+            }
         },
 
         {
-            title: 'Production',
+            title: 'Waste',
+            dataIndex: 'serving_size',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-            children: [
-
-                {
-                    title: 'Inputs',
-                    dataIndex: 'total_input_count',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    sorter: (a: any, b: any) => a.total_input_count - b.total_input_count,
-                    render: (_, record) => {
-                        return (
-                            <a onClick={() => { setOpenInputsDrawer(!openInputsDrawer) }}>{record.total_input_count}</a>
-
-                        )
-                    }
-
-                },
-                {
-                    title: 'Cost',
-                    dataIndex: 'total_cost',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    sorter: (a: any, b: any) => a.total_cost - b.total_cost,
-                    render: (_, record) => {
-                        return (
-                            new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.total_cost))
-
-                        )
-                    }
-                },
-                {
-                    title: 'Weight',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    children: [
-                        {
-                            title: 'Total Yield',
-                            dataIndex: 'total_weight',
-                            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                            render: (_, record) => {
-                                return (
-                                    convert(record.total_weight).from('g').to('oz').toFixed(2) + " oz"
-
-                                )
-                            }
-                        },
-
-                        {
-                            title: 'Per Unit',
-                            dataIndex: 'serving_size',
-                            className: 'columnLightBlue',
-
-                            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                            render: (_, record) => {
-                                return (
-                                    convert(record.serving_size).from('g').to('oz').toFixed(0) + " oz"
-
-                                )
-                            }
-                        },
-                        // {
-                        //     title: 'Loss',
-                        //     dataIndex: 'serving_size',
-
-                        //     responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                        //     render: (_, record) => {
-                        //         const waste = (Number(Number((Number(record.total_weight) / Number(record.serving_size))) / Number(record.units)) - Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))).toFixed(2)
-                        //         const weight = convert(record.serving_size).from('g').to('oz')
-                        //         const totalWeight = (Number(waste) * Number(weight))
-
-                        //         if (Number.isNaN(totalWeight) || Infinity) {
-                        //             return (
-                        //                 Math.round(0) + ' oz'
-
-                        //             )
-
-                        //         } else {
-                        //             return (
-
-                        //                 Math.round(totalWeight) + ' oz'
-                        //             )
-                        //         }
 
 
-                        //     }
-                        // },
+            sorter: (a: any, b: any) => a.serving_size - b.serving_size,
 
-
-                    ]
-                },
+            render: (_, record) => {
+                return (
+                    convert(Number(Number(record.total_weight) % Number(record.serving_size))).from('g').to('oz').toFixed(1) + " oz"
 
 
 
+                )
+            }
+        },
 
 
+        {
+            title: 'Units Produced',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                return (
+                    Math.floor((Number(record.total_weight) / Number(record.serving_size)))
 
-            ]
+                )
+            }
         },
         {
-            title: 'Units',
+            title: 'Units Per Sale',
+            dataIndex: 'units',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-            children: [
+            className: 'columnLightBlue',
+            sorter: (a: any, b: any) => a.units - b.units,
+
+
+        },
+        {
+            title: 'Unit Waste',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                
+
+
+                return (
+                    Number(Number(Number(record.total_weight) / Number(record.serving_size)) - Math.floor(Number(record.total_weight) / Number(record.serving_size))).toFixed(0)
+
+                )
+            }
+        },
                 {
-                    title: 'Made',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    render: (_, record) => {
-                        return (
-                            Math.floor((Number(record.total_weight) / Number(record.serving_size)))
-
-                        )
-                    }
-                },
-
-                {
-                    title: 'Per Sale ',
-                    dataIndex: 'units',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    className: 'columnLightBlue',
-                    sorter: (a: any, b: any) => a.units - b.units,
-
-                    render: (_, record) => {
-                        return (
-                            record.units
+            title: 'Total Sales Cycle',
+            className: 'columnWidth',
 
 
-                        )
-                    }
-                },
-                {
-                    title: 'Cycles',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    children: [
-                        {
-                            title: 'Gain',
-                            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                            render: (_, record) => {
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            render: (_, record) => {
+                const resultForCycles = Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))
+                if (resultForCycles == Infinity) {
+                    return 0
+
+                } else if (resultForCycles !== Infinity) {
+                    return resultForCycles
+                }
 
 
-                                return (
-                                    Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))
-                                )
 
 
-                            }
-                        },
-                        {
-                            title: 'Loss',
-                            dataIndex: 'sales_price',
-                            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
-                            render: (_, record) => {
-                                const totalUnitLoss = (Number(Number((Number(record.total_weight) / Number(record.serving_size))) / Number(record.units)) - Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))).toFixed(2)
-
-
-                                return (
-
-                                    Number(totalUnitLoss)
-                                )
-
-
-                            }
-                        }
-                    ]
-                },
-
-
-            ]
+            }
         },
 
         {
-            title: 'Per Sale',
+            title: 'Retail Weight',
+            dataIndex: 'serving_size',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
 
-            children: [
-                {
-                    title: 'Cost',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    render: (_, record) => {
+
+            sorter: (a: any, b: any) => a.serving_size - b.serving_size,
+
+            render: (_, record) => {
+                return (
+                    Number(Number(convert(record.serving_size).from('g').to('oz')) * Number(record.units)).toFixed(0) + ' oz'
 
 
-                        let productionCost = record.total_cost
-                        let units = record.units
-                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
-                        let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield)))
-                        let costConversion = new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(finalCost))
-                        if (costConversion == '$NaN') {
-                            return (
-                                new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(0))
-                            )
-                        } else {
-                            return (
-                                costConversion
-                            )
-                        }
 
-                    }
-                },
-
-
-                {
-                    title: 'Price',
-                    dataIndex: 'sales_price',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    className: 'columnLightBlue',
-                    sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-
-
-                    render: (_, record) => {
-                        return (
-                            new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.sales_price))
-
-                        )
-                    }
-                },
-                {
-                    title: 'Return',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-
-
-                    render: (_, record) => {
-                        let productionCost = record.total_cost
-                        let units = record.units
-                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(2)
-                        let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield))) || 0
-                        let totalReturn = Number(record.sales_price) - finalCost
-
-                        return (
-
-                            new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(totalReturn))
-
-                        )
-                    }
-                },
-                {
-                    title: 'Margin ',
-                    responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-                    sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-
-                    render: (_, record: any) => {
-                        let productionCost = record.total_cost
-                        let units = record.units
-                        let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(2)
-                        let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield))) || 0
-                        let margin = (Number(record.sales_price) - Number(finalCost)) / Number(record.sales_price)
-
-
-                        return (
-
-                            new Intl.NumberFormat("en-US", {
-                                style: "percent",
-                            }).format(margin)
-
-                        )
-                    }
-                },
-            ]
-
-
+                )
+            }
         },
 
 
+        {
+            title: 'Cost Per Sale',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+
+
+            render: (_, record) => {
+
+
+                let productionCost = record.total_cost
+                let units = record.units
+                let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
+                let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield)))
+                let costConversion = new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(finalCost))
+                if (costConversion == '$NaN') {
+                    return (
+                        new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(0))
+                    )
+                } else {
+                    return (
+                        costConversion
+                    )
+                }
+
+            }
+        },
+
+
+        {
+            title: 'Price Per Sale',
+            dataIndex: 'sales_price',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            className: 'columnLightBlue',
+
+
+            sorter: (a: any, b: any) => a.sales_price - b.sales_price,
+
+
+            render: (_, record) => {
+                return (
+                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.sales_price))
+
+                )
+            }
+        },
+        {
+            title: 'Return on Sale',
+            className: 'columnWidth',
 
 
 
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            sorter: (a: any, b: any) => a.sales_price - b.sales_price,
 
 
+            render: (_, record) => {
+                let productionCost = record.total_cost
+                let units = record.units
+                let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
+                let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield))) || 0
+                let totalReturn = Number(record.sales_price) - finalCost
+
+                return (
+
+                    new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(totalReturn))
+
+                )
+            }
+        },
+        {
+            title: 'Margin Per Sale',
+            className: 'columnWidth',
+
+
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+            sorter: (a: any, b: any) => a.sales_price - b.sales_price,
+
+            render: (_, record: any) => {
+                let productionCost = record.total_cost
+                let units = record.units
+                let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
+                let finalCost: any = (Number(productionCost) * Number(Number(units) / Number(productionYield))) || 0
+                let margin = (Number(record.sales_price) - Number(finalCost)) / Number(record.sales_price)
+
+
+                return (
+
+                    new Intl.NumberFormat("en-US", {
+                        style: "percent",
+                    }).format(margin)
+
+                )
+            }
+        },
 
         {
             title: 'Action',
+            className: 'columnWidth',
+
+
             render: (_, record: any) => {
                 if (record.id === selectedRowAction) {
                     return (
                         <Dropdown menu={{ items }}>
-                            <Button>
+                            <Button >
                                 <Space>
                                     Edit
                                     <DownOutlined />
@@ -594,72 +573,6 @@ const Products: React.FC = (props) => {
         },
     ];
 
-    const data = [
-        {
-            type: '分类一',
-            value: 27,
-        },
-        {
-            type: '分类二',
-            value: 25,
-        },
-        {
-            type: '分类三',
-            value: 18,
-        },
-        {
-            type: '分类四',
-            value: 15,
-        },
-        {
-            type: '分类五',
-            value: 10,
-        },
-        {
-            type: '其他',
-            value: 5,
-        },
-    ];
-    const config = {
-        appendPadding: 10,
-        data,
-        angleField: 'value',
-        radius: 1,
-
-        colorField: 'type', // or seriesField in some cases
-        color: ['#d62728', '#2ca02c', '#000000', 'blue'],
-
-        innerRadius: 0.6,
-        label: {
-            type: 'inner',
-            offset: '-50%',
-            content: '{value}',
-            style: {
-                textAlign: 'center',
-                fontSize: 14,
-            },
-        },
-        interactions: [
-
-            {
-                type: 'element-selected',
-            },
-            {
-                type: 'element-active',
-            },
-        ],
-        statistic: {
-            title: false,
-            content: {
-                style: {
-                    whiteSpace: 'pre-wrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                },
-                content: 'AntV\nG2Plot',
-            },
-        },
-    };
 
 
     const onDeleteInput = async (id: any) => {
@@ -681,23 +594,22 @@ const Products: React.FC = (props) => {
 
 
 
-        <><Col xs={22} md={18}>
+        <Row justify={'center'} gutter={[0, 75]} >
+
+        
+        <Col xs={22} md={18}>
             <Space wrap>
 
                 <div className='clientPortalDiv'>
 
 
                     <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Products</h1>
+                        title={<><h1 className='h1_Header_Client_Portal'>Design</h1>
                         </>} layout="vertical">
                         <Descriptions.Item span={3}>
                             <p>
-                                To generate the merchandise you intend to offer, utilize the "Design Product" button situated on this page.
-                                You will construct your products by utilizing the inventory items you have previously included on the "Stock" page.
-                                After you have provided all essential details for your product, you may make modifications by selecting
-                                the item and clicking the dropdown button that appears in the "Action" column.
+                            The Design area is a crucial tool that enables you to create whole products by merging items from your stockpile. It helps you calculate various metrics such as cost, waste, sales, and nutrient payload. To start designing a product, click on the "Create" button, complete the form with the necessary details, and submit it. You can then edit the product by selecting the checkbox and modifying the corresponding row. To modify inputs or ingredients, navigate to the "Inputs" column and adjust the weight as needed.
                             </p>
-
                         </Descriptions.Item>
                         <Descriptions.Item span={3}>
 
@@ -713,7 +625,7 @@ const Products: React.FC = (props) => {
                             >
                                 <Space wrap size={[25, 25]}>
 
-                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Design Product</Button>
+                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Create</Button>
                                     {/* <Button icon={<SyncOutlined  />} className='buttonBlack'></Button> */}
 
 
@@ -739,7 +651,6 @@ const Products: React.FC = (props) => {
                                 lineWidth: 1,
                                 fontFamily: 'Jost',
                                 fontSize: 14,
-                                colorBorderSecondary: 'black'
 
                             },
                         }}
@@ -748,7 +659,6 @@ const Products: React.FC = (props) => {
 
 
                             scroll={{ x: '-webkit-fill-available' }}
-
                             rowKey={(record: any) => record.id}
                             rowSelection={rowSelection}
                             columns={columns}
@@ -758,9 +668,7 @@ const Products: React.FC = (props) => {
                     </ConfigProvider>
                 </div>
 
-                {/* <div>
-                    <Pie {...config} />
-                </div> */}
+                \
 
 
             </Space>
@@ -786,7 +694,6 @@ const Products: React.FC = (props) => {
                 footer={null}
             >
 
-                <p>Give you items identifiable name and provide pricing details.</p>
                 <Form
                     name="Recipe Item"
                     form={addInventory}
@@ -794,7 +701,7 @@ const Products: React.FC = (props) => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='vertical'
-                    size='middle'
+                    size='small'
 
 
 
@@ -810,6 +717,8 @@ const Products: React.FC = (props) => {
                             },
                         }}
                     >
+                        <p className='breadcrumbsForm'><span>▶︎ </span> Name</p>
+
                         <Form.Item
 
                             label="What would you like to name your retail product? (Name)"
@@ -818,14 +727,14 @@ const Products: React.FC = (props) => {
                             tooltip='Production Name'
 
                         >
-                            <Input type='text' />
+                            <Input type='text' maxLength={45} showCount />
+
                         </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Production</h3>
 
 
-                        <p className='breadcrumbsForm'>Production <span>▶︎</span> Weight <span>▶︎</span> Packaged</p>
+                        <p className='breadcrumbsForm'><span>▶︎ </span> Units Per Sale</p>
                         <Form.Item label={`${`How much of the manufactured weight is individually packaged? 
-                                         \n Set the weight to the manufactured weight if selling one unit.`}`}
+                                          Set the weight to the manufactured weight if selling one unit.`}`}
                             tooltip='Package Weight'
                         >
                             <Space.Compact>
@@ -863,8 +772,7 @@ const Products: React.FC = (props) => {
                                 </Form.Item>
                             </Space.Compact>
                         </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Units</h3>
-                        <p className='breadcrumbsForm'> Units <span>▶︎</span> Per Sale</p>
+                        <p className='breadcrumbsForm'> <span>▶︎</span>Yields Per Unit</p>
 
                         <Form.Item
 
@@ -877,9 +785,8 @@ const Products: React.FC = (props) => {
                         >
                             <InputNumber min={0} />
                         </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Sales</h3>
 
-                        <p className='breadcrumbsForm'> Per Sale <span>▶︎</span> Price</p>
+                        <p className='breadcrumbsForm'> <span>▶︎ </span>Price Per Sale</p>
 
 
                         <Form.Item
@@ -1054,14 +961,14 @@ const Products: React.FC = (props) => {
             </Modal>
 
 
-            <Drawer
+
+
+            <Modal
                 title="Update Product"
-                style={{ top: 10 }}
+                style={{ top: 20 }}
                 open={displayAddProduct}
-                onClose={() => setDisplayAddProduct(!displayAddProduct)}
-                className='drawerBackground'
+                onCancel={() => setDisplayAddProduct(!displayAddProduct)}
                 footer={null}
-                mask={false}
             >
 
                 <Form
@@ -1071,7 +978,7 @@ const Products: React.FC = (props) => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='vertical'
-                    size='middle'
+                    size='small'
 
 
 
@@ -1087,6 +994,8 @@ const Products: React.FC = (props) => {
                             },
                         }}
                     >
+                        <p className='breadcrumbsForm'><span>▶︎ </span> Name</p>
+
                         <Form.Item
 
                             label="What would you like to name your retail product? (Name)"
@@ -1094,14 +1003,14 @@ const Products: React.FC = (props) => {
                             tooltip='Production Name'
 
                         >
-                            <Input type='text' />
+                            <Input type='text' maxLength={45} showCount />
+
                         </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Production</h3>
 
 
-                        <p className='breadcrumbsForm'>Production <span>▶︎</span> Weight <span>▶︎</span> Packaged</p>
+                        <p className='breadcrumbsForm'><span>▶︎ </span> Yield Per Unit</p>
                         <Form.Item label={`${`How much of the manufactured weight is individually packaged? 
-             \n Set the weight to the manufactured weight if selling one unit.`}`}
+                                                Set the weight to the manufactured weight if selling one unit.`}`}
                             tooltip='Package Weight'
                         >
                             <Space.Compact>
@@ -1135,8 +1044,7 @@ const Products: React.FC = (props) => {
                                 </Form.Item>
                             </Space.Compact>
                         </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Units</h3>
-                        <p className='breadcrumbsForm'> Units <span>▶︎</span> Per Sale</p>
+                        <p className='breadcrumbsForm'> <span>▶︎ </span>  Units Per Sale</p>
 
                         <Form.Item
 
@@ -1147,9 +1055,8 @@ const Products: React.FC = (props) => {
                         >
                             <InputNumber min={0} />
                         </Form.Item>
-                        <h3 className='productionPageFormParagraph'>Sales</h3>
 
-                        <p className='breadcrumbsForm'> Per Sale <span>▶︎</span> Price</p>
+                        <p className='breadcrumbsForm'> <span>▶︎ </span>Price Per Sale</p>
 
 
                         <Form.Item
@@ -1182,10 +1089,9 @@ const Products: React.FC = (props) => {
                         </Form.Item>
                     </ConfigProvider>
                 </Form>
-            </Drawer>
+            </Modal>
 
             <Modal
-                title='Edit input items.'
                 style={{ top: 20 }}
                 open={openInputsDrawer}
                 onCancel={() => setOpenInputsDrawer(!openInputsDrawer)}
@@ -1349,7 +1255,7 @@ const Products: React.FC = (props) => {
 
 
 
-        </>
+        </Row>
 
     )
 }

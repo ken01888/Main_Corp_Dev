@@ -3,6 +3,8 @@ import { Col, Divider, Layout, Row, ConfigProvider, Space, Card, Button } from '
 import Menu from '../Components/Navigation/Main_Menu'
 import { Content, Footer, Header } from 'antd/es/layout/layout'
 import 'isomorphic-fetch';
+import { TwitterLogo, MetaLogo, LinkedinLogo } from "@phosphor-icons/react";
+
 
 
 
@@ -555,89 +557,87 @@ We may have shared your personal information with third-party categories such as
             </Layout>
 
             <Footer className='footer_public'>
-                <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
-                    <Col xs={22} md={10}>
-                        <h2 style={{ display: 'flex' }} className='footer_h1'>
-                            <div className='logo'>
+        <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
+          <Col xs={22} md={10}>
+            <h2 style={{ display: 'flex' }} className='footer_h1'>
+              <div className='logo'>
 
-                                <div style={{ height: 'fit-content' }}>
-                                    <div className='logoBlue'></div>
-                                    <div className='logoBeige'></div>
-                                </div>
-                                <div style={{ height: 'fit-content' }}>
-                                    <div className='logoBeige'></div>
-                                    <div className='logoBlue'></div>
+                <div style={{ height: 'fit-content' }}>
+                  <div className='logoBlue'></div>
+                  <div className='logoBeige'></div>
+                </div>
+                <div style={{ height: 'fit-content' }}>
+                  <div className='logoBeige'></div>
+                  <div className='logoBlue'></div>
 
-                                </div>
-                            </div>Kcm Inc
-                        </h2>
-                        <p>KCM Inc is dedicated to offering B2B services that
-                            provide practical and advantageous solutions to businesses.
-                            Our team conducts comprehensive research and development,
-                            utilizing data from both public and private
-                            institutions. We meticulously analyze this data to develop
-                            innovative and effective business services that cater to the
-                            needs of communities and clients.</p>
-                    </Col>
-                    <Col xs={22} md={5} >
+                </div>
+              </div>Kcm Inc
+            </h2>
+            <p>At KCM Inc, we are committed to delivering responsible business services that foster sustainable progress and development, while upholding equitable treatment for all stakeholders.
 
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    fontFamily: 'Jost',
-                                    colorTextTertiary: 'black',
-                                    colorPrimaryHover: '#000000',
-                                    colorBgContainer: '#fafafa'
+            </p>
+          </Col>
+          <Col xs={22} md={5} >
 
-                                },
-                            }}
-                        >
-                            <Space wrap direction='vertical' >
-                                <h2>Free for a limited time! </h2>
-                            </Space>
+            <ConfigProvider
+              theme={{
+                token: {
+                  fontFamily: 'Jost',
+                  colorTextTertiary: 'black',
+                  colorPrimaryHover: '#000000',
+                  colorBgContainer: '#fafafa'
 
-                        </ConfigProvider>
+                },
+              }}
+            >
+              <Space wrap direction='vertical' >
+                <h2>Free for a limited time! </h2>
+              </Space>
+
+            </ConfigProvider>
 
 
-                    </Col>
-                    <Col xs={22} md={5} >
+          </Col>
+          <Col xs={22} md={5} >
 
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    fontFamily: 'Jost',
-                                    colorTextTertiary: 'black',
-                                    colorPrimaryHover: '#000000',
-                                    colorBgContainer: '#fafafa'
+            <ConfigProvider
+              theme={{
+                token: {
+                  fontFamily: 'Jost',
+                  colorTextTertiary: 'black',
+                  colorPrimaryHover: '#000000',
+                  colorBgContainer: '#fafafa'
 
-                                },
-                            }}
-                        >
-                            <Space wrap direction='vertical' >
-                                <Link reloadDocument to='/'>
-                                    <Button htmlType="submit">Log In</Button>
-                                </Link>
+                },
+              }}
+            >
+              <Space wrap direction='vertical' >
+                <Link reloadDocument to='https://www.facebook.com/KCMIncEngine'>
+                  <MetaLogo size={32} weight="fill" color='#b4cbd4' />
+                </Link>
 
 
 
 
-                                <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
+                <Link reloadDocument to='https://twitter.com/KCMINC1'> <TwitterLogo size={32} weight="fill" color='#b4cbd4' />
+                </Link>
 
 
 
 
-                                <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
-                                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
+                <Link reloadDocument to='https://www.linkedin.com/company/k-c-morris-inc-stakeholder-intelligence-corporations/?viewAsMember=true'>
+                  <LinkedinLogo size={32} weight="fill" color='#b4cbd4' />
+                </Link>
 
-                            </Space>
+              </Space>
 
-                        </ConfigProvider>
+            </ConfigProvider>
 
 
-                    </Col>
+          </Col>
 
-                </Row>
-            </Footer>
+        </Row>
+      </Footer>
         </Layout>
 
     )

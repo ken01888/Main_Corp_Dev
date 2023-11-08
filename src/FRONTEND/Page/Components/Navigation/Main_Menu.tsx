@@ -50,6 +50,21 @@ const Main_Menu = () => {
                     </Link>
 
                     <div className='menuItemsDiv'>
+                    <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                            <NavLink to='/' reloadDocument> <Button htmlType="submit">Home</Button></NavLink>
+
+
+                        </ConfigProvider>
                         <ConfigProvider
                             theme={{
                                 token: {
@@ -61,7 +76,7 @@ const Main_Menu = () => {
                                 },
                             }}
                         >
-                            <NavLink to='/' reloadDocument> <Button htmlType="submit">Log In</Button></NavLink>
+                            <NavLink to='/login' reloadDocument> <Button htmlType="submit">Log In</Button></NavLink>
 
 
                         </ConfigProvider>

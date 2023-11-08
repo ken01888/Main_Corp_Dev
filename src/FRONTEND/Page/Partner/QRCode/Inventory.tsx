@@ -76,7 +76,6 @@ const InventoryCheck: React.FC = (props) => {
 
     const onVerifyFinish = async (values: any) => {
         values.id = business_id_number
-        console.log(onVerifyFinish)
         const dataReply = await fetch(`/verify_associate_pin`, {
             method: 'POST',
             headers: {
@@ -149,7 +148,7 @@ const InventoryCheck: React.FC = (props) => {
                             </motion.div>
                         </h2>
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Inventory Audit Sheet</h1>
+                            title={<><h1 className='h1_Header_Client_Portal'>Digital Inventory Sheet</h1>
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
@@ -381,7 +380,7 @@ const InventoryCheck: React.FC = (props) => {
 
 
             {
-                inventoryLength === 0 ? <FloatButton onClick={SendNotificationInventory} tooltip='Submit Inventory Items' shape='square' icon={<ReconciliationOutlined style={{ color: 'black' }} />} style={{ border: '1px solid black', backgroundColor: '#e8dac2' }} /> : ''
+                // inventoryLength === 0 ? <FloatButton onClick={SendNotificationInventory} tooltip='Submit Inventory Items' shape='square' icon={<ReconciliationOutlined style={{ color: 'black' }} />} style={{ border: '1px solid black', backgroundColor: '#e8dac2' }} /> : ''
             }
         </Row>
 

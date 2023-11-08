@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Col, Layout, Row, Space } from 'antd'
-import { Content,Header } from 'antd/es/layout/layout'
-import {FileTextOutlined, FolderOpenOutlined, FolderOutlined,UserOutlined } from '@ant-design/icons';
+import { Content, Header } from 'antd/es/layout/layout'
+import { FileTextOutlined, FolderOpenOutlined, FolderOutlined, UserOutlined } from '@ant-design/icons';
 import 'isomorphic-fetch';
 import { ClientMenu } from '../Components/Navigation/ClientMenu'
-import { NavLink, Outlet} from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 
 
 
@@ -33,7 +33,7 @@ const ClientPortal: React.FC = () => {
             <Layout >
                 <Content >
 
-                    <Row justify={'space-between'} className='ClientPortal' gutter={[0, 75]}>
+                    <Row className='ClientPortal' gutter={[0, 75]}>
                         <Col xs={22} md={3} className='ClientSideItems'>
                             <NavLink
                                 to={`account`}
@@ -49,7 +49,8 @@ const ClientPortal: React.FC = () => {
 
                             <NavLink
                                 onClick={() => setSubInventory(!subInventory)}
-                                to={`#`}
+                                to={`bolamanual`}
+
                                 className='clientMenuItem'
                                 style={({ isActive, isPending }) => {
 
@@ -58,7 +59,7 @@ const ClientPortal: React.FC = () => {
                                     };
                                 }}
                             >
-                                {subInventory ? <FolderOpenOutlined size={16} /> : <FolderOutlined size={16} />}Inventory
+                                {subInventory ? <FolderOpenOutlined size={16} /> : <FolderOutlined size={16} />}BOLA
                             </NavLink>
                             {
                                 subInventory ?
@@ -92,7 +93,21 @@ const ClientPortal: React.FC = () => {
                                             }}
 
                                         >
-                                            <FileTextOutlined />Product
+                                            <FileTextOutlined />Design
+                                        </NavLink>
+                                        <NavLink
+                                            to={`nutrition`}
+                                            className='clientMenuItem'
+                                            style={({ isActive, isPending }) => {
+                                                return {
+                                                    fontWeight: isActive ? "bold" : "",
+                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
+                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+                                                };
+                                            }}
+
+                                        >
+                                            <FileTextOutlined />Nutrition
                                         </NavLink>
                                         <NavLink
                                             to={`inventoryaudits`}
@@ -108,20 +123,7 @@ const ClientPortal: React.FC = () => {
                                         >
                                             <FileTextOutlined />Audit
                                         </NavLink>
-                                        {/* <NavLink
-                                            to={`nutrition`}
-                                            className='clientMenuItem'
-                                            style={({ isActive, isPending }) => {
-                                                return {
-                                                    fontWeight: isActive ? "bold" : "",
-                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
-                                                };
-                                            }}
 
-                                        >
-                                            <FileTextOutlined />Nutrition
-                                        </NavLink> */}
                                     </Space>
 
                                     : ''
@@ -140,7 +142,7 @@ const ClientPortal: React.FC = () => {
 
                 </Content>
             </Layout>
-           
+
 
         </Layout >
 

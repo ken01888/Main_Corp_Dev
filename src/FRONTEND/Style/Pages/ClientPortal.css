@@ -1,9 +1,9 @@
 .ClientPortal {
-    
+
     background-color: #ffffff;
 }
 
-.drawerBackground{
+.drawerBackground {
     width: 378px;
     border: 2.5px solid black;
     background: var(--white-gray);
@@ -17,7 +17,7 @@
     flex-direction: row;
     align-items: center;
     padding: 15px 15px 15px 15px;
-    background-color: var(--white-gray);
+    background: transparent;
     overflow: visible;
     position: relative;
     align-content: center;
@@ -30,7 +30,7 @@
     font-family: 'Jost';
     font-size: .875rem;
     cursor: pointer;
-    width:fit-content;
+    width: fit-content;
     column-gap: 0.25rem;
 
 }
@@ -46,44 +46,46 @@
     padding: 1rem;
     margin-top: 1rem;
 }
+
 @media only screen and (max-width: 749px) {
     .clientPortalDiv {
-      display: flex;
-      flex-direction: column;
-      row-gap: 4rem;
-      padding: 1rem;
-      box-shadow: 0rem 0.125rem 0.25rem #1f21241a, 0rem 0.0625rem 0.375rem #1f21240d;
-      border: 2px solid black;
-      border-right: 2px solid var(--light_grey);
-      border-bottom: 2px solid var(--light_grey);
-      border-radius: 0px 0px 5px 0px;
-      background: var(--white-gray);
-      border-left: none;
-      margin-top: 1rem;
-  }
+        display: flex;
+        flex-direction: column;
+        row-gap: 4rem;
+        padding: 1rem;
+        box-shadow: 0rem 0.125rem 0.25rem #1f21241a, 0rem 0.0625rem 0.375rem #1f21240d;
+        border-radius: 5px;
+        background: var(--white-gray);
+        border-left: none;
+        margin-top: 1rem;
     }
+}
 
 
-.h1_Header_Client_Portal{
-    width: fit-content;
+.h1_Header_Client_Portal {
+    width: auto;
     background: var(--light_beige);
     padding: 5px;
     font-size: 1.5rem;
-    border-radius: 5px;
     font-family: Jost;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: .05px;
-
+    border-top: none;
+    border-bottom-right-radius: 5px;
+    border-left: 5px solid var(--light_beige);
+    background: #e8dac250;
+    border-top-right-radius: 5px;
+    color: var(--solid_black);
 }
 
-.tagReview{
+.tagReview {
     color: var(--solid_black);
     background: white;
     border: 1px solid var(--solid_black);
     cursor: pointer;
 }
 
-.tagReview:hover{
+.tagReview:hover {
     background-color: black;
 }
 
@@ -91,7 +93,7 @@
 
 
 
-.tagUpdate{
+.tagUpdate {
     color: var(--solid_black);
     background: var(--white-gray);
     border: 1px solid var(--solid_black);
@@ -105,13 +107,18 @@
     cursor: pointer;
 }
 
-.tableScrollDiv{
+.tableScrollDiv {
     position: absolute;
     width: max-content;
     scroll-behavior: smooth;
     width: -webkit-fill-available;
 }
 
-
-
-
+.resetTab {
+    background-color: var(--light_beige);
+    color: var(--solid_black);
+    cursor: pointer;
+    border: 1px solid black;
+    font-weight: 400;
+    letter-spacing: .08px;
+}

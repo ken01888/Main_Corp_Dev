@@ -1,10 +1,12 @@
-import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, ConfigProvider, Space, Alert } from 'antd';
+import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, ConfigProvider, Space, Alert, InputNumber } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Menu from '../Components/Navigation/Main_Menu';
 import { useForm } from 'antd/es/form/Form';
+import { TwitterLogo, MetaLogo, LinkedinLogo } from "@phosphor-icons/react";
+
 
 
 
@@ -67,9 +69,7 @@ const SignUp: React.FC = () => {
                 <Content >
                     <Row justify={'space-around'} gutter={[0, 75]}>
                         <Col xs={22} md={12}>
-                            <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: .5 }}>
+                            <motion.div className='form_login'>
                                 <h2 style={{ display: 'flex' }} className='footer_h1'>
                                     <motion.div className='logo'>
 
@@ -87,7 +87,7 @@ const SignUp: React.FC = () => {
 
                                 {showForm ?
                                     <>
-                                        <h1>Become a client</h1><p>Kindly furnish us with the requested details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated <Link to='/support'>support</Link> team for assistance. Thank you for choosing our services.
+                                        <h1>Sign up</h1><p>Kindly furnish us with the requested details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated <Link to='/support'>support</Link> team for assistance. Thank you for choosing our services.
                                         </p><Divider className='dividerHeader'></Divider>
                                         <Form
                                             name="basic"
@@ -126,7 +126,8 @@ const SignUp: React.FC = () => {
                                                     name="last_name"
                                                     rules={[{ required: true, message: 'Please input your last name!' }]}
                                                 >
-                                                    <Input type='text' />
+                                                                                <Input type='text' maxLength={45} showCount/>
+
                                                 </Form.Item>
                                                 <Form.Item
                                                     label="Business Name"
@@ -134,7 +135,8 @@ const SignUp: React.FC = () => {
 
                                                     rules={[{ required: true, message: 'Please input your business name!' }]}
                                                 >
-                                                    <Input type='text' />
+                                                                                <Input type='text' maxLength={45} showCount/>
+
                                                 </Form.Item>
                                                 <Form.Item
                                                     label="Number of employees"
@@ -149,15 +151,23 @@ const SignUp: React.FC = () => {
 
                                                     </Select>
                                                 </Form.Item>
+                                                <Form.Item
+                                                    label="Zip Code"
+                                                    name="zipcode"
+
+                                                    rules={[{ required: true, message: 'Enter the 5 digit zip code where the business is located!' }]}
+                                                >
+                                                    <InputNumber min={0o1} max={99999} controls = {false}  />
+                                                </Form.Item>
 
 
                                                 <Form.Item
                                                     label="Phone Number"
                                                     name="phone_number"
 
-                                                    rules={[{ required: true, message: 'Please input your phone number!' }]}
+                                                    rules={[{ required: true, message: 'Please input your 10 digit phone number!' }]}
                                                 >
-                                                    <Input type='tel' maxLength={10} />
+                                                    <Input type='tel' min={10} maxLength={10} />
                                                 </Form.Item>
 
                                                 <Form.Item
@@ -166,7 +176,7 @@ const SignUp: React.FC = () => {
                                                     rules={[
                                                         {
                                                             required: true,
-                                                            message: 'Please enter a email address',
+                                                            message: 'Please enter a email address!',
                                                         },
 
                                                     ]}
@@ -183,7 +193,7 @@ const SignUp: React.FC = () => {
                                                     rules={[
                                                         {
                                                             required: true,
-                                                            message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]. Passwords must be at least 8 characters long.',
+                                                            message: 'To ensure maximum security, it is necessary for your password to have at least one uppercase letter, one lowercase letter, one numerical digit, and one of the specified special characters:[!@#$&?]. Passwords must be at max 8 characters long.',
                                                             min: 8,
                                                             max: 8,
                                                             pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&?]).{8}$/
@@ -241,7 +251,7 @@ const SignUp: React.FC = () => {
                                                     valuePropName="checked"
                                                     rules={[
                                                         {
-                                                            validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Terms of Service.')),
+                                                            validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Privacy Policy.')),
                                                         },
                                                     ]}
                                                 >
@@ -342,13 +352,9 @@ const SignUp: React.FC = () => {
                 </div>
               </div>Kcm Inc
             </h2>
-            <p>KCM Inc is dedicated to offering B2B services that
-              provide practical and advantageous solutions to businesses.
-              Our team conducts comprehensive research and development,
-              utilizing data from both public and private
-              institutions. We meticulously analyze this data to develop
-              innovative and effective business services that cater to the
-              needs of communities and clients.</p>
+            <p>At KCM Inc, we are committed to delivering responsible business services that foster sustainable progress and development, while upholding equitable treatment for all stakeholders.
+
+            </p>
           </Col>
           <Col xs={22} md={5} >
 
@@ -385,20 +391,22 @@ const SignUp: React.FC = () => {
               }}
             >
               <Space wrap direction='vertical' >
-                <Link reloadDocument to='/'>
-                  <Button htmlType="submit">Log In</Button>
+                <Link reloadDocument to='https://www.facebook.com/KCMIncEngine'>
+                  <MetaLogo size={32} weight="fill" color='#b4cbd4' />
                 </Link>
 
 
 
 
-                <Link reloadDocument to='/signup'> <Button htmlType="submit">Sign Up</Button></Link>
+                <Link reloadDocument to='https://twitter.com/KCMINC1'> <TwitterLogo size={32} weight="fill" color='#b4cbd4' />
+                </Link>
 
 
 
 
-                <Link reloadDocument to='/termsofservice'><Button htmlType="submit">Terms of Service</Button></Link>
-                <Link reloadDocument to='/privacypolicy'><Button htmlType="submit">Privacy Policy</Button></Link>
+                <Link reloadDocument to='https://www.linkedin.com/company/k-c-morris-inc-stakeholder-intelligence-corporations/?viewAsMember=true'>
+                  <LinkedinLogo size={32} weight="fill" color='#b4cbd4' />
+                </Link>
 
               </Space>
 

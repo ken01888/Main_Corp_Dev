@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Dropdown, MenuProps, Alert } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Dropdown, MenuProps, Alert, Row } from 'antd'
 import 'isomorphic-fetch';
 import { ColumnsType } from 'antd/es/table';
 import { DownOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
@@ -11,7 +11,6 @@ interface DataType {
     supplier: number | string;
     brand: number | string;
     description: number | string;
-    package_per_container: number | string;
     category: number | string | string;
     total_package_weight: number | string;
     recommended_stock_level: number | string,
@@ -42,46 +41,43 @@ const StoreInventory: React.FC = (props) => {
 
     // Retrieve Inventory information from database
 
-    React.useEffect(() => {
-        (
-            async () => {
+    // React.useEffect(() => {
+    //     (
+    //         async () => {
 
-                const user: any = await window.localStorage.getItem('user')
-                const newUser = await JSON.parse(user)
-                setUserPin(newUser.pin)
-                setUserId(newUser.id)
-                const dataReply = await fetch('/getInventoryItems');
-                const newData = await dataReply.json();
-                console.log([dataReply,newData])
-                setInventoryList(newData)
-            }
-        )()
-    }, [])
+    //             const user: any = await window.localStorage.getItem('user')
+    //             const newUser = await JSON.parse(user)
+    //             setUserPin(newUser.pin)
+    //             setUserId(newUser.id)
+    //             const dataReply = await fetch('/getInventoryItems');
+    //             const newData = await dataReply.json();
+    //             setInventoryList(newData)
+    //         }
+    //     )()
+    // }, [])
 
-    React.useEffect(() => {
-        (
-            async () => {
+    // React.useEffect(() => {
+    //     (
+    //         async () => {
 
-                const user: any = await window.localStorage.getItem('user')
-                const newUser = await JSON.parse(user)
-                setUserPin(newUser.pin)
-                setUserId(newUser.id)
-                const dataReply = await fetch('/getInventoryItems');
-                const newData = await dataReply.json();
-                console.log([dataReply,newData])
+    //             const user: any = await window.localStorage.getItem('user')
+    //             const newUser = await JSON.parse(user)
+    //             setUserPin(newUser.pin)
+    //             setUserId(newUser.id)
+    //             const dataReply = await fetch('/getInventoryItems');
+    //             const newData = await dataReply.json();
 
-                setInventoryList(newData)
-            }
-        )()
+    //             setInventoryList(newData)
+    //         }
+    //     )()
 
-    }, [viewInventoryStore, updateInventoryForm])
+    // }, [viewInventoryStore, updateInventoryForm])
 
     /* Form Inventory Add*/
 
     const onAddInventoryItems = async (values: any) => {
 
-        values.business_id = userId;
-        const dataReply = await fetch(`/insertInventoryItems`, {
+        const dataReply = await fetch('/insertNewInventoryItems', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -90,11 +86,10 @@ const StoreInventory: React.FC = (props) => {
         });
 
         const newData = await dataReply.json()
-        console.log([dataReply,newData])
 
-        
-        addInventory.resetFields();
         setViewInventoryStore(!viewInventoryStore)
+
+        addInventory.resetFields();
     };
 
 
@@ -116,7 +111,7 @@ const StoreInventory: React.FC = (props) => {
 
 
     const onDeleteInventoryItem = async () => {
-        const dataReply = await fetch(`/deleteInventoryItems`, {
+        const dataReply = await fetch('/deleteInventoryItems', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -145,12 +140,12 @@ const StoreInventory: React.FC = (props) => {
 
     const onItemUpdate = async (values: any) => {
         const newArray = Object.values(values.total_package_weight)
-        if(newArray[0] == undefined || newArray[1] == undefined){
+        if (newArray[0] == undefined || newArray[1] == undefined) {
             delete values.total_package_weight
         }
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch(`/updateInventoryItem`, {
+        const dataReply = await fetch('/updateInventoryItem', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -163,12 +158,12 @@ const StoreInventory: React.FC = (props) => {
         if (dataParse.affectedRows === 1) {
             (
                 async () => {
-                    const dataReply_1 = await fetch(`/getInventoryItems`);
+                    const dataReply_1 = await fetch('/getInventoryItems');
                     const newData = await dataReply_1.json();
                     setInventoryList(newData)
                 }
             )()
-        }else {
+        } else {
             setInventoryList([])
         }
         updateInventory.resetFields();
@@ -177,7 +172,7 @@ const StoreInventory: React.FC = (props) => {
 
     const onAddInventoryNutritionInformation = async (values) => {
 
-        const dataReply = await fetch(`/addNutritionInformation`, {
+        const dataReply = await fetch('/addNutritionInformation', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -249,8 +244,15 @@ const StoreInventory: React.FC = (props) => {
 
     const columns: ColumnsType<DataType> = [
         {
+            title: 'Item',
+            dataIndex: 'description',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+        },
+        {
             title: 'Category',
             dataIndex: 'category',
+
+
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             render: (_, record) => {
                 return (
@@ -272,11 +274,7 @@ const StoreInventory: React.FC = (props) => {
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
 
         },
-        {
-            title: 'Product',
-            dataIndex: 'description',
-            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-        },
+
 
         {
             title: 'Package Weight',
@@ -285,7 +283,7 @@ const StoreInventory: React.FC = (props) => {
             sorter: (a: any, b: any) => a.total_package_weight - b.total_package_weight,
             render: (_, record) => {
                 return (
-                    (convert(record.total_package_weight).from('g').to('lb')).toFixed(2) + ' lb'
+                    (convert(record.total_package_weight).from('g').to('lb')).toFixed(0) + ' lb'
                 )
             }
         },
@@ -293,6 +291,7 @@ const StoreInventory: React.FC = (props) => {
             title: 'Safety Stock',
             dataIndex: 'recommended_stock_level',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+
 
             sorter: (a: any, b: any) => a.recommended_stock_level - b.recommended_stock_level,
             render: (_, record) => {
@@ -378,97 +377,100 @@ const StoreInventory: React.FC = (props) => {
 
 
 
-        <><Col xs={22} md={18}>
-            <Space wrap>
-
-                <div className='clientPortalDiv'>
+        <Row justify={'center'} gutter={[0, 75]} >
 
 
-                    <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Stock</h1>
-                        </>} layout="vertical">
-                        <Descriptions.Item span={3}>
-                            <p>
-                                To add items to your inventory record, utilize this section.
-                                These items are beneficial for designing and creating products
-                                on your "Product" page, as well as conducting audits.
-                                To access your audit page, preview links, and download your
-                                QR code, simply click on the "Download Audit Barcode" button once you've added items to your inventory.
+            <Col xs={22} md={18}>
+                <Space wrap>
 
-                            </p>
+                    <div className='clientPortalDiv'>
 
 
-                        </Descriptions.Item>
-
-                        <Descriptions.Item span={3}>
-
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-                                    },
-                                }}
-                            >
-                                <Space wrap size={[25, 25]}>
-                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}> Add Stock Item</Button>
-                                    <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>Download Audit Barcode </Button>
-                                </Space>
-                            </ConfigProvider>
+                        <Descriptions
+                            title={<><h1 className='h1_Header_Client_Portal'>Stock</h1>
+                            </>} layout="vertical">
+                            <Descriptions.Item span={3}>
+                                <p>
+                                The Stock section is a vital tool for tracking and organizing inventory. To add items, click on the "Create" button and enter details from the packaging label. Once entered, the product will appear in a table at the bottom of the page. To make changes or add nutritional information, select the corresponding row in the table and use the "Edit" button. Keep your account PIN secure and share it only with trusted team members who regularly conduct audits.
 
 
+                                </p>
 
-                        </Descriptions.Item>
+
+                            </Descriptions.Item>
+
+                            <Descriptions.Item span={3}>
+
+                                <ConfigProvider
+                                    theme={{
+                                        token: {
+                                            fontFamily: 'Jost',
+                                            colorTextTertiary: 'black',
+                                            colorPrimaryHover: '#000000',
+                                            colorBgContainer: '#fafafa'
+                                        },
+                                    }}
+                                >
+                                    <Space wrap size={[25, 25]}>
+                                        <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Create</Button>
+                                        <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>Barcode</Button>
+                                    </Space>
+                                </ConfigProvider>
 
 
 
-                        <Descriptions.Item span={1}>
-
-
-                            <Alert
-                                message={<h3>PPG</h3>}
-                                description="Price Per Gram is the price you pay per gram of product."
-                                type="warning"
-                                className='alert'
-                            />
-
-                        </Descriptions.Item>
-
-
-                    </Descriptions>
+                            </Descriptions.Item>
 
 
 
+                            <Descriptions.Item span={1}>
 
 
-                </div>
-                <div className='tableScrollDiv'>
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                lineWidth: 1,
-                                fontFamily: 'Jost',
-                                fontSize: 14,
-                                colorBorderSecondary: 'black'
-                            },
-                        }}
-                    >
-                        <Table rowKey={(record: any) => record.id}
-                            scroll={{ x: '-webkit-fill-available' }}
-                            rowSelection={rowSelection} columns={columns} dataSource={InventoryList} pagination={{ pageSize: 10 }} bordered />
-                    </ConfigProvider>
-                </div>
+                                <Alert
+                                    message={<h3>PPG</h3>}
+                                    description="Price Per Gram is the price you pay per gram of product."
+                                    type="warning"
+                                    className='alert'
+                                />
+
+                            </Descriptions.Item>
+
+
+                        </Descriptions>
 
 
 
 
-            </Space>
+
+                    </div>
+                    <div className='tableScrollDiv'>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    lineWidth: 1,
+                                    fontFamily: 'Jost',
+                                    fontSize: 14,
+                                },
+                            }}
+                        >
+                            <Table rowKey={(record: any) => record.id}
+                                scroll={{ x: '-webkit-fill-available' }}
+                                rowSelection={rowSelection}
+                                columns={columns}
+                                dataSource={InventoryList}
+                                pagination={{ pageSize: 10 }}
+                                bordered />
+                        </ConfigProvider>
+                    </div>
 
 
 
-        </Col>
+
+                </Space>
+
+
+
+            </Col>
 
 
 
@@ -627,8 +629,6 @@ const StoreInventory: React.FC = (props) => {
                                     name={['trans_fat', 'amount']}
 
                                     initialValue={0}
-
-
 
                                 >
                                     <InputNumber min={0} />
@@ -902,19 +902,12 @@ const StoreInventory: React.FC = (props) => {
                                 <Form.Item
                                     name={['potassium', 'amount']}
                                     initialValue={0}
-
-
-
-
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['potassium', 'unit']}
                                     initialValue={'mg'}
-
-
-
                                 >
                                     <Select style={{ width: 88 }}>
                                         <Select.Option value="mcg">mcg</Select.Option>
@@ -932,21 +925,15 @@ const StoreInventory: React.FC = (props) => {
                                 <Form.Item
                                     name={['vitamin_d', 'amount']}
                                     initialValue={0}
-
-
-
-
                                 >
                                     <InputNumber min={0} />
                                 </Form.Item>
                                 <Form.Item
                                     name={['vitamin_d', 'unit']}
                                     initialValue={'mcg'}
-
                                 >
                                     <Select
                                         style={{ width: 88 }}
-
                                     >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
@@ -959,14 +946,10 @@ const StoreInventory: React.FC = (props) => {
                         <Form.Item
                             name={'allergies'}
                             label='Allergies'
-
-
                         >
                             <Select
                                 style={{ width: 120 }}
                                 mode="tags"
-
-
                             >
                                 <Select.Option value="milk">Milk</Select.Option>
                                 <Select.Option value="egg">Egg</Select.Option>
@@ -978,12 +961,6 @@ const StoreInventory: React.FC = (props) => {
                                 <Select.Option value="soybeans">Soybeans</Select.Option>
                                 <Select.Option value="Sesame">Sesame</Select.Option>
                                 <Select.Option value="allergy_free">Allergy Free</Select.Option>
-
-
-
-
-
-
                             </Select>
                         </Form.Item>
 
@@ -1007,21 +984,20 @@ const StoreInventory: React.FC = (props) => {
 
 
             <Modal
-                title="Add Stock Item"
+                title="Add items to stockpile "
                 style={{ top: 10 }}
                 open={viewInventoryStore}
                 onCancel={() => setViewInventoryStore(!viewInventoryStore)}
                 footer={null}
             >
 
-                <p>It is essential to enter this information accurately to ensure its proper usage.</p>
                 <Form
                     name="Add"
                     form={addInventory}
                     onFinish={onAddInventoryItems}
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
-                    layout='horizontal'
+                    layout='vertical'
                     size='small'
 
 
@@ -1039,38 +1015,44 @@ const StoreInventory: React.FC = (props) => {
                             },
                         }}
                     >
+                        <p className='alertBlue'>Enter name the of manufacturer, packer, or distributor: The name of the company that produced the food product.</p>
+
                         <Form.Item
 
-                            label="Supplier"
                             name="supplier"
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <Input type='text' />
+                            <Input type='text' maxLength={25} showCount />
                         </Form.Item>
-                        <Form.Item
 
-                            label="Description"
-                            name="description"
-                            rules={[{ required: true, message: 'Enter the required information' }]}
-
-                        >
-                            <Input type='text' />
-                        </Form.Item>
+                        <p className='alertBlue'>Enter the brand name of the item. Examples include Nike, Coca-Cola, Nestle, and Kellogg's.
+                        </p>
 
                         <Form.Item
 
-                            label="Brand"
                             name="brand"
                             rules={[{ required: true, message: 'Enter the required information' }]}
 
                         >
-                            <Input type='text' />
+                            <Input type='text' maxLength={25} showCount />
+                        </Form.Item>
+
+                        <p className='alertBlue'>Enter the product name: The name of the food product or ingredient.
+                        </p>
+                        <Form.Item
+
+                            name="description"
+                            rules={[{ required: true, message: 'Enter the required information' }]}
+
+                        >
+                            <Input type='text' maxLength={25} showCount />
                         </Form.Item>
 
 
 
 
-
+                        <p className='alertBlue'>Enter the net package weight: The amount of food in the package, usually measured in weight or volume.
+                        </p>
                         <Form.Item
 
                             label="Total Weight Per Case"
@@ -1111,19 +1093,20 @@ const StoreInventory: React.FC = (props) => {
                             </Space.Compact>
 
                         </Form.Item>
-
+                        <p className='alertBlue'>Enter your Safety Stock:  is an additional quantity of a product that is stored in the warehouse to prevent running out of stock.
+                        </p>
                         <Form.Item
 
-                            label="Safety Stock"
                             name="recommended_stock_level"
                             tooltip='Average number of items to keep on hand.'
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
                             <InputNumber stringMode={true} min={0} step={5} type='number' />
                         </Form.Item>
+                        <p className='alertBlue'>Select a category for the item. This will help to group similar products together.
+                        </p>
                         <Form.Item
 
-                            label="Inventory category"
                             name="category"
                             rules={[{ required: true, message: 'Enter the required information' }]}
 
@@ -1149,11 +1132,11 @@ const StoreInventory: React.FC = (props) => {
                             />
 
                         </Form.Item>
-
+                        <p className='alertBlue'>Please enter the purchasing price of the item. The purchasing price is the amount of money that the item costs to acquire from the supplier or manufacturer.
+                        </p>
 
                         <Form.Item
 
-                            label="Price"
                             name="price"
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
@@ -1214,30 +1197,22 @@ const StoreInventory: React.FC = (props) => {
                                     label="Supplier"
                                     name="supplier"
                                 >
-                                    <Input type='text' />
+                                    <Input type='text' maxLength={25} showCount />
                                 </Form.Item>
                                 <Form.Item
                                     label="Brand"
                                     name="brand"
 
                                 >
-                                    <Input type='text' />
+                                    <Input type='text' maxLength={25} showCount />
                                 </Form.Item>
                                 <Form.Item
                                     label="Product"
                                     name="description"
                                 >
-                                    <Input type='text' />
+                                    <Input type='text' maxLength={25} showCount />
                                 </Form.Item>
-                                <Form.Item
 
-                                    label="Packages"
-                                    name="package_per_container"
-                                    tooltip='Number of individual packages per container'
-
-                                >
-                                    <InputNumber min={0} step={5} />
-                                </Form.Item>
                                 <Form.Item
 
                                     label="Inventory category"
@@ -1362,7 +1337,7 @@ const StoreInventory: React.FC = (props) => {
             </Drawer>
 
 
-        </>
+        </Row>
 
     )
 }

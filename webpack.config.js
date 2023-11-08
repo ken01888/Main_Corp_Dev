@@ -50,11 +50,11 @@ const $FRONTEND = {
 
   plugins: [
     new NodePolyfillPlugin(),
-    new WorkboxWebpackPlugin.InjectManifest({
-      swSrc: "./src/service-worker.ts",
-      swDest: "service-worker.js",
-      maximumFileSizeToCacheInBytes: 50000000
-    }),
+    // new WorkboxWebpackPlugin.InjectManifest({
+    //   swSrc: "./src/service-worker.ts",
+    //   swDest: "service-worker.js",
+    //   maximumFileSizeToCacheInBytes: 50000000
+    // }),
     new HtmlWebpackPlugin({
       template: './Client/index.html', hash: false,
       favicon: './Client/favicon.ico',
@@ -65,7 +65,7 @@ const $FRONTEND = {
         'viewport': 'content=width=device-width, initial-scale=1',
         'description': 'KMC Inc provides a range of B2B services tailored to meet diverse business needs across various sectors. Our services include inventory management, nutritional analysis, business funding, lead generation, and more. We are committed to delivering personalized solutions to our clients while upholding standards of professionalism, reliability, and quality service. Additionally, we prioritize the wellbeing of stakeholders.',
         "theme-color": "#b4cbd4",
-        "facebook-domain-verification": "9b6a57vsw9o413dc81354hr667r63c"
+        "facebook-domain-verification": "hr1ncpfxe8yuk1tyvpcww99ucsobbi",
       },
 
 
@@ -73,9 +73,9 @@ const $FRONTEND = {
 
 
     new MiniCssExtractPlugin(),
-    // new InterpolateHtmlPlugin({
-    //   PUBLIC_URL: 'https://www.kcminc.io' // can modify `static` to another name or get it from `process`
-    // }),
+    new InterpolateHtmlPlugin({
+      PUBLIC_URL: 'https://www.kcminc.io' // can modify `static` to another name or get it from `process`
+    }),
     new WebpackManifestPlugin({
       seed: {
         short_name: "Kcm Inc",
@@ -105,7 +105,7 @@ const $FRONTEND = {
         prefer_related_applications: true,
         id:'/',
         scope:'https://www.kcminc.io/',
-        start_url:'/index.html'
+        start_url:'/'
       }
 
     }

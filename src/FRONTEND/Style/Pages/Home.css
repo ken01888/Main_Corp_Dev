@@ -8,7 +8,7 @@
 }
 
 .dividerHeader {
-    border: 5px solid var(--light_beige)
+    border: 5px solid var(--light_beige);
 }
 
 
@@ -70,7 +70,8 @@
 }
 
 .buttonBlack:hover {
-    background-color: var(--light_beige);
+    background-color: #fafafa;
+    text-decoration: 1px underline black;
     color: #000000;
 }
 
@@ -141,10 +142,12 @@
 
 
 
-.form_login{
+.form_login {
     padding: 1rem;
     border-radius: 5px;
-};
+}
+
+;
 
 
 
@@ -160,7 +163,7 @@
 
 
 
-.activeTag{
+.activeTag {
     background-color: var(--light_blue);
     color: var(--solid_black);
     border: 1px solid black;
@@ -168,44 +171,110 @@
 
 
 
-.alignCol{
+.alignCol {
     display: flex;
     align-items: center;
+    text-align: center;
+    margin-top: 5rem;
 }
 
-.alignColBigLogo{
+@media only screen and (max-width: 749px) {
+    .alignCol {
+        text-align: center;
+    }
+}
+
+.alignCol_1 {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 
-.missionSection{
+
+.alignColBigLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.missionSection {
     display: flex;
     align-items: center;
     flex-direction: column;
-    
+
 }
 
-.dbd{
+.dbd {
     font-weight: 900;
     text-decoration: 3px underline #b4cbd4;
 }
 
-.dbdMessage{
+.dbdMessage {
     background-color: #b4cbd463;
     border: 1px solid var(--light_grey);
 }
 
-.imageInventory{
+.imageInventory {
     border: 2px solid black;
     border-radius: 5px;
 }
 
-.alert{
-    background-color: var(--light_beige);
-    border: 1px solid var(--solid_black);
+.alert {
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    border-left: 5px solid var(--light_beige);
+    background: #e8dac250;
+    border-radius: 0px;
+    padding:5px
+
+}
+
+.alertBlue {
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    border-left: 5px solid var(--light_blue);
+    background: #b4cbd450;
+    border-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding:5px
+}
+.spanBlue {
+    background: #b4cbd450;
+    padding: 2px;
+    font-weight: 400;
+    font-size: 1rem;
+    padding:5px
+
 }
 
 
+.spanBlue {
+    background: #b4cbd450;
+    padding: 2px;
+    font-weight: 400;
+    font-size: 1rem;
+    padding:5px
 
+}
+
+.paragraphDescription {
+    font-size: 1rem;
+    padding-left: 1rem;
+}
+
+.spanBeige {
+    background: #E8DAC250;
+    padding: 2px;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.paragraphDescription {
+    font-size: 1rem;
+    padding-left: 1rem;
+}

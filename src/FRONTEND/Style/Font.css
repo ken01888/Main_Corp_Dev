@@ -2,7 +2,6 @@ h1 {
   flex-shrink: 0;
   width: auto;
   height: auto;
-  /* white-space: pre; */
   overflow: visible;
   position: relative;
   font-style: normal;
@@ -11,6 +10,7 @@ h1 {
   letter-spacing: -2.1px;
   line-height: 1.2;
   font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
+  font-size: 3rem;
 }
 
 @media only screen and (max-width: 749px) {
@@ -52,7 +52,7 @@ p {
   font-size: 1rem;
   line-height: 30px;
   font-family: 'Nunito';
-  font-weight: 500;
+  font-weight: 300;
 }
 
 @media only screen and (max-width: 749px) {
@@ -86,7 +86,11 @@ p {
   column-gap: 5px;
 }
 
-
+sub {
+  font-size: 1rem;
+  font-weight: 900;
+  border-bottom: 2px solid var(--light_beige);
+}
 
 
 
@@ -114,8 +118,13 @@ p {
 }
 
 .impactWord {
+  color: var(--light_beige);
   font-weight: 400;
-  color: var(--light_beige)
+}
+
+.impactWord2 {
+  font-weight: 400;
+  color: var(--light_blue)
 }
 
 .serviceOutline {}
@@ -167,22 +176,28 @@ p {
   font-weight: 800;
 }
 
+.columnWidth {
+  width: max-content
+}
+
 .columnBlue {
-  background: #b4cbd4;
+  background: #b4cbd45c;
+  width: max-content
 }
 
 .columnLightBlue {
   background: #b4cbd450;
-
+  width: max-content;
 }
 
 .columnBeige {
   background: var(--light_beige);
+  width: max-content
 }
 
 .columnLightBeige {
-  background: var(--light_beige);
-
+  background: #e8dac270;
+  width: max-content
 }
 
 .breadcrumbsForm {
@@ -195,4 +210,33 @@ p {
 .breadcrumbsForm>span {
   color: var(--light_blue);
   font-size: 8px;
+}
+
+.ant-tag {
+  font-weight: 500;
+}
+
+
+.inlineTextSpan {
+  font-weight: 800;
+  color: var(--solid_black);
+  border-left: 4px solid #b4cbd4;
+  padding: 3px;
+  border-radius: 0px;
+  font-size: 12px;
+  background: #b4cbd450;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.inlineTextSpanBiege {
+  font-weight: 300;
+  color: var(--solid_black);
+  border-left: 4px solid var(--light_beige);
+  padding: 3px;
+  border-radius: 0px;
+  font-size: 1rem;
+  font-family: Jost;
+  background: #E8DAC250;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
 }
