@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Dropdown, MenuProps, Alert, Row } from 'antd'
+import { Col, Form, ConfigProvider, Button, Modal, Select, Space, Input, InputNumber, Table, Drawer, QRCode, Tag, Dropdown, MenuProps, Alert, Row,Tooltip } from 'antd'
 import 'isomorphic-fetch';
 import { ColumnsType } from 'antd/es/table';
-import { DownOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
 import * as convert from 'convert-units'
+import { CheckSquare, DownloadSimple, HashStraight, PencilLine, Plus, QrCode, Syringe, TextT, UploadSimple } from '@phosphor-icons/react';
 
 
 interface DataType {
@@ -16,6 +16,7 @@ interface DataType {
     recommended_stock_level: number | string,
     price: number | string;
     price_per_gram: number | string;
+
 }
 
 
@@ -28,8 +29,8 @@ const StoreInventory: React.FC = (props) => {
     const [updateInventoryForm, setUpdateInventoryForm] = React.useState<any>(false)
     const [viewInventoryStore, setViewInventoryStore] = React.useState<boolean>(false)
     const [QRCodeGenerator, setQRCodeGenerator] = React.useState(false)
-    const [userId, setUserId] = React.useState()
-    const [userPin, setUserPin] = React.useState()
+    const [userId, setUserId] = React.useState(88)
+    const [userPin, setUserPin] = React.useState(12345)
     const [nutrition, setNutrition] = React.useState(false)
 
 
@@ -41,43 +42,43 @@ const StoreInventory: React.FC = (props) => {
 
     // Retrieve Inventory information from database
 
-    // React.useEffect(() => {
-    //     (
-    //         async () => {
+    React.useEffect(() => {
+        (
+            async () => {
 
-    //             const user: any = await window.localStorage.getItem('user')
-    //             const newUser = await JSON.parse(user)
-    //             setUserPin(newUser.pin)
-    //             setUserId(newUser.id)
-    //             const dataReply = await fetch('/getInventoryItems');
-    //             const newData = await dataReply.json();
-    //             setInventoryList(newData)
-    //         }
-    //     )()
-    // }, [])
+                const user: any = await window.localStorage.getItem('user')
+                const newUser = await JSON.parse(user)
+                // setUserPin(newUser.pin)
+                // setUserId(newUser.id)
+                const dataReply = await fetch('http://localhost:8080/getInventoryItems');
+                const newData = await dataReply.json();
+                setInventoryList(newData)
+            }
+        )()
+    }, [])
 
-    // React.useEffect(() => {
-    //     (
-    //         async () => {
+    React.useEffect(() => {
+        (
+            async () => {
 
-    //             const user: any = await window.localStorage.getItem('user')
-    //             const newUser = await JSON.parse(user)
-    //             setUserPin(newUser.pin)
-    //             setUserId(newUser.id)
-    //             const dataReply = await fetch('/getInventoryItems');
-    //             const newData = await dataReply.json();
+                const user: any = await window.localStorage.getItem('user')
+                const newUser = await JSON.parse(user)
+                setUserPin(newUser.pin)
+                setUserId(newUser.id)
+                const dataReply = await fetch('http://localhost:8080/getInventoryItems');
+                const newData = await dataReply.json();
 
-    //             setInventoryList(newData)
-    //         }
-    //     )()
+                setInventoryList(newData)
+            }
+        )()
 
-    // }, [viewInventoryStore, updateInventoryForm])
+    }, [viewInventoryStore, updateInventoryForm])
 
     /* Form Inventory Add*/
 
     const onAddInventoryItems = async (values: any) => {
 
-        const dataReply = await fetch('/insertNewInventoryItems', {
+        const dataReply = await fetch('http://localhost:8080/insertNewInventoryItems', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,6 +89,7 @@ const StoreInventory: React.FC = (props) => {
         const newData = await dataReply.json()
 
         setViewInventoryStore(!viewInventoryStore)
+
 
         addInventory.resetFields();
     };
@@ -111,7 +113,7 @@ const StoreInventory: React.FC = (props) => {
 
 
     const onDeleteInventoryItem = async () => {
-        const dataReply = await fetch('/deleteInventoryItems', {
+        const dataReply = await fetch('http://localhost:8080/deleteInventoryItems', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -145,7 +147,7 @@ const StoreInventory: React.FC = (props) => {
         }
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch('/updateInventoryItem', {
+        const dataReply = await fetch('http://localhost:8080/updateInventoryItem', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -158,7 +160,7 @@ const StoreInventory: React.FC = (props) => {
         if (dataParse.affectedRows === 1) {
             (
                 async () => {
-                    const dataReply_1 = await fetch('/getInventoryItems');
+                    const dataReply_1 = await fetch('http://localhost:8080/getInventoryItems');
                     const newData = await dataReply_1.json();
                     setInventoryList(newData)
                 }
@@ -172,7 +174,7 @@ const StoreInventory: React.FC = (props) => {
 
     const onAddInventoryNutritionInformation = async (values) => {
 
-        const dataReply = await fetch('/addNutritionInformation', {
+        const dataReply = await fetch('http://localhost:8080/addNutritionInformation', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -202,13 +204,10 @@ const StoreInventory: React.FC = (props) => {
 
     const onFinishFailed = (errorInfo: any) => {
         addInventory.resetFields();
-
         console.log('Failed:', errorInfo);
     };
-
     const onUpdateFinishFailed = (errorInfo: any) => {
         updateInventory.resetFields();
-
         console.log('Failed:', errorInfo);
     };
 
@@ -244,14 +243,65 @@ const StoreInventory: React.FC = (props) => {
 
     const columns: ColumnsType<DataType> = [
         {
+            title: 'Action',
+            render: (_, record: any) => {
+                if (record.id === selectedRowAction) {
+                    return (
+                        <ConfigProvider
+                        theme={{
+                            token: {
+                                colorPrimary: 'black',
+                                lineWidth: 1,
+                                fontFamily: 'Jost',
+                                fontSize: 14,
+                            },
+                        }}
+                    >
+                        <Dropdown menu={{ items }}>
+                            <Tooltip placement="topLeft" color='#849FD1' title={'Edit'}>
+                         
+                                <Button icon={<PencilLine size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' >
+                                </Button>
+                              
+                            </Tooltip>
+                         
+                        </Dropdown>
+                        </ConfigProvider>
+
+                    )
+                } else {
+                    return (
+                        ''
+                    )
+                }
+
+            }
+
+
+            ,
+        },
+        {
             title: 'Item',
             dataIndex: 'description',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+        },
+
+        {
+            title: 'Brand',
+            dataIndex: 'brand',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+
+        },
+        {
+            title: 'Supplier',
+            dataIndex: 'supplier',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
         },
         {
             title: 'Category',
             dataIndex: 'category',
 
+            sorter: (a: any, b: any) => a.category - b.category,
 
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             render: (_, record) => {
@@ -263,17 +313,7 @@ const StoreInventory: React.FC = (props) => {
 
 
         },
-        {
-            title: 'Supplier',
-            dataIndex: 'supplier',
-            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-        },
-        {
-            title: 'Brand',
-            dataIndex: 'brand',
-            responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
 
-        },
 
 
         {
@@ -326,32 +366,7 @@ const StoreInventory: React.FC = (props) => {
                 )
             }
         },
-        {
-            title: 'Action',
-            render: (_, record: any) => {
-                if (record.id === selectedRowAction) {
-                    return (
-                        <Dropdown menu={{ items }}>
-                            <Button>
-                                <Space>
-                                    Edit
-                                    <DownOutlined />
-                                </Space>
-                            </Button>
-                        </Dropdown>
 
-                    )
-                } else {
-                    return (
-                        ''
-                    )
-                }
-
-            }
-
-
-            ,
-        },
     ];
 
 
@@ -383,74 +398,52 @@ const StoreInventory: React.FC = (props) => {
             <Col xs={22} md={18}>
                 <Space wrap>
 
-                    <div className='clientPortalDiv'>
+                    <div className='clientSectionsFormat'>
+                        <div >
+                            <h1>Stock</h1>
+                            <Alert
+                                description="The Stock section is an essential tool for keeping track of and organizing your inventory. 
+                                    To add items, click on the Add button and complete the form.
+                                     Once you have entered the details, the item will appear in the table below. 
+                                     If you need to make any changes to an item or add nutritional information, 
+                                     simply check the item box to the left of the Action column to make your changes.
+                               "
+                                className='heroText'
+                            />
+                        </div>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+                                },
+                            }}
+                        >
+                            <Space className='spaceDivForButtonOnStockPage' size={[25, 25]}>
+                                <Tooltip placement="topLeft" color='#849FD1' title={'Add Item'}>
+                                    <Button icon={<Plus size={20} weight='bold' />} className='buttonFormBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}></Button>
+                                </Tooltip>
+                                <Tooltip placement="topLeft" color='#849FD1' title={'Audit Barcode'}>
 
-
-                        <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Stock</h1>
-                            </>} layout="vertical">
-                            <Descriptions.Item span={3}>
-                                <p>
-                                The Stock section is a vital tool for tracking and organizing inventory. To add items, click on the "Create" button and enter details from the packaging label. Once entered, the product will appear in a table at the bottom of the page. To make changes or add nutritional information, select the corresponding row in the table and use the "Edit" button. Keep your account PIN secure and share it only with trusted team members who regularly conduct audits.
-
-
-                                </p>
-
-
-                            </Descriptions.Item>
-
-                            <Descriptions.Item span={3}>
-
-                                <ConfigProvider
-                                    theme={{
-                                        token: {
-                                            fontFamily: 'Jost',
-                                            colorTextTertiary: 'black',
-                                            colorPrimaryHover: '#000000',
-                                            colorBgContainer: '#fafafa'
-                                        },
-                                    }}
-                                >
-                                    <Space wrap size={[25, 25]}>
-                                        <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Create</Button>
-                                        <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>Barcode</Button>
-                                    </Space>
-                                </ConfigProvider>
-
-
-
-                            </Descriptions.Item>
-
-
-
-                            <Descriptions.Item span={1}>
-
-
-                                <Alert
-                                    message={<h3>PPG</h3>}
-                                    description="Price Per Gram is the price you pay per gram of product."
-                                    type="warning"
-                                    className='alert'
-                                />
-
-                            </Descriptions.Item>
-
-
-                        </Descriptions>
-
-
-
-
-
+                                    <Button icon={<QrCode weight='bold' size={20} />} className='buttonFormBlack' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}></Button>
+                                </Tooltip>
+                            </Space>
+                        </ConfigProvider>
                     </div>
                     <div className='tableScrollDiv'>
                         <ConfigProvider
                             theme={{
-                                token: {
-                                    lineWidth: 1,
-                                    fontFamily: 'Jost',
-                                    fontSize: 14,
-                                },
+                                components: {
+                                    Table: {
+                                        lineWidth: 2,
+                                        fontFamily: 'Jost',
+                                        fontSize: 14,
+                                        rowSelectedHoverBg: '#fafafa',
+
+                                    },
+                                }
                             }}
                         >
                             <Table rowKey={(record: any) => record.id}
@@ -462,38 +455,31 @@ const StoreInventory: React.FC = (props) => {
                                 bordered />
                         </ConfigProvider>
                     </div>
-
-
-
-
                 </Space>
-
-
-
             </Col>
 
-
-
             {/* Nutrition Modal */}
-
             <Modal
-                title="Nutritional Label"
+                title={<h1 >Nutrient Details</h1>}
                 style={{ top: 10 }}
                 open={nutrition}
                 onCancel={() => setNutrition(!nutrition)}
                 footer={null}
             >
+                <Alert
+                    description="To ensure accurate inventory information, please add the nutritional information for each item.
+                                You can usually find this information on the back of the product's package, on the nutritional fact label.
+                               "
+                    className='heroText'
+                />
                 <Space wrap>
-                    <p>To ensure accurate inventory information, please add the nutritional information for each item.
-                        You can usually find this information on the back of the product's package, on the nutritional fact label.
-                    </p>
                     <Tag color="#000000">Food Fraud Warning</Tag>
-                    <p className='foodFraudWarning'>Economically motivated adulteration (EMA) is the intentional exclusion, removal, or substitution of a valuable ingredient or part of a food. Submitting false information is unlawful.</p>
-
+                    <Alert
+                        description="Economically motivated adulteration (EMA) is the intentional exclusion, removal, or substitution of a valuable ingredient or part of a food. Submitting false information is unlawful.
+                               "
+                        className='heroText'
+                    />
                 </Space>
-
-
-
                 <Form
                     name="Nutrition"
                     form={formNutrition}
@@ -501,50 +487,47 @@ const StoreInventory: React.FC = (props) => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='horizontal'
-                    size='small'
-
-
-
-
+                    size='middle'
                 >
                     <ConfigProvider
                         theme={{
                             token: {
-                                colorPrimary: 'black',
                                 colorPrimaryHover: '#fafafa',
-                                lineWidth: 2,
                                 fontFamily: 'Jost',
                                 fontSize: 14,
                             },
                         }}
                     >
-
-
                         <Form.Item label="Serving Size"
-
                         >
                             <Space.Compact>
-
                                 <Form.Item
                                     name={['serving_size', 'amount']}
                                     rules={[{ required: true, message: 'Enter serving size information' }]}
                                     initialValue={1}
-
-
-
-
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['serving_size', 'unit']}
                                     rules={[{ required: true, message: 'Enter serving size information' }]}
                                     initialValue={'g'}
-
-
                                 >
-                                    <Select style={{ width: 88 }}>
-
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                    >
                                         <Select.Option value="g">g</Select.Option>
                                     </Select>
                                 </Form.Item>
@@ -552,12 +535,16 @@ const StoreInventory: React.FC = (props) => {
                         </Form.Item>
                         <Form.Item label="Calories">
                             <Space.Compact>
-
                                 <Form.Item
                                     name={['calories', 'amount']}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['calories', 'unit']}
@@ -565,7 +552,17 @@ const StoreInventory: React.FC = (props) => {
 
                                 >
 
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="kcal">kcal</Select.Option>
 
                                     </Select>
@@ -580,7 +577,12 @@ const StoreInventory: React.FC = (props) => {
                                     name={['total_fat', 'amount']}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['total_fat', 'unit']}
@@ -589,11 +591,20 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -606,14 +617,29 @@ const StoreInventory: React.FC = (props) => {
                                     name={['saturated_fat', 'amount']}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['saturated_fat', 'unit']}
                                     initialValue={'g'}
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
@@ -631,7 +657,12 @@ const StoreInventory: React.FC = (props) => {
                                     initialValue={0}
 
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['trans_fat', 'unit']}
@@ -640,11 +671,20 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -657,17 +697,31 @@ const StoreInventory: React.FC = (props) => {
                                     name={['cholesterol', 'amount']}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['cholesterol', 'unit']}
                                     initialValue={'mg'}
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -685,7 +739,12 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['sodium', 'unit']}
@@ -694,11 +753,20 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -711,18 +779,32 @@ const StoreInventory: React.FC = (props) => {
                                     name={['carbohydrates', 'amount']}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['carbohydrates', 'unit']}
                                     initialValue={'g'}
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -735,18 +817,32 @@ const StoreInventory: React.FC = (props) => {
                                     name={['fiber', 'amount']}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['fiber', 'unit']}
                                     initialValue={'g'}
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -760,7 +856,12 @@ const StoreInventory: React.FC = (props) => {
                                     initialValue={0}
 
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['sugar', 'unit']}
@@ -768,7 +869,17 @@ const StoreInventory: React.FC = (props) => {
 
                                 >
 
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
 
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
@@ -791,7 +902,12 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['added_sugar', 'unit']}
@@ -800,11 +916,20 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -821,7 +946,12 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['protein', 'unit']}
@@ -830,11 +960,20 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -851,7 +990,12 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['calcium', 'unit']}
@@ -860,11 +1004,20 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -877,7 +1030,12 @@ const StoreInventory: React.FC = (props) => {
                                     initialValue={0}
 
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['iron', 'unit']}
@@ -886,11 +1044,20 @@ const StoreInventory: React.FC = (props) => {
 
 
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -903,17 +1070,31 @@ const StoreInventory: React.FC = (props) => {
                                     name={['potassium', 'amount']}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['potassium', 'unit']}
                                     initialValue={'mg'}
                                 >
-                                    <Select style={{ width: 88 }}>
+                                    <Select
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
+                                    >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
                                         <Select.Option value="g">g</Select.Option>
-
                                     </Select>
                                 </Form.Item>
                             </Space.Compact>
@@ -926,14 +1107,27 @@ const StoreInventory: React.FC = (props) => {
                                     name={['vitamin_d', 'amount']}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                                 </Form.Item>
                                 <Form.Item
                                     name={['vitamin_d', 'unit']}
                                     initialValue={'mcg'}
                                 >
                                     <Select
-                                        style={{ width: 88 }}
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+
                                     >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
@@ -948,7 +1142,14 @@ const StoreInventory: React.FC = (props) => {
                             label='Allergies'
                         >
                             <Select
-                                style={{ width: 120 }}
+                                style={{
+                                    border: '1px solid #4D4D4F',
+                                    borderRadius: '1.5px',
+                                    fontSize: 14,
+                                    width: 160
+                                }}
+                                variant='borderless'
+                                suffixIcon={<Syringe size={20} color="#849FD1" weight="bold" />}
                                 mode="tags"
                             >
                                 <Select.Option value="milk">Milk</Select.Option>
@@ -966,9 +1167,23 @@ const StoreInventory: React.FC = (props) => {
 
                         <Form.Item
                         >
-                            <Button htmlType="submit" className='buttonBlack' >
-                                Add Nutritional Information
-                            </Button>
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+                                    },
+                                }}
+                            >
+                                <Tooltip placement="right" color='#849FD1' title={'Save'}>
+
+                                    <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' ></Button>
+                                </Tooltip>
+                            </ConfigProvider>
+
+
                         </Form.Item>
 
                     </ConfigProvider>
@@ -984,7 +1199,8 @@ const StoreInventory: React.FC = (props) => {
 
 
             <Modal
-                title="Add items to stockpile "
+                title={<h1>
+                    Add Stock Item</h1>}
                 style={{ top: 10 }}
                 open={viewInventoryStore}
                 onCancel={() => setViewInventoryStore(!viewInventoryStore)}
@@ -998,7 +1214,7 @@ const StoreInventory: React.FC = (props) => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='vertical'
-                    size='small'
+                    size='middle'
 
 
 
@@ -1007,66 +1223,139 @@ const StoreInventory: React.FC = (props) => {
                     <ConfigProvider
                         theme={{
                             token: {
-                                colorPrimary: 'black',
-                                colorPrimaryHover: '#fafafa',
-                                lineWidth: 2,
+                                lineWidth: 1,
                                 fontFamily: 'Jost',
                                 fontSize: 14,
                             },
                         }}
                     >
-                        <p className='alertBlue'>Enter name the of manufacturer, packer, or distributor: The name of the company that produced the food product.</p>
-
+                        <Alert
+                            description="
+                      Input the name listed on the manufacturing label. This is the specific name that identifies your product.
+                      "
+                            type="warning"
+                            className='heroText'
+                        />
                         <Form.Item
-
-                            name="supplier"
-                            rules={[{ required: true, message: 'Enter the required information' }]}
+                            name="description"
+                            rules={[{ required: true, message: 'What is the name of the input product?' }]}
                         >
-                            <Input type='text' maxLength={25} showCount />
+                            <Input style={{
+                                border: '1px solid #4D4D4F',
+                                borderRadius: '1.5px',
+                                fontSize: 14,
+                                width: 325
+                            }} type='text' maxLength={25} placeholder="Name" showCount prefix={<TextT size={20} color="#849FD1" weight="bold" />} />
                         </Form.Item>
 
-                        <p className='alertBlue'>Enter the brand name of the item. Examples include Nike, Coca-Cola, Nestle, and Kellogg's.
-                        </p>
 
+                        <Alert
+                            description="
+                            Enter the brand name of the item. Examples include Nike, Coca-Cola, Nestle, Kellogg's, etc.
+                            "
+                            type="warning"
+                            className='heroText'
+                        />
                         <Form.Item
 
                             name="brand"
                             rules={[{ required: true, message: 'Enter the required information' }]}
 
                         >
-                            <Input type='text' maxLength={25} showCount />
+                            <Input style={{
+                                border: '1px solid #4D4D4F',
+                                borderRadius: '1.5px',
+                                fontSize: 14,
+                                width: 325
+                            }} type='text' placeholder="Brand" maxLength={25} showCount prefix={<TextT size={20} color="#849FD1" weight="bold" />} />
                         </Form.Item>
 
-                        <p className='alertBlue'>Enter the product name: The name of the food product or ingredient.
-                        </p>
+                        <Alert
+                            description="
+                            Enter the name of the manufacturer, supplier, or distributor - the company that produced the food product.
+                            "
+                            type="warning"
+                            className='heroText'
+                        />
+
                         <Form.Item
 
-                            name="description"
+                            name="supplier"
+                            rules={[{ required: true, message: 'Enter the required information' }]}
+                        >
+                            <Input style={{
+                                border: '1px solid #4D4D4F',
+                                borderRadius: '1.5px',
+                                fontSize: 14,
+                                width: 325
+                            }} type='text' placeholder="Supplier" prefix={<TextT size={20} color="#849FD1" weight="bold" />} />
+                        </Form.Item>
+
+
+                        <Alert
+                            description="
+                            Choose a category for the item you are adding. This will assist in grouping products with similar characteristics.
+                            "
+                            type="warning"
+                            className='heroText'
+                        />
+
+                        <Form.Item
+
+                            name="category"
                             rules={[{ required: true, message: 'Enter the required information' }]}
 
                         >
-                            <Input type='text' maxLength={25} showCount />
+                            <Select
+                                style={{
+                                    border: '1px solid #4D4D4F',
+                                    borderRadius: '1.5px',
+                                    fontSize: 14,
+                                    width: 325
+                                }}
+                                variant="borderless"
+                                suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                placeholder="Category"
+                            >
+                                <Select.Option value="Meat & Seafood">Meat & Seafood</Select.Option>
+                                <Select.Option value="Dairy & Eggs">Dairy & Eggs</Select.Option>
+                                <Select.Option value="Fruits & Vegetables">Fruits & Vegetables</Select.Option>
+                                <Select.Option value="Bakery & Bread">Bakery & Bread</Select.Option>
+                                <Select.Option value="Beverage">Beverage</Select.Option>
+                                <Select.Option value="Canned & Dry">Canned & Dry</Select.Option>
+                                <Select.Option value="Supplies & Equipment">Supplies & Equipment</Select.Option>
+                            </Select>
                         </Form.Item>
 
 
 
+                        <Alert
+                            description="
+                            Enter the net package weight. This is the amount of food in the package or shipment, measured in mass units.
+                            "
+                            type="warning"
+                            className='heroText'
+                        />
 
-                        <p className='alertBlue'>Enter the net package weight: The amount of food in the package, usually measured in weight or volume.
-                        </p>
                         <Form.Item
-
-                            label="Total Weight Per Case"
                         >
                             <Space.Compact>
+
                                 <Form.Item
 
                                     name={['total_package_weight', 'unit']}
                                     rules={[{ required: true, message: 'Enter the required information' }]}
                                     initialValue={0}
                                 >
-                                    <InputNumber min={0} />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }} placeholder="Amount" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
 
                                 </Form.Item>
+
                                 <Form.Item
 
                                     name={['total_package_weight', 'weight']}
@@ -1075,7 +1364,15 @@ const StoreInventory: React.FC = (props) => {
 
                                 >
                                     <Select
-                                        style={{ width: 120 }}
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 160
+                                        }}
+                                        variant="borderless"
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                        placeholder="Weight"
                                     >
                                         <Select.Option value="mcg">mcg</Select.Option>
                                         <Select.Option value="mg">mg</Select.Option>
@@ -1093,64 +1390,65 @@ const StoreInventory: React.FC = (props) => {
                             </Space.Compact>
 
                         </Form.Item>
-                        <p className='alertBlue'>Enter your Safety Stock:  is an additional quantity of a product that is stored in the warehouse to prevent running out of stock.
-                        </p>
+                        <Alert
+                            description="
+                            Enter your safety stock. Safety stock is the minimum quantity of an item stored in your stockpile to prevent shortages.
+                            "
+                            type="warning"
+                            className='heroText'
+                        />
+
+
                         <Form.Item
 
                             name="recommended_stock_level"
-                            tooltip='Average number of items to keep on hand.'
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber stringMode={true} min={0} step={5} type='number' />
+                            <InputNumber style={{
+                                border: '1px solid #4D4D4F',
+                                borderRadius: '1.5px',
+                                fontSize: 14,
+                                width: 325
+                            }} placeholder="Stock Level" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} step={5} type='number' />
                         </Form.Item>
-                        <p className='alertBlue'>Select a category for the item. This will help to group similar products together.
-                        </p>
-                        <Form.Item
 
-                            name="category"
-                            rules={[{ required: true, message: 'Enter the required information' }]}
 
-                        >
-                            <Select
-                                style={{ width: 200 }}
-                                options={[
-                                    {
-                                        options: [
-
-                                            { label: 'Meat & Seafood', value: 'meat & seafood' },
-                                            { label: 'Dairy & Eggs', value: 'dairy & eggs' },
-                                            { label: 'Fruits & Vegetables', value: 'Fruits & Vegetables' },
-                                            { label: 'Bakery & Bread', value: 'bakery & bread' },
-                                            { label: 'Beverage', value: 'beverage' },
-                                            { label: 'Canned & Dry', value: 'canned & dry' },
-                                            { label: 'Supplies & Equipment', value: 'suppliers & equipment' },
-
-                                        ],
-                                    }
-
-                                ]}
-                            />
-
-                        </Form.Item>
-                        <p className='alertBlue'>Please enter the purchasing price of the item. The purchasing price is the amount of money that the item costs to acquire from the supplier or manufacturer.
-                        </p>
-
+                        <Alert
+                            description="
+                            Enter the purchasing price of the item. The purchasing price is the amount of money that the item costs to acquire from the supplier or manufacturer.
+                            "
+                            type="warning"
+                            className='heroText'
+                        />
                         <Form.Item
 
                             name="price"
                             rules={[{ required: true, message: 'Enter the required information' }]}
                         >
-                            <InputNumber stringMode={true} min={0} step={5} type='number' />
+                            <InputNumber style={{
+                                border: '1px solid #4D4D4F',
+                                borderRadius: '1.5px',
+                                fontSize: 14,
+                                width: 325
+                            }} placeholder="Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} step={5} type='number' />
                         </Form.Item>
-
-
-
-
+                    </ConfigProvider>
+                    <ConfigProvider
+                        theme={{
+                            token: {
+                                fontFamily: 'Jost',
+                                colorTextTertiary: 'black',
+                                colorPrimaryHover: '#000000',
+                                colorBgContainer: '#fafafa'
+                            },
+                        }}
+                    >
                         <Form.Item
                         >
-                            <Button htmlType="submit" className='buttonBlack' >
-                                Add Item
-                            </Button>
+                            <Tooltip placement="right" color='#849FD1' title={'Save'}>
+
+                                <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' ></Button>
+                            </Tooltip>
                         </Form.Item>
                     </ConfigProvider>
                 </Form>
@@ -1159,14 +1457,21 @@ const StoreInventory: React.FC = (props) => {
             {/* Update Inventory Modal */}
 
             <Modal
-                title="Update Inventory Item"
+                title={<h1 >Modify Stock Item</h1>}
                 style={{ top: 20 }}
                 open={updateInventoryForm}
                 onCancel={() => setUpdateInventoryForm(!updateInventoryForm)}
                 footer={null}
-            >
 
-                <p>It is essential to enter this information accurately to ensure its proper usage. If you require any help with data entry, please reach out to our support team.</p>
+            >
+                <Alert
+                    description="
+                            To update any information associated with a previously submitted item, do so from this area. Make the necessary modifications to the item's details, such as the name, description, or price, and then click the Record  button to save your changes. Double-check all the information before submitting it again to ensure it's accurate and up-to-date.
+                            "
+                    type="warning"
+                    className='heroText'
+                />
+
 
                 {
                     selectedRow ?
@@ -1178,7 +1483,7 @@ const StoreInventory: React.FC = (props) => {
                             onFinishFailed={onUpdateFinishFailed}
                             autoComplete="on"
                             layout='horizontal'
-                            size='small'
+                            size='middle'
 
 
 
@@ -1186,86 +1491,144 @@ const StoreInventory: React.FC = (props) => {
                             <ConfigProvider
                                 theme={{
                                     token: {
-                                        colorPrimary: 'black',
                                         lineWidth: 1,
                                         fontFamily: 'Jost',
                                         fontSize: 14,
                                     },
                                 }}
                             >
+                                <Alert
+                                    description="
+                      Input the name listed on the manufacturing label. This is the specific name that identifies your product.
+                      "
+                                    type="warning"
+                                    className='heroText'
+                                />
+
                                 <Form.Item
-                                    label="Supplier"
-                                    name="supplier"
+
+                                    name="description"
                                 >
-                                    <Input type='text' maxLength={25} showCount />
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} type='text' placeholder="Name" maxLength={25} showCount prefix={<TextT size={20} color="#849FD1" weight="bold" />} />
                                 </Form.Item>
+                                <Alert
+                                    description="
+                            Enter the brand name of the item. Examples include Coca-Cola, Nestle, Kellogg's, etc.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
                                 <Form.Item
-                                    label="Brand"
                                     name="brand"
 
                                 >
-                                    <Input type='text' maxLength={25} showCount />
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} type='text' placeholder="Brand" maxLength={25} showCount prefix={<TextT size={20} color="#849FD1" weight="bold" />} />
                                 </Form.Item>
+
+                                <Alert
+                                    description="
+                            Enter the name of the manufacturer, supplier, or distributor - the company that produced the food product.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
+
                                 <Form.Item
-                                    label="Product"
-                                    name="description"
+
+                                    name="supplier"
                                 >
-                                    <Input type='text' maxLength={25} showCount />
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} type='text' placeholder="Supplier" maxLength={25} showCount prefix={<TextT size={20} color="#849FD1" weight="bold" />} />
                                 </Form.Item>
+
+                                <Alert
+                                    description="
+                            Choose a category for the item you are adding. This will assist in grouping products with similar characteristics.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
 
                                 <Form.Item
 
-                                    label="Inventory category"
+
                                     name="category"
                                 >
                                     <Select
-                                        style={{ width: 200 }}
-                                        options={[
-                                            {
-                                                options: [
-
-                                                    { label: 'Meat & Seafood', value: 'meat & seafood' },
-                                                    { label: 'Dairy & Eggs', value: 'dairy & eggs' },
-                                                    { label: 'Fruits & Vegetables', value: 'Fruits & Vegetables' },
-                                                    { label: 'Bakery & Bread', value: 'bakery & bread' },
-                                                    { label: 'Beverage', value: 'beverage' },
-                                                    { label: 'Canned & Dry', value: 'canned & dry' },
-                                                    { label: 'Supplies & Equipment', value: 'suppliers & equipment' },
-
-                                                ],
-                                            }
-
-                                        ]}
-                                    />
-
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 325
+                                        }}
+                                        variant='borderless'
+                                        suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                        placeholder="Category"
+                                    >
+                                        <Select.Option value="Meat & Seafood">Meat & Seafood</Select.Option>
+                                        <Select.Option value="Dairy & Eggs">Dairy & Eggs</Select.Option>
+                                        <Select.Option value="Fruits & Vegetables">Fruits & Vegetables</Select.Option>
+                                        <Select.Option value="Bakery & Bread">Bakery & Bread</Select.Option>
+                                        <Select.Option value="Beverage">Beverage</Select.Option>
+                                        <Select.Option value="Canned & Dry">Canned & Dry</Select.Option>
+                                        <Select.Option value="Supplies & Equipment">Supplies & Equipment</Select.Option>
+                                    </Select>
                                 </Form.Item>
+
+                                <Alert
+                                    description="
+                            Enter the net package weight. This is the amount of food in the package or shipment, measured in mass units.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
+
                                 <Form.Item
 
-                                    label="Safety Stock"
-                                    name="recommended_stock_level"
-                                    tooltip='Preferred inventory to keep on hand.'
-                                >
-                                    <InputNumber stringMode={true} min={0} step={5} type='number' />
-                                </Form.Item>
-                                <Form.Item
-
-                                    label="Total Weight Per Case"
                                 >
                                     <Space.Compact>
                                         <Form.Item
 
                                             name={['total_package_weight', 'unit']}
                                         >
-                                            <InputNumber min={0} />
+                                            <InputNumber style={{
+                                                border: '1px solid #4D4D4F',
+                                                borderRadius: '1.5px',
+                                                fontSize: 14,
+                                                width: 160
+                                            }} placeholder="Amount" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
 
                                         </Form.Item>
+
                                         <Form.Item
 
                                             name={['total_package_weight', 'weight']}
 
                                         >
                                             <Select
-                                                style={{ width: 120 }}
+                                                style={{
+                                                    border: '1px solid #4D4D4F',
+                                                    borderRadius: '1.5px',
+                                                    fontSize: 14,
+                                                    width: 160
+                                                }}
+                                                variant='borderless'
+                                                suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                                placeholder="Unit"
                                             >
                                                 <Select.Option value="mcg">mcg</Select.Option>
                                                 <Select.Option value="mg">mg</Select.Option>
@@ -1277,60 +1640,106 @@ const StoreInventory: React.FC = (props) => {
                                                 <Select.Option value="t">t</Select.Option>
                                             </Select>
                                         </Form.Item>
-
-
-
                                     </Space.Compact>
-
                                 </Form.Item>
 
 
-
+                                <Alert
+                                    description="
+                            Enter your safety stock. Safety stock is the minimum quantity of an item stored in your stockpile to prevent shortages.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
                                 <Form.Item
 
-                                    label="Price"
+                                    name="recommended_stock_level"
+
+                                >
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} placeholder="Safety Stock" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} step={5} type='number' />
+                                </Form.Item>
+                                <Alert
+                                    description="
+                            Enter the purchasing price of the item. The purchasing price is the amount of money that the item costs to acquire from the supplier or manufacturer.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
+
+                                <Form.Item
                                     name="price"
-
                                 >
-                                    <InputNumber min={0} step={5} type='number' />
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} placeholder="Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} step={5} type='number' />
                                 </Form.Item>
 
                                 <Form.Item
                                 >
-                                    <Button htmlType="submit" className='buttonBlack' >
+                                    <ConfigProvider
+                                        theme={{
+                                            token: {
+                                                fontFamily: 'Jost',
+                                                colorTextTertiary: 'black',
+                                                colorPrimaryHover: '#000000',
+                                                colorBgContainer: '#fafafa'
+                                            },
+                                        }}
+                                    >
+                                        <Form.Item
+                                        >
+                                            <Tooltip placement="right" color='#849FD1' title={'Save'}>
 
-                                        Update
-                                    </Button>
+                                                <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' ></Button>
+                                            </Tooltip>
+                                        </Form.Item>
+                                    </ConfigProvider>
                                 </Form.Item>
                             </ConfigProvider>
                         </Form> : ''
                 }
 
             </Modal>
-            <Drawer title="Inventory QRCode" placement="right" onClose={() => { setQRCodeGenerator(!QRCodeGenerator) }} open={QRCodeGenerator}
+            <Drawer title={<h1>Barcode</h1>} placement="right" onClose={() => { setQRCodeGenerator(!QRCodeGenerator) }} open={QRCodeGenerator}
 
-                extra={
+            >
+                <div id="myqrcode">
+                    <Alert
+                        description="
+                            We provide two convenient ways to access your inventory auditing system. The first option is to download the QR code and display it in a visible location, such as your office or employee area. The second option is to copy the link we provide below. To download the QR code, simply click on the Download button. 
+                            "
+                        type="warning"
+                        className='heroText'
+                    />
+
+                    <QRCode value={`https://www.kcminc.io/inventorycheck?business_id=${userId}`} bgColor="#fff" style={{ marginBottom: 16 }} />
+
+                    <p>Your Account Pin: <span>{userPin}</span></p>
+                    <p>Auditing System Link: <span><a href={`/inventorycheck?business_id=${userId}`} target='_blank'>{`/inventorycheck?business_id=${userId}`}</a></span></p>
                     <ConfigProvider
                         theme={{
                             token: {
-                                colorPrimary: 'black',
-                                lineWidth: 1,
                                 fontFamily: 'Jost',
-                                fontSize: 14,
+                                colorTextTertiary: 'black',
+                                colorPrimaryHover: '#000000',
+                                colorBgContainer: '#fafafa'
                             },
                         }}
                     >
-                        <Button htmlType='button' className='buttonBlackDrawer' onClick={downloadQRCode}>
-                            Download
-                        </Button>
+                        <Tooltip placement="right" color='#849FD1' title={'Download'}>
+
+                            <Button icon={<DownloadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' ></Button>
+                        </Tooltip>
                     </ConfigProvider>
 
-                }>
-                <div id="myqrcode">
-                    <p>To access your inventory record system, we offer two options. The first is to download the QR code and display it in a convenient location, such as your office or employee area. Alternatively, you can copy the link we provide. We advise that you only share your account <Tag color="#000000">PIN</Tag> with trusted team members for conducting regular inventory audits. This <Tag color="#000000">PIN</Tag> associates your checklist with your account. </p>
-                    <QRCode value={`https://www.kcminc.io/inventorycheck?business_id=${userId}`} bgColor="#fff" style={{ marginBottom: 16 }} />
-                    <p>Your Account Pin: <span>{userPin}</span></p>
-                    <p>Access Your Inventory Tracking Page: <span><a href={`/inventorycheck?business_id=${userId}`} target='_blank'>View Page</a></span></p>
 
 
                 </div>

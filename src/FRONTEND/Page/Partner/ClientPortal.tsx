@@ -5,6 +5,8 @@ import { FileTextOutlined, FolderOpenOutlined, FolderOutlined, UserOutlined } fr
 import 'isomorphic-fetch';
 import { ClientMenu } from '../Components/Navigation/ClientMenu'
 import { NavLink, Outlet } from 'react-router-dom'
+import { ArrowFatLeft } from '@phosphor-icons/react';
+import { motion } from 'framer-motion';
 
 
 
@@ -13,122 +15,139 @@ const ClientPortal: React.FC = () => {
     const [subInventory, setSubInventory] = React.useState(false);
 
 
-    React.useEffect(() => {
-        const user: any = window.localStorage.getItem('user')
-        const newUser = JSON.parse(user)
-        delete newUser.id
-        delete newUser.access_token
-        const newUserArray = Object.entries(newUser)
-        setBusinessName(newUser.business_name)
-    }, [])
+    // React.useEffect(() => {
+    //     const user: any = window.localStorage.getItem('user')
+    //     const newUser = JSON.parse(user)
+    //     delete newUser.id
+    //     delete newUser.access_token
+    //     const newUserArray = Object.entries(newUser)
+    //     setBusinessName(newUser.business_name)
+    // }, [])
 
 
     return (
 
         <Layout>
-
-            <Header className='ClientPortalHeader'>
-                <ClientMenu businessName={businessName} />
-            </Header>
             <Layout >
                 <Content >
 
                     <Row className='ClientPortal' gutter={[0, 75]}>
                         <Col xs={22} md={3} className='ClientSideItems'>
-                            <NavLink
-                                to={`account`}
-                                className='clientMenuItem'
-                                style={({ isActive, isPending }) => {
-                                    return {
-                                        fontWeight: isActive ? "bold" : "",
-                                    };
-                                }}
-                            >
-                                <UserOutlined />Account
-                            </NavLink>
 
-                            <NavLink
-                                onClick={() => setSubInventory(!subInventory)}
-                                to={`bolamanual`}
+                            <Space style={{ marginBottom: 25 }}>
+                                <motion.div className='logo'>
 
-                                className='clientMenuItem'
-                                style={({ isActive, isPending }) => {
+                                    <div style={{ height: 'fit-content' }}>
+                                        <div className='logoBlue'></div>
+                                        <div className='logoBeige'></div>
+                                    </div>
+                                    <div style={{ height: 'fit-content' }}>
+                                        <div className='logoBeige'></div>
+                                        <div className='logoBlue'></div>
 
-                                    return {
-                                        fontWeight: isActive ? "bold" : "",
-                                    };
-                                }}
-                            >
-                                {subInventory ? <FolderOpenOutlined size={16} /> : <FolderOutlined size={16} />}BOLA
-                            </NavLink>
-                            {
-                                subInventory ?
+                                    </div>
 
-                                    <Space wrap size={[55, 0]}>
-                                        <NavLink
-                                            to={`store`}
-                                            className='clientMenuItem'
-                                            style={({ isActive, isPending }) => {
-                                                return {
-                                                    fontWeight: isActive ? "bold" : "",
-                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+                                </motion.div>
+                            </Space>
+
+                            <Space wrap size={[0, 25]}>
+
+                                <NavLink
+                                    to={`account`}
+                                    className='clientMenuItem'
+                                    style={({ isActive, isPending }) => {
+                                        return {
+                                            fontWeight: isActive ? "bold" : "",
+                                            backgroundColor: isActive ? '#E8DAC2' : "",
+                                        };
+                                    }}
+                                >
+                                    <UserOutlined />Account
+                                </NavLink>
+
+                                <NavLink
+                                    onClick={() => setSubInventory(!subInventory)}
+                                    to={`bolamanual`}
+
+                                    className='clientMenuItem'
+                                    style={({ isActive, isPending }) => {
+
+                                        return {
+                                            fontWeight: isActive ? "bold" : "",
+                                            backgroundColor: isActive ? '#E8DAC2' : "",
+                                        };
+                                    }}
+                                >
+                                    {subInventory ? <FolderOpenOutlined size={16} /> : <FolderOutlined size={16} />}BoLA
+                                </NavLink>
+                                {
+                                    subInventory ?
+
+                                        <Space  wrap size='large'>
+                                            <NavLink
+                                                to={`store`}
+                                                className='clientMenuItem'
+                                                style={({ isActive, isPending }) => {
+                                                    return {
+                                                        fontWeight: isActive ? "bold" : "",
+                                                        backgroundColor: isActive ? '#E8DAC2' : "",
 
 
-                                                };
-                                            }}
-                                        >
-                                            <FileTextOutlined />Stock
-                                        </NavLink>
 
-                                        <NavLink
-                                            to={`products`}
-                                            className='clientMenuItem'
-                                            style={({ isActive, isPending }) => {
-                                                return {
-                                                    fontWeight: isActive ? "bold" : "",
-                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
-                                                };
-                                            }}
+                                                    };
+                                                }}
+                                            >
+                                                Stock
 
-                                        >
-                                            <FileTextOutlined />Design
-                                        </NavLink>
-                                        <NavLink
-                                            to={`nutrition`}
-                                            className='clientMenuItem'
-                                            style={({ isActive, isPending }) => {
-                                                return {
-                                                    fontWeight: isActive ? "bold" : "",
-                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
-                                                };
-                                            }}
 
-                                        >
-                                            <FileTextOutlined />Nutrition
-                                        </NavLink>
-                                        <NavLink
-                                            to={`inventoryaudits`}
-                                            className='clientMenuItem'
-                                            style={({ isActive, isPending }) => {
-                                                return {
-                                                    fontWeight: isActive ? "bold" : "",
-                                                    backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                    textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
-                                                };
-                                            }}
+                                            </NavLink>
 
-                                        >
-                                            <FileTextOutlined />Audit
-                                        </NavLink>
+                                            <NavLink
+                                                to={`products`}
+                                                className='clientMenuItem'
+                                                style={({ isActive, isPending }) => {
+                                                    return {
+                                                        fontWeight: isActive ? "bold" : "",
+                                                        backgroundColor: isActive ? '#E8DAC2' : "",
+                                                    };
+                                                }}
 
-                                    </Space>
+                                            >
+                                                Design
+                                            </NavLink>
+                                            <NavLink
+                                                to={`nutrition`}
+                                                className='clientMenuItem'
+                                                style={({ isActive, isPending }) => {
+                                                    return {
+                                                        fontWeight: isActive ? "bold" : "",
+                                                        backgroundColor: isActive ? '#E8DAC2' : "",
+                                                    };
+                                                }}
 
-                                    : ''
-                            }
+                                            >
+                                                Nutrition
+                                            </NavLink>
+                                            <NavLink
+                                                to={`inventoryaudits`}
+                                                className='clientMenuItem'
+                                                style={({ isActive, isPending }) => {
+                                                    return {
+                                                        fontWeight: isActive ? "bold" : "",
+                                                        backgroundColor: isActive ? '#E8DAC2' : "",
+                                                    };
+                                                }}
 
+                                            >
+                                                Audit
+                                            </NavLink>
+
+                                        </Space>
+
+                                        : ''
+                                }
+
+                            </Space>
 
                         </Col>
 

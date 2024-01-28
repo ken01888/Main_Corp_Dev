@@ -5,10 +5,9 @@ h1 {
   overflow: visible;
   position: relative;
   font-style: normal;
-  color: var(--token-b9c3c957-2c66-49c4-9732-fa196fddac20, #001122);
+  color: var(--light_grey);
   font-size: 3.25rem;
   letter-spacing: -2.1px;
-  line-height: 1.2;
   font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
   font-size: 3rem;
 }
@@ -37,22 +36,22 @@ h2 {
   /* white-space: pre; */
   overflow: visible;
   position: relative;
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal;
   color: var(--token-b9c3c957-2c66-49c4-9732-fa196fddac20, #001122);
-  font-size: 2.25rem;
-  letter-spacing: .25px;
-  line-height: 1.2;
+  font-size: 2rem;
   font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
+  width: fit-content;
+
 }
 
 
 
 p {
   font-size: 1rem;
-  line-height: 30px;
   font-family: 'Nunito';
-  font-weight: 300;
+  font-weight: 500;
+  align-items: center;
 }
 
 @media only screen and (max-width: 749px) {
@@ -61,6 +60,35 @@ p {
     line-height: 30px;
   }
 }
+
+h3{
+  font-family: Jost;
+  font-size: 1.25rem;
+  letter-spacing: -.0012em;
+  line-height: 30px;
+  margin-bottom: 0;
+  color: var(--light_grey);
+  font-weight: 500;
+}
+
+
+.BigTextBackGroundBlue{
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  position: relative;
+  font-style: normal;
+  color: var(--white-gray);
+  font-size: 3.25rem;
+  letter-spacing: -2.1px;
+  font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
+  font-size: 3rem;
+  padding: 5px;
+  background: var(--light_blue);
+  text-align: center;
+}
+
 
 
 
@@ -136,7 +164,7 @@ sub {
   justify-content: space-between;
 }
 
-.serviceOutline>p {
+.utilityFormDescriptiveText {
   font-size: .875rem;
 
 }
@@ -212,31 +240,138 @@ sub {
   font-size: 8px;
 }
 
-.ant-tag {
-  font-weight: 500;
-}
+
 
 
 .inlineTextSpan {
-  font-weight: 800;
+  font-weight: 900;
   color: var(--solid_black);
-  border-left: 4px solid #b4cbd4;
-  padding: 3px;
-  border-radius: 0px;
-  font-size: 12px;
-  background: #b4cbd450;
-  border-bottom-right-radius: 2px;
-  border-top-right-radius: 2px;
-}
-.inlineTextSpanBiege {
-  font-weight: 300;
-  color: var(--solid_black);
-  border-left: 4px solid var(--light_beige);
   padding: 3px;
   border-radius: 0px;
   font-size: 1rem;
-  font-family: Jost;
-  background: #E8DAC250;
+  background: var(--light_blue);
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  color: var(--white-gray);
+}
+
+.inlineTextSpanBiege {
+  font-weight: 900;
+  color: var(--solid_black);
+  padding: 3px;
+  border-radius: 0px;
+  font-size: 1rem;
+  font-family: Nunito;
+  background: var(--light_beige);
   border-bottom-right-radius: 2px;
   border-top-right-radius: 2px;
 }
+
+
+.underlineSpan {
+  text-decoration: 1px solid underline;
+}
+
+.spaceDivForButtonOnStockPage {
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.inputforProducts {
+  color: black;
+  border: 1px solid #d9d9d9;
+  padding: 0px 5px;
+  border-radius: 2.5px;
+  font-weight: 600;
+  background: #b4cbd450;
+  display: flex;
+  justify-content: center;
+}
+
+.inputforProducts:hover {
+  color: black;
+  border: 1px solid #000000;
+}
+
+.anchorLinks {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--solid_black);
+  width: auto;
+  font-family: Jost;
+  padding: 2.5px;
+  color: var(--light_grey);
+}
+
+.anchorLinks:hover {
+
+ text-decoration:  underline solid var(--light_grey);
+color:var(--light_grey)
+}
+
+
+
+
+.formLoginH1{
+  padding: 20px 24px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    margin: 1rem 0rem;
+    background: var(--light_beige);
+    text-align: center;
+
+}
+
+
+.popoverFont{
+width:300px;
+font-size:.875rem
+}
+
+.oil{
+  color: var(--light_blue);
+}
+
+
+.sectionH1ColorBlueAlert{
+    color: var(--light_grey);
+    border-bottom: 2.5px solid var(--light_blue);
+    width: fit-content;
+    text-align: justify;
+
+}
+
+.sectionH1ColorBeigeAlert{
+  color: var(--light_grey);
+  border-bottom: 2.5px solid var(--light_beige);
+  width: fit-content;
+
+}
+
+.LightBlueDiv{
+  background-color: var(--white-gray);
+  color: var(--light_grey);
+  border: 1px solid var(--light_blue);
+  border-radius: 1.5px;
+  font-weight: 500;
+  padding: 1.5px 2.5px;
+  margin: 0px 2.25px;
+  font-size: 14px;
+  font-family: Jost;
+  text-align: justify;
+
+};
+
+.formItem{
+  border: '1px solid #4D4D4F';
+  border-radius: 1.5px;
+  font-size: 14
+}
+
+.keyLifeDriversSpan{
+  background: var(--light_beige);
+    padding: 1px;
+    border: 2px solid var(--light_grey);
+    border-radius: 2.5px;
+}
+

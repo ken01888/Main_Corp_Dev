@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Tag, Dropdown, MenuProps, Popconfirm, Drawer, QRCode, Row } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Tag, Dropdown, MenuProps, Popconfirm, Drawer, QRCode, Row, Alert, Tooltip } from 'antd'
 import 'isomorphic-fetch';
 import { ColumnsType } from 'antd/es/table';
 import { DownOutlined, MinusCircleOutlined, PlusOutlined, QrcodeOutlined } from '@ant-design/icons';
 import * as convert from 'convert-units'
+import { QrCode } from '@phosphor-icons/react';
 
 
 interface DataType {
@@ -56,7 +57,7 @@ const Products: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`/getRecipeProduct`);
+                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -86,7 +87,7 @@ const Products: React.FC = (props) => {
 
 
     const itemDelete = async () => {
-        const dataReply = await fetch(`/deleteProduct`, {
+        const dataReply = await fetch(`http://localhost:8080/deleteProduct`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -94,7 +95,7 @@ const Products: React.FC = (props) => {
             body: JSON.stringify([selectedRowAction])
         });
         const newResponse = await dataReply.json()
-        const deleteResponse = await fetch(`/getRecipeProduct`);
+        const deleteResponse = await fetch(`http://localhost:8080/getRecipeProduct`);
         const newData = await deleteResponse.json();
         setInventoryList(newData)
 
@@ -335,7 +336,6 @@ const Products: React.FC = (props) => {
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             render: (_, record) => {
                 const totalCalories = Math.floor(Number((Number(record.saturated_fat) / Number(record.total_weight)) * Number(record.serving_size) * Number(record.units)))
-
                 return (
 
                     (Number(totalCalories) / 20 * 100).toFixed(0)
@@ -343,8 +343,6 @@ const Products: React.FC = (props) => {
                 )
             }
         },
-
-
         {
             title: 'Trans Fat',
             dataIndex: 'trans_fat',
@@ -356,7 +354,6 @@ const Products: React.FC = (props) => {
                     Math.floor(Number((Number(record.trans_fat) / Number(record.total_weight)) * Number(record.serving_size) * Number(record.units))) + ' g'
                 )
             }
-
         },
         {
             title: 'Cholesterol ',
@@ -377,11 +374,7 @@ const Products: React.FC = (props) => {
 
             render: (_, record) => {
                 return (
-
                     '	300 mg'
-
-
-
                 )
             }
         },
@@ -751,11 +744,7 @@ const Products: React.FC = (props) => {
 
             render: (_, record) => {
                 return (
-
                     '	20 mcg'
-
-
-
                 )
             }
         },
@@ -773,7 +762,7 @@ const Products: React.FC = (props) => {
             }
         },
 
-        
+
     ];
 
 
@@ -799,79 +788,69 @@ const Products: React.FC = (props) => {
 
         <Row justify={'center'} gutter={[0, 75]} >
 
-        
-        <Col xs={22} md={18}>
-            <Space wrap>
 
-                <div className='clientPortalDiv'>
+            <Col xs={22} md={18}>
+                <Space wrap>
+                    <div className='clientSectionsFormat'>
+                        <div >
+                            <h1>Nutrition</h1>
 
+                            <Alert
+                                description="The Nutrition section provides information on nutrients in products made using the Design page, similar to traditional product packaging. By comparing nutrient content to recommended Daily Values, users can make informed decisions about their diet and health. To use, locate your product name, check serving size, modify nutrient content, and download a barcode or URL for customers to access nutritional information. Place the barcode or URL in a visible location for easy access to essential information about nutrient composition."
+                                type="warning"
+                                className='heroText'
+                            />
+                        </div>
 
-                    <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Nutrition</h1>
-                        </>} layout="vertical">
-                        <Descriptions.Item span={3}>
-                            <p>
-                            The Nutrition section provides information on nutrients in products made using the Design page, similar to traditional product packaging. By comparing nutrient content to recommended Daily Values, users can make informed decisions about their diet and health. To use, locate your product name, check serving size, modify nutrient content, and download a barcode or URL for customers to access nutritional information. Place the barcode or URL in a visible location for easy access to essential information about nutrient composition.
-                            </p>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+                                },
+                            }}
+                        >
+                            <Tooltip placement="topLeft" color='#849FD1' title={'Download Nutrition Barcode'}>
 
-                        </Descriptions.Item>
-                      
-                        <Descriptions.Item span={3}>
+                                <Button icon={<QrCode weight='bold' size={20} />} className='buttonFormBlack' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}></Button>
+                            </Tooltip>
 
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-                                    },
-                                }}
-                            >
-                                <Space wrap size={[25, 25]}>
-                                    <Button icon={<QrcodeOutlined />} className='buttonBeige' onClick={() => setQRCodeGenerator(!QRCodeGenerator)}>Barcode</Button>
-                                </Space>
-                            </ConfigProvider>
-                        </Descriptions.Item>
-
-
-                    </Descriptions>
-
-
-
-
-
-                </div>
-                <div className='tableScrollDiv'>
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                lineWidth: 1,
-                                fontFamily: 'Jost',
-                                fontSize: 14,
-                            },
-                        }}
-                    >
-                        <Table
-                            scroll={{ x: '-webkit-fill-available' }}
-                            rowKey={(record: any) => record.id}
-                            // rowSelection={rowSelection}
-                            columns={columns}
-                            dataSource={InventoryList}
-                            pagination={{ pageSize: 10 }}
-                            bordered />
-                    </ConfigProvider>
-                </div>
+                        </ConfigProvider>
+                    </div>
+                    <div className='tableScrollDiv'>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    lineWidth: 1,
+                                    fontFamily: 'Jost',
+                                    fontSize: 14,
+                                },
+                            }}
+                        >
+                            <Table
+                                scroll={{ x: '-webkit-fill-available' }}
+                                rowKey={(record: any) => record.id}
+                                // rowSelection={rowSelection}
+                                columns={columns}
+                                dataSource={InventoryList}
+                                pagination={{ pageSize: 10 }}
+                                bordered />
+                        </ConfigProvider>
+                    </div>
 
 
 
 
-            </Space>
+                </Space>
 
-        </Col>
-            <Drawer title="Inventory QRCode" placement="right" onClose={() => { setQRCodeGenerator(!QRCodeGenerator) }} open={QRCodeGenerator}
-
-                extra={
+            </Col>
+            <Drawer title="Inventory QRCode" placement="right" onClose={() => { setQRCodeGenerator(!QRCodeGenerator) }} open={QRCodeGenerator}>
+                <div id="myqrcode">
+                    <p> Click the download button to save your a digital QRCode to your device. The file can be added to instore or online view points for customer access.</p>
+                    <QRCode value={`https://www.kcminc.io/nutrients?business_id=${userId}`} bgColor="#fff" style={{ marginBottom: 16 }} />
+                    <p>Access your Nutritional Fact Panel: <span><a href={`/nutrients?business_id=${userId}`} target='_blank'>View Page</a></span></p>
                     <ConfigProvider
                         theme={{
                             token: {
@@ -882,17 +861,11 @@ const Products: React.FC = (props) => {
                             },
                         }}
                     >
-                        <Button htmlType='button' className='buttonBlackDrawer' onClick={downloadQRCode}>
-                            Download
-                        </Button>
+                        <Tooltip placement="topLeft" color='#849FD1' title={'Download'}>
+                            <Button icon={<QrCode weight='bold' size={20} />} className='buttonFormBlack' onClick={() => {downloadQRCode}}></Button>
+                        </Tooltip>
+               
                     </ConfigProvider>
-
-                }>
-                <div id="myqrcode">
-                    <p> Click the download button to save your a digital QRCode to your device. The file can be added to instore or online customer view points for information access.</p>
-                    <QRCode value={`https://www.kcminc.io/nutrients?business_id=${userId}`} bgColor="#fff" style={{ marginBottom: 16 }} />
-                    <p>Access your Nutritional Fact Panel: <span><a href={`/nutrients?business_id=${userId}`} target='_blank'>View Page</a></span></p>
-
 
                 </div>
             </Drawer>

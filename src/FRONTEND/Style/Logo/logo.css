@@ -5,6 +5,13 @@
 
 }
 
+.logoBigPressRelease{
+    display: flex;
+    gap: 2.5px;
+    align-items: center;
+
+}
+
 
 
 .logoBlue{
@@ -50,30 +57,27 @@
 .biglogoBlue {
     box-sizing: border-box;
     flex-shrink: 0;
-    width: 150px;
-    height: 150px;
+    width: 75px;
+    height: 75px;
+    background-color: var(--light_blue);
     overflow: hidden;
     position: relative;
-    border-radius: 5px;
+    border-radius: 50%;
+    border: 1px solid var(--Black, #000000);
     margin: 2px 0px;
     justify-content: center;
     align-items: center;
     font-size: 1.25rem;
     text-align: center;
     display: flex;
-    font-weight: 200;
-    flex-direction: column;
-    border: 1px solid #d9d9d9;
-    background: #fafafa;
-    margin: 15px;
-
+    font-weight: 900;
 }
 
 .biglogoBeige{
     box-sizing: border-box;
     flex-shrink: 0;
-    width: 150px;
-    height: 150px;
+    width: 75px;
+    height: 75px;
     background-color: var(--light_beige);
     overflow: hidden;
     position: relative;
@@ -92,8 +96,8 @@
 .iconsmalllogoBeige{
     box-sizing: border-box;
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     background-color: var(--light_beige);
     overflow: hidden;
     position: relative;
@@ -112,8 +116,8 @@
 .iconsmalllogoBlue{
     box-sizing: border-box;
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     background-color: var(--light_blue);
     overflow: hidden;
     position: relative;
@@ -127,5 +131,13 @@
     display:flex;
     font-weight: 900;
 }
+
+.logoForm{
+    display: flex;
+    gap: 2.5px;
+    align-items: center;
+    justify-content: center;
+}
+
 
 

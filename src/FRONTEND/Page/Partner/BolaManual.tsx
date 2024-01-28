@@ -38,56 +38,41 @@ const Overview: React.FC = (props) => {
 
 
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Overview</h1>
+                            title={<><h1>Overview: Bite of Life Analytics (BoLA)</h1>
                             </>} layout="vertical">
                             <Descriptions.Item span={3}>
-                                <p>
-                                    <span className='inlineTextSpanBiege'>Bite of Life Analytics (BoLA)</span> is a comprehensive tool designed to help businesses improve the health of
-                                    their customers and communities. BoLA provides valuable insights into daily
-                                    operations and the health implications of the food served to people.
-                                    In this overview, we will discuss BoLA's features in detail to help
-                                    you better understand its functionalities.
-                                </p>
-
+                       
+                                <Alert
+                                    description="
+                                    Bite of Life Analytics (BoLA) is a comprehensive tool designed to help businesses improve the health of their customers and communities. BoLA provides valuable insights into your daily operations and the nutritional impact of the food people consume. In this overview, we will look at BoLA's features in detail to help you better understand its functionalities.
+                                    "
+                                    type="warning"
+                                    className='heroText'
+                                />
 
                             </Descriptions.Item>
                         </Descriptions>
 
 
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Stock</h1>
+                            title={<><h1>Stock</h1>
                             </>}
                             layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
 
-                                    The <span className='inlineTextSpanBiege'>Stock</span> area is a vital tool for tracking and organizing your inventory.
-                                    It forms the foundation of your product development process, enabling you to input and monitor items in your stockpile.
-                                    You can update your stock anytime to ensure that you always have accurate and up-to-date information.
-                                </p>
-
-
-                            </Descriptions.Item>
-
-                            <Descriptions.Item span={3}>
-                                <p>
-
-                                    To add items to your stockpile , simply click on the "Create" button and enter the information available on the packaging label.
-                                    After you have entered all the required details, the product will appear in a table at the bottom of the page. If you need to make any
-                                    changes or add nutritional information, simply select the corresponding row in the table, click the "Edit" button located under the "Action"
-                                    column and modify the necessary fields. Please note you can only edit one row at a time.
-
-
+                                    The <span className='inlineTextSpanBiege'>Stock</span> section is a vital tool for tracking and organizing your inventory. Think of it as the launchpad for creating nutrient-rich meals. It’s simple to input and monitor items in your stockpile so you always have accurate and up-to-date information.
 
                                 </p>
 
 
                             </Descriptions.Item>
+
 
                             <Descriptions.Item span={3}>
 
                                 <Alert
-                                    message={<h3>How to use</h3>}
+                                    message={<h3>How to Use the <span>Stock</span> Tool</h3>}
                                     type="warning"
                                     className='alertBlue'
                                 />
@@ -101,7 +86,8 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>1</span> To add items to your stockpile, click on the "Create" button and enter the information available on the packaging label.
+                                <p><span className='spanBlue'>1</span> To add items to your stockpile, simply click the <span className='inlineTextSpan'>Add</span> button and enter the information found on the packaging label.
+
                                 </p>
 
                             </Descriptions.Item>
@@ -109,7 +95,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>2</span> Once you have entered all the required details, click the "Add Item" button, the product will then appear in the table on the page.
+                                <p><span className='spanBlue'>2</span> Once you have entered all the required details, click the <span className='inlineTextSpan'>Add Item</span> button and the stock item will appear in the table on the page.
                                 </p>
 
                             </Descriptions.Item>
@@ -117,7 +103,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>3</span> To make any changes or add nutritional information, check the box located to the left of an item, click the "Edit" button located under the "Action" column, select the action and modify the necessary fields.
+                                <p><span className='spanBlue'>3</span> To make any changes or add nutritional information, check the box located to the left of an item, click the <span className='inlineTextSpan'>Edit</span> button under the <span className='inlineTextSpanBiege'>Action</span> column, select the action and modify the necessary fields.
                                 </p>
 
                             </Descriptions.Item>
@@ -125,7 +111,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>4</span> Click the "Barcode" button to download a QR code for onsite inventory audits or follow the provided URL to access your audit portal.
+                                <p><span className='spanBlue'>4</span> Click the <span className='inlineTextSpan'>Controller</span> button to download a QR code for onsite inventory audits or follow the provided URL to access your auditing portal.
                                 </p>
 
                             </Descriptions.Item>
@@ -134,7 +120,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>5</span> Remember to keep your account PIN secure and only share it with trusted team members who regularly conduct audits.
+                                <p><span className='spanBlue'>5</span> Remember to keep your account <span className='inlineTextSpan'>PIN</span> secure and only share it with trusted team members.
                                 </p>
 
                             </Descriptions.Item>
@@ -157,36 +143,18 @@ const Overview: React.FC = (props) => {
 
 
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Design</h1>
+                            title={<><h1 >Design</h1>
                             </>}
                             layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
-                                    In the <span className='inlineTextSpanBiege'>Design</span>  area,
-                                    you can merge items from your stockpile that were previously added
-                                    on the Stock page to create whole products. This step is fundamental
-                                    in the BoLA process as it enables you to measure various metrics such as
-                                    cost, waste, sales, and nutrient payload. The nutritional metrics are
-                                    accessible from the "Nutrition" area, which can be found in the navigation window.
+                                    The <span className='inlineTextSpanBiege'>Design</span> tool allows you to combine items from the Stock section to create whole products . This is an important step in the BoLA process as it helps you track various metrics like cost, waste, sales, and nutrient payloads.
                                 </p>
 
 
                             </Descriptions.Item>
 
-                            <Descriptions.Item span={3}>
-                                <p>
 
-                                    Start designing your products by clicking the Create button and completing the form.
-                                    A new record will populate in the table below when all data is submitted.
-                                    To edit, check the box to the left of the "Name" column and modify the corresponding row.
-                                    Please note you can only edit one row at a time.
-
-
-
-                                </p>
-
-
-                            </Descriptions.Item>
 
                             <Descriptions.Item span={3}>
 
@@ -205,7 +173,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>1</span> To start designing your product, click on the "Create" button.
+                                <p><span className='spanBlue'>1</span> To start designing your product, click on the <span className='inlineTextSpan'>Create</span> button.
                                 </p>
 
                             </Descriptions.Item>
@@ -214,6 +182,7 @@ const Overview: React.FC = (props) => {
 
 
                                 <p><span className='spanBlue'>2</span> A popup window will appear, prompting you to enter the necessary information.
+
                                 </p>
 
                             </Descriptions.Item>
@@ -221,7 +190,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>3</span> Enter all the required details, and click "Submit" to save your information.
+                                <p><span className='spanBlue'>3</span> Enter all the required details, and click <span className='inlineTextSpan'>Submit</span> to save your information.
                                 </p>
 
                             </Descriptions.Item>
@@ -237,7 +206,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>5</span> To modify inputs or ingredients, navigate to the "Inputs" column. Click on the number in the box next to the ingredient whose weight you want to modify. A pop-up window will appear. Use the window to adjust the ingredient weight as needed.
+                                <p><span className='spanBlue'>5</span> To modify inputs or ingredients, navigate to the <span className='inlineTextSpan'>Input</span> column. Click on the number in the box next to the ingredient whose weight you want to modify. A pop-up window will appear. Use the window to adjust the ingredient weight as needed.
 
                                 </p>
 
@@ -247,7 +216,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>6</span> Once you have made the necessary changes, click "Submit" to save your information and review the updates on the table.
+                                <p><span className='spanBlue'>6</span> Once you have made the necessary changes, click <span className='inlineTextSpan'>Submit</span> to save your information and review the updates on the table.
                                 </p>
 
                             </Descriptions.Item>
@@ -270,7 +239,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Name:</span>  is a unique identifier given to an item in your design portfolio. Customers will use this to reference product details either online or by scanning a barcode.
+                                <p><span className='spanBlue'>Name:</span>  a unique identifier given to an item in your design portfolio. Customers will use this to reference product details either online or by scanning a barcode.
                                 </p>
 
                             </Descriptions.Item>
@@ -278,7 +247,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Cost:</span> is the amount of money  that must be spent to produce a product based on its ingredient. It excludes expenses such as labor and overhead.
+                                <p><span className='spanBlue'>Cost:</span> the amount of money  that must be spent to produce a product based on its ingredient. It excludes expenses such as labor and overhead.
                                 </p>
 
                             </Descriptions.Item>
@@ -324,7 +293,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Units Produced:</span> is the number of units available for sale, calculated by dividing the "Total Yield" by the "Yields Per Unit".
+                                <p><span className='spanBlue'>Units Produced:</span> the number of units available for sale, calculated by dividing the "Total Yield" by the "Yields Per Unit".
                                 </p>
 
                             </Descriptions.Item>
@@ -341,7 +310,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Unit Waste:</span> is the number of units not produced due to imbalances in "Yield Per Unit" and "Units Per Sale," typically 0 or 1.
+                                <p><span className='spanBlue'>Unit Waste:</span> the number of units not produced due to imbalances in "Yield Per Unit" and "Units Per Sale," typically 0 or 1.
                                 </p>
 
                             </Descriptions.Item>
@@ -349,7 +318,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Total Sales Cycle:</span> is the expected number of sales transactions.
+                                <p><span className='spanBlue'>Total Sales Cycle:</span>  the expected number of sales transactions.
                                 </p>
 
                             </Descriptions.Item>
@@ -357,7 +326,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Retail Weight:</span> is the total weight delivered to a customer, calculated by multiplying the Yields Per Unit by the Units Per Sale.
+                                <p><span className='spanBlue'>Retail Weight:</span>  the total weight delivered to a customer, calculated by multiplying the Yields Per Unit by the Units Per Sale.
                                 </p>
 
                             </Descriptions.Item>
@@ -365,7 +334,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Cost Per Sale:</span> is the total cost of a single sales cycle.
+                                <p><span className='spanBlue'>Cost Per Sale:</span>  the total cost of a single sales cycle.
                                 </p>
 
                             </Descriptions.Item>
@@ -373,7 +342,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Price Per Sale:</span> is the amount paid by a customer in a single transaction cycle.
+                                <p><span className='spanBlue'>Price Per Sale:</span>  the amount paid by a customer in a single transaction cycle.
                                 </p>
 
                             </Descriptions.Item>
@@ -381,7 +350,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>Return on Sale:</span> is the profit you make per sale. It is calculated by subtracting the "Cost Per Sale" from the "Price Per Sale".
+                                <p><span className='spanBlue'>Return on Sale:</span>  the profit you make per sale. It is calculated by subtracting the "Cost Per Sale" from the "Price Per Sale".
 
                                 </p>
 
@@ -407,25 +376,16 @@ const Overview: React.FC = (props) => {
 
 
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Nutrition</h1>
+                            title={<><h1 >Nutrition</h1>
                             </>}
                             layout="vertical">
-                             <Descriptions.Item span={3}>
-                            <p>
-                            The Nutrition section provides detailed information about the nutrients present in the products created using the Design page. This information is similar to what is normally provided on traditional product packaging. It includes the nutrient composition of the product, which is then compared to the Daily Values (DVs) recommended by the FDA.
+                            <Descriptions.Item span={3}>
+                                <p>
+                                    The <span className='inlineTextSpanBiege'>Nutrition</span> is an essential tool to gain detailed insights into the nutrient composition of your products. With this tool, you can easily compare the total nutrient levels in your products to the FDA-recommended Daily Values (DVs) while getting detailed nutrient readouts. You can customize the nutrient readout according to your needs, tailor your product's nutritional value to meet the unique requirements of a specific population group and share the information with the public through a downloadable QR code or link.
 
+                                </p>
 
-                            </p>
-
-                        </Descriptions.Item>
-                        <Descriptions.Item span={3}>
-                            <p>
-                            By comparing the nutrient content of different food products to their respective DVs, you can ensure that the nutrient levels are within a healthy range by making necessary adjustments. The DVs always appear on food labels and serve as a reference point for comparing the nutrient content of different food products. This way, you can easily determine the nutrient composition of the food product you are interested in, and make informed decisions about your diet and health.
-
-
-                            </p>
-
-                        </Descriptions.Item>
+                            </Descriptions.Item>
 
 
 
@@ -446,7 +406,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>1</span> Go to the "Design" page and locate your product's name in the first column of the table.
+                                <p><span className='spanBlue'>1</span> Go to the <span className='inlineTextSpan'>Nutrition</span>  page and locate your product's name in the first column of the table.
                                 </p>
 
                             </Descriptions.Item>
@@ -470,7 +430,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>4</span> Modify your product's nutrient content by making changes on the "Design" page.
+                                <p><span className='spanBlue'>4</span> Modify your product's nutrient content by making changes on the <span className='inlineTextSpan'>Nutrition</span> page.
                                 </p>
 
                             </Descriptions.Item>
@@ -478,7 +438,7 @@ const Overview: React.FC = (props) => {
 
 
 
-                                <p><span className='spanBlue'>5</span> When you are done with the modifications, click on the "Barcode" button to download a barcode or retrieve the URL link.
+                                <p><span className='spanBlue'>5</span> When you are done with the modifications, click on the <span className='inlineTextSpan'>Nutrition</span> button to download a barcode or use the provided URL link.
 
                                 </p>
 
@@ -492,165 +452,56 @@ const Overview: React.FC = (props) => {
                                 </p>
 
                             </Descriptions.Item>
-
-
-
-
-
-
-
-
-
-
-
                         </Descriptions>
 
 
                         <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Audit</h1>
+                            title={<><h1 >Audit</h1>
                             </>}
                             layout="vertical">
                             <Descriptions.Item span={3}>
                                 <p>
-
-                                    The <span className='inlineTextSpanBiege'>Audit</span>  is an essential tool for keeping track of your inventory. It allows you to view the results of previous manual inventory checks and monitor your costs and purchases. To access the tool, simply click on the "Select Date" option, and the dates when previous audits were submitted will be highlighted with a beige background. To review a specific audit, select the date and access the information.
-
-
+                                The <span className='inlineTextSpanBiege'>Audit</span> is a tool that can help you manage your inventory more efficiently. It helps you keep track of the results of previous manual inventory checks, allowing you to monitor your costs and purchases. You can access the physical stock counts conducted by your team members in real-time, giving you better visibility into your inventory’s stockpile.
 
                                 </p>
-
-                             
-
                             </Descriptions.Item>
 
                             <Descriptions.Item span={3}>
-                    
-                                <p>
-
-                                    The table will display each item that was recorded during the auditing session, along with its description, availability, and purchasing amounts. The purchasing amount is the difference between the "Stock Level" you provided on the "Stock" page and the actual availability. If you need to make any changes to the availability, purchasing and audit date, or remove an item from the day's audit, simply click the box located in the first column. Once you have made all the necessary changes, click the reset button to update the calendar and view all the changes that you have made.
-
-
-                                </p>
-
-
-                            </Descriptions.Item>
-
-
-
-                            <Descriptions.Item span={3}>
-
                                 <Alert
                                     message={<h3>How to use</h3>}
                                     type="warning"
                                     className='alertBlue'
                                 />
-
-                                {/* <p>1. To add items to your stockpile, click on the "Create" button and enter the information available on the packaging label.
-                                </p> */}
-
                             </Descriptions.Item>
-
                             <Descriptions.Item span={3}>
-
-
-
                                 <p><span className='spanBlue'>1</span> Click on the "Select Date" option located on the Audit page.
                                 </p>
-
                             </Descriptions.Item>
                             <Descriptions.Item span={3}>
-
-
-
                                 <p><span className='spanBlue'>2</span> The dates of previous audits will be highlighted in beige.
                                 </p>
-
                             </Descriptions.Item>
                             <Descriptions.Item span={3}>
-
-
-
                                 <p><span className='spanBlue'>3</span> Select the date you wish to review and access the information.
                                 </p>
-
                             </Descriptions.Item>
                             <Descriptions.Item span={3}>
-
-
-
                                 <p><span className='spanBlue'>4</span> The table will display each item that was recorded during the auditing session, along with its description, availability, and purchasing amounts.
                                 </p>
-
                             </Descriptions.Item>
                             <Descriptions.Item span={3}>
-
-
-
                                 <p><span className='spanBlue'>5</span> Review the table and make any necessary changes to the availability, purchasing and audit date, or remove an item from the day's audit by clicking the box located in the first column.
-
                                 </p>
-
                             </Descriptions.Item>
 
                             <Descriptions.Item span={3}>
-
-
-
                                 <p><span className='spanBlue'>6</span> Once you have made all the necessary changes, click the reset button to update the calendar and view all the changes that you have made.
                                 </p>
-
                             </Descriptions.Item>
-
-
-
-
-
-
-
-
-
-
-
                         </Descriptions>
-
-
-
-
-
-
-
                     </div>
-
-
-
-
-
                 </Space>
-
-
-
             </Col>
-
-
-
-            {/* Nutrition Modal */}
-
-
-
-
-
-
-
-            {/* Create Inventory Modal */}
-
-
-
-
-            {/* Update Inventory Modal */}
-
-
-
-
         </Row>
 
     )

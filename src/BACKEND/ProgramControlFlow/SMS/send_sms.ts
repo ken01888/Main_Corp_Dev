@@ -17,7 +17,7 @@ export function MessageResponseFromHomePage(name:string,phone?:string[]| any,ema
     
   
         sms.messages.create({
-            body: `From Kcm Inc\n\nDear ${name.toLocaleUpperCase()}, Thank you for contacting Kcm Inc. Rest assured that our support team will promptly respond to your inquire. Click here to signup for an account:\nhttps://www.kcminc.io/signup.`,
+            body: `From Kcm Inc\n\nDear ${name.toLocaleUpperCase()}, Thank you for contacting Kcm Inc. Rest assured that our support team will promptly respond to your inquire.`,
             from: process.env.TWILIO_PHONE,
             messagingServiceSid: process.env.TWILIO_MESSAGE_SERVICE,
             shortenUrls: true,

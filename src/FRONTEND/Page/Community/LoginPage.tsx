@@ -1,12 +1,11 @@
-import { Col, Divider, Form, Input, Layout, Row, ConfigProvider, Alert, Button, Space, Tag, Image } from 'antd';
-import { Content, Footer, Header } from 'antd/es/layout/layout';
+import { Col, Form, Input, Layout, Row, ConfigProvider, Alert } from 'antd';
+import { Content, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import Main_Menu from '../Components/Navigation/Main_Menu';
-import { CheckOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import 'antd/dist/reset.css';
-import { TwitterLogo, MetaLogo, LinkedinLogo, Heartbeat, ChartBar, Leaf, Wall, CursorClick, HandPointing, Cursor, Wrench, Package, Toolbox, CoinVertical } from "@phosphor-icons/react";
+import Menu from '../Components/Navigation/Main_Menu'
+import { Fingerprint, At } from "@phosphor-icons/react";
+import { motion } from 'framer-motion';
 
 
 
@@ -19,13 +18,11 @@ import { TwitterLogo, MetaLogo, LinkedinLogo, Heartbeat, ChartBar, Leaf, Wall, C
 const LogIn: React.FC = () => {
   let [verified, setVerified] = React.useState(false);
 
-
-
   const navigate = useNavigate()
-  document.title = 'Kcm Inc Stakeholder Intelligence Corporation'
+  document.title = 'Login'
 
   const onFinish = async (values: any) => {
-    let newData = await fetch('/login_verification', {
+    let newData = await fetch('http://localhost:8080/login_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -56,130 +53,116 @@ const LogIn: React.FC = () => {
     <Layout className='layout'>
       <Header className='header'>
 
-        <Main_Menu />
+        <Menu />
+
       </Header>
 
       <Layout className='homeScreenDesktop'>
-
         <Content >
-          <Space wrap size={[0, 250]}>
 
-            <Row justify={'space-around'} gutter={[0, 75]} >
-          
-            <Col xs={22} md={12}>
-                                <h2 style={{ display: 'flex' }} className='footer_h1'>
-                                    <motion.div className='logo'>
-
-                                        <div style={{ height: 'fit-content' }}>
-                                            <div className='logoBlue'></div>
-                                            <div className='logoBeige'></div>
-                                        </div>
-                                        <div style={{ height: 'fit-content' }}>
-                                            <div className='logoBeige'></div>
-                                            <div className='logoBlue'></div>
-
-                                        </div>
-                                    </motion.div>Kcm Inc
-                                </h2>
-                <motion.div className='form_login'>
+          <Row justify={'center'} align={'middle'} gutter={[0, 16]} className='sectionHeaderOther'>
+            <Col >
+              <h3>
+                Login
+              </h3>
+            </Col>
+          </Row>
+          <Row justify={'center'} align={'middle'} gutter={[0, 16]} style={{ marginTop: '6rem' }} >
+            <Col xs={{ span: 22 }} md={{ span: 8 }} >
 
 
-                  <h1>Login</h1>
+              <Form
+                name="basic"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="on"
+                layout='vertical'
+                size='middle'
+                className='formStyles'
+              >
+                <span>
+                  <motion.div className='logo'>
+                    <div style={{ height: 'fit-content' }}>
+                      <div className='logoBlue'></div>
+                      <div className='logoBeige'></div>
+                    </div>
+                    <div style={{ height: 'fit-content' }}>
+                      <div className='logoBeige'></div>
+                      <div className='logoBlue'></div>
+                    </div>
+                  </motion.div>
+                  <h3>Login</h3>
+                </span>
+                <Alert
+                  description={
+                    'To login, enter your username and password. Contact support, from the main menu , if you have trouble logging in. By proceeding, you agree to our Terms of Service and Privacy Policy and to receive communications from us.'
+                  }
+                  type="warning"
+                  className='heroText'
+                />
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: 'black',
+                      lineWidth: 1,
+                      fontFamily: 'Jost',
+                      fontSize: 16,
+                    },
+                  }}
+                >
 
-                  <p>To access your account, please enter the username and password you used during registration.
-                    If you experience any difficulties logging in, please get in touch with our <Link to='/support'><Tag className='activeTag'>support</Tag></Link> center for assistance.
-                  </p>
-                  <Divider className='dividerHeader'></Divider>
-                  <Form
-                    name="basic"
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="one"
-                    layout='horizontal'
-                    size='large'
+                  <Form.Item
+                    name="email"
+                    rules={[{ required: true, message: 'Enter your email address to access your account' }]}
+                  >
+                    <Input style={{
+                      border: '1px solid #4D4D4F',
+                      borderRadius: '1.5px',
+                      fontSize: 14
+                    }} type='text' placeholder="Email Address" maxLength={45} showCount prefix={<At size={20} color="#849FD1" weight="fill" />} />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="password"
+                    rules={[{ required: true, message: 'Enter your password to access your account' }]}
 
                   >
-                   
-                      <Form.Item
+                    <Input.Password style={{
+                      border: '1px solid #4D4D4F',
+                      borderRadius: '1.5px',
+                      fontSize: 14
+                    }} placeholder="Password" maxLength={25} showCount prefix={<Fingerprint size={20} color="#849FD1" weight="fill" />} />
 
-                        label="Enter your email"
-                        name="email"
-                        rules={[{ required: true, message: 'Enter your email address to access your account' }]}
-                      >
-                        <Input type='text' maxLength={45} showCount />
+                  </Form.Item>
 
-                      </Form.Item>
+                  <Form.Item
+                  >
+                    <button type="submit" className='buttonFormBeige'>
+                      Enter
+                    </button>
+                  </Form.Item>
+                </ConfigProvider>
+              </Form>
 
-                      <Form.Item
-                        label='Enter your password'
-                        name="password"
-                        rules={[{ required: true, message: 'Enter your password to access your account' }]}
-                      >
-                        <Input.Password />
-                      </Form.Item>
+              {
+                verified ?
+                  <Alert
+                    description={<p>We could not verify your email or password. Please try again. If you do not have an account, <span><a href='/support' className='anchorLinks'>Sign up here</a></span></p>}
 
-                      <Alert
-                        message="Notice"
-                        description="By proceeding, you agree to our terms of service and privacy policy and consent to receiving communications from the network. "
-                        type="warning"
-                        className='alert'
-                      />
-
-
-                      <Form.Item
-                      >
-                        <Button className='buttonBlack' htmlType="submit">
-                          Enter
-                        </Button>
-                      </Form.Item>
-                  </Form>
-
-
-                  {
-                    verified ? <Alert
-                      message={<span>We could not verify your email or password. Please try again. If you do not have an account,<a href='/signup'>register here</a>.</span>}
-                      type="error"
-                      closeIcon
-                    /> : ''
-                  }
-                </motion.div>
-
-              </Col>
-
-
-
-            </Row>
-
-
-            
-            
-
-          
-            
-
-
-           
-
-
-
-
-            
-
-
-
-          </Space>
-
-
-
-
-
-
+                    type="error"
+                  />
+                  : ''
+              }
+            </Col>
+          </Row>
 
         </Content>
       </Layout>
 
-   
+
+
+
 
 
     </Layout>)

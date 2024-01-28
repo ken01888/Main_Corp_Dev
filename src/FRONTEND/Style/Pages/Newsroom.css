@@ -1,0 +1,36 @@
+.iconBiege{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid var(--light_grey);
+    background: var(--light_beige);
+    height: 250px;
+    width: 250px;
+    border-radius: 31rem;
+}
+
+.blurbText{
+    border-radius: 0px;
+    font-style: italic;
+    background-color: white;
+    border: none;
+    margin-bottom: 1rem;
+    color: black;
+}
+
+.blurbText:hover{
+    border-radius: 0px;
+    font-style: italic;
+    background-color: white;
+    border: none;
+    margin-bottom: 1rem;
+    color: black;
+    text-decoration: 5px underline var(--light_beige);
+    font-weight: 500;
+    font-style: italic;
+}
+
+.articleDiv{
+    display: flex;
+    column-gap: 0.5rem;
+}

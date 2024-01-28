@@ -15,6 +15,7 @@ router.get('/getInventoryItems', async (req: any, res) => {
 });
 
 router.post('/insertNewInventoryItems', async (req: any, res) => {
+
     req.body.business_id = req.cookies.user.id
     const weightGrams = convert(req.body.total_package_weight.unit).from(req.body.total_package_weight.weight).to('g')
     req.body.price_per_gram = Number(req.body.price / weightGrams).toFixed(4)

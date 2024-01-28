@@ -18,6 +18,11 @@ import NutritionalFactPanel from './FRONTEND/Page/Partner/NutritionalFactPanel';
 import NutritionalInformation from './FRONTEND/Page/Partner/QRCode/NutritionalInformation';
 import LogIn from './FRONTEND/Page/Community/LoginPage';
 import BolaManual from './FRONTEND/Page/Partner/BolaManual';
+import AboutUs from './FRONTEND/Page/Community/AboutUs';
+import Newsroom from './FRONTEND/Page/Community/Newsroom';
+import EPMP_PR from './FRONTEND/Page/Community/EPMP_PressRelease';
+import BOLA_Overview from './FRONTEND/Page/Community/BOLA_Overview';
+import ML from './FRONTEND/MachineLearning/ML';
 
 const App = createBrowserRouter([
   {
@@ -26,90 +31,115 @@ const App = createBrowserRouter([
 
   },
   {
-    path: "/login",
-    element: <LogIn />,
+    path: "/aboutus",
+    element: <AboutUs />,
 
   },
-
   {
-    path: "privacypolicy",
+    path: "/privacypolicy",
     element: <PrivacyPolicy />,
 
   },
-
   {
-    path: "signup",
-    element: <Registration />,
-
-  },
-
-  {
-    path: "support",
+    path: "/support",
     element: <ContactSupport />,
 
   },
 
-
   {
-    path: "termsofservice",
+    path: "/termsofservice",
     element: <LegalService />,
 
   },
   {
-    path: "nutrients",
-    element: <NutritionalInformation />,
+    path: "/bola_overview",
+    element: <BOLA_Overview />,
 
   },
   {
-    path: "inventorycheck",
-    element: <InventoryCheck />,
+    path: "/login",
+    element: <LogIn />,
 
   },
+  // {
+  //   path: "/newsroom",
+  //   element: <Newsroom />,
 
-  {
-    path: "store",
-    element: <StoreInventory />,
-
-  },
-
-
-
+  // },
 
 
 
   {
-    path: "account",
+    path: "/signup",
+    element: <Registration />,
+
+  },
+
+
+
+  // {
+  //   path: "nutrients",
+  //   element: <NutritionalInformation />,
+
+  // },
+  // {
+  //   path: "inventorycheck",
+  //   element: <InventoryCheck />,
+
+  // },
+
+  // {
+  //   path: "store",
+  //   element: <StoreInventory />,
+
+  // },
+  // {
+  //   path: "EPMP_PR",
+  //   element: <EPMP_PR />,
+
+  // },
+
+
+
+
+
+
+
+
+
+  {
+    path: "/account",
 
     element: <PrincipleAccountDetails />,
   },
   {
-    path: "store",
+    path: "/store",
     element: <StoreInventory />,
 
   },
   {
-    path: "inventoryaudits",
+    path: "/inventoryaudits",
     element: <InventoryAudit />,
 
   },
   {
-    path: "products",
+    path: "/products",
     element: <Products />,
 
   },
   {
-    path: "nutrition",
+    path: "/nutrition",
     element: <NutritionalFactPanel />,
 
   },
 
-  // {
-  //   path: '/principle',
-  //   element: <ClientPortal />
-  // },
+  {
+    path: '/principle',
+    element: <ClientPortal />
+  },
 
     {
-      path: 'bolamanual',
+      path: '/bolamanual',
       element: <BolaManual />
     },
 

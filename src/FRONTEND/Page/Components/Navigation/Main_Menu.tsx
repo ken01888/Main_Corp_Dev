@@ -1,10 +1,13 @@
-import { Col, Row, RadioChangeEvent, DrawerProps, Drawer, Button, Space, Form, Input, ConfigProvider } from 'antd';
+import { Col, Row, RadioChangeEvent, DrawerProps, Drawer, Button, Space, Form, Input, ConfigProvider, Dropdown } from 'antd';
 import * as React from 'react';
 
 import { motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { MenuFoldOutlined, MenuUnfoldOutlined, QrcodeOutlined } from '@ant-design/icons'
+import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined, } from '@ant-design/icons'
+import type { MenuProps } from 'antd';
+import { ChatCircleDots, ChatsCircle, DotsThreeCircleVertical, DotsThreeOutline, DotsThreeOutlineVertical, Envelope, EnvelopeSimple, Headset, UserCircle } from "@phosphor-icons/react";
+
 
 
 
@@ -23,16 +26,71 @@ const Main_Menu = () => {
         setOpen(false);
     };
 
+    const items: MenuProps['items'] = [
+        {
+            key: '1',
+            label: 'Health',
+            children: [
+                {
+                    key: '1-1',
+                    label: (<a href='/bola_overview'>Bite of Life Analytics (BoLA)</a>),
+                },
 
-    const OnSuccessFullyLogin = (values: any) => {
-        navigate(`/clientportal/${values.email}`)
-    }
+            ],
+        },
+        // {
+        //     key: '2',
+        //     label: 'Wealth',
+        //     disabled: true,
+        //     children: [
+        //         {
+        //             key: '2-1',
+        //             label: '3rd menu item',
+        //         },
+        //         {
+        //             key: '2-2',
+        //             label: '4th menu item',
+        //         },
+        //     ],
+        // },
+        // {
+        //     key: '3',
+        //     label: 'Housing',
+        //     disabled: true,
+        //     children: [
+        //         {
+        //             key: '3-1',
+        //             label: '5d menu item',
+        //         },
+        //         {
+        //             key: '3-2',
+        //             label: '6th menu item',
+        //         },
+        //     ],
+        // },
+        // {
+        //     key: '4',
+        //     label: 'Learning',
+        //     disabled: true,
+        //     children: [
+        //         {
+        //             key: '3-1',
+        //             label: '5d menu item',
+        //         },
+        //         {
+        //             key: '3-2',
+        //             label: '6th menu item',
+        //         },
+        //     ],
+        // },
+    ];
+
     return (
         <>
-            <Row className='webMenu'>
+            <Row className='webMenu' justify={'space-between'}>
 
 
-                <Col xs={22} className='menuLogoSide'>
+                <Col xs={2} className='menuLogoSide'>
                     <Link to='/' className='menuMiddleItems' reloadDocument>
 
                         <motion.div className='logo'>
@@ -47,10 +105,14 @@ const Main_Menu = () => {
 
                             </div>
                         </motion.div>
+                        Kcm Inc.
                     </Link>
+                </Col>
+
+                <Col xs={12} className='menuLogoSide'>
 
                     <div className='menuItemsDiv'>
-                    <ConfigProvider
+                        <ConfigProvider
                             theme={{
                                 token: {
                                     fontFamily: 'Jost',
@@ -61,7 +123,7 @@ const Main_Menu = () => {
                                 },
                             }}
                         >
-                            <NavLink to='/' reloadDocument> <Button htmlType="submit">Home</Button></NavLink>
+                            <a href='/' className='anchorLinks'> Home</a>
 
 
                         </ConfigProvider>
@@ -76,23 +138,18 @@ const Main_Menu = () => {
                                 },
                             }}
                         >
-                            <NavLink to='/login' reloadDocument> <Button htmlType="submit">Log In</Button></NavLink>
+                            <Dropdown menu={{ items }} trigger={['click']} placement="bottom" arrow>
 
+                                <a onClick={(e) => e.preventDefault()} className='anchorLinks'>
 
-                        </ConfigProvider>
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    fontFamily: 'Jost',
-                                    colorTextTertiary: 'black',
-                                    colorPrimaryHover: '#000000',
-                                    colorBgContainer: '#fafafa'
+                                    <Space>
+                                        Utilities
+                                        <DownOutlined />
+                                    </Space>
 
-                                },
-                            }}
-                        >
-                            <NavLink to='/signup' reloadDocument><Button htmlType="submit">Sign Up</Button></NavLink>
+                                </a>
 
+                            </Dropdown>
 
                         </ConfigProvider>
                         <ConfigProvider
@@ -106,14 +163,177 @@ const Main_Menu = () => {
                                 },
                             }}
                         >
-                            <NavLink to='/support' reloadDocument><Button htmlType="submit">Support</Button></NavLink>
+                            <a href='/aboutus' className='anchorLinks'>About Us</a>
+
 
 
                         </ConfigProvider>
+
+
+
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+
+                            <a href='/support' className='anchorLinks'>
+
+
+                                Support
+
+
+
+                            </a>
+
+
+
+                        </ConfigProvider>
+
+
+
+
+
+                        {/* <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                            <a href='/newsroom' className='anchorLinks'>Newsroom</a>
+
+
+                        </ConfigProvider> */}
+
 
                     </div>
 
                 </Col>
+
+
+                <Col xs={4} className='menuLogoSide'>
+
+                    <div className='menuItemsDiv'>
+
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+
+                            <a href='/signup' className='anchorLinks'>
+
+                                Sign Up
+
+
+
+
+                            </a>
+
+
+                        </ConfigProvider>
+
+
+                        {/* <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+
+                            <a href='/login' className='anchorLinks'>
+
+                                Login
+
+
+
+
+                            </a>
+
+
+                        </ConfigProvider> */}
+
+
+
+                    </div>
+
+                </Col>
+                {/* <Col xs={6} className='menuLogoSide'>
+
+                    <div className='menuItemsDiv'>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                            <NavLink to='/signup' reloadDocument><Button className='menuButtonLinks' htmlType="submit">Sign Up</Button></NavLink>
+
+
+                        </ConfigProvider>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                            <NavLink to='/login' reloadDocument> <Button className='menuTextLinks' htmlType="submit" icon={<UserCircle size={28} weight="fill" />}></Button></NavLink>
+
+
+                        </ConfigProvider>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                            <NavLink to='/support' reloadDocument> <Button className='menuTextLinks' htmlType="submit" icon={<EnvelopeSimple size={28} weight="fill" />}></Button></NavLink>
+
+
+                        </ConfigProvider>
+
+
+
+                    </div>
+
+                </Col> */}
 
 
 
@@ -124,7 +344,7 @@ const Main_Menu = () => {
             <Row justify={'space-between'} className='mobileMenu'>
 
 
-                <Col xs={22} className='menuLogoSide'>
+                <Col xs={23} className='menuLogoSide'>
                     <Link to='/' className='menuMiddleItems'>
 
                         <motion.div className='logo'>
@@ -139,24 +359,20 @@ const Main_Menu = () => {
 
                             </div>
                         </motion.div>
+                        Kcm Inc.
                     </Link>
+
+
+
+                </Col>
+                <Col xs={1} className='menuLogoSide'>
+
 
                     <div className='menuItemsDiv'>
 
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    fontFamily: 'Jost',
-                                    colorTextTertiary: 'black',
-                                    colorPrimaryHover: '#000000',
-                                    colorBgContainer: '#fafafa'
 
-                                },
-                            }}
-                        >
-                            <Button htmlType="submit" icon={open ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={showDrawer} >Menu</Button>
+                        <Button htmlType="button" className='menuTextLinksMobile' icon={open ? <DotsThreeCircleVertical size={20} color="#4d4d4f" weight="fill" /> : <DotsThreeOutline size={20} color="#4d4d4f" weight="fill" className='menuTextLinksMobile' />} onClick={showDrawer} ></Button>
 
-                        </ConfigProvider>
 
                     </div>
 
@@ -177,46 +393,71 @@ const Main_Menu = () => {
                 open={open}
                 key={placement}
                 mask={false}
-                headerStyle={{ background: '#fafafa' }}
-                bodyStyle={{ background: '#fafafa' }}
+
             >
 
                 <Row justify={'space-between'} className='ClientPortal' gutter={[0, 75]}>
-                    <Col xs={22} md={4} >
+                    <Col xs={22} md={4} className='menuMobileDrawerBody'>
+
 
 
                         <NavLink
                             to={`/`}
-                            className='clientMenuItem'
+                            className='anchorLinks'
                             style={({ isActive, isPending }) => {
                                 return {
-                                    fontWeight: isActive ? "bold" : "",
-                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                    textDecoration: isActive ? "underline solid var(--light_grey)" : "",
+                                    fontWeight: isActive ? 600 : 300,
                                 };
                             }}
                         >
-                            Login
+                            Home
                         </NavLink>
 
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+
+                                },
+                            }}
+                        >
+                            <Dropdown menu={{ items }} trigger={['click']} placement="bottomLeft" arrow>
+
+                                <a onClick={(e) => e.preventDefault()} className='anchorLinks' style={{ width: 'fit-content' }}>
+
+                                    <Space>
+                                        Utilities
+                                        <DownOutlined />
+                                    </Space>
+
+                                </a>
+
+                            </Dropdown>
+
+                        </ConfigProvider>
                         <NavLink
-                            to={`/signup`}
-                            className='clientMenuItem'
+                            to={`/aboutus`}
+                            className='anchorLinks'
                             style={({ isActive, isPending }) => {
                                 return {
-                                    fontWeight: isActive ? "bold" : "",
-                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                    textDecoration: isActive ? "underline solid var(--light_grey)" : "",
+                                    fontWeight: isActive ? 600 : 300,
                                 };
                             }}
                         >
-                            Registration
+                            About Us
                         </NavLink>
                         <NavLink
                             to={`/termsofservice`}
-                            className='clientMenuItem'
+                            className='anchorLinks'
                             style={({ isActive, isPending }) => {
                                 return {
-                                    fontWeight: isActive ? "bold" : "",
-                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                    textDecoration: isActive ? "underline solid var(--light_grey)" : "",
+                                    fontWeight: isActive ? 600 : 300,
                                 };
                             }}
                         >
@@ -224,47 +465,37 @@ const Main_Menu = () => {
                         </NavLink>
                         <NavLink
                             to={`/privacypolicy`}
-                            className='clientMenuItem'
+                            className='anchorLinks'
                             style={({ isActive, isPending }) => {
                                 return {
-                                    fontWeight: isActive ? "bold" : "",
-                                    backgroundColor: isActive ? "#e8dac2" : "",
+                                    textDecoration: isActive ? "underline solid var(--light_grey)" : "",
+                                    fontWeight: isActive ? 600 : 300,
                                 };
                             }}
                         >
                             Privacy Policy
                         </NavLink>
-                        <NavLink
-                            to={`/support`}
-                            className='clientMenuItem'
-                            style={({ isActive, isPending }) => {
-                                return {
-                                    fontWeight: isActive ? "bold" : "",
-                                    backgroundColor: isActive ? "#e8dac2" : "",
-                                };
-                            }}
-                        >
-                            Contact Us
-                        </NavLink>
 
+
+
+
+
+                        <a className='anchorLinks' href="mailto:ken@kcminc.io">Email</a>
+                        <a className='anchorLinks' href="tel:+1-404-740-0093">Call</a>
+                        <a href='/support' className='anchorLinks'>
+
+
+                            <ChatCircleDots size={20} color="#849FD1" weight="fill" />
+
+
+
+                        </a>
 
                     </Col>
 
                 </Row>
 
-                <Row gutter={[0, 25]}>
-                    <Col>
 
-
-
-
-                    </Col>
-                    <Col>
-                        <a href="mailto:ken@kcminc.io"><Button className='buttonBlack'>Email Us</Button></a>
-                        <a href="tel:+1-404-740-0093"> <Button className='buttonBlack'>Call Us </Button></a>
-                    </Col>
-
-                </Row>
 
             </Drawer>
         </>

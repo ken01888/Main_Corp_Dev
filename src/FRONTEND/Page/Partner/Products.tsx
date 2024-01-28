@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, Dropdown, MenuProps, Popconfirm, Row } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Select, Space, Input, InputNumber, Table, Drawer, Dropdown, MenuProps, Popconfirm, Row, Alert, Tooltip } from 'antd'
 import 'isomorphic-fetch';
 import { ColumnsType } from 'antd/es/table';
 import { DownOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import * as convert from 'convert-units'
+import { CheckSquare, HashStraight, Minus, MinusSquare, PencilLine, Plus, PlusSquare, TextT, Trash, UploadSimple } from '@phosphor-icons/react';
 
 
 interface DataType {
@@ -56,10 +57,10 @@ const Products: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-                const user: any = await window.localStorage.getItem('user')
-                const newUser = await JSON.parse(user)
-                setUserId(newUser.id)
-                const dataReply = await fetch(`/getRecipeProduct`);
+                // const user: any = await window.localStorage.getItem('user')
+                // const newUser = await JSON.parse(user)
+                // setUserId(newUser.id)
+                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -74,10 +75,10 @@ const Products: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-                const user: any = await window.localStorage.getItem('user')
-                const newUser = await JSON.parse(user)
-                setUserId(newUser.id)
-                const dataReply = await fetch(`/inventoryItemsForSelectRecipes`);
+                // const user: any = await window.localStorage.getItem('user')
+                // const newUser = await JSON.parse(user)
+                // setUserId(newUser.id)
+                const dataReply = await fetch(`http://localhost:8080/inventoryItemsForSelectRecipes`);
 
                 const newData = await dataReply.json();
                 setSelectItems(newData)
@@ -88,10 +89,10 @@ const Products: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-                const user: any = await window.localStorage.getItem('user')
-                const newUser = await JSON.parse(user)
-                setUserId(newUser.id)
-                const dataReply = await fetch(`/getRecipeProduct`);
+                // const user: any = await window.localStorage.getItem('user')
+                // const newUser = await JSON.parse(user)
+                // setUserId(newUser.id)
+                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -103,9 +104,8 @@ const Products: React.FC = (props) => {
     /* Form Inventory Add*/
 
     const onInsertProductName = async (values: any) => {
-        addInventory.resetFields();
-        setViewInventoryStore(!viewInventoryStore)
-        const dataReply = await fetch(`/insertProductName`, {
+
+        const dataReply = await fetch(`http://localhost:8080/insertProductName`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -113,6 +113,8 @@ const Products: React.FC = (props) => {
             body: JSON.stringify(values)
         });
         const dataParse = await dataReply.json();
+        addInventory.resetFields();
+        setViewInventoryStore(!viewInventoryStore)
 
     };
 
@@ -126,7 +128,7 @@ const Products: React.FC = (props) => {
             values.inputs.forEach((i, n, a) => {
                 i.product_id = selectedRowAction
             })
-            const dataReply = await fetch(`/insertProductInputs`, {
+            const dataReply = await fetch(`http://localhost:8080/insertProductInputs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -135,12 +137,13 @@ const Products: React.FC = (props) => {
             });
 
             if (dataReply.ok === true) {
-                const dataReply = await fetch(`/getRecipeProduct`);
+                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
 
             setAddRecipes(!addRecipes)
+
             setItemsUpdated(!itemsUpdated)
             addFormInputs.resetFields()
         }
@@ -149,7 +152,7 @@ const Products: React.FC = (props) => {
 
     const onUpdateProduct = async (values: any) => {
         setDisplayAddProduct(!displayAddProduct)
-        const dataReply = await fetch(`/updateProductInformation`, {
+        const dataReply = await fetch(`http://localhost:8080/updateProductInformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -162,7 +165,7 @@ const Products: React.FC = (props) => {
             const user: any = await window.localStorage.getItem('user')
             const newUser = await JSON.parse(user)
             setUserId(newUser.id)
-            const dataReply = await fetch(`/getRecipeProduct`);
+            const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
             const newData = await dataReply.json();
             setInventoryList(newData)
         }
@@ -173,7 +176,7 @@ const Products: React.FC = (props) => {
 
     const onUpdateInput = async (values: any) => {
 
-        const dataReply = await fetch(`/updateInputs`, {
+        const dataReply = await fetch(`http://localhost:8080/updateInputs`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -181,10 +184,10 @@ const Products: React.FC = (props) => {
             body: JSON.stringify(values)
         });
 
-        const dataReply1 = await fetch(`/getRecipeProduct`);
+        const dataReply1 = await fetch(`http://localhost:8080/getRecipeProduct`);
         const newData = await dataReply1.json();
         setInventoryList(newData)
-        const dataReply2 = await fetch(`/allProductInputs?product_id=${values[0].product_id}`);
+        const dataReply2 = await fetch(`http://localhost:8080/allProductInputs?product_id=${values[0].product_id}`);
         const newData1 = await dataReply2.json();
         setSelectedRowActions(values[0].product_id)
         setFormInputs(newData1)
@@ -201,7 +204,7 @@ const Products: React.FC = (props) => {
 
                 (
                     async () => {
-                        const dataReply = await fetch(`/allProductInputs?product_id=${record.id}`);
+                        const dataReply = await fetch(`http://localhost:8080/allProductInputs?product_id=${record.id}`);
                         const newData = await dataReply.json();
                         setSelectedRowActions(record.id)
                         setFormInputs(newData)
@@ -218,7 +221,7 @@ const Products: React.FC = (props) => {
 
 
     const itemDelete = async () => {
-        const dataReply = await fetch(`/deleteProduct`, {
+        const dataReply = await fetch(`http://localhost:8080/deleteProduct`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -252,7 +255,7 @@ const Products: React.FC = (props) => {
             key: '1',
             label: (
                 <a onClick={() => { setAddRecipes(!addRecipes) }} >
-                    Add Ingredients
+                    Build
                 </a>
             ),
         },
@@ -260,7 +263,7 @@ const Products: React.FC = (props) => {
             key: '2',
             label: (
                 <a onClick={() => { setDisplayAddProduct(!displayAddProduct) }} >
-                    Update Product
+                    Modify
                 </a>
             ),
         },
@@ -277,7 +280,7 @@ const Products: React.FC = (props) => {
                     cancelText="No"
                 >
                     <a>
-                        Delete Product
+                        Delete
                     </a>
                 </Popconfirm>
             ),
@@ -288,71 +291,83 @@ const Products: React.FC = (props) => {
 
     const columns: ColumnsType<DataType> = [
         {
+            title: 'Action',
+            className: 'columnWidth',
+            render: (_, record: any) => {
+                if (record.id === selectedRowAction) {
+                    return (
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    colorPrimary: 'black',
+                                    lineWidth: 1,
+                                    fontFamily: 'Jost',
+                                    fontSize: 14,
+                                },
+                            }}
+                        >
+                            <Dropdown menu={{ items }}>
+                                <Tooltip placement="topLeft" color='#849FD1' title={'Edit'}>
+                                    <Button icon={<PencilLine size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' >
+                                    </Button>
+                                </Tooltip>
+                            </Dropdown>
+                        </ConfigProvider>
+                    )
+                } else {
+                    return (
+                        ''
+                    )
+                }
+            },
+        },
+        {
             title: 'Name',
             dataIndex: 'product_name',
             className: 'columnLightBlue',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
-
-
-
         },
         {
             title: 'Cost',
             dataIndex: 'total_cost',
-
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             sorter: (a: any, b: any) => a.total_cost - b.total_cost,
             render: (_, record) => {
                 return (
                     new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.total_cost))
-
                 )
             }
         },
         {
             title: 'Inputs',
             dataIndex: 'total_input_count',
-
-
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             sorter: (a: any, b: any) => a.total_input_count - b.total_input_count,
             render: (_, record) => {
                 return (
-                    <a onClick={() => { setOpenInputsDrawer(!openInputsDrawer) }}>{record.total_input_count}</a>
-
+                    <a className='inputforProducts' onClick={() => { setOpenInputsDrawer(!openInputsDrawer) }}>{record.total_input_count}</a>
                 )
             }
-
         },
         {
             title: 'Total Yield',
             dataIndex: 'total_weight',
-
-
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             render: (_, record) => {
                 return (
                     convert(record.total_weight).from('g').to('oz').toFixed(1) + " oz"
-
                 )
             }
         },
         {
-            title: 'Yields Per Unit',
+            title: 'Yield Per Unit',
             dataIndex: 'serving_size',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             className: 'columnLightBlue',
-
-
             sorter: (a: any, b: any) => a.serving_size - b.serving_size,
-
             render: (_, record) => {
                 return (
                     convert(record.serving_size).from('g').to('oz').toFixed(1) + " oz"
-
-
-
                 )
             }
         },
@@ -361,28 +376,19 @@ const Products: React.FC = (props) => {
             title: 'Waste',
             dataIndex: 'serving_size',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
-
             sorter: (a: any, b: any) => a.serving_size - b.serving_size,
-
             render: (_, record) => {
                 return (
-                    convert(Number(Number(record.total_weight) % Number(record.serving_size))).from('g').to('oz').toFixed(1) + " oz"
-
-
-
+                    convert(Number(Number(record.total_weight) % Number(record.serving_size))).from('g').to('oz').toFixed(0) + " oz"
                 )
             }
         },
-
-
         {
             title: 'Units Produced',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             render: (_, record) => {
                 return (
                     Math.floor((Number(record.total_weight) / Number(record.serving_size)))
-
                 )
             }
         },
@@ -392,27 +398,19 @@ const Products: React.FC = (props) => {
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             className: 'columnLightBlue',
             sorter: (a: any, b: any) => a.units - b.units,
-
-
         },
         {
             title: 'Unit Waste',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             render: (_, record) => {
-                
-
-
                 return (
-                    Number(Number(Number(record.total_weight) / Number(record.serving_size)) - Math.floor(Number(record.total_weight) / Number(record.serving_size))).toFixed(0)
-
+                    Number(Number(Number(record.total_weight) / Number(record.serving_size)) - Math.floor(Number(record.total_weight) / Number(record.serving_size))).toFixed(2)
                 )
             }
         },
-                {
+        {
             title: 'Total Sales Cycle',
             className: 'columnWidth',
-
-
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             render: (_, record) => {
                 const resultForCycles = Math.floor(Number((Number(record.total_weight) / Number(record.serving_size)) / Number(record.units)))
@@ -422,40 +420,23 @@ const Products: React.FC = (props) => {
                 } else if (resultForCycles !== Infinity) {
                     return resultForCycles
                 }
-
-
-
-
             }
         },
-
         {
             title: 'Retail Weight',
             dataIndex: 'serving_size',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
-
             sorter: (a: any, b: any) => a.serving_size - b.serving_size,
-
             render: (_, record) => {
                 return (
                     Number(Number(convert(record.serving_size).from('g').to('oz')) * Number(record.units)).toFixed(0) + ' oz'
-
-
-
                 )
             }
         },
-
-
         {
             title: 'Cost Per Sale',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
-
-
             render: (_, record) => {
-
-
                 let productionCost = record.total_cost
                 let units = record.units
                 let productionYield = Number(Number(record.total_weight) / Number(record.serving_size)).toFixed(0)
@@ -470,38 +451,25 @@ const Products: React.FC = (props) => {
                         costConversion
                     )
                 }
-
             }
         },
-
-
         {
             title: 'Price Per Sale',
             dataIndex: 'sales_price',
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             className: 'columnLightBlue',
-
-
             sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-
-
             render: (_, record) => {
                 return (
                     new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(record.sales_price))
-
                 )
             }
         },
         {
             title: 'Return on Sale',
             className: 'columnWidth',
-
-
-
             responsive: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
             sorter: (a: any, b: any) => a.sales_price - b.sales_price,
-
-
             render: (_, record) => {
                 let productionCost = record.total_cost
                 let units = record.units
@@ -542,41 +510,13 @@ const Products: React.FC = (props) => {
             }
         },
 
-        {
-            title: 'Action',
-            className: 'columnWidth',
 
-
-            render: (_, record: any) => {
-                if (record.id === selectedRowAction) {
-                    return (
-                        <Dropdown menu={{ items }}>
-                            <Button >
-                                <Space>
-                                    Edit
-                                    <DownOutlined />
-                                </Space>
-                            </Button>
-                        </Dropdown>
-
-                    )
-                } else {
-                    return (
-                        ''
-                    )
-                }
-
-            }
-
-
-            ,
-        },
     ];
 
 
 
     const onDeleteInput = async (id: any) => {
-        const dataReply = await fetch(`/deleteInputs`, {
+        const dataReply = await fetch(`http://localhost:8080/deleteInputs`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -596,84 +536,89 @@ const Products: React.FC = (props) => {
 
         <Row justify={'center'} gutter={[0, 75]} >
 
-        
-        <Col xs={22} md={18}>
-            <Space wrap>
 
-                <div className='clientPortalDiv'>
+            <Col xs={22} md={18}>
+                <Space wrap>
+                    <div className='clientSectionsFormat'>
+
+                        <div >
+                            <h1>Design</h1>
+
+                            <Alert
+                                description=
+                                "The Design utility is a tool that enables you to create a Master Product (MP) by combining items from your stockpile. Item within your stockpile are combined to create a MP."
+
+                                type="warning"
+                                className='heroText'
+                            />
+
+                        </div>
 
 
-                    <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Design</h1>
-                        </>} layout="vertical">
-                        <Descriptions.Item span={3}>
-                            <p>
-                            The Design area is a crucial tool that enables you to create whole products by merging items from your stockpile. It helps you calculate various metrics such as cost, waste, sales, and nutrient payload. To start designing a product, click on the "Create" button, complete the form with the necessary details, and submit it. You can then edit the product by selecting the checkbox and modifying the corresponding row. To modify inputs or ingredients, navigate to the "Inputs" column and adjust the weight as needed.
-                            </p>
-                        </Descriptions.Item>
-                        <Descriptions.Item span={3}>
-
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-                                    },
-                                }}
-                            >
-                                <Space wrap size={[25, 25]}>
-
-                                    <Button icon={<PlusOutlined />} className='buttonBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}>Create</Button>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+                                },
+                            }}
+                        >
+                            <Space className='spaceDivForButtonOnStockPage' wrap size={[25, 25]}>
+                                <Tooltip placement="topLeft" color='#849FD1' title={'Add new product'}>
+                                    <Button icon={<Plus size={20} weight="bold" />} className='buttonFormBlack' onClick={() => setViewInventoryStore(!viewInventoryStore)}></Button>
                                     {/* <Button icon={<SyncOutlined  />} className='buttonBlack'></Button> */}
+                                </Tooltip>
 
 
-
-                                </Space>
-                            </ConfigProvider>
-
-
-
-                        </Descriptions.Item>
-
-                    </Descriptions>
+                            </Space>
+                        </ConfigProvider>
 
 
 
 
 
-                </div>
-                <div className='tableScrollDiv'>
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                lineWidth: 1,
-                                fontFamily: 'Jost',
-                                fontSize: 14,
-
-                            },
-                        }}
-                    >
-                        <Table
 
 
-                            scroll={{ x: '-webkit-fill-available' }}
-                            rowKey={(record: any) => record.id}
-                            rowSelection={rowSelection}
-                            columns={columns}
-                            dataSource={InventoryList}
-                            pagination={{ pageSize: 10 }}
-                            bordered />
-                    </ConfigProvider>
-                </div>
-
-                \
 
 
-            </Space>
+                    </div>
+                    <div className='tableScrollDiv'>
+                        <ConfigProvider
 
-        </Col>
+                            theme={{
+                                components: {
+                                    Table: {
+                                        lineWidth: 1,
+                                        fontFamily: 'Jost',
+                                        fontSize: 14,
+                                        rowSelectedHoverBg: '#fafafa',
+
+                                    },
+                                }
+                            }}
+                        >
+                            <Table
+
+
+                                scroll={{ x: '-webkit-fill-available' }}
+                                rowKey={(record: any) => record.id}
+                                rowSelection={rowSelection}
+                                columns={columns}
+                                dataSource={InventoryList}
+                                pagination={{ pageSize: 10 }}
+                                bordered />
+
+                        </ConfigProvider>
+                    </div>
+
+
+
+
+                </Space>
+
+            </Col>
 
 
 
@@ -687,7 +632,8 @@ const Products: React.FC = (props) => {
 
 
             <Modal
-                title="Create Product"
+                title={<h1 >
+                    Create Product</h1>}
                 style={{ top: 10 }}
                 open={viewInventoryStore}
                 onCancel={() => setViewInventoryStore(!viewInventoryStore)}
@@ -701,108 +647,143 @@ const Products: React.FC = (props) => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='vertical'
-                    size='small'
+                    size='middle'
+
 
 
 
                 >
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                colorPrimary: 'black',
-                                colorPrimaryHover: '#fafafa',
-                                lineWidth: 2,
-                                fontFamily: 'Jost',
-                                fontSize: 14,
-                            },
-                        }}
+
+                    <Alert
+                        description="
+                    Enter the retail name of your product.
+                      "
+                        type="warning"
+                        className='heroText'
+                    />
+                    <Form.Item
+
+                        name="product_name"
+                        rules={[{ required: true, message: 'Enter details' }]}
+                        tooltip='Production Name'
+
                     >
-                        <p className='breadcrumbsForm'><span>▶︎ </span> Name</p>
-
-                        <Form.Item
-
-                            label="What would you like to name your retail product? (Name)"
-                            name="product_name"
-                            rules={[{ required: true, message: 'Enter details' }]}
-                            tooltip='Production Name'
-
-                        >
-                            <Input type='text' maxLength={45} showCount />
-
-                        </Form.Item>
+                        <Input style={{
+                            border: '1px solid #4D4D4F',
+                            borderRadius: '1.5px',
+                            fontSize: 14,
+                            width: 325
+                        }} type='text' placeholder="Retail Name" maxLength={25} showCount prefix={<TextT size={20} color="#849FD1" weight="bold" />} />
+                    </Form.Item>
 
 
-                        <p className='breadcrumbsForm'><span>▶︎ </span> Units Per Sale</p>
-                        <Form.Item label={`${`How much of the manufactured weight is individually packaged? 
-                                          Set the weight to the manufactured weight if selling one unit.`}`}
-                            tooltip='Package Weight'
-                        >
-                            <Space.Compact>
+                    <Alert
+                        description="
+                            How much of the overall yield comprises a single unit? - Yield Per Unit
+                            "
+                        type="warning"
+                        className='heroText'
+                    />
 
-                                <Form.Item
-                                    name={['serving_size', 'amount']}
-                                    initialValue={1}
-                                    rules={[{ required: true, message: 'Enter details' }]}
-
+                    <Form.Item>
+                        <Space.Compact>
+                            <Form.Item
+                                name={['serving_size', 'amount']}
+                                initialValue={1}
+                                rules={[{ required: true, message: 'Enter details' }]}
+                            >
+                                <InputNumber style={{
+                                    border: '1px solid #4D4D4F',
+                                    borderRadius: '1.5px',
+                                    fontSize: 14,
+                                    width: 160
+                                }} placeholder="Serving Size Amount" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
+                            </Form.Item>
+                            <Form.Item
+                                name={['serving_size', 'unit']}
+                                initialValue={'oz'}
+                                rules={[{ required: true, message: 'Enter details' }]}
+                            >
+                                <Select
+                                    style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }}
+                                    variant='borderless'
+                                    suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                    placeholder="Servicing Size Weight"
 
                                 >
-                                    <InputNumber min={1} />
-                                </Form.Item>
-                                <Form.Item
-                                    name={['serving_size', 'unit']}
-                                    initialValue={'oz'}
-                                    rules={[{ required: true, message: 'Enter details' }]}
+                                    <Select.Option value="mcg">mcg</Select.Option>
+                                    <Select.Option value="mg">mg</Select.Option>
+                                    <Select.Option value="g">g</Select.Option>
+                                    <Select.Option value="kg">kg</Select.Option>
+                                    <Select.Option value="oz">oz</Select.Option>
+                                    <Select.Option value="lb">lb</Select.Option>
+                                    <Select.Option value="mt">mt</Select.Option>
+                                    <Select.Option value="t">t</Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Space.Compact>
+
+                    </Form.Item>
 
 
-                                >
+                    <Alert
+                        description="
+                            How many units are included in the total packaged for sale? - Units Per Sale
+                            "
+                        type="warning"
+                        className='heroText'
+                    />
 
-                                    <Select
-                                        placeholder='Unit'
-                                        style={{ width: 120 }}
-                                    >
-                                        <Select.Option value="mcg">mcg</Select.Option>
-                                        <Select.Option value="mg">mg</Select.Option>
-                                        <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
-                                    </Select>
-                                </Form.Item>
-                            </Space.Compact>
-                        </Form.Item>
-                        <p className='breadcrumbsForm'> <span>▶︎</span>Yields Per Unit</p>
+                    <Form.Item
+                        name="units"
+                        rules={[{ required: true, message: 'Enter details' }]}
 
-                        <Form.Item
+                    >
+                        <InputNumber style={{
+                            border: '1px solid #4D4D4F',
+                            borderRadius: '1.5px',
+                            fontSize: 14,
+                            width: 325
+                        }} placeholder="Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
 
-                            label="What is the number of Units Manufactured that can be sold in a single transaction?"
-                            tooltip='Retail Units'
-
-                            name="units"
-                            rules={[{ required: true, message: 'Enter details' }]}
-
-                        >
-                            <InputNumber min={0} />
-                        </Form.Item>
-
-                        <p className='breadcrumbsForm'> <span>▶︎ </span>Price Per Sale</p>
+                    </Form.Item>
 
 
-                        <Form.Item
-
-                            label="What is the price that consumers will pay for your product? (Price)"
-                            name="sales_price"
-                            rules={[{ required: true, message: 'Enter details' }]}
-                            tooltip='Retail Price'
-
-                        >
-                            <InputNumber min={0} />
-                        </Form.Item>
+                    <Alert
+                        description="
+                            What is the price of the final product sold at retail? 
+                            "
+                        type="warning"
+                        className='heroText'
+                    />
 
 
+                    <Form.Item
+
+                        name="sales_price"
+                        rules={[{ required: true, message: 'Enter details' }]}
+                        tooltip='Retail Price'
+
+                    >
+                        <InputNumber style={{
+                            border: '1px solid #4D4D4F',
+                            borderRadius: '1.5px',
+                            fontSize: 14,
+                            width: 325
+                        }} placeholder="Retail Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
+                    </Form.Item>
 
 
+
+
+
+                    <Form.Item
+                    >
                         <ConfigProvider
                             theme={{
                                 token: {
@@ -813,22 +794,23 @@ const Products: React.FC = (props) => {
                                 },
                             }}
                         >
-                            <Form.Item
-                            >
-                                <Button htmlType="submit" className='buttonBlack' >
-                                    Upload
-                                </Button>
-                            </Form.Item>
+                            <Tooltip placement="right" color='#849FD1' title={'Save'}>
+
+                                <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack'></Button>
+                            </Tooltip>
                         </ConfigProvider>
 
-                    </ConfigProvider>
+                    </Form.Item>
+
+
                 </Form>
             </Modal>
 
             {/* Update Inventory Modal */}
 
             <Modal
-                title='Design products by combining items from the "Item" page.'
+                title={<h1>
+                    Add Inputs</h1>}
                 style={{ top: 20 }}
                 open={addRecipes}
                 onCancel={() => setAddRecipes(!addRecipes)}
@@ -845,6 +827,14 @@ const Products: React.FC = (props) => {
                         });
                 }}
             >
+                <Alert
+                    description="
+                            Combine items from your stockpile to create new products.
+                            To add an item, click on the + button; click the 🗑️ (Delete) button to delete an item. Verify your inputs and click the Record button to save your build.                            "
+                    type="warning"
+                    className='heroText'
+                />
+
 
 
 
@@ -861,63 +851,109 @@ const Products: React.FC = (props) => {
                             <>
                                 {fields.map(({ key, name, ...restField }) => (
                                     <div key={key}>
+                                        <p className='formHeaderBlue'>
+                                        </p>
+                                        <Alert
+                                            description="Select an item from your inventory. To add more items visit the Stock Page"
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'inventory_item_id']}
+                                            rules={[{ required: true, message: 'Missing item' }]}
+                                            
+                                        >
+                                            <Select
+                                                style={{
+                                                    border: '1px solid #4D4D4F',
+                                                    borderRadius: '1.5px',
+                                                    fontSize: 14,
+                                                    width: 325
 
-                                        <p>Add Item</p>
+                                                }}
+                                                variant='borderless'
+                                                suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                                options={selectItems} 
+                                                placeholder='Available items'
+                                                />
 
-                                        <Space style={{ display: 'flex', marginBottom: 8, flexWrap: 'wrap' }} align="baseline">
-                                            <Form.Item
-                                                {...restField}
-                                                name={[name, 'inventory_item_id']}
-                                                rules={[{ required: true, message: 'Missing item' }]}
+                                        </Form.Item>
+                                        <Alert
+                                            description="
+                                                 Enter the input weight of the item above.             
+                                                  "
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'input_weight']}
+                                            rules={[{ required: true, message: 'Missing item' }]}
+                                        >
+                                            <InputNumber style={{
+                                                border: '1px solid #4D4D4F',
+                                                borderRadius: '1.5px',
+                                                fontSize: 14,
+                                                width: 325
+                                            }} placeholder="Weight" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
+                                        </Form.Item>
+                                        <Alert
+                                            description="
+                                                 Select the unit of measure for the item above.              
+                                                     "
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'unit']}
+                                            rules={[{ required: true, message: 'Missing item' }]}
+                                        >
+                                            <Select
+                                                style={{
+                                                    border: '1px solid #4D4D4F',
+                                                    borderRadius: '1.5px',
+                                                    fontSize: 14,
+                                                    width: 325
+                                                }}
+                                                variant='borderless'
 
+                                                suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                                placeholder="Unit"
                                             >
-                                                <Select
-                                                    placeholder='Select Item'
-                                                    style={{ width: 120 }}
-                                                    options={selectItems} />
-
-                                            </Form.Item>
-                                            <Form.Item
-                                                {...restField}
-                                                name={[name, 'input_weight']}
-                                                noStyle
-                                                label="Weight"
-
+                                                <Select.Option value="mcg">mcg</Select.Option>
+                                                <Select.Option value="mg">mg</Select.Option>
+                                                <Select.Option value="g">g</Select.Option>
+                                                <Select.Option value="kg">kg</Select.Option>
+                                                <Select.Option value="oz">oz</Select.Option>
+                                                <Select.Option value="lb">lb</Select.Option>
+                                                <Select.Option value="mt">mt</Select.Option>
+                                                <Select.Option value="t">t</Select.Option>
+                                            </Select>
+                                        </Form.Item>
+                                        <Form.Item>
+                                            <ConfigProvider
+                                                theme={{
+                                                    token: {
+                                                        fontFamily: 'Jost',
+                                                        colorTextTertiary: 'black',
+                                                        colorPrimaryHover: '#000000',
+                                                        colorBgContainer: '#fafafa'
+                                                    },
+                                                }}
                                             >
-                                                <InputNumber placeholder='Weight' min={0} max={9999} step={5} type='number' />
-                                            </Form.Item>
-                                            <Form.Item
-                                                {...restField}
-                                                name={[name, 'unit']}
-                                                noStyle
-                                                label="Unit"
+                                                <Tooltip placement="right" color='#849FD1' title={'Delete'}>
 
-                                            >
-                                                <Select
-                                                    placeholder='Unit'
-                                                    style={{ width: 120 }}
-                                                >
-                                                    <Select.Option value="mcg">mcg</Select.Option>
-                                                    <Select.Option value="mg">mg</Select.Option>
-                                                    <Select.Option value="g">g</Select.Option>
-                                                    <Select.Option value="kg">kg</Select.Option>
-                                                    <Select.Option value="oz">oz</Select.Option>
-                                                    <Select.Option value="lb">lb</Select.Option>
-                                                    <Select.Option value="mt">mt</Select.Option>
-                                                    <Select.Option value="t">t</Select.Option>
-                                                </Select>
-                                            </Form.Item>
+                                                    <Button icon={<Trash size={20} weight='bold' />} className='buttonFormBlack' onClick={() => remove(name)}></Button>
+                                                </Tooltip>
 
-
-
-
-
-
-
-                                            <MinusCircleOutlined onClick={() => remove(name)} />
-                                        </Space>
+                                            </ConfigProvider>
+                                        </Form.Item>
                                     </div>
                                 ))}
+
+
                                 <Form.Item>
                                     <ConfigProvider
                                         theme={{
@@ -929,7 +965,12 @@ const Products: React.FC = (props) => {
                                             },
                                         }}
                                     >
-                                        <PlusOutlined onClick={() => add()} />
+                                        <Tooltip placement="right" color='#849FD1' title={'New Input'}>
+                                            <Button icon={<Plus size={20} weight='bold' />} htmlType='button' className='buttonFormBlack' onClick={() => add()}>
+
+                                            </Button>
+                                        </Tooltip>
+
 
                                     </ConfigProvider>
 
@@ -949,9 +990,21 @@ const Products: React.FC = (props) => {
                                 },
                             }}
                         >
-                            <Button htmlType="submit" className='buttonBlack'>
-                                Submit
-                            </Button>
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        fontFamily: 'Jost',
+                                        colorTextTertiary: 'black',
+                                        colorPrimaryHover: '#000000',
+                                        colorBgContainer: '#fafafa'
+                                    },
+                                }}
+                            >
+                                <Tooltip placement="right" color='#849FD1' title={'Save All'}>
+
+                                    <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack'></Button>
+                                </Tooltip>
+                            </ConfigProvider>
                         </ConfigProvider>
 
                     </Form.Item>
@@ -964,13 +1017,13 @@ const Products: React.FC = (props) => {
 
 
             <Modal
-                title="Update Product"
+                title={<h1 >
+                    Modify Products</h1>}
                 style={{ top: 20 }}
                 open={displayAddProduct}
                 onCancel={() => setDisplayAddProduct(!displayAddProduct)}
                 footer={null}
             >
-
                 <Form
                     name="Update Product"
                     form={updateProduct}
@@ -978,121 +1031,149 @@ const Products: React.FC = (props) => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
                     layout='vertical'
-                    size='small'
-
-
-
+                    size='middle'
                 >
+                    <Alert
+                        description="
+                    Enter a new retail name for your product.
+                      "
+                        type="warning"
+                        className='heroText'
+                    />
+                    <Form.Item
+
+                        name="product_name"
+                        rules={[{ required: true, message: 'Enter details' }]}
+                        tooltip='Production Name'
+                    >
+                        <Input style={{
+                            border: '1px solid #4D4D4F',
+                            borderRadius: '1.5px',
+                            fontSize: 14,
+                            width: 325
+                        }} type='text' placeholder="Retail Name" maxLength={25} showCount prefix={<TextT size={20} color="#849FD1" weight="bold" />} />
+                    </Form.Item>
+                    <Alert
+                        description="
+                            What is the new overall yield of a single unit? - Yield Per Unit
+                            "
+                        type="warning"
+                        className='heroText'
+                    />
+                    <Form.Item>
+                        <Space.Compact>
+                            <Form.Item
+                                name={['serving_size', 'amount']}
+                                initialValue={1}
+                                rules={[{ required: true, message: 'Enter details' }]}
+                            >
+                                <InputNumber style={{
+                                    border: '1px solid #4D4D4F',
+                                    borderRadius: '1.5px',
+                                    fontSize: 14,
+                                    width: 160
+                                }} placeholder="Serving Size Amount" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
+                            </Form.Item>
+                            <Form.Item
+                                name={['serving_size', 'unit']}
+                                initialValue={'oz'}
+                                rules={[{ required: true, message: 'Enter details' }]}
+                            >
+                                <Select
+                                    style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 160
+                                    }}
+                                    variant='borderless'
+                                    suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
+                                    placeholder="Servicing Size Weight"
+
+                                >
+                                    <Select.Option value="mcg">mcg</Select.Option>
+                                    <Select.Option value="mg">mg</Select.Option>
+                                    <Select.Option value="g">g</Select.Option>
+                                    <Select.Option value="kg">kg</Select.Option>
+                                    <Select.Option value="oz">oz</Select.Option>
+                                    <Select.Option value="lb">lb</Select.Option>
+                                    <Select.Option value="mt">mt</Select.Option>
+                                    <Select.Option value="t">t</Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Space.Compact>
+
+                    </Form.Item>
+
+
+                    <Alert
+                        description="
+                            What is the new number of units included in a packaged for sale? - Units Per Sale
+                            "
+                        type="warning"
+                        className='heroText'
+                    />
+
+                    <Form.Item
+                        name="units"
+                        rules={[{ required: true, message: 'Enter details' }]}
+
+                    >
+                        <InputNumber style={{
+                            border: '1px solid #4D4D4F',
+                            borderRadius: '1.5px',
+                            fontSize: 14,
+                            width: 325
+                        }} placeholder="Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
+
+                    </Form.Item>
+                    <Alert
+                        description="
+                            What is the new price of the final product? 
+                            "
+                        type="warning"
+                        className='heroText'
+                    />
+                    <Form.Item
+                        name="sales_price"
+                        rules={[{ required: true, message: 'Enter details' }]}
+                        tooltip='Retail Price'
+
+                    >
+                        <InputNumber style={{
+                            border: '1px solid #4D4D4F',
+                            borderRadius: '1.5px',
+                            fontSize: 14,
+                            width: 325
+                        }} placeholder="Retail Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
+                    </Form.Item>
                     <ConfigProvider
                         theme={{
                             token: {
-                                colorPrimary: 'black',
-                                colorPrimaryHover: '#fafafa',
-                                lineWidth: 2,
                                 fontFamily: 'Jost',
-                                fontSize: 14,
+                                colorTextTertiary: 'black',
+                                colorPrimaryHover: '#000000',
+                                colorBgContainer: '#fafafa'
                             },
                         }}
                     >
-                        <p className='breadcrumbsForm'><span>▶︎ </span> Name</p>
-
-                        <Form.Item
-
-                            label="What would you like to name your retail product? (Name)"
-                            name="product_name"
-                            tooltip='Production Name'
-
-                        >
-                            <Input type='text' maxLength={45} showCount />
-
-                        </Form.Item>
-
-
-                        <p className='breadcrumbsForm'><span>▶︎ </span> Yield Per Unit</p>
-                        <Form.Item label={`${`How much of the manufactured weight is individually packaged? 
-                                                Set the weight to the manufactured weight if selling one unit.`}`}
-                            tooltip='Package Weight'
-                        >
-                            <Space.Compact>
-
-                                <Form.Item
-                                    name={['serving_size', 'amount']}
-
-
-                                >
-                                    <InputNumber min={1} />
-                                </Form.Item>
-                                <Form.Item
-                                    name={['serving_size', 'unit']}
-
-
-                                >
-
-                                    <Select
-                                        placeholder='Unit'
-                                        style={{ width: 120 }}
-                                    >
-                                        <Select.Option value="mcg">mcg</Select.Option>
-                                        <Select.Option value="mg">mg</Select.Option>
-                                        <Select.Option value="g">g</Select.Option>
-                                        <Select.Option value="kg">kg</Select.Option>
-                                        <Select.Option value="oz">oz</Select.Option>
-                                        <Select.Option value="lb">lb</Select.Option>
-                                        <Select.Option value="mt">mt</Select.Option>
-                                        <Select.Option value="t">t</Select.Option>
-                                    </Select>
-                                </Form.Item>
-                            </Space.Compact>
-                        </Form.Item>
-                        <p className='breadcrumbsForm'> <span>▶︎ </span>  Units Per Sale</p>
-
-                        <Form.Item
-
-                            label="What is the number of Units Manufactured that can be sold in a single transaction?"
-                            tooltip='Retail Units'
-                            name="units"
-
-                        >
-                            <InputNumber min={0} />
-                        </Form.Item>
-
-                        <p className='breadcrumbsForm'> <span>▶︎ </span>Price Per Sale</p>
-
-
-                        <Form.Item
-
-                            label="What is the price that consumers will pay for your product? (Price)"
-                            name="sales_price"
-                            tooltip='Retail Price'
-
-                        >
-                            <InputNumber min={0} />
-                        </Form.Item>
-
-
                         <Form.Item
                         >
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorPrimaryHover: '#000000',
-                                        colorBgContainer: '#fafafa'
-                                    },
-                                }}
-                            >
-                                <Button htmlType="submit" className='buttonBlack'>
-                                    Update Product
-                                </Button>
-                            </ConfigProvider>
+                            <Tooltip placement="right" color='#849FD1' title={'Save'}>
+
+                                <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack'></Button>
+                            </Tooltip>
                         </Form.Item>
                     </ConfigProvider>
+
+
                 </Form>
             </Modal>
 
             <Modal
                 style={{ top: 20 }}
+                title={<h1 >
+                    Current Inputs</h1>}
                 open={openInputsDrawer}
                 onCancel={() => setOpenInputsDrawer(!openInputsDrawer)}
                 footer={null}
@@ -1114,123 +1195,191 @@ const Products: React.FC = (props) => {
                 <Form
                     name="Unpdate Inputs"
                     onFinish={onUpdateInput}
-                    style={{ maxWidth: 600 }}
-                    autoComplete="off"
                     form={viewEditFormInputs}
+                    autoComplete="on"
+                    layout='vertical'
+                    size='middle'
                 >
 
                     {formInputs.map((i: any, n, a) => {
 
                         return (
-                            <div key={i.id}>
 
 
-                                <Space style={{ display: 'flex', marginBottom: 8, flexWrap: 'wrap' }} align="baseline">
-                                    <Form.Item
-                                        rules={[{ required: true, message: 'Missing item' }]}
-                                        initialValue={i.id}
-                                        name={[n, 'id']}
-                                        hidden
+
+                            <Space wrap align="start" size={[325, 5]} key={i.id}>
+                                <h3>{new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(i.input_cost))}
+                                </h3>
+
+
+                                <Alert
+                                    description="
+                        The item's name.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
+                                <Form.Item
+                                    rules={[{ required: true, message: 'Missing item' }]}
+                                    initialValue={i.description}
+                                    name={[n, 'description']}
+                                >
+                                    <Select
+                                        placeholder='Select Item'
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 325
+                                        }}
+                                        variant='borderless'
+
+                                        options={selectItems} />
+                                </Form.Item>
+
+                                <Alert
+                                    description="
+                           The item's input cost.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
+                                <Form.Item
+                                    rules={[{ required: true, message: 'Missing item' }]}
+                                    initialValue={convert(i.input_weight).from('g').to('oz').toFixed(0)}
+                                    name={[n, 'amount']}
+                                >
+                                    <InputNumber style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} min={1} />
+                                </Form.Item>
+
+                                <Alert
+                                    description="
+                           The item's unit of measurement.
+                            "
+                                    type="warning"
+                                    className='heroText'
+                                />
+                                <Form.Item
+                                    noStyle
+                                    rules={[{ required: true, message: 'Missing item' }]}
+                                    initialValue={'oz'}
+                                    name={[n, 'unit']}
+                                >
+                                    <Select
+                                        placeholder='Unit'
+                                        style={{
+                                            border: '1px solid #4D4D4F',
+                                            borderRadius: '1.5px',
+                                            fontSize: 14,
+                                            width: 325
+                                        }}
+                                        variant='borderless'
+
                                     >
-                                        <Input />
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        rules={[{ required: true, message: 'Missing item' }]}
-                                        initialValue={i.product_id}
-                                        name={[n, 'product_id']}
-                                        hidden
-                                    >
-                                        <Input />
-
-                                    </Form.Item>
-                                    <Form.Item
-                                        rules={[{ required: true, message: 'Missing item' }]}
-                                        initialValue={i.inventory_item_id}
-                                        name={[n, 'inventory_item_id']}
-                                        hidden
-                                    >
-                                        <Input />
-
-                                    </Form.Item>
-                                    <Form.Item
-                                        rules={[{ required: true, message: 'Missing item' }]}
-                                        initialValue={i.price_per_gram}
-                                        name={[n, 'price_per_gram']}
-                                        hidden
-                                    >
-                                        <Input />
-
-                                    </Form.Item>
-                                    <Form.Item
-                                        rules={[{ required: true, message: 'Missing item' }]}
-                                        initialValue={i.description}
-                                        name={[n, 'description']}
-                                    >
-                                        <Select
-                                            placeholder='Select Item'
-                                            style={{ width: 150 }}
-                                            options={selectItems} />
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        rules={[{ required: true, message: 'Missing item' }]}
-                                        initialValue={convert(i.input_weight).from('g').to('oz').toFixed(0)}
-                                        name={[n, 'amount']}
-
-
-
-                                    >
-
-                                        <InputNumber min={1} />
-
-
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        noStyle
-                                        rules={[{ required: true, message: 'Missing item' }]}
-                                        initialValue={'oz'}
-                                        name={[n, 'unit']}
-
-                                    >
-                                        <Select
-                                            placeholder='Unit'
-
-                                        >
-                                            <Select.Option value="mcg">mcg</Select.Option>
-                                            <Select.Option value="mg">mg</Select.Option>
-                                            <Select.Option value="g">g</Select.Option>
-                                            <Select.Option value="kg">kg</Select.Option>
-                                            <Select.Option value="oz">oz</Select.Option>
-                                            <Select.Option value="lb">lb</Select.Option>
-                                            <Select.Option value="mt">mt</Select.Option>
-                                            <Select.Option value="t">t</Select.Option>
-                                        </Select>
-                                    </Form.Item>
+                                        <Select.Option value="mcg">mcg</Select.Option>
+                                        <Select.Option value="mg">mg</Select.Option>
+                                        <Select.Option value="g">g</Select.Option>
+                                        <Select.Option value="kg">kg</Select.Option>
+                                        <Select.Option value="oz">oz</Select.Option>
+                                        <Select.Option value="lb">lb</Select.Option>
+                                        <Select.Option value="mt">mt</Select.Option>
+                                        <Select.Option value="t">t</Select.Option>
+                                    </Select>
+                                </Form.Item>
 
 
 
 
+                                <Form.Item
+                                    rules={[{ required: true, message: 'Missing item' }]}
+                                    initialValue={i.id}
+                                    name={[n, 'id']}
+                                    hidden
+                                >
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} />
+                                </Form.Item>
 
-                                    {new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(i.input_cost))}
+                                <Form.Item
+                                    rules={[{ required: true, message: 'Missing item' }]}
+                                    initialValue={i.product_id}
+                                    name={[n, 'product_id']}
+                                    hidden
+                                >
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} />
+
+                                </Form.Item>
+                                <Form.Item
+                                    rules={[{ required: true, message: 'Missing item' }]}
+                                    initialValue={i.inventory_item_id}
+                                    name={[n, 'inventory_item_id']}
+                                    hidden
+                                >
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} />
+
+                                </Form.Item>
+                                <Form.Item
+                                    rules={[{ required: true, message: 'Missing item' }]}
+                                    initialValue={i.price_per_gram}
+                                    name={[n, 'price_per_gram']}
+                                    hidden
+                                >
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14,
+                                        width: 325
+                                    }} />
+
+                                </Form.Item>
+                                <Form.Item
+        
+                                >
+                                <ConfigProvider
+                                    theme={{
+                                        token: {
+                                            fontFamily: 'Jost',
+                                            colorTextTertiary: 'black',
+                                            colorPrimaryHover: '#000000',
+                                            colorBgContainer: '#fafafa'
+                                        },
+                                    }}
+                                >
+                                    <Tooltip placement="right" color='#849FD1' title={'Delete the item above'}>
 
 
-                                    <MinusCircleOutlined onClick={() => onDeleteInput(i.id)} />
+                                        <Button icon={<Trash size={20} weight="bold" />} htmlType="button" className='buttonFormBlack' onClick={() => onDeleteInput(i.id)}>
+                                        </Button>
+                                    </Tooltip>
+                                </ConfigProvider>
+                                </Form.Item>
 
-                                </Space>
-                            </div>
+                            </Space>
+
+
                         )
 
                     }
-
-
                     )}
-
-
-
-
-
                     <Form.Item>
                         <ConfigProvider
                             theme={{
@@ -1242,14 +1391,13 @@ const Products: React.FC = (props) => {
                                 },
                             }}
                         >
-                            <Button htmlType="submit" className='buttonBlack'>
-                                Submit
-                            </Button>
+                            <Tooltip placement="right" color='#849FD1' title={'Save'}>
+                                <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack'>
+                                </Button>
+                            </Tooltip>
+
                         </ConfigProvider>
-
                     </Form.Item>
-
-
                 </Form>
             </Modal>
 

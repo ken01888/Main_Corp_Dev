@@ -61,23 +61,17 @@ router.post('/login_verification', passport.authenticate('local'), (req: any, re
       return res.cookie('user', req.user).json(req.user);
     });
   } else if (!req.user) {
-
     res.sendStatus(401)
   }
 });
 
 router.post('/verify_associate_pin', async (req: any, res) => {
-
   const [newReply, error] = await verify.associateVerification(req.body.pin, req.body.id)
-
-
   if (newReply) {
       res.json(true)
   } else if (!newReply) {
       res.json(false)
   }
-
-
 });
 
 

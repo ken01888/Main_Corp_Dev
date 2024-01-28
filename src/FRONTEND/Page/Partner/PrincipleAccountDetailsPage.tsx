@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { Col, Form, Input, ConfigProvider, Button, Descriptions, Space, Row, Tag } from 'antd'
+import { Col, Form, Input, ConfigProvider, Button, Descriptions, Space, Row, Tag, Alert, Tooltip } from 'antd'
 import 'isomorphic-fetch';
-import { Pencil } from '@phosphor-icons/react';
+import { Pencil, PencilLine, UploadSimple, X } from '@phosphor-icons/react';
+import { motion } from 'framer-motion';
 
 
 
@@ -23,7 +24,7 @@ const PrincipleAccountDetails: React.FC = (props) => {
     }, [])
 
     const onPrincipleUpdate = async (values: any) => {
-        const dataReply = await fetch(`/updateClientinformation`, {
+        const dataReply = await fetch(`http://localhost:8080/updateClientinformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,109 +44,84 @@ const PrincipleAccountDetails: React.FC = (props) => {
 
     return (
 
+        <Row justify={'center'} align={'bottom'} gutter={[0, 100]}>
+
+            <Col xs={{ span: 22 }} md={{ span: 18 }} className='clientSectionsFormat'>
+                <div>
+                    <h1>Account Page</h1>
+
+                    <Alert
+                        description="
+                Welcome to your account page. Here you can easily update your contact information and security PIN.
+                Click the Update button to make changes and then Save. Click Cancel to disregard.              "
+                        type="warning"
+                        className='heroText'
+                    />
+
+                </div>
 
 
-        <Row justify={'center'} gutter={[0, 75]} >
+                <div >
 
-        <Col xs={22} md={18}>
-
-            <div className='clientPortalDiv'>
-                <Form
-                    name="client"
-                    initialValues={{ remember: true }}
-                    onFinish={onPrincipleUpdate}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                    layout='horizontal'
-                    size='middle'
-                >
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                fontFamily: 'Jost',
-                                colorTextTertiary: 'black',
-                                colorPrimaryHover: '#000000',
-                                colorBgContainerDisabled: '#ffffff',
-
-                            },
-                        }}
+                    <Form
+                        name="client"
+                        initialValues={{ remember: true }}
+                        onFinish={onPrincipleUpdate}
+                        onFinishFailed={onFinishFailed}
+                        autoComplete="off"
+                        layout='horizontal'
+                        size='middle'
                     >
-                        <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Account</h1>
-                            </>} layout="vertical">
-                            <Descriptions.Item span={3}>
-                                <p>
-                                Welcome to your account page. Here you can easily update your contact information and security PIN. 
-                                Click the <span className='inlineTextSpan'>Update</span> button to make changes and then <span className='inlineTextSpan'>Save</span>. Click <span className='inlineTextSpan'>Cancel</span> to disregard.
-                                </p>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainerDisabled: '#ffffff',
 
-                            </Descriptions.Item>
+                                },
+                            }}
+                        >
+                            <Descriptions
+                                layout="vertical">
+
+                                <>
+
+                                    {clientInformation.map((i, n, a) => {
+                                        return (
+
+                                            <Descriptions.Item label={i[0].toUpperCase().replace('_', ' ')} key={n} span={1}>
+
+                                                <Form.Item
+                                                    name={i[0]}
+                                                    key={n}
+                                                    initialValue={i[1]}
+                                                >
+                                                    <Input style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14
+                                                    }} key={n} bordered={EditPersonalInformation} placeholder={i[1]} disabled={EditPersonalInformation}></Input>
+                                                </Form.Item>
+
+                                            </Descriptions.Item>
 
 
 
+                                        )
+                                    })}
 
 
+                                    {EditPersonalInformation ?
+                                        <Descriptions.Item span={4}>
+                                                                                                  <Tooltip placement="topLeft" color='#849FD1' title={'Edit'}>
 
-
-
-
-                            <>
-
-                                {clientInformation.map((i, n, a) => {
-                                    return (
-
-                                        <Descriptions.Item label={i[0].toUpperCase().replace('_', ' ')} key={n} span={1}>
-
-                                            <Form.Item
-                                                name={i[0]}
-                                                key={n}
-                                                initialValue={i[1]}
-
-
-                                            >
-
-
-                                                <Input key={n} bordered={EditPersonalInformation} placeholder={i[1]} disabled={EditPersonalInformation}></Input>
-                                            </Form.Item>
-
+                                            <Button icon={<PencilLine size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' ></Button>
+                                            </Tooltip>
                                         </Descriptions.Item>
-
-
-
-                                    )
-                                })}
-
-
-                                {EditPersonalInformation ?
-                                    <Descriptions.Item span={3}>
-                                        <Button className='buttonBlack' htmlType="submit" onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }} >
-                                            Update
-                                        </Button>
-
-                                    </Descriptions.Item>
-                                    :
-                                    <><Descriptions.Item span={1}>
-
-                                        <Form.Item
-                                        >
-                                            <ConfigProvider
-                                                theme={{
-                                                    token: {
-                                                        colorPrimary: 'black',
-                                                        lineWidth: 1,
-                                                        fontFamily: 'Jost',
-                                                        fontSize: 14,
-                                                    },
-                                                }}
-                                            >
-
-
-                                                <Button className='buttonBlack' onClick={() => { setEditPersonalInformation(!EditPersonalInformation) }} htmlType='button'>
-                                                    Cancel
-                                                </Button>
-                                            </ConfigProvider>
-                                        </Form.Item>
-                                    </Descriptions.Item><Descriptions.Item span={1}>
+                                        :
+                                        <><Descriptions.Item span={1}>
 
                                             <Form.Item
                                             >
@@ -159,24 +135,44 @@ const PrincipleAccountDetails: React.FC = (props) => {
                                                         },
                                                     }}
                                                 >
-
-
-                                                    <Button className='buttonBlack' htmlType="submit">
-                                                        Save
-                                                    </Button>
+                                                      <Tooltip placement="topLeft" color='#849FD1' title={'Cancel'}>
+                                                    <Button icon={<X size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' ></Button>
+                                                    </Tooltip>
                                                 </ConfigProvider>
                                             </Form.Item>
-                                        </Descriptions.Item></>
+                                        </Descriptions.Item><Descriptions.Item span={1}>
 
-                                }
-                            </>
+                                                <Form.Item
+                                                >
+                                                    <ConfigProvider
+                                                        theme={{
+                                                            token: {
+                                                                colorPrimary: 'black',
+                                                                lineWidth: 1,
+                                                                fontFamily: 'Jost',
+                                                                fontSize: 14,
+                                                            },
+                                                        }}
+                                                    >
+                                                            <Tooltip placement="topLeft" color='#849FD1' title={'Save'}>
+                                                        <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack' ></Button>
+                                                        </Tooltip>
+                                                    </ConfigProvider>
+                                                </Form.Item>
+                                            </Descriptions.Item></>
 
-                        </Descriptions>
-                    </ConfigProvider>
-                </Form>
-            </div>
-        </Col>
+                                    }
+                                </>
+
+                            </Descriptions>
+                        </ConfigProvider>
+                    </Form>
+                </div>
+            </Col>
+
         </Row>
+
+
 
     )
 }

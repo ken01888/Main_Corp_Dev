@@ -1,11 +1,13 @@
 import { Button, Checkbox, Col, Divider, Form, Input, Layout, Row, Select, ConfigProvider, Space, Alert, InputNumber } from 'antd';
-import { Content, Footer, Header } from 'antd/es/layout/layout';
+import { Content, Header } from 'antd/es/layout/layout';
 import * as React from 'react'
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import Menu from '../Components/Navigation/Main_Menu';
+import Main_Menu from '../Components/Navigation/Main_Menu';
 import { useForm } from 'antd/es/form/Form';
-import { TwitterLogo, MetaLogo, LinkedinLogo } from "@phosphor-icons/react";
+import { IdentificationBadge, Buildings, MapPin, UsersFour, At, Fingerprint, Phone } from "@phosphor-icons/react";
+import Menu from '../Components/Navigation/Main_Menu'
+import { motion } from 'framer-motion';
+import Public_Footer from '../Components/Navigation/Footer';
 
 
 
@@ -13,11 +15,11 @@ import { TwitterLogo, MetaLogo, LinkedinLogo } from "@phosphor-icons/react";
 const SignUp: React.FC = () => {
     const [showForm, setForm] = React.useState(true)
     const [emailVerified, setEmailVerified] = React.useState(false)
-    document.title = 'Kcm Inc Service Registration'
+    document.title = 'Registration'
 
     const onFinishLogin = async (values: any) => {
-
-        let newData = await fetch('/registration', {
+        console.log(values)
+        let newData = await fetch('8080/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,8 +33,6 @@ const SignUp: React.FC = () => {
             setForm(!showForm)
         }
     };
-
-
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
@@ -67,40 +67,51 @@ const SignUp: React.FC = () => {
             <Layout className='homeScreenDesktop'>
 
                 <Content >
-                    <Row justify={'space-around'} gutter={[0, 75]}>
-                        <Col xs={22} md={12}>
-                            <motion.div className='form_login'>
-                                <h2 style={{ display: 'flex' }} className='footer_h1'>
-                                    <motion.div className='logo'>
+                        <Row justify={'center'} align={'middle'} gutter={[0, 16]} className='sectionHeaderOther'>
+                            <Col >
+                                <h3>
+                                    Sign Up
+                                </h3>
+                            </Col>
+                        </Row>
 
-                                        <div style={{ height: 'fit-content' }}>
-                                            <div className='logoBlue'></div>
-                                            <div className='logoBeige'></div>
-                                        </div>
-                                        <div style={{ height: 'fit-content' }}>
-                                            <div className='logoBeige'></div>
-                                            <div className='logoBlue'></div>
 
-                                        </div>
-                                    </motion.div>Kcm Inc
-                                </h2>
+                        <Row justify={'center'} align={'middle'} gutter={[0, 16]} style={{ marginTop: '6rem' }} >
 
-                                {showForm ?
+
+
+                            {showForm ?
+                                <Col xs={{ span: 22 }} md={{ span: 8 }} >
+
                                     <>
-                                        <h1>Sign up</h1><p>Kindly furnish us with the requested details to establish your account. Should you encounter any difficulties during the process, do not hesitate to reach out to our dedicated <Link to='/support'>support</Link> team for assistance. Thank you for choosing our services.
-                                        </p><Divider className='dividerHeader'></Divider>
                                         <Form
                                             name="basic"
                                             initialValues={{ remember: true }}
                                             onFinish={onFinishLogin}
                                             onFinishFailed={onFinishFailed}
-                                            autoComplete="one"
-                                            size='large'
-                                            form= {form}
-
+                                            autoComplete="on"
+                                            size='middle'
+                                            form={form}
+                                            className='formStyles'
                                         >
-
-
+                                            <span>
+                                                <motion.div className='logo'>
+                                                    <div style={{ height: 'fit-content' }}>
+                                                        <div className='logoBlue'></div>
+                                                        <div className='logoBeige'></div>
+                                                    </div>
+                                                    <div style={{ height: 'fit-content' }}>
+                                                        <div className='logoBeige'></div>
+                                                        <div className='logoBlue'></div>
+                                                    </div>
+                                                </motion.div>
+                                                <h3>Sign Up</h3>
+                                            </span>
+                                            <Alert
+                                                description={"We provide account services to organizations operating across multiple industries. To get started, please provide us with your organization's details and contact information. Point all questions to our Support center."}
+                                                type="warning"
+                                                className='heroText'
+                                            />
                                             <ConfigProvider
                                                 theme={{
                                                     token: {
@@ -112,84 +123,108 @@ const SignUp: React.FC = () => {
                                                 }}
                                             >
                                                 <Form.Item
-
-                                                    label="First Name"
                                                     name="first_name"
                                                     rules={[{ required: true, message: 'Please input your first name!' }]}
                                                 >
-                                                    <Input type='text'
-                                                    />
+                                                    <Input type='text' placeholder="First Name" maxLength={25} showCount prefix={<IdentificationBadge size={20} color="#849FD1" weight="fill" />} style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14
+                                                    }} />
                                                 </Form.Item>
 
                                                 <Form.Item
-                                                    label="Last Name"
                                                     name="last_name"
                                                     rules={[{ required: true, message: 'Please input your last name!' }]}
                                                 >
-                                                                                <Input type='text' maxLength={45} showCount/>
-
+                                                    <Input style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14
+                                                    }} type='text' placeholder="Last Name" maxLength={25} showCount prefix={<IdentificationBadge size={20} color="#849FD1" weight="fill" />} />
                                                 </Form.Item>
+
                                                 <Form.Item
-                                                    label="Business Name"
                                                     name="business_name"
-
-                                                    rules={[{ required: true, message: 'Please input your business name!' }]}
+                                                    rules={[{ required: true, message: 'Please input the businesses name!' }]}
                                                 >
-                                                                                <Input type='text' maxLength={45} showCount/>
-
+                                                    <Input style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14
+                                                    }} type='text' placeholder="Enterprise Name ." maxLength={25} showCount prefix={<Buildings size={20} color="#849FD1" weight="fill" />} />
                                                 </Form.Item>
+
                                                 <Form.Item
-                                                    label="Number of employees"
                                                     name="business_size"
                                                     rules={[{ required: true, message: 'How many employees do you have?' }]}
                                                 >
-                                                    <Select bordered>
+                                                    <Select
+                                                        suffixIcon={<UsersFour size={20} color="#849FD1" weight="fill" />}
+                                                        placeholder="How many employees do you have? "
+                                                        style={{
+                                                            border: '1px solid #4D4D4F',
+                                                            borderRadius: '1.5px',
+                                                            fontSize: 14
+                                                        }}
+                                                        variant="borderless"
+
+                                                    >
                                                         <Select.Option value="micro">Less than 10</Select.Option>
                                                         <Select.Option value="small">Between 10 and 50</Select.Option>
                                                         <Select.Option value="medium">Between 50 and 250 </Select.Option>
                                                         <Select.Option value="large">Over 250</Select.Option>
-
                                                     </Select>
                                                 </Form.Item>
-                                                <Form.Item
-                                                    label="Zip Code"
-                                                    name="zipcode"
 
-                                                    rules={[{ required: true, message: 'Enter the 5 digit zip code where the business is located!' }]}
+
+                                                <Form.Item
+
+                                                    name="zipcode"
+                                                    rules={[{ required: true, message: "What is your business's zip code?" }]}
                                                 >
-                                                    <InputNumber min={0o1} max={99999} controls = {false}  />
+
+                                                    <InputNumber style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14,
+                                                        width: '-webkit-fill-available'
+                                                    }} placeholder="Zipcode" maxLength={25} prefix={<MapPin size={20} color="#849FD1" weight="fill" />} stringMode={true} min={0} type='number' />
+
                                                 </Form.Item>
 
 
-                                                <Form.Item
-                                                    label="Phone Number"
-                                                    name="phone_number"
 
+
+                                                <Form.Item
+                                                    name="phone_number"
                                                     rules={[{ required: true, message: 'Please input your 10 digit phone number!' }]}
                                                 >
-                                                    <Input type='tel' min={10} maxLength={10} />
+                                                    <Input style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14
+                                                    }} type='tel' placeholder="Phone Number" maxLength={25} showCount prefix={<Phone size={20} color="#849FD1" weight="fill" />} />
                                                 </Form.Item>
 
+
                                                 <Form.Item
-                                                    label="Email"
                                                     name="email"
                                                     rules={[
                                                         {
                                                             required: true,
                                                             message: 'Please enter a email address!',
                                                         },
-
-                                                    ]}
-
-                                                >
-                                                    <Input type='email' />
+                                                    ]}                                                    >
+                                                    <Input type='text' style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14
+                                                    }} placeholder="Email Address" maxLength={45} showCount prefix={<At size={20} color="#849FD1" weight="fill" />} />
                                                 </Form.Item>
-
 
                                                 <Form.Item
                                                     name="password"
-                                                    label="Password"
-
                                                     rules={[
                                                         {
                                                             required: true,
@@ -201,15 +236,20 @@ const SignUp: React.FC = () => {
                                                     ]}
                                                     hasFeedback
                                                 >
-                                                    <Input.Password />
+                                                    <Input.Password style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14
+                                                    }} placeholder="Password" maxLength={25} showCount prefix={<Fingerprint size={20} color="#849FD1" weight="fill" />} />
+
                                                 </Form.Item>
 
-                                                <Form.Item
-                                                    name="confirm_password"
-                                                    label="Confirm Password"
-                                                    dependencies={['password']}
-                                                    hasFeedback
 
+
+                                                <Form.Item
+                                                    dependencies={['password']}
+                                                    name="confirm_password"
+                                                    hasFeedback
                                                     rules={[
                                                         {
                                                             required: true,
@@ -221,74 +261,59 @@ const SignUp: React.FC = () => {
                                                                     return Promise.resolve();
                                                                 }
 
-                                                                return Promise.reject(new Error('The new password that you entered do not match!'));
+                                                                return Promise.reject(new Error('The  password that you entered do not match!'));
                                                             },
                                                         }),
                                                     ]}
                                                 >
-                                                    <Input.Password />
+                                                    <Input.Password style={{
+                                                        border: '1px solid #4D4D4F',
+                                                        borderRadius: '1.5px',
+                                                        fontSize: 14
+                                                    }} placeholder="Confirm Password" maxLength={25} showCount prefix={<Fingerprint size={20} color="#849FD1" weight="fill" />} />
+
                                                 </Form.Item>
-                                                <Form.Item
-                                                    name="terms_of_service"
-                                                    valuePropName="checked"
-                                                    rules={[
-                                                        {
-                                                            validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Terms of Service.')),
-                                                        },
-                                                    ]}
-                                                >
-                                                    <Checkbox >
-                                                        I agree to the <Link style={{
-                                                            fontSize: '1rem',
-                                                            fontFamily: 'Jost',
-                                                            color: 'black',
-                                                            textDecoration: '2px underline #e8dac2'
-                                                        }} reloadDocument to="/termsofservice">Terms of Service</Link>
-                                                    </Checkbox>
-                                                </Form.Item>
-                                                <Form.Item
-                                                    name="privacy_policy"
-                                                    valuePropName="checked"
-                                                    rules={[
-                                                        {
-                                                            validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Privacy Policy.')),
-                                                        },
-                                                    ]}
-                                                >
-                                                    <Checkbox >
-                                                        I agree to the <Link style={{
-                                                            fontSize: '1rem',
-                                                            fontFamily: 'Jost',
-                                                            color: 'black',
-                                                            textDecoration: '2px underline #e8dac2'
-                                                        }} reloadDocument to="/privacypolicy">Privacy Policy</Link>
-                                                    </Checkbox>
-                                                </Form.Item>
-                                                {/* <Form.Item
-                                                name="privacy_policy"
-                                                valuePropName="checked"
-                                                rules={[
-                                                    {
-                                                        validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                                                    },
-                                                ]}
-                                            >
-                                                <Checkbox>
-                                                    I agree to the <Link style={{
-                                                        fontSize: '1rem',
-                                                        fontFamily: 'Jost',
-                                                        color: 'black',
-                                                        textDecoration: '2px underline #e8dac2'
-                                                    }} reloadDocument to="/termsofservice">Policy Agreement</Link>
-                                                </Checkbox>
-                                            </Form.Item> */}
+
+                                                <div>
+                                                    <Form.Item
+                                                        name="terms_of_service"
+                                                        valuePropName="checked"
+                                                        rules={[
+                                                            {
+                                                                validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Terms of Service.')),
+                                                            },
+                                                        ]}
+                                                    >
+                                                        <Checkbox >
+                                                            <a href='/termsofservice' className='anchorLinks'>
+                                                                By checking the box, you indicate your agreement to abide by and adhere to the Terms of Service governing the use of our platform and services.
+                                                            </a>
+                                                        </Checkbox>
+                                                    </Form.Item>
+                                                    <Form.Item
+                                                        name="privacy_policy"
+                                                        valuePropName="checked"
+                                                        rules={[
+                                                            {
+                                                                validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('Please read and accept our Privacy Policy.')),
+                                                            },
+                                                        ]}
+                                                    >
+                                                        <Checkbox >
+                                                            <a href='/privacypolicy' className='anchorLinks'>
+                                                                By checking the box, you indicate your agreement to abide by and adhere to the Privacy Policy governing the use of our platform and services.
+                                                            </a>
+                                                        </Checkbox>
+                                                    </Form.Item>
+                                                </div>
+
 
 
                                                 <Form.Item
                                                 >
-                                                    <Button className='buttonBlack' htmlType="submit">
-                                                        Verify
-                                                    </Button>
+                                                    <button type="submit" className='buttonFormBeige'>
+                                                        Submit
+                                                    </button>
                                                 </Form.Item>
 
                                             </ConfigProvider>
@@ -300,123 +325,74 @@ const SignUp: React.FC = () => {
                                                     closeIcon
                                                 /> : ''
                                             }
-                                        </Form></>
+                                        </Form>
+
+                                    </>
+
+                                </Col>
+
+                                :
+
+                                <Col xs={{ span: 22 }} md={{ span: 12 }} style={{ padding: '10rem 0rem' }}>
 
 
-                                    :
-                                    <><h1>Registration Complete</h1><p>Thank you for registering with Kcm Inc and choosing us as your preferred B2B service provider. Our enterprise is continually improving to provide you with the best possible experience and outstanding services. If you require any assistance in using our application, our support team is always available to help.
-                                    </p><Divider className='dividerHeader'></Divider><ConfigProvider
-                                        theme={{
-                                            token: {
-                                                fontFamily: 'Jost',
-                                                colorTextTertiary: 'black',
-                                                colorPrimaryHover: '#000000',
-                                                colorBgContainer: '#fafafa'
-                                            },
-                                        }}
-                                    >
-                                            <Link to='/'>
-                                                <Button htmlType="submit">Click here to login!</Button>
-                                            </Link>
 
 
-                                        </ConfigProvider></>}
 
-                            </motion.div>
-                        </Col>
+                                    <span>
+                                        <motion.div className='logo'>
+                                            <div style={{ height: 'fit-content' }}>
+                                                <div className='logoBlue'></div>
+                                                <div className='logoBeige'></div>
+                                            </div>
+                                            <div style={{ height: 'fit-content' }}>
+                                                <div className='logoBeige'></div>
+                                                <div className='logoBlue'></div>
+                                            </div>
+                                        </motion.div>
+                                        <h3>We've created your account. </h3>
+                                    </span>
+                                    <Alert
+                                        description="
+                                        Welcome to the K.C. Morris Inc! We're delighted to have you on board. As a newly registered client, you've just taken the first step toward unlocking a world of innovative solutions and utilitarianism. We are here to help guide you on this journey. Your success is our priority, and we're here to empower you every step of the way. Real change takes a community, and we are happy to have you onboard.                     "
+                                        type="warning"
+                                        className='heroText'
+                                    />
+
+                                    <Link to='/'>
+                                        <button type="submit" className='buttonFormBeige'>
+                                            Go Back Home
+                                        </button>
+                                    </Link>
 
 
-                    </Row>
+
+                                </Col>
 
 
+
+
+
+
+
+
+
+
+
+
+                            }
+
+
+
+                        </Row>
 
 
                 </Content>
 
             </Layout>
 
-            <Footer className='footer_public'>
-        <Row justify={'space-between'} align='middle' gutter={[0, 75]}>
-          <Col xs={22} md={10}>
-            <h2 style={{ display: 'flex' }} className='footer_h1'>
-              <div className='logo'>
-
-                <div style={{ height: 'fit-content' }}>
-                  <div className='logoBlue'></div>
-                  <div className='logoBeige'></div>
-                </div>
-                <div style={{ height: 'fit-content' }}>
-                  <div className='logoBeige'></div>
-                  <div className='logoBlue'></div>
-
-                </div>
-              </div>Kcm Inc
-            </h2>
-            <p>At KCM Inc, we are committed to delivering responsible business services that foster sustainable progress and development, while upholding equitable treatment for all stakeholders.
-
-            </p>
-          </Col>
-          <Col xs={22} md={5} >
-
-            <ConfigProvider
-              theme={{
-                token: {
-                  fontFamily: 'Jost',
-                  colorTextTertiary: 'black',
-                  colorPrimaryHover: '#000000',
-                  colorBgContainer: '#fafafa'
-
-                },
-              }}
-            >
-              <Space wrap direction='vertical' >
-                <h2>Free for a limited time! </h2>
-              </Space>
-
-            </ConfigProvider>
 
 
-          </Col>
-          <Col xs={22} md={5} >
-
-            <ConfigProvider
-              theme={{
-                token: {
-                  fontFamily: 'Jost',
-                  colorTextTertiary: 'black',
-                  colorPrimaryHover: '#000000',
-                  colorBgContainer: '#fafafa'
-
-                },
-              }}
-            >
-              <Space wrap direction='vertical' >
-                <Link reloadDocument to='https://www.facebook.com/KCMIncEngine'>
-                  <MetaLogo size={32} weight="fill" color='#b4cbd4' />
-                </Link>
-
-
-
-
-                <Link reloadDocument to='https://twitter.com/KCMINC1'> <TwitterLogo size={32} weight="fill" color='#b4cbd4' />
-                </Link>
-
-
-
-
-                <Link reloadDocument to='https://www.linkedin.com/company/k-c-morris-inc-stakeholder-intelligence-corporations/?viewAsMember=true'>
-                  <LinkedinLogo size={32} weight="fill" color='#b4cbd4' />
-                </Link>
-
-              </Space>
-
-            </ConfigProvider>
-
-
-          </Col>
-
-        </Row>
-      </Footer>
         </Layout >)
 }
 

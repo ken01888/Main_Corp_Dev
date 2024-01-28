@@ -47,7 +47,7 @@ const InventoryCheck: React.FC = (props) => {
                     setInventoryExist(false)
                 } else if (newData.length >= 1) {
                     setInventoryLength(newData.length)
-                    
+
                     setInventoryExist(true)
                     setInventoryList(newData)
                 }
@@ -161,7 +161,7 @@ const InventoryCheck: React.FC = (props) => {
                             <Descriptions.Item span={3}>
                                 <p>
 
-                                    <span><Tag color="error">Notice:</Tag></span> Once you've recorded an item in your inventory, you'll notice that the button's color changes from <span><Button style={{ backgroundColor: '#b4cbd4' }}>
+                                    <span><Tag color="error">Notice:</Tag></span> Once you've recorded an item in your inventory, you'll notice that the button's color changes from <span><Button style={{ backgroundColor: '#849FD1' }}>
                                         Record
                                     </Button> </span> to <span><Button style={{ backgroundColor: '#d9d9d9' }}>
                                         Recorded
@@ -272,7 +272,7 @@ const InventoryCheck: React.FC = (props) => {
                                                 <Descriptions.Item key={uuidv4()}
                                                     label="Order">
                                                     <Form.Item>
-                                                        <Button htmlType="submit" id={uuidv4()} style={{ backgroundColor: disableButton.includes(v.id) ? '' : '#b4cbd4' }} disabled={disableButton.includes(v.id) ? true : false}>
+                                                        <Button htmlType="submit" id={uuidv4()} style={{ backgroundColor: disableButton.includes(v.id) ? '' : '#849FD1' }} disabled={disableButton.includes(v.id) ? true : false}>
                                                             {disableButton.includes(v.id) ? 'Recorded' : 'Record'}
                                                         </Button>
                                                     </Form.Item>
@@ -288,7 +288,7 @@ const InventoryCheck: React.FC = (props) => {
 
                                 }
                             </Form.Provider> : <Result
-                                icon={<QrcodeOutlined style={{ color: '#b4cbd4' }} />}
+                                icon={<QrcodeOutlined style={{ color: '#849FD1' }} />}
                                 title="There aren't any items in your inventory at the moment. To be able to generate inspection sheets, kindly add items to your account through your business profile page. Thank you!"
                             />
                         }
@@ -316,8 +316,7 @@ const InventoryCheck: React.FC = (props) => {
                             </h2>
                             <h1>Enter your store pin here</h1>
 
-                            <p>Please enter your business PIN to continue. If you don't have the PIN associated with your business account, please contact your administrator for further help.
-                                if you have a PIN but are experiencing issues contact our <Link to='/support'>support</Link> center for assistance. </p>
+                            <p>To proceed, please enter the PIN associated with your business account. If you do not know the PIN, contact your administrator for assistance. Contact our <a href='/support' className='inlineTextSpan'>support</a>  if you need help with issues after entering the correct PIN. </p>
                             <Divider className='dividerHeader'></Divider>
                             <Form
                                 name="basic"
@@ -355,9 +354,9 @@ const InventoryCheck: React.FC = (props) => {
 
                                     <Form.Item
                                     >
-                                        <Button className='buttonBlack' htmlType="submit">
+                                        <button className='buttonBlack' type="submit">
                                             Verify
-                                        </Button>
+                                        </button>
                                     </Form.Item>
                                 </ConfigProvider>
                             </Form>
@@ -380,7 +379,7 @@ const InventoryCheck: React.FC = (props) => {
 
 
             {
-                // inventoryLength === 0 ? <FloatButton onClick={SendNotificationInventory} tooltip='Submit Inventory Items' shape='square' icon={<ReconciliationOutlined style={{ color: 'black' }} />} style={{ border: '1px solid black', backgroundColor: '#e8dac2' }} /> : ''
+                // inventoryLength === 0 ? <FloatButton onClick={SendNotificationInventory} tooltip='Submit Inventory Items' shape='square' icon={<ReconciliationOutlined style={{ color: 'black' }} />} style={{ border: '1px solid black', backgroundColor: '#E8DAC2' }} /> : ''
             }
         </Row>
 

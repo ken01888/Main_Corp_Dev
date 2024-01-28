@@ -1,15 +1,10 @@
 .ClientSideItems{
-
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    background: var(--white-gray);
-    height: fit-content;
+    height: -webkit-fill-available;
+    height: 100vh;
     padding: 1rem;
-    border-right: 2px solid var(--light_grey);
-    border-bottom: 2px solid var(--light_grey);
-    border-radius: 0px 0px 5px 0px;
-
 }
 
 @media only screen and (max-width: 749px) {
@@ -31,5 +26,4 @@
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
-    border-bottom: 2px solid var(--light_grey);
 }

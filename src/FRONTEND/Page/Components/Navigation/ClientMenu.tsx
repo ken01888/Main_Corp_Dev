@@ -96,8 +96,7 @@ export const ClientMenu = (props) => {
                 closable={true}
                 key={placement}
                 mask={false}
-                headerStyle={{ background: '#fafafa' }}
-                bodyStyle={{ background: '#fafafa' }}
+           
                 maskClosable
             >
                 <Row justify={'space-between'} gutter={[0, 75]}>
@@ -131,15 +130,14 @@ export const ClientMenu = (props) => {
                         {
                             subInventory ?
 
-                                <Space wrap size={[55, 0]}>
+                                <Space wrap size={[55, 0]} style={{rowGap:25}}>
                                     <NavLink
                                         to={`store`}
                                         className='clientMenuItem'
                                         style={({ isActive, isPending }) => {
                                             return {
                                                 fontWeight: isActive ? "bold" : "",
-                                                backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+                                                backgroundColor: isActive ? "#E8DAC2" : "#fafafa",
 
 
                                             };
@@ -154,8 +152,7 @@ export const ClientMenu = (props) => {
                                         style={({ isActive, isPending }) => {
                                             return {
                                                 fontWeight: isActive ? "bold" : "",
-                                                backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+                                                backgroundColor: isActive ? "#E8DAC2" : "#fafafa",
                                             };
                                         }}
 
@@ -168,8 +165,7 @@ export const ClientMenu = (props) => {
                                         style={({ isActive, isPending }) => {
                                             return {
                                                 fontWeight: isActive ? "bold" : "",
-                                                backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+                                                backgroundColor: isActive ? "#E8DAC2" : "#fafafa",
                                             };
                                         }}
 
@@ -182,8 +178,7 @@ export const ClientMenu = (props) => {
                                         style={({ isActive, isPending }) => {
                                             return {
                                                 fontWeight: isActive ? "bold" : "",
-                                                backgroundColor: isActive ? "#fafafa" : "#fafafa",
-                                                textDecoration: isActive ? "2.5px underline #b4cbd4" : ""
+                                                backgroundColor: isActive ? "#E8DAC2" : "#fafafa",
                                             };
                                         }}
 

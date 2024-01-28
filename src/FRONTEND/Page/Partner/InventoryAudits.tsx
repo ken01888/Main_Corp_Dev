@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Space, Input, Table, DatePicker, DatePickerProps, Dropdown, MenuProps, Tag, Row } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Modal, Space, Input, Table, DatePicker, DatePickerProps, Dropdown, MenuProps, Tag, Row, Alert, Tooltip } from 'antd'
 import 'isomorphic-fetch';
 
 import { ColumnsType } from 'antd/es/table';
 import { DownOutlined, Loading3QuartersOutlined, LoadingOutlined } from '@ant-design/icons';
 import * as dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { ClockCounterClockwise, HashStraight, Plus, TextT, UploadSimple } from '@phosphor-icons/react';
 dayjs.extend(relativeTime)
 
 
@@ -50,7 +51,7 @@ const InventoryAudit: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-                const dataReply = await fetch(`/inventoryPeriod`);
+                const dataReply = await fetch(`http://localhost:8080/inventoryPeriod`);
                 const newData = await dataReply.json();
                 const newDate_1 = newData.map((i, n, a) => {
                     return i.date_of_audit
@@ -62,7 +63,7 @@ const InventoryAudit: React.FC = (props) => {
     React.useEffect(() => {
         (
             async () => {
-                const dataReply = await fetch(`/inventoryPeriod`);
+                const dataReply = await fetch(`http://localhost:8080/inventoryPeriod`);
                 const newData = await dataReply.json();
                 const newDate_1 = newData.map((i, n, a) => {
                     return i.date_of_audit
@@ -78,7 +79,7 @@ const InventoryAudit: React.FC = (props) => {
         (
             async () => {
                 const newDate = requestedDate
-                const dataReply = await fetch(`/inventory_reference_information?auditDate=${newDate}`)
+                const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
                 const newData = await dataReply.json();
                 const newArray = newData.map((i, n, a) => {
                     return i.price
@@ -95,7 +96,7 @@ const InventoryAudit: React.FC = (props) => {
     const onChange: DatePickerProps['onChange'] = async (date, dateString) => {
         const newDate = await dayjs(dateString).format('dddd, MMMM D, YYYY')
         setrequestedDate(newDate)
-        const dataReply = await fetch(`/inventory_reference_information?auditDate=${newDate}`)
+        const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
         const newData1 = await dataReply.json();
         const newArray = newData1.map((i, n, a) => {
             return i.price
@@ -112,7 +113,7 @@ const InventoryAudit: React.FC = (props) => {
 
     const onDeleteInventoryItem = async () => {
         setRowModify(!rowModify)
-        const dataReply = await fetch(`/deleteInventoryAuditItems`, {
+        const dataReply = await fetch(`http://localhost:8080/deleteInventoryAuditItems`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -124,7 +125,7 @@ const InventoryAudit: React.FC = (props) => {
             (
                 async () => {
                     const newDate = requestedDate
-                    const dataReply = await fetch(`/inventory_reference_information?auditDate=${newDate}`)
+                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
                     const newData = await dataReply.json();
                     const newArray = newData.map((i, n, a) => {
                         return i.price
@@ -145,7 +146,7 @@ const InventoryAudit: React.FC = (props) => {
         setRowModify(!rowModify)
         setUpdateInventoryForm(!updateInventoryForm)
         values.date_of_audit = dayjs(values.date_of_audit).format('dddd, MMMM D, YYYY')
-        const dataReply = await fetch(`/updateInventoryAuditItem`, {
+        const dataReply = await fetch(`http://localhost:8080/updateInventoryAuditItem`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -157,7 +158,7 @@ const InventoryAudit: React.FC = (props) => {
             (
                 async () => {
                     const newDate = requestedDate
-                    const dataReply = await fetch(`/inventory_reference_information?auditDate=${newDate}`)
+                    const dataReply = await fetch(`http://localhost:8080/inventory_reference_information?auditDate=${newDate}`)
                     const newData = await dataReply.json();
                     const newArray = newData.map((i, n, a) => {
                         return i.price
@@ -222,6 +223,37 @@ const InventoryAudit: React.FC = (props) => {
 
 
     const columns: ColumnsType<DataType> = [
+
+        {
+            title: 'Action',
+            render: (_, record: any) => {
+                if (record.id === selectedRowAction) {
+                    return (
+
+                        <Dropdown menu={{ items }}>
+                            <Button>
+                                <Space>
+                                    Edit
+                                    <DownOutlined />
+                                </Space>
+                            </Button>
+                        </Dropdown>
+
+
+
+
+                    )
+                } else {
+                    return (
+                        ''
+                    )
+                }
+
+            }
+
+
+            ,
+        },
         {
             title: 'Category',
             dataIndex: 'category',
@@ -266,36 +298,6 @@ const InventoryAudit: React.FC = (props) => {
 
 
 
-        {
-            title: 'Action',
-            render: (_, record: any) => {
-                if (record.id === selectedRowAction) {
-                    return (
-
-                        <Dropdown menu={{ items }}>
-                            <Button>
-                                <Space>
-                                    Edit
-                                    <DownOutlined />
-                                </Space>
-                            </Button>
-                        </Dropdown>
-
-
-
-
-                    )
-                } else {
-                    return (
-                        ''
-                    )
-                }
-
-            }
-
-
-            ,
-        },
     ];
 
 
@@ -308,110 +310,144 @@ const InventoryAudit: React.FC = (props) => {
 
         <Row justify={'center'} gutter={[0, 75]} >
 
-        <Col xs={22} md={18}>
-            <Space wrap size={[12, 64]}>
+            <Col xs={22} md={18}>
+                <Space wrap>
 
-                <div className='clientPortalDiv'>
-
-
-                    <Descriptions
-                        title={<><h1 className='h1_Header_Client_Portal'>Audits</h1>
-                        </>} layout="vertical">
-                        <Descriptions.Item span={3}>
-                            <p>
-                            The Audit tool helps track inventory, monitor costs and purchases, and review physical inventory checks. Access the tool by selecting a date highlighted in beige. Review the table containing each item recorded, its description, availability, and purchasing amounts. Make changes to availability, purchasing, audit date, or remove an item by clicking the box in the first column. Click reset to update the calendar and view changes.
-                            </p>
-                        </Descriptions.Item>
-                        <Descriptions.Item span={3}>
-                            <ConfigProvider
-                                theme={{
-                                    token: {
-                                        fontFamily: 'Jost',
-                                        colorTextTertiary: 'black',
-                                        colorBgContainer: '#fafafa',
-                                        colorPrimary: 'black'
-                                    },
-                                }}
-                            >
-                                <Space>
-                                    <DatePicker
-                                        onChange={onChange}
-                                        cellRender={(current, info) => {
-                                            if (info.type !== 'date') return info.originNode;
-                                            const style: React.CSSProperties = {};
-                                            inventoryDate.map((i, n, a) => {
-                                                if (current.format('dddd, MMMM D, YYYY') === i) {
-                                                    style.fontFamily = 'Jost';
-                                                    style.background = 'var(--light_beige)';
-                                                    style.color = 'black';
-                                                    style.fontWeight = 900
-                                                }
-                                            })
-                                            return (
-                                                <div className="ant-picker-cell-inner" style={style}>
-                                                    {current.date()}
-                                                </div>
-                                            );
-                                        }}
-                                    />
-                                    <Tag className='resetTab' onClick={() => { setUpdatedItem(false) }} >Reset Calendar</Tag>
-                                </Space>
-                            </ConfigProvider>
-
-                        </Descriptions.Item>
+                    <div className='clientSectionsFormat'>
 
 
-                    </Descriptions>
+                        <div>
+                            <h1>Audits</h1>
+
+                            <Alert
+                                description=
+                                "The Audit tool helps track inventory, monitor costs and purchases, and review physical inventory checks. Access the tool by selecting a date highlighted in beige. Review the table containing each item recorded, its description, availability, and purchasing amounts. Make changes to availability, purchasing, audit date, or remove an item by clicking the box in the first column. Click reset to update the calendar and view changes. "
+                                type="warning"
+                                className='heroText'
+                            />
+                        </div>
+
+                        <Descriptions>
+                            <Descriptions.Item span={3}>
+                                <ConfigProvider
+                                    theme={{
+                                        token: {
+                                            fontFamily: 'Jost',
+                                            colorTextTertiary: 'black',
+                                            colorBgContainer: '#fafafa',
+                                            colorPrimary: 'black'
+                                        },
+                                    }}
+                                >
+                                    <Space align='end'>
+                                        <DatePicker
+                                            style={{
+                                                border: '1px solid #4D4D4F',
+                                                borderRadius: '1.5px',
+                                                fontSize: 14,
+                                                width: 160
+                                            }}
+                                            variant='borderless'
+                                            onChange={onChange}
+                                            cellRender={(current, info) => {
+                                                if (info.type !== 'date') return info.originNode;
+                                                const style: React.CSSProperties = {};
+                                                inventoryDate.map((i, n, a) => {
+                                                    if (current.format('dddd, MMMM D, YYYY') === i) {
+                                                        style.fontFamily = 'Jost';
+                                                        style.background = 'var(--light_beige)';
+                                                        style.color = 'black';
+                                                        style.fontWeight = 900
+                                                    }
+                                                })
+                                                return (
+                                                    <div className="ant-picker-cell-inner" style={style}>
+                                                        {current.date()}
+                                                    </div>
+                                                );
+                                            }}
+                                        />
+                                        <ConfigProvider
+                                            theme={{
+                                                token: {
+                                                    fontFamily: 'Jost',
+                                                    colorTextTertiary: 'black',
+                                                    colorPrimaryHover: '#000000',
+                                                    colorBgContainer: '#fafafa'
+                                                },
+                                            }}
+                                        >
+                                            <Space className='spaceDivForButtonOnStockPage' wrap size={[25, 25]}>
+                                                <Tooltip placement="topLeft" color='#849FD1' title={'Reset Calendar'}>
+                                                    <Button icon={<ClockCounterClockwise size={20} weight="bold" />} className='buttonFormBlack' onClick={() => { setUpdatedItem(false) }}></Button>
+                                                    {/* <Button icon={<SyncOutlined  />} className='buttonBlack'></Button> */}
+                                                </Tooltip>
+
+
+                                            </Space>
+                                        </ConfigProvider>
+                                    </Space>
+                                </ConfigProvider>
+
+                            </Descriptions.Item>
+
+
+                        </Descriptions>
 
 
 
 
 
-                </div>
+                    </div>
 
-                <div className='tableScrollDiv'>
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                lineWidth: 1,
-                                fontFamily: 'Jost',
-                                fontSize: 14,
-                            },
-                        }}
-                    >
-                        <Table scroll={{ x: '-webkit-fill-available' }} rowKey={(record: any) => record.id}
-                            rowSelection={rowSelection} columns={columns} dataSource={InventoryList} pagination={{ pageSize: 10 }} bordered footer={(record: any) =>
-                                InventoryList[0] ?
-                                    <Descriptions>
-                                        <Descriptions.Item label="Audit Date" span={2}>{record[0].date_of_audit}</Descriptions.Item>
-                                        <Descriptions.Item label="Cost" span={1}>{new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(totalCost))}</Descriptions.Item>
-                                        <Descriptions.Item label="Time Since Audit" span={3}>{dayjs(record[0].date_of_audit).fromNow(true)}</Descriptions.Item>
-
-
+                    <div className='tableScrollDiv'>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    lineWidth: 1,
+                                    fontFamily: 'Jost',
+                                    fontSize: 14,
+                                },
+                            }}
+                        >
+                            <Table scroll={{ x: '-webkit-fill-available' }} rowKey={(record: any) => record.id}
+                                rowSelection={rowSelection} columns={columns} dataSource={InventoryList} pagination={{ pageSize: 10 }} bordered footer={(record: any) =>
+                                    InventoryList[0] ?
+                                        <Descriptions>
+                                            <Descriptions.Item label="Audit Date" span={2}>{record[0].date_of_audit}</Descriptions.Item>
+                                            <Descriptions.Item label="Cost" span={1}>{new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD' }).format(Number(totalCost))}</Descriptions.Item>
+                                            <Descriptions.Item label="Time Since Audit" span={3}>{dayjs(record[0].date_of_audit).fromNow(true)}</Descriptions.Item>
 
 
-                                    </Descriptions> : ''}
-                        />
-                    </ConfigProvider>
-                </div>
 
 
-            </Space>
+                                        </Descriptions> : ''}
+                            />
+                        </ConfigProvider>
+                    </div>
 
-        </Col>
+
+                </Space>
+
+            </Col>
 
             {/* Update Inventory Modal */}
 
             <Modal
-                title="Update Inventory Item"
+                title={<h1>Modify Audit Record</h1>}
                 style={{ top: 10 }}
                 open={updateInventoryForm}
                 onCancel={() => setUpdateInventoryForm(!updateInventoryForm)}
                 footer={null}
             >
 
-                <p>It is essential to enter this information accurately to ensure its proper usage. If you require any help with data entry, please reach out to our support team.</p>
-
+                <Alert
+                    description="
+                        It is essential to enter this information accurately to ensure its proper usage. If you require any help with data entry, please reach out to our support team.
+                        "
+                    type="warning"
+                    className='heroText'
+                />
                 {
                     selectedRow ?
                         <Form
@@ -441,26 +477,39 @@ const InventoryAudit: React.FC = (props) => {
                                     label="Available"
                                     name="in_stock"
                                 >
-                                    <Input type='text' maxLength={45} showCount />
-
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14
+                                    }} prefix={<TextT size={20} color="#849FD1" weight="bold" />} type='text' placeholder='Availability' maxLength={45} showCount />
                                 </Form.Item>
 
                                 <Form.Item
                                     label="Purchase Amount"
                                     name="order_quantity"
                                 >
-                                    <Input type='text' maxLength={45} showCount />
+                                    <Input style={{
+                                        border: '1px solid #4D4D4F',
+                                        borderRadius: '1.5px',
+                                        fontSize: 14
+                                    }} 
+                                    prefix={<HashStraight size={20} color="#849FD1" weight="bold" />}
+                                    type='text' placeholder='Amount' maxLength={45} showCount />
                                 </Form.Item>
 
                                 <Form.Item
                                     label='Modify Date'
                                     name="date_of_audit"
-
                                 >
-
-
                                     <DatePicker
-
+                                             style={{
+                                                border: '1px solid #4D4D4F',
+                                                borderRadius: '1.5px',
+                                                fontSize: 14,
+                                                width: 325
+                                            }}
+                                            variant='borderless'
+                                            placeholder='Date'
                                         cellRender={(current, info) => {
                                             if (info.type !== 'date') return info.originNode;
                                             const style: React.CSSProperties = {};
@@ -488,10 +537,22 @@ const InventoryAudit: React.FC = (props) => {
 
                                 <Form.Item
                                 >
-                                    <Button htmlType="submit" className='buttonBlack' >
+                                    <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+                                },
+                            }}
+                        >
+                            <Tooltip placement="right" color='#849FD1' title={'Save'}>
 
-                                        Update
-                                    </Button>
+                                <Button icon={<UploadSimple size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack'></Button>
+                            </Tooltip>
+                        </ConfigProvider>
+                                
                                 </Form.Item>
                             </ConfigProvider>
                         </Form> : ''
