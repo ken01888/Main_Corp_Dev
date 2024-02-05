@@ -76,26 +76,28 @@ app.use('/aboutus', express.static('public'))
 app.use('/termsofservice', express.static('public'))
 app.use('/bola_overview', express.static('public'))
 app.use('/privacypolicy', express.static('public'))
+// app.use('/signup', express.static('public'))
+
+app.use('/health-diagnostic', express.static('public'))
 
 
 
 app.use('/inventorycheck', express.static('public'))
 app.use('/nutrients', express.static('public'))
 // app.use('/principle/', validateUser, express.static('public'))
-app.use('/principle/', express.static('public'))
-app.use('/principle/store', express.static('public'))
-app.use('/principle/products', express.static('public'))
-app.use('/principle/bolamanual', express.static('public'))
+// app.use('/principle/', express.static('public'))
+// app.use('/principle/account', express.static('public'))
+// app.use('/principle/store', express.static('public'))
+// app.use('/principle/products', express.static('public'))
+// app.use('/principle/nutrition', express.static('public'))
+// app.use('/principle/bolamanual', express.static('public'))
+// app.use('/principle/inventoryaudits', express.static('public'))
+
 
 
 
 app.use('/login', express.static('public'))
-app.use('/signup', express.static('public'))
-app.use('/store', express.static('public'))
-app.use('/inventoryaudits', express.static('public'))
-app.use('/nutrition', express.static('public'))
-app.use('/account', express.static('public'))
-app.use('/products', express.static('public'))
+
 
 app.use(registration)
 app.use(support)
@@ -113,48 +115,10 @@ app.get("*", (req, res) => {
 
 
 
-app.post('/nutritionalData', async (req, res, error) => {
-  const data = await fetch(
-    `https://api.nal.usda.gov/fdc/v1/foods/search?query=${req.body.foodSelection}&pageSize=4&dataType=Foundation&api_key=${process.env.API_KEY}`
-  )
-  const foodsQuery = await data.json()
-
-  const foodsArray = await foodsQuery.foods.map((i: any) => {
-    return i
-  })
-  let arraySort = foodsArray[0].foodNutrients.sort((a: any, b: any) => {
-    const nameA = a.nutrientName.toUpperCase() // ignore upper and lowercase
-    const nameB = b.nutrientName.toUpperCase() // ignore upper and lowercase
-    if (nameA < nameB) {
-      return -1
-    }
-    if (nameA > nameB) {
-      return 1
-    }
-
-    // names must be equal
-    return 0
-  })
 
 
 
-  const nutrientProfile: [] = arraySort.map((data: any, index: number) => {
-    if (
-      data.nutrientId == 1003 ||
-      data.nutrientId == 1087 ||
-      data.nutrientId == 1093
 
-    ) {
-      return data
-    }
-  })
-  let selectedNutrients = nutrientProfile.filter(
-    index => index !== undefined || null
-  )
-
-  res.json([foodsArray[0].description, selectedNutrients])
-
-})
 
 // const test1 = []
 // const tfoutput = []

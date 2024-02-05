@@ -60,7 +60,7 @@ const Products: React.FC = (props) => {
                 // const user: any = await window.localStorage.getItem('user')
                 // const newUser = await JSON.parse(user)
                 // setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -78,7 +78,7 @@ const Products: React.FC = (props) => {
                 // const user: any = await window.localStorage.getItem('user')
                 // const newUser = await JSON.parse(user)
                 // setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/inventoryItemsForSelectRecipes`);
+                const dataReply = await fetch(`/inventoryItemsForSelectRecipes`);
 
                 const newData = await dataReply.json();
                 setSelectItems(newData)
@@ -92,7 +92,7 @@ const Products: React.FC = (props) => {
                 // const user: any = await window.localStorage.getItem('user')
                 // const newUser = await JSON.parse(user)
                 // setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -105,7 +105,7 @@ const Products: React.FC = (props) => {
 
     const onInsertProductName = async (values: any) => {
 
-        const dataReply = await fetch(`http://localhost:8080/insertProductName`, {
+        const dataReply = await fetch(`/insertProductName`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -128,7 +128,7 @@ const Products: React.FC = (props) => {
             values.inputs.forEach((i, n, a) => {
                 i.product_id = selectedRowAction
             })
-            const dataReply = await fetch(`http://localhost:8080/insertProductInputs`, {
+            const dataReply = await fetch(`/insertProductInputs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -137,7 +137,7 @@ const Products: React.FC = (props) => {
             });
 
             if (dataReply.ok === true) {
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -152,7 +152,7 @@ const Products: React.FC = (props) => {
 
     const onUpdateProduct = async (values: any) => {
         setDisplayAddProduct(!displayAddProduct)
-        const dataReply = await fetch(`http://localhost:8080/updateProductInformation`, {
+        const dataReply = await fetch(`/updateProductInformation`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -165,7 +165,7 @@ const Products: React.FC = (props) => {
             const user: any = await window.localStorage.getItem('user')
             const newUser = await JSON.parse(user)
             setUserId(newUser.id)
-            const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+            const dataReply = await fetch(`/getRecipeProduct`);
             const newData = await dataReply.json();
             setInventoryList(newData)
         }
@@ -176,7 +176,7 @@ const Products: React.FC = (props) => {
 
     const onUpdateInput = async (values: any) => {
 
-        const dataReply = await fetch(`http://localhost:8080/updateInputs`, {
+        const dataReply = await fetch(`/updateInputs`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -184,10 +184,10 @@ const Products: React.FC = (props) => {
             body: JSON.stringify(values)
         });
 
-        const dataReply1 = await fetch(`http://localhost:8080/getRecipeProduct`);
+        const dataReply1 = await fetch(`/getRecipeProduct`);
         const newData = await dataReply1.json();
         setInventoryList(newData)
-        const dataReply2 = await fetch(`http://localhost:8080/allProductInputs?product_id=${values[0].product_id}`);
+        const dataReply2 = await fetch(`/allProductInputs?product_id=${values[0].product_id}`);
         const newData1 = await dataReply2.json();
         setSelectedRowActions(values[0].product_id)
         setFormInputs(newData1)
@@ -204,7 +204,7 @@ const Products: React.FC = (props) => {
 
                 (
                     async () => {
-                        const dataReply = await fetch(`http://localhost:8080/allProductInputs?product_id=${record.id}`);
+                        const dataReply = await fetch(`/allProductInputs?product_id=${record.id}`);
                         const newData = await dataReply.json();
                         setSelectedRowActions(record.id)
                         setFormInputs(newData)
@@ -221,7 +221,7 @@ const Products: React.FC = (props) => {
 
 
     const itemDelete = async () => {
-        const dataReply = await fetch(`http://localhost:8080/deleteProduct`, {
+        const dataReply = await fetch(`/deleteProduct`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -516,7 +516,7 @@ const Products: React.FC = (props) => {
 
 
     const onDeleteInput = async (id: any) => {
-        const dataReply = await fetch(`http://localhost:8080/deleteInputs`, {
+        const dataReply = await fetch(`/deleteInputs`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -681,6 +681,7 @@ const Products: React.FC = (props) => {
                         description="
                             How much of the overall yield comprises a single unit? - Yield Per Unit
                             "
+
                         type="warning"
                         className='heroText'
                     />
@@ -733,7 +734,7 @@ const Products: React.FC = (props) => {
 
                     <Alert
                         description="
-                            How many units are included in the total packaged for sale? - Units Per Sale
+                            How many units go into a single retail package? - Retail Weight
                             "
                         type="warning"
                         className='heroText'
@@ -749,7 +750,7 @@ const Products: React.FC = (props) => {
                             borderRadius: '1.5px',
                             fontSize: 14,
                             width: 325
-                        }} placeholder="Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
+                        }} placeholder="Retail Weight" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
 
                     </Form.Item>
 
@@ -777,10 +778,6 @@ const Products: React.FC = (props) => {
                             width: 325
                         }} placeholder="Retail Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
                     </Form.Item>
-
-
-
-
 
                     <Form.Item
                     >
@@ -844,8 +841,8 @@ const Products: React.FC = (props) => {
                     style={{ maxWidth: 600 }}
                     autoComplete="off"
                     form={addFormInputs}
-
                 >
+
                     <Form.List name="inputs">
                         {(fields, { add, remove }) => (
                             <>
@@ -862,7 +859,7 @@ const Products: React.FC = (props) => {
                                             {...restField}
                                             name={[name, 'inventory_item_id']}
                                             rules={[{ required: true, message: 'Missing item' }]}
-                                            
+
                                         >
                                             <Select
                                                 style={{
@@ -874,9 +871,9 @@ const Products: React.FC = (props) => {
                                                 }}
                                                 variant='borderless'
                                                 suffixIcon={<CheckSquare size={20} color="#849FD1" weight="bold" />}
-                                                options={selectItems} 
+                                                options={selectItems}
                                                 placeholder='Available items'
-                                                />
+                                            />
 
                                         </Form.Item>
                                         <Alert
@@ -1043,7 +1040,6 @@ const Products: React.FC = (props) => {
                     <Form.Item
 
                         name="product_name"
-                        rules={[{ required: true, message: 'Enter details' }]}
                         tooltip='Production Name'
                     >
                         <Input style={{
@@ -1065,7 +1061,6 @@ const Products: React.FC = (props) => {
                             <Form.Item
                                 name={['serving_size', 'amount']}
                                 initialValue={1}
-                                rules={[{ required: true, message: 'Enter details' }]}
                             >
                                 <InputNumber style={{
                                     border: '1px solid #4D4D4F',
@@ -1077,7 +1072,6 @@ const Products: React.FC = (props) => {
                             <Form.Item
                                 name={['serving_size', 'unit']}
                                 initialValue={'oz'}
-                                rules={[{ required: true, message: 'Enter details' }]}
                             >
                                 <Select
                                     style={{
@@ -1108,15 +1102,14 @@ const Products: React.FC = (props) => {
 
                     <Alert
                         description="
-                            What is the new number of units included in a packaged for sale? - Units Per Sale
-                            "
+                        How many units go into a single retail package? - Retail Weight
+                        "
                         type="warning"
                         className='heroText'
                     />
 
                     <Form.Item
                         name="units"
-                        rules={[{ required: true, message: 'Enter details' }]}
 
                     >
                         <InputNumber style={{
@@ -1124,7 +1117,7 @@ const Products: React.FC = (props) => {
                             borderRadius: '1.5px',
                             fontSize: 14,
                             width: 325
-                        }} placeholder="Price" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
+                        }} placeholder="Retail Weight" maxLength={25} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} stringMode={true} min={0} type='number' />
 
                     </Form.Item>
                     <Alert
@@ -1136,7 +1129,6 @@ const Products: React.FC = (props) => {
                     />
                     <Form.Item
                         name="sales_price"
-                        rules={[{ required: true, message: 'Enter details' }]}
                         tooltip='Retail Price'
 
                     >
@@ -1214,7 +1206,7 @@ const Products: React.FC = (props) => {
 
                                 <Alert
                                     description="
-                        The item's name.
+                                What is the product's new name?
                             "
                                     type="warning"
                                     className='heroText'
@@ -1239,7 +1231,7 @@ const Products: React.FC = (props) => {
 
                                 <Alert
                                     description="
-                           The item's input cost.
+                           What is the product's new weight?
                             "
                                     type="warning"
                                     className='heroText'
@@ -1259,7 +1251,7 @@ const Products: React.FC = (props) => {
 
                                 <Alert
                                     description="
-                           The item's unit of measurement.
+                          What is the product's new unit of measurement?
                             "
                                     type="warning"
                                     className='heroText'
@@ -1352,25 +1344,25 @@ const Products: React.FC = (props) => {
 
                                 </Form.Item>
                                 <Form.Item
-        
+
                                 >
-                                <ConfigProvider
-                                    theme={{
-                                        token: {
-                                            fontFamily: 'Jost',
-                                            colorTextTertiary: 'black',
-                                            colorPrimaryHover: '#000000',
-                                            colorBgContainer: '#fafafa'
-                                        },
-                                    }}
-                                >
-                                    <Tooltip placement="right" color='#849FD1' title={'Delete the item above'}>
+                                    <ConfigProvider
+                                        theme={{
+                                            token: {
+                                                fontFamily: 'Jost',
+                                                colorTextTertiary: 'black',
+                                                colorPrimaryHover: '#000000',
+                                                colorBgContainer: '#fafafa'
+                                            },
+                                        }}
+                                    >
+                                        <Tooltip placement="right" color='#849FD1' title={'Delete the item above'}>
 
 
-                                        <Button icon={<Trash size={20} weight="bold" />} htmlType="button" className='buttonFormBlack' onClick={() => onDeleteInput(i.id)}>
-                                        </Button>
-                                    </Tooltip>
-                                </ConfigProvider>
+                                            <Button icon={<Trash size={20} weight="bold" />} htmlType="button" className='buttonFormBlack' onClick={() => onDeleteInput(i.id)}>
+                                            </Button>
+                                        </Tooltip>
+                                    </ConfigProvider>
                                 </Form.Item>
 
                             </Space>

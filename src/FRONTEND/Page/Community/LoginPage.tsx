@@ -22,7 +22,7 @@ const LogIn: React.FC = () => {
   document.title = 'Login'
 
   const onFinish = async (values: any) => {
-    let newData = await fetch('http://localhost:8080/login_verification', {
+    let newData = await fetch('/login_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

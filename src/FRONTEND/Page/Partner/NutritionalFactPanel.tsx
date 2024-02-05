@@ -57,7 +57,7 @@ const Products: React.FC = (props) => {
                 const user: any = await window.localStorage.getItem('user')
                 const newUser = await JSON.parse(user)
                 setUserId(newUser.id)
-                const dataReply = await fetch(`http://localhost:8080/getRecipeProduct`);
+                const dataReply = await fetch(`/getRecipeProduct`);
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -87,7 +87,7 @@ const Products: React.FC = (props) => {
 
 
     const itemDelete = async () => {
-        const dataReply = await fetch(`http://localhost:8080/deleteProduct`, {
+        const dataReply = await fetch(`/deleteProduct`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -95,7 +95,7 @@ const Products: React.FC = (props) => {
             body: JSON.stringify([selectedRowAction])
         });
         const newResponse = await dataReply.json()
-        const deleteResponse = await fetch(`http://localhost:8080/getRecipeProduct`);
+        const deleteResponse = await fetch(`/getRecipeProduct`);
         const newData = await deleteResponse.json();
         setInventoryList(newData)
 

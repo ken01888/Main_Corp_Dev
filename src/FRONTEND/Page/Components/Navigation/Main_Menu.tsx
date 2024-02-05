@@ -35,54 +35,14 @@ const Main_Menu = () => {
                     key: '1-1',
                     label: (<a href='/bola_overview'>Bite of Life Analytics (BoLA)</a>),
                 },
+                {
+                    key:'1-2',
+                    label:(<a href='/health-diagnostic'>Personal Health Assessment</a>)
+                }
 
             ],
         },
-        // {
-        //     key: '2',
-        //     label: 'Wealth',
-        //     disabled: true,
-        //     children: [
-        //         {
-        //             key: '2-1',
-        //             label: '3rd menu item',
-        //         },
-        //         {
-        //             key: '2-2',
-        //             label: '4th menu item',
-        //         },
-        //     ],
-        // },
-        // {
-        //     key: '3',
-        //     label: 'Housing',
-        //     disabled: true,
-        //     children: [
-        //         {
-        //             key: '3-1',
-        //             label: '5d menu item',
-        //         },
-        //         {
-        //             key: '3-2',
-        //             label: '6th menu item',
-        //         },
-        //     ],
-        // },
-        // {
-        //     key: '4',
-        //     label: 'Learning',
-        //     disabled: true,
-        //     children: [
-        //         {
-        //             key: '3-1',
-        //             label: '5d menu item',
-        //         },
-        //         {
-        //             key: '3-2',
-        //             label: '6th menu item',
-        //         },
-        //     ],
-        // },
+
     ];
 
     return (
@@ -226,7 +186,7 @@ const Main_Menu = () => {
 
                     <div className='menuItemsDiv'>
 
-                        <ConfigProvider
+                        {/* <ConfigProvider
                             theme={{
                                 token: {
                                     fontFamily: 'Jost',
@@ -248,7 +208,7 @@ const Main_Menu = () => {
                             </a>
 
 
-                        </ConfigProvider>
+                        </ConfigProvider> */}
 
 
                         {/* <ConfigProvider

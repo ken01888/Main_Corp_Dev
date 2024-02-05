@@ -50,7 +50,7 @@ const StoreInventory: React.FC = (props) => {
                 const newUser = await JSON.parse(user)
                 // setUserPin(newUser.pin)
                 // setUserId(newUser.id)
-                const dataReply = await fetch('http://localhost:8080/getInventoryItems');
+                const dataReply = await fetch('/getInventoryItems');
                 const newData = await dataReply.json();
                 setInventoryList(newData)
             }
@@ -65,7 +65,7 @@ const StoreInventory: React.FC = (props) => {
                 const newUser = await JSON.parse(user)
                 setUserPin(newUser.pin)
                 setUserId(newUser.id)
-                const dataReply = await fetch('http://localhost:8080/getInventoryItems');
+                const dataReply = await fetch('/getInventoryItems');
                 const newData = await dataReply.json();
 
                 setInventoryList(newData)
@@ -78,7 +78,7 @@ const StoreInventory: React.FC = (props) => {
 
     const onAddInventoryItems = async (values: any) => {
 
-        const dataReply = await fetch('http://localhost:8080/insertNewInventoryItems', {
+        const dataReply = await fetch('/insertNewInventoryItems', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ const StoreInventory: React.FC = (props) => {
 
 
     const onDeleteInventoryItem = async () => {
-        const dataReply = await fetch('http://localhost:8080/deleteInventoryItems', {
+        const dataReply = await fetch('/deleteInventoryItems', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -147,7 +147,7 @@ const StoreInventory: React.FC = (props) => {
         }
         setUpdateInventoryForm(!updateInventoryForm)
 
-        const dataReply = await fetch('http://localhost:8080/updateInventoryItem', {
+        const dataReply = await fetch('/updateInventoryItem', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -160,7 +160,7 @@ const StoreInventory: React.FC = (props) => {
         if (dataParse.affectedRows === 1) {
             (
                 async () => {
-                    const dataReply_1 = await fetch('http://localhost:8080/getInventoryItems');
+                    const dataReply_1 = await fetch('/getInventoryItems');
                     const newData = await dataReply_1.json();
                     setInventoryList(newData)
                 }
@@ -174,7 +174,7 @@ const StoreInventory: React.FC = (props) => {
 
     const onAddInventoryNutritionInformation = async (values) => {
 
-        const dataReply = await fetch('http://localhost:8080/addNutritionInformation', {
+        const dataReply = await fetch('/addNutritionInformation', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -1723,7 +1723,7 @@ const StoreInventory: React.FC = (props) => {
                     <QRCode value={`https://www.kcminc.io/inventorycheck?business_id=${userId}`} bgColor="#fff" style={{ marginBottom: 16 }} />
 
                     <p>Your Account Pin: <span>{userPin}</span></p>
-                    <p>Auditing System Link: <span><a href={`/inventorycheck?business_id=${userId}`} target='_blank'>{`/inventorycheck?business_id=${userId}`}</a></span></p>
+                    <p>Auditing System Link: <span><a href={`/inventorycheck?business_id=${userId}`} target='_blank'>{`inventorycheck?business_id=${userId}`}</a></span></p>
                     <ConfigProvider
                         theme={{
                             token: {

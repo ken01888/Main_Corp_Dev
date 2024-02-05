@@ -19,7 +19,7 @@ const SignUp: React.FC = () => {
 
     const onFinishLogin = async (values: any) => {
         console.log(values)
-        let newData = await fetch('8080/registration', {
+        let newData = await fetch('/registration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { Row, Col, Form, ConfigProvider, Button, Descriptions, InputNumber, Divider, Alert, Result, Input, Tag, FloatButton } from 'antd'
+import { Row, Col, Form, ConfigProvider, Button, Descriptions, InputNumber, Divider, Alert, Result, Input, Tag, FloatButton, Tooltip, Space } from 'antd'
 import 'isomorphic-fetch';
 import { v4 as uuidv4 } from 'uuid';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { QrcodeOutlined, ReconciliationOutlined } from '@ant-design/icons'
 import * as dayjs from 'dayjs'
+import { ArrowLineRight, Key, Keyhole, LockKeyOpen, LockSimple, SignIn, UploadSimple } from '@phosphor-icons/react';
 
 
 
@@ -71,6 +72,8 @@ const InventoryCheck: React.FC = (props) => {
         });
 
         setDisableButton([...disableButton, values.inventory_item_id])
+        console.log(disableButton)
+       
 
     };
 
@@ -147,29 +150,30 @@ const InventoryCheck: React.FC = (props) => {
 
                             </motion.div>
                         </h2>
-                        <Descriptions
-                            title={<><h1 className='h1_Header_Client_Portal'>Digital Inventory Sheet</h1>
-                            </>} layout="vertical">
-                            <Descriptions.Item span={3}>
-                                <p>
-                                    Maintaining an accurate record of one's possessions is of utmost importance.
-                                    Regularly assessing the contents of one's inventory, even after minor additions or subtractions,
-                                    is a prudent approach. Conducting such a review at least twice a week ensures that resources
-                                    are not being wasted and that everything remains in an orderly state.
-                                </p>
-                            </Descriptions.Item>
-                            <Descriptions.Item span={3}>
-                                <p>
+                        <h1>Digital Inventory Sheet</h1>
+                        <Alert
+                            description=" Maintaining an accurate record of one's possessions is of utmost importance.
+                                Regularly assessing the contents of one's inventory, even after minor additions or subtractions,
+                                is a prudent approach. Conducting such a review at least twice a week ensures that resources
+                                are not being wasted and that everything remains in an orderly state."
+                            type="warning"
+                            className='heroText'
+                        />
+                        <Space size={[0, 25]} wrap>
 
-                                    <span><Tag color="error">Notice:</Tag></span> Once you've recorded an item in your inventory, you'll notice that the button's color changes from <span><Button style={{ backgroundColor: '#849FD1' }}>
-                                        Record
-                                    </Button> </span> to <span><Button style={{ backgroundColor: '#d9d9d9' }}>
-                                        Recorded
-                                    </Button></span>. Recorded items cannot be modified; double check before sending.
-                                </p>
+                            <Tag color="error">Notice:</Tag>
 
-                            </Descriptions.Item>
-                        </Descriptions>
+                            <Alert
+                                description="
+       Make sure to check the On Hand amount is correct before submitting. Once an item is uploaded it can only be modified from the Stock Section in the User Dashboard."
+                                type="warning"
+                                className='heroText'
+                            />
+                        </Space>
+
+
+
+
 
 
 
@@ -256,7 +260,12 @@ const InventoryCheck: React.FC = (props) => {
                                                         initialValue={onHand}
 
                                                     >
-                                                        <InputNumber stringMode={true} min={0} step={5} disabled={disableButton.includes(v.id) ? true : false} />
+                                                        <InputNumber style={{
+                                                            border: '1px solid #4D4D4F',
+                                                            borderRadius: '1.5px',
+                                                            fontSize: 14,
+                                                            width: 325
+                                                        }} stringMode={true} min={0} step={5} disabled={disableButton.includes(v.id) ? true : false} />
                                                     </Form.Item>
                                                     <Form.Item
                                                         hidden
@@ -272,9 +281,58 @@ const InventoryCheck: React.FC = (props) => {
                                                 <Descriptions.Item key={uuidv4()}
                                                     label="Order">
                                                     <Form.Item>
-                                                        <Button htmlType="submit" id={uuidv4()} style={{ backgroundColor: disableButton.includes(v.id) ? '' : '#849FD1' }} disabled={disableButton.includes(v.id) ? true : false}>
-                                                            {disableButton.includes(v.id) ? 'Recorded' : 'Record'}
+                                                    <ConfigProvider
+                            theme={{
+                                token: {
+                                    fontFamily: 'Jost',
+                                    colorTextTertiary: 'black',
+                                    colorPrimaryHover: '#000000',
+                                    colorBgContainer: '#fafafa'
+                                },
+                            }}
+                        >
+                                                        <Button htmlType="submit" id={uuidv4()} disabled={disableButton.includes(v.id) ? true : false}>
+                                                            {disableButton.includes(v.id) ?
+
+
+                                                                <ConfigProvider
+                                                                    theme={{
+                                                                        token: {
+                                                                            fontFamily: 'Jost',
+                                                                            colorTextTertiary: 'black',
+                                                                            colorPrimaryHover: '#000000',
+                                                                            colorBgContainer: '#fafafa'
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    <Tooltip placement="right" color='#849FD1' title={'Locked!'}>
+
+                                                                        <LockSimple size={20} weight="bold" />
+                                                                    </Tooltip>
+                                                                </ConfigProvider>
+
+                                                                :
+                                                                <ConfigProvider
+                                                                    theme={{
+                                                                        token: {
+                                                                            fontFamily: 'Jost',
+                                                                            colorTextTertiary: 'black',
+                                                                            colorPrimaryHover: '#000000',
+                                                                            colorBgContainer: '#fafafa'
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    <Tooltip placement="right" color='#849FD1' title={'Record Audit'}>
+                                                                        <UploadSimple size={20} weight="bold" />
+                                                                    </Tooltip>
+                                                                </ConfigProvider>
+
+
+
+                                                            }
                                                         </Button>
+                                                        </ConfigProvider>
+
                                                     </Form.Item>
                                                 </Descriptions.Item>
 
@@ -310,13 +368,19 @@ const InventoryCheck: React.FC = (props) => {
                                     <div style={{ height: 'fit-content' }}>
                                         <div className='logoBeige'></div>
                                         <div className='logoBlue'></div>
+
                                     </div>
 
                                 </motion.div>Kcm Inc
                             </h2>
                             <h1>Enter your store pin here</h1>
-
-                            <p>To proceed, please enter the PIN associated with your business account. If you do not know the PIN, contact your administrator for assistance. Contact our <a href='/support' className='inlineTextSpan'>support</a>  if you need help with issues after entering the correct PIN. </p>
+                            <Alert
+                                description="
+                        To proceed, please enter the PIN associated with your business account. If you do not know the PIN, contact your administrator for assistance. Contact our support if you need help with issues after entering the correct PIN.
+                        "
+                                type="warning"
+                                className='heroText'
+                            />
                             <Divider className='dividerHeader'></Divider>
                             <Form
                                 name="basic"
@@ -339,31 +403,46 @@ const InventoryCheck: React.FC = (props) => {
                                         },
                                     }}
                                 >
-
-
                                     <Form.Item
-                                        label='Enter associate pin'
                                         name="pin"
                                         rules={[{ required: true, message: 'Enter the pin associated with your account' }]}
                                     >
-                                        <InputNumber controls={false} />
+                                        <InputNumber
+                                            prefix={<Key size={20} color="#849FD1" weight="bold" />}
+                                            style={{
+                                                border: '1px solid #4D4D4F',
+                                                borderRadius: '1.5px',
+                                                fontSize: 14,
+                                                width: 325
+                                            }} controls={false}
+                                            placeholder='Enter Security Pin' />
                                     </Form.Item>
-
-
-
 
                                     <Form.Item
                                     >
-                                        <button className='buttonBlack' type="submit">
-                                            Verify
-                                        </button>
+                                        <ConfigProvider
+                                            theme={{
+                                                token: {
+                                                    fontFamily: 'Jost',
+                                                    colorTextTertiary: 'black',
+                                                    colorPrimaryHover: '#000000',
+                                                    colorBgContainer: '#fafafa'
+                                                },
+                                            }}
+                                        >
+                                            <Tooltip placement="right" color='#849FD1' title={'Verify'}>
+
+                                                <Button icon={<ArrowLineRight size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack'></Button>
+                                            </Tooltip>
+                                        </ConfigProvider>
+
                                     </Form.Item>
                                 </ConfigProvider>
                             </Form>
 
                             {
                                 verify ? <Alert
-                                    message={<span>I'm sorry to inform you that there aren't any items in your inventory at the moment. To be able to generate inspection sheets, kindly add items to your account. Thank you! </span>}
+                                    message="Security Pin not found! Try entering the PIN again, if the problem persists visit your dashboard and check that the PIN you entered is correct. Contact support at anytime for assistance."
                                     type="error"
                                     closeIcon
                                 /> : ''
@@ -381,7 +460,7 @@ const InventoryCheck: React.FC = (props) => {
             {
                 // inventoryLength === 0 ? <FloatButton onClick={SendNotificationInventory} tooltip='Submit Inventory Items' shape='square' icon={<ReconciliationOutlined style={{ color: 'black' }} />} style={{ border: '1px solid black', backgroundColor: '#E8DAC2' }} /> : ''
             }
-        </Row>
+        </Row >
 
     )
 }

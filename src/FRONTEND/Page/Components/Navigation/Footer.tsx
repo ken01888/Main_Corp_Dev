@@ -50,7 +50,7 @@ export const Public_Footer = (props) => {
 
 
 
-        <Col xs={22} md={8}>
+        <Col xs={22} md={4}>
           <ConfigProvider
             theme={{
               token: {
@@ -78,8 +78,25 @@ export const Public_Footer = (props) => {
               <p>Copyright © 2023 K.C. Morris Inc.</p>
               <p>All rights reserved.</p>
             </div>
+
           </ConfigProvider>
         </Col>
+
+        <Col xs={22} md={3} className='footer_column'>
+          <h3 className='h3Title'>Utilities</h3>
+          <a href='/bola_overview' className='anchorLinks'>Bite of Life Analytics</a>
+
+
+        </Col>
+
+        <Col xs={22} md={3} className='footer_column'>
+          <h3 className='h3Title'>Legal</h3>
+          <a href='/termsofservice' className='anchorLinks'>Terms of Service</a>
+          <a href='/privacypolicy' className='anchorLinks'>Privacy Policy</a>
+
+
+        </Col>
+
         <Col xs={22} md={1} className='footer_column'>
           <a target='_blank' href='https://www.facebook.com/KCMIncEngine' className='anchorLinks'><FacebookLogo size={20} weight="fill" color='#4D4D4F' /></a>
           <a target='_blank' href='https://twitter.com/KCMINC1' className='anchorLinks'><TwitterLogo size={20} weight="fill" color='#4D4D4F' /></a>

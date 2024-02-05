@@ -23,6 +23,8 @@ router.get('/getRecipeProduct', async (req, res) => {
         return i
     });
     const getProducts_1 = await stores.getRecipeProduct(req.cookies.user.id);
+    console.log(getProducts_1)
+
 
     res.json(getProducts_1)
 })

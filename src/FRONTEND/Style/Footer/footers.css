@@ -3,26 +3,13 @@
     overflow: hidden;
     background: #ffffff;
     border-top: 1px solid #d9d9d9;
-    margin-top: 10rem;
-}
-
-.footer_portal {
-    width: -webkit-fill-available;
-    overflow: hidden;
-    background: #ffffff;
-    border-top: 5px solid black;
-    position: fixed;
-    bottom: 0;
-    z-index: 1;
-
-}
+    margin-top: 20rem;}
 
 .footer_column{
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    row-gap: 11px;
-    justify-content: space-evenly;
+    row-gap: 5px;
     border-radius: 5px;
 }
 
@@ -40,14 +27,7 @@
     line-height: 3px;
 }
 
-.footerDetails{
-    display: flex;
-    column-gap: 5px;
-    align-items: flex-start;
-} 
 
-.logoandBusinessInfo{
-    display: flex;
-    align-items: flex-start;
-    column-gap: 10px;
+.h3Title{
+    text-decoration:2.5px underline var(--light_blue);
 }
