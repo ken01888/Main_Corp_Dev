@@ -12,6 +12,36 @@ h1 {
   font-size: 3rem;
 }
 
+.h1Beige {
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  position: relative;
+  font-style: normal;
+  color: var(--light_beige);
+  font-size: 3.25rem;
+  letter-spacing: -2.1px;
+  font-family: "Jost", "Nunito Sans Placeholder", sans-serif;
+  font-size: 3rem;
+}
+
+.LightBlueRowSpanColorBeige{
+  font-weight: 900;
+    color: var(--light_beige);
+    text-decoration: 2.5px underline var(--light_beige);
+}
+
+.BeigeLogoAnimatedP{
+  font-weight: 600;
+    font-size: .875rem;
+    background: var(--white-gray);
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 2.5px;
+}
+
+
 @media only screen and (max-width: 749px) {
   h1 {
     flex-shrink: 0;

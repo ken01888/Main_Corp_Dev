@@ -13,15 +13,33 @@
 
 }
 
-.heroTextBeige {
-    background-color: var(--light_beige);
-    border: none;
-    margin-bottom: 1rem;
-    padding: 0px;
-    text-align: justify;
-    hyphens: auto;
+.rowWhiteGrayBackgroundPadding {
+   background-color: var(--white-gray);
+   padding:5rem 0rem; 
 
 }
+
+.rowLightBlueBackgroundPadding {
+    background-color: var(--light_blue);
+    padding:5rem 0rem; 
+ 
+ }
+
+ .CardsBGGray{
+    background: var(--white-gray);
+    padding: 1rem;
+    text-align: -webkit-auto;
+    height: 332px;
+ }
+
+ @media only screen and (max-width: 749px) {
+    .CardsBGGray{
+        background: var(--white-gray);
+        padding: 1rem;
+        text-align: -webkit-auto;
+        height: fit-content;
+     }
+  }
 
 .contactUsRow{
     row-gap: 16px;

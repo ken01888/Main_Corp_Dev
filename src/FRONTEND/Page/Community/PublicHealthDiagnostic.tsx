@@ -273,6 +273,13 @@ const PublicHealthDiagnostic: React.FC = (props) => {
             children: `${person[3]} Kcal`,
         },
         {
+            key: '8',
+            label:<h3>Low Weight</h3>,
+            children: ``,
+            span:3,
+        },
+
+        {
             key: '4',
             label: 'Healthy Low Weight',
             children: `${person[2]['MinimumHealthyWeight']} LB`,
@@ -339,12 +346,8 @@ const PublicHealthDiagnostic: React.FC = (props) => {
         }
     }
 
-    const onFinish = async (values: any) => {
-        let params = await new URLSearchParams(document.location.search);
-        let urlid: any = await params.get("business_id");
-        values.business_Id = urlid
-        setBusinessId(urlid)
-        let newData = await fetch(`/bolatestingroute/${urlid}`, {
+    const onFinish = async (values: any) => {    
+        let newData = await fetch(`/bolatestingroute`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -353,7 +356,6 @@ const PublicHealthDiagnostic: React.FC = (props) => {
         })
 
         const data1 = await newData.json()
-        console.log(data1)
         setPerson(data1)
 
     };
@@ -552,7 +554,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                                 className='heroText'
                                             />
                                             <Form.Item
-                                                name="_LevelOfActiviey"
+                                                name="life_style"
                                                 rules={[{ required: true }]}
                                                 style={{ width: '17rem' }}
 
@@ -620,7 +622,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                         token: {
                                             borderRadiusLG: 2.5,
                                             lineWidth: 1,
-                                            colorSplit: '#4D4D4F',
+                                            colorSplit: '#d9d9d9',
                                             colorTextTertiary: 'black',
                                             colorPrimaryHover: '#000000',
                                             colorBgContainer: '#fafafa'

@@ -29,5 +29,6 @@
 
 
 .h3Title{
-    text-decoration:2.5px underline var(--light_blue);
+    border-bottom: 2.5px solid var(--light_grey);
+    width: fit-content;
 }

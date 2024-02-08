@@ -24,6 +24,7 @@ const checkCredentials = async (req, res, next) => {
 
 
 router.post('/registration', checkCredentials, async (req, res) => {
+
   const salt = await bcrypt.genSaltSync(Number(process.env.SALT_ROUND));
   const hash = await bcrypt.hashSync(req.body.confirm_password, salt);
   delete req.body.confirm_password
@@ -36,22 +37,11 @@ router.post('/registration', checkCredentials, async (req, res) => {
   res.json(false)
 });
 
-router.post('/bolatestingroute/?:id', async (req, res) => {
+router.post('/bolatestingroute', async (req, res) => {
   const ProcessingHeight = convert(Number(req.body.height.feet)).from('ft').to('in')
   const ProcessedHeight = ProcessingHeight + Number(req.body.height.inches)
   const HeightSquared = Math.pow(ProcessedHeight, 2)
   const weight = req.body.weight
-  // const newReply = await stores.getNutritionalInfoForPublic(req.params.id)
-
-  // newReply.map((i, n) => {
-  //   for (const items in i) {
-  //     console.log(items)
-
-  //   }
-  //   console.log(i)
-  // })
-
-
   const PersonalHealth = async () => {
 
     const CalculatedBMI = (weight / HeightSquared * 703).toFixed(1)
@@ -82,11 +72,7 @@ router.post('/bolatestingroute/?:id', async (req, res) => {
         }
       }
     }
-    const IdealWeight = {
-      MinimumHealthyWeight: Number(18.5 / Number(CalculatedBMI) * weight).toFixed(2),
-      MediumHealthyWeight: ((Number(18.5 / Number(CalculatedBMI) * weight) + Number(24.9 / Number(CalculatedBMI) * weight)) / 2).toFixed(2),
-      MaximumHealthyWeight: Number(24.9 / Number(CalculatedBMI) * weight).toFixed(2),
-    }
+
 
 
     const BMR = () => {
@@ -105,7 +91,7 @@ router.post('/bolatestingroute/?:id', async (req, res) => {
       }
     }
     const Calories = () => {
-      switch (req.body._LevelOfActiviey) {
+      switch (req.body.life_style) {
         case 'Sedentary':
           const SMUL = 1.2;
           return Number(BMR()) * SMUL
@@ -143,22 +129,20 @@ router.post('/bolatestingroute/?:id', async (req, res) => {
 
     const CapturedAge = req.body.age
 
-    const AGE = () =>  { 
-      if (req.body.age <= 75){
-      console.log('under 75')
-      return req.body.age
-    } else if (req.body.age > 75) {
-      console.log('over 75')
-      return req.body.age = 75
-    };
-  }
-  console.log(AGE())
-    
+    const AGE = async () => {
+      delete req.body.height
+      req.body.height = ProcessedHeight
+      await Nutrition.BoLAPublicHealthAssessment(req.body)
+      if (req.body.age <= 75) {
+        return req.body.age
+      } else if (req.body.age > 75) {
+        return req.body.age = 75
+      };
+    }
+
+    AGE()
+
     const RetrieveNutrientsFromDatabase = await Nutrition.PersonalNutritionDetails(req.body.gender, req.body.age)
-
-
-
-
 
     const NutritionRequirement = () => {
       RetrieveNutrientsFromDatabase[0].calories = Calories();
@@ -166,7 +150,7 @@ router.post('/bolatestingroute/?:id', async (req, res) => {
       const replyArray: any = []
       testingdata['age'] = CapturedAge
       testingdata['gender'] = RetrieveNutrientsFromDatabase[0].gender
-      testingdata['lifestyle'] = req.body._LevelOfActiviey
+      testingdata['lifestyle'] = req.body.life_style
 
       testingdata['Calories'] =
       {
@@ -214,8 +198,8 @@ router.post('/bolatestingroute/?:id', async (req, res) => {
       }
       testingdata['Fiber'] = {
         value: (RetrieveNutrientsFromDatabase[0]['dietary_fiber'] * RetrieveNutrientsFromDatabase[0].calories).toFixed(),
-        unit:'G',
-      } 
+        unit: 'G',
+      }
       testingdata['Added Sugar'] = {
         value: (RetrieveNutrientsFromDatabase[0]['added_sugars_percent_of_calories'] * RetrieveNutrientsFromDatabase[0].calories / 4).toFixed(),
         unit: 'G',

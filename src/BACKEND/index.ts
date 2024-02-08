@@ -26,9 +26,9 @@ import * as cookieparser from 'cookie-parser'
 import * as convert from 'convert-units'
 import * as tf from '@tensorflow/tfjs-node-gpu'
 import { TagFilled } from '@ant-design/icons'
-// import * as qna from '@tensorflow-models/qna';
-// import '@tensorflow/tfjs-backend-webgl'
-
+import * as qna from '@tensorflow-models/qna';
+import '@tensorflow/tfjs-backend-webgl'
+tf.backend()
 
 
 
@@ -77,11 +77,7 @@ app.use('/termsofservice', express.static('public'))
 app.use('/bola_overview', express.static('public'))
 app.use('/privacypolicy', express.static('public'))
 // app.use('/signup', express.static('public'))
-
 app.use('/health-diagnostic', express.static('public'))
-
-
-
 app.use('/inventorycheck', express.static('public'))
 app.use('/nutrients', express.static('public'))
 // app.use('/principle/', validateUser, express.static('public'))
@@ -114,7 +110,7 @@ app.get("*", (req, res) => {
 
 
 
-
+ 
 
 
 
@@ -128,7 +124,7 @@ app.get("*", (req, res) => {
 // test1.push(newReply,newReply+100,1)
 //  }
 //  for  ( let index = 0 ; index <= 999  ; index++) {
-//   let newReply = index
+//   let newReply = index * 4
 //  tfoutput.push(newReply)
 //   }
 
@@ -159,13 +155,12 @@ app.get("*", (req, res) => {
 //     batchSize:50,
 //     shuffle:true,
 //     validationSplit:.10
-  
+
 //   })
 //   const newprediction = model.predict(tf.tensor([[3,301,3]]))
-
 // newprediction.print()
 
-  
+
 // }
 // train()
 
@@ -173,8 +168,21 @@ app.get("*", (req, res) => {
 
 
 
+// const QnA = async () => {
 
+//   const passage = "Rube Foster was the team’s traveling manager and one of the team’s starting pitchers. The Leland Giants were one of the top black baseball teams in the country and also won the prestigious Chicago City League title. The Leland Giants had a won-loss record of 54-18-1 (.750) in independent play and went 31-9 (.775) in the Chicago City League. Frank C. Leland was born in February of 1869 in Memphis,  Tennessee."
+//   const question = "When was Frank C Leland born?"
+//   const model = await qna.load();
+//   console.log(model)
+//   const answers = await model.findAnswers(question, passage);
+//   answers.map((i)=>{
+//     if(i.score>15){
+//       console.log(i.text)
+//     }
+//   });
+// }
 
+// QnA();
 
 
 
