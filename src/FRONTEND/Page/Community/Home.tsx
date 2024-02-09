@@ -418,6 +418,7 @@ We collaborate with organizations spanning diverse sectors to enhance their over
                         <motion.div className='logo'>
                           <div style={{ height: 'fit-content' }}>
                             <div className='biglogoBlue'>B</div>
+                            
                             <div className='biglogoBeige'>L</div>
                           </div>
                           <div style={{ height: 'fit-content' }}>

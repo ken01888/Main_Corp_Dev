@@ -45,36 +45,6 @@ router.post('/bolatestingroute', async (req, res) => {
   const PersonalHealth = async () => {
 
     const CalculatedBMI = (weight / HeightSquared * 703).toFixed(1)
-
-    const StringBMIIndicator = () => {
-      if (Number(CalculatedBMI) <= 18.5) {
-        return {
-          status: 'Underweight',
-          color: '#E8DAC2'
-        }
-      }
-      if (Number(CalculatedBMI) >= 18.5 && Number(CalculatedBMI) <= 24.9) {
-        return {
-          status: 'Normal',
-          color: '#8CB1A8'
-        }
-      }
-      if (Number(CalculatedBMI) >= 25.0 && Number(CalculatedBMI) <= 29.9) {
-        return {
-          status: 'Overweight',
-          color: '#E5652E'
-        }
-      }
-      if (Number(CalculatedBMI) >= 30.0) {
-        return {
-          status: 'Obese',
-          color: '#BC4C58'
-        }
-      }
-    }
-
-
-
     const BMR = () => {
       const WeightInKiloGrams = convert(req.body.weight).from('lb').to('kg')
       const HeightInCentimeters = convert(ProcessedHeight).from('in').to('cm')
@@ -90,16 +60,65 @@ router.post('/bolatestingroute', async (req, res) => {
           break;
       }
     }
+
+   let IdealWeight={
+    MinimumHealthyWeight: [((18.5 / Number(CalculatedBMI)) * req.body.weight).toFixed()],
+    MediumHealthyWeight: ((21.7 / Number(CalculatedBMI)) * req.body.weight).toFixed(),
+    MaximumHealthyWeight: ((24.9 / Number(CalculatedBMI)) * req.body.weight).toFixed(),
+    }
+
+    const StringBMIIndicator = () => {
+      if (Number(CalculatedBMI) <= 18.4) {
+        return {
+          status: 'Underweight',
+          color: '#E8DAC2',
+         
+
+        }
+      }
+      if (Number(CalculatedBMI) >= 18.5 && Number(CalculatedBMI) <= 24.9) {
+        return {
+          status: 'Normal',
+          color: '#8CB1A8',
+         
+
+
+        }
+      }
+      if (Number(CalculatedBMI) >= 25.0 && Number(CalculatedBMI) <= 29.9) {
+        return {
+          status: 'Overweight',
+          color: '#E5652E',
+         
+
+
+        }
+      }
+      if (Number(CalculatedBMI) >= 30.0) {
+        return {
+          status: 'Obese',
+          color: '#BC4C58',
+        
+
+
+        }
+      }
+    }
+
+
+
     const Calories = () => {
       switch (req.body.life_style) {
         case 'Sedentary':
           const SMUL = 1.2;
           return Number(BMR()) * SMUL
 
+
           break;
         case 'Light activity':
           const LAMUL = 1.375
           return Number(BMR()) * LAMUL
+
 
 
           break;
@@ -108,16 +127,19 @@ router.post('/bolatestingroute', async (req, res) => {
           return Number(BMR()) * MAMUL
 
 
+
           break;
         case 'Very active':
           const VAMUL = 1.725
           return Number(BMR()) * VAMUL
 
 
+
           break;
         case 'Extra active':
           const EAMUL = 1.9
           return Number(BMR()) * EAMUL
+
 
 
           break;
@@ -145,6 +167,7 @@ router.post('/bolatestingroute', async (req, res) => {
     const RetrieveNutrientsFromDatabase = await Nutrition.PersonalNutritionDetails(req.body.gender, req.body.age)
 
     const NutritionRequirement = () => {
+
       RetrieveNutrientsFromDatabase[0].calories = Calories();
       let testingdata: any = {}
       const replyArray: any = []
@@ -253,7 +276,7 @@ router.post('/bolatestingroute', async (req, res) => {
       return [[testingdata], replyArray]
     };
     // console.log(CalculatedBMI, StringBMIIndicator(), IdealWeight, BMR(), NutritionRequirement())
-    return [CalculatedBMI, StringBMIIndicator(), IdealWeight, BMR(), NutritionRequirement()]
+    return [CalculatedBMI, StringBMIIndicator(),IdealWeight, BMR(), NutritionRequirement()]
   }
   const pushDataToFrontEnd = await PersonalHealth()
   // console.log(pushDataToFrontEnd)

@@ -272,12 +272,12 @@ const PublicHealthDiagnostic: React.FC = (props) => {
             label: 'Basal Metabolic Rate (BMR)',
             children: `${person[3]} Kcal`,
         },
-        {
-            key: '8',
-            label:<h3>Low Weight</h3>,
-            children: ``,
-            span:3,
-        },
+        // {
+        //     key: '8',
+        //     label:<h3>Low Weight</h3>,
+        //     children: ``,
+        //     span:3,
+        // },
 
         {
             key: '4',
@@ -357,7 +357,6 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
         const data1 = await newData.json()
         setPerson(data1)
-
     };
 
     const onFinishFailed = (errorInfo: any) => {

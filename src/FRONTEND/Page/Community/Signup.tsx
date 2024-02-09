@@ -18,7 +18,6 @@ const SignUp: React.FC = () => {
     document.title = 'Registration'
 
     const onFinishLogin = async (values: any) => {
-        console.log(values)
         let newData = await fetch('/registration', {
             method: 'POST',
             headers: {
