@@ -48,11 +48,11 @@ const $FRONTEND = {
 
   plugins: [
     new NodePolyfillPlugin(),
-    new WorkboxWebpackPlugin.InjectManifest({
-      swSrc: "./src/service-worker.ts",
-      swDest: "service-worker.js",
-      maximumFileSizeToCacheInBytes: 50000000
-    }),
+    // new WorkboxWebpackPlugin.InjectManifest({
+    //   swSrc: "./src/service-worker.ts",
+    //   swDest: "service-worker.js",
+    //   maximumFileSizeToCacheInBytes: 50000000
+    // }),
     new HtmlWebpackPlugin({
       template: './Client/index.html', hash: false,
       favicon: './Client/favicon.ico',
@@ -74,40 +74,40 @@ const $FRONTEND = {
     new InterpolateHtmlPlugin({
       PUBLIC_URL: 'https://www.kcminc.io' // can modify `static` to another name or get it from `process`
     }),
-    new WebpackManifestPlugin({
-      seed: {
-        short_name: "Kcm Inc",
-        name: "K.C. Morris Inc A Stakeholder Intelligence Corporation",
-        icons: [
-          {
-            src: "favicon.ico",
-            sizes: "48x48",
-            type: "image/x-icon"
-          },
-          {
-            src: "Large512x512.png",
-            sizes: "512x512",
-            type: "image/png"
-          },
-          {
-            "src": "Large512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
-          }
-        ],
-        display_override: ["window-control-overlay", "minimal-ui"],
-        display: "standalone",
-        theme_color: "#849FD1",
-        background_color: "#ffffff",
-        prefer_related_applications: true,
-        id: '/',
-        scope: 'https://www.kcminc.io/',
-        start_url: '/'
-      }
+    // new WebpackManifestPlugin({
+    //   seed: {
+    //     short_name: "Kcm Inc",
+    //     name: "K.C. Morris Inc A Stakeholder Intelligence Corporation",
+    //     icons: [
+    //       {
+    //         src: "favicon.ico",
+    //         sizes: "48x48",
+    //         type: "image/x-icon"
+    //       },
+    //       {
+    //         src: "Large512x512.png",
+    //         sizes: "512x512",
+    //         type: "image/png"
+    //       },
+    //       {
+    //         "src": "Large512x512.png",
+    //         "sizes": "512x512",
+    //         "type": "image/png",
+    //         "purpose": "any maskable"
+    //       }
+    //     ],
+    //     display_override: ["window-control-overlay", "minimal-ui"],
+    //     display: "standalone",
+    //     theme_color: "#849FD1",
+    //     background_color: "#ffffff",
+    //     prefer_related_applications: true,
+    //     id: '/',
+    //     scope: 'https://www.kcminc.io/',
+    //     start_url: '/'
+    //   }
 
-    }
-    ),
+    // }
+    // ),
 
     new HtmlWebpackTagsPlugin({
 

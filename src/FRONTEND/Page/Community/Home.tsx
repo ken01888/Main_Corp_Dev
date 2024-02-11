@@ -390,7 +390,7 @@ const Home: React.FC = () => {
                       <h3>Public Services</h3>
                     </div>
                     <div>
-                      <h1>Health Score Card</h1>
+                      <h1>Health Scorecard</h1>
                     </div>
 
                     <Alert

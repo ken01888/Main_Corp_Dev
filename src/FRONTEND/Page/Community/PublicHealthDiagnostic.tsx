@@ -391,23 +391,35 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
         },
         {
-            key: '14',
+            key: '15',
             label: 'Plan Weight Month 5',
             children: `${person[6][0][4]} LB`,
             span: 3,
 
         },
         {
-            key: '15',
+            key: '16',
             label: 'Plan Weight Month 6',
             children: `${person[6][0][5]} LB`,
             span: 3,
 
         },
         {
-            key: '13',
-            label: 'Recommended Daily Nutrient Intake',
-            span: 6,
+            key: '17',
+            label: <Space direction='vertical'>
+                <h3>Calorie Assessment and Plan</h3>
+                Modify Question 5 in the form to get new results.
+            </Space>,
+            children: `Basal Metabolic Rate (BMR) or Minimum Energy Need indicates the lowest calorie intake necessary for maintaining vital bodily functions crucial to sustaining life. Total Daily Energy Expenditure (TDEE) or Maximum Energy Need
+            indicates calories needed to support daily activities and bodily function. 
+             `,
+            span: 6
+
+        },
+        {
+            key: '18',
+            label: 'Macro Nutrients',
+            span: 3,
             children: (
                 <>
                     Calories: {person[4][0][0]['Calories'].value} Kcal
@@ -417,17 +429,26 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                     Saturated Fat:  {person[4][0][0]['Saturated Fat'].value} G
                     <br />
                     Cholesterol:  {person[4][0][0]['Cholesterol'].value} G
-                    <br />
-                    Sodium:  {person[4][0][0]['Sodium'].value} MG
-                    <br />
+                    <br /> 
                     Carbohydrates:  {person[4][0][0]['Carbohydrates'].value} G
                     <br />
                     Fiber:  {person[4][0][0]['Fiber'].value} G
                     <br />
                     Added Sugar:  {person[4][0][0]['Added Sugar'].value} G
                     <br />
-
                     Protein:  {person[4][0][0]['Protein'].value} G
+                    <br />
+    
+                </>
+            ),
+        },
+        {
+            key: '19',
+            label: 'Recommended Daily Nutrient Intake',
+            span: 3,
+            children: (
+                <>
+                    Sodium:  {person[4][0][0]['Sodium'].value} MG
                     <br />
                     Vitamin {person[4][0][0]['Vitamin D'].value} MCG
                     <br />
@@ -449,6 +470,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
 
 
+
     const stylePlay = () => {
         return {
             borderColor: 'blue'
@@ -456,19 +478,16 @@ const PublicHealthDiagnostic: React.FC = (props) => {
     }
 
     const onFinish = async (values: any) => {
-        let newData = await fetch(`/bolatestingroute`, {
+        let newData = await fetch(`http://localhost:8080/bolatestingroute`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(values)
         })
-
         const data1 = await newData.json()
-        console.log(data1)
         setPerson(data1)
     };
-
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
 
@@ -501,7 +520,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                 <h1>Personal Health Assessment</h1>
                                 <Alert
                                     description="
-                                    The Personal Health Assessment (PHA) serves as a  tool for health maintenance, offering individuals a comprehensive understanding of their present health status. The PHA paints a holistic picture of an individual's well-being. To initiate this process, kindly fill out the form below, and your assessment results will be promptly displayed in the Health Score Card section. This personalized approach empowers individuals to proactively engage with their health and make informed decisions based on the insights from the assessment.  
+                                    The Personal Health Assessment (PHA) serves as a  tool for health maintenance, offering individuals a comprehensive understanding of their present health status. The PHA paints a holistic picture of an individual's well-being. To initiate this process, kindly fill out the form below, and your assessment results will be promptly displayed in the Health Scorecard section. This personalized approach empowers individuals to proactively engage with their health and make informed decisions based on the insights from the assessment.  
                                     "
                                     type="warning"
                                     className='heroText'
@@ -544,7 +563,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                         </h2>
                                         <Alert
                                             description="
-                                            To receive your Health Score Card, kindly provide the requested information below. Please note that we prioritize the privacy and security of your data. If you have specific health concerns, we recommend consulting with a qualified healthcare professional for personalized advice tailored to your individual needs.                                                         "
+                                            To receive your Health Scorecard, kindly provide the requested information below. Please note that we prioritize the privacy and security of your data. If you have specific health concerns, we recommend consulting with a qualified healthcare professional for personalized advice tailored to your individual needs.                                                         "
                                             type="warning"
                                             className='heroText'
                                         />
@@ -744,7 +763,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
 
 
-                                    <Descriptions column={6} size='small' layout='vertical' title={<h1>Health Score Card</h1>} bordered items={items} />
+                                    <Descriptions column={6} size='small' layout='vertical' title={<h1>Health Scorecard</h1>} bordered items={items} />
 
                                 </ConfigProvider>
                             </Col>

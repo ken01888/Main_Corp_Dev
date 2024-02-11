@@ -1578,7 +1578,7 @@ const NutritionalInformation: React.FC = (props) => {
                                 },
                             }}
                         >
-                            <Descriptions layout='vertical' title="Health Score Card" bordered items={items} />
+                            <Descriptions layout='vertical' title="Health Scorecard" bordered items={items} />
                     
                         </ConfigProvider>
 

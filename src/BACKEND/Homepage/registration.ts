@@ -44,6 +44,7 @@ router.post('/bolatestingroute', async (req, res) => {
   const ProcessedHeight = ProcessingHeight + Number(req.body.height.inches)
   const HeightSquared = Math.pow(ProcessedHeight, 2)
   const weight = req.body.weight
+  console.log(req)
   const PersonalHealth = async () => {
 
     const CalculatedBMI = (weight / HeightSquared * 703).toFixed(1)
@@ -68,7 +69,7 @@ router.post('/bolatestingroute', async (req, res) => {
     const StringBMIIndicator = () => {
       if (Number(CalculatedBMI) <= 18.4) {
         return {
-          status: 'Underweight - may result in various health issues, including nutritional deficiencies, weakened immunity, bone and  muscle problems, hormonal imbalances, and negative impacts on mental health.',
+          status: 'Underweight',
           color: '#E8DAC2',
           indicator: '+'
 
@@ -77,7 +78,7 @@ router.post('/bolatestingroute', async (req, res) => {
       }
       if (Number(CalculatedBMI) >= 18.5 && Number(CalculatedBMI) <= 24.9) {
         return {
-          status: 'Normal - is a positive health indicator and produces reductions in the following:  risk of cardiovascular diseases, type 2 diabetes, joint problems, respiratory complications, and mental health issues. ',
+          status: 'Normal',
           color: '#8CB1A8',
           indicator: '*'
 
@@ -88,7 +89,7 @@ router.post('/bolatestingroute', async (req, res) => {
       }
       if (Number(CalculatedBMI) >= 25.0 && Number(CalculatedBMI) <= 29.9) {
         return {
-          status: 'Overweight - may result in various health issues; including heightened risks of cardiovascular problems, diabetes, joint issues, respiratory complications, liver disease, cancer, mental issues, reduced mobility, sleep disorders, fertility challenges, and potentially lowered life expectancy.          ',
+          status: 'Overweight',
           color: '#E5652E',
           indicator: '-'
 
@@ -98,7 +99,7 @@ router.post('/bolatestingroute', async (req, res) => {
       }
       if (Number(CalculatedBMI) >= 30.0) {
         return {
-          status: 'Obese -is an urgent health risk, increasing susceptibility to cardiovascular diseases, diabetes, joint issues, respiratory complications, liver disease, cancers, psychological impact, reduced mobility, sleep disorders, fertility challenges, and potentially shortened life expectancy.',
+          status: 'Obese',
           color: '#BC4C58',
           indicator: '-'
 
@@ -107,7 +108,48 @@ router.post('/bolatestingroute', async (req, res) => {
         }
       }
     }
+    // const StringBMIIndicator = () => {
+    //   if (Number(CalculatedBMI) <= 18.4) {
+    //     return {
+    //       status: 'Underweight - may result in various health issues, including nutritional deficiencies, weakened immunity, bone and  muscle problems, hormonal imbalances, and negative impacts on mental health.',
+    //       color: '#E8DAC2',
+    //       indicator: '+'
 
+
+    //     }
+    //   }
+    //   if (Number(CalculatedBMI) >= 18.5 && Number(CalculatedBMI) <= 24.9) {
+    //     return {
+    //       status: 'Normal - is a positive health indicator and produces reductions in the following:  risk of cardiovascular diseases, type 2 diabetes, joint problems, respiratory complications, and mental health issues. ',
+    //       color: '#8CB1A8',
+    //       indicator: '*'
+
+
+
+
+    //     }
+    //   }
+    //   if (Number(CalculatedBMI) >= 25.0 && Number(CalculatedBMI) <= 29.9) {
+    //     return {
+    //       status: 'Overweight - may result in various health issues; including heightened risks of cardiovascular problems, diabetes, joint issues, respiratory complications, liver disease, cancer, mental issues, reduced mobility, sleep disorders, fertility challenges, and potentially lowered life expectancy.          ',
+    //       color: '#E5652E',
+    //       indicator: '-'
+
+
+
+    //     }
+    //   }
+    //   if (Number(CalculatedBMI) >= 30.0) {
+    //     return {
+    //       status: 'Obese -is an urgent health risk, increasing susceptibility to cardiovascular diseases, diabetes, joint issues, respiratory complications, liver disease, cancers, psychological impact, reduced mobility, sleep disorders, fertility challenges, and potentially shortened life expectancy.',
+    //       color: '#BC4C58',
+    //       indicator: '-'
+
+
+
+    //     }
+    //   }
+    // }
 
 
     const Calories = () => {
@@ -313,7 +355,6 @@ router.post('/bolatestingroute', async (req, res) => {
 
       return [[testingdata], replyArray]
     };
-    console.log(semiAnnualPlan)
     return [CalculatedBMI, StringBMIIndicator(), IdealWeight, BMR(), NutritionRequirement(), EnergyChange,semiAnnualPlan]
   }
   const pushDataToFrontEnd = await PersonalHealth()
