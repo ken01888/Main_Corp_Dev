@@ -5,7 +5,7 @@ import 'isomorphic-fetch';
 import { Content, Header } from 'antd/es/layout/layout';
 import Main_Menu from '../Components/Navigation/Main_Menu';
 import Public_Footer from '../Components/Navigation/Footer';
-import { ArrowLineRight, GenderIntersex, HashStraight, Question, User } from '@phosphor-icons/react';
+import { ArrowLineRight, ArrowsLeftRight, GenderIntersex, HashStraight, Question, User } from '@phosphor-icons/react';
 
 import { motion } from 'framer-motion';
 
@@ -45,103 +45,106 @@ const PublicHealthDiagnostic: React.FC = (props) => {
     const [business_id_number, setBusinessId] = React.useState();
     const [inventoryExist, setInventoryExist] = React.useState<boolean>()
     const [person, setPerson] = React.useState([
-        "____",
+        "",
         {
-            "status": "____",
-            "color": "black"
+            "status": "",
+            "color": "black",
+            "indicator": ''
         },
         {
-            "MinimumHealthyWeight": "____",
-            "MediumHealthyWeight": "____",
-            "MaximumHealthyWeight": "____"
+            "CurrentWeight": "",
+            "MinimumHealthyWeight": "",
+            "MediumHealthyWeight": "",
+            "MaximumHealthyWeight": ""
         },
-        "_____",
+        "",
         [
             [
                 {
                     "age": 12,
                     "gender": "male",
-                    "lifestyle":"Sedentary",
+                    "lifestyle": "Sedentary",
                     "Calories": {
-                        "value": "____",
+                        "value": "",
+
                         "unit": "Kcal",
                         "dv": 2000,
                         "mc": 63
                     },
                     "Total Fat": {
-                        "value": "____",
+                        "value": "",
                         "unit": "Grams",
                         "dv": 78,
                         "mc": 63
                     },
                     "Saturated Fat": {
-                        "value": "____",
+                        "value": "",
                         "unit": "Grams",
                         "dv": 20,
                         "mc": 24
                     },
                     "Trans Fat": {
-                        "value": "____",
+                        "value": "",
                         "unit": "Grams",
                         "dv": 20,
                         "mc": 24
                     },
                     "Cholesterol": {
-                        "value": "____",
+                        "value": "",
                         "unit": "Grams",
                         "dv": 300,
                         "mc": 525
                     },
                     "Sodium": {
-                        "value": "____",
+                        "value": "",
                         "unit": "MG",
                         "dv": 2300,
                         "mc": 2070
                     },
                     "Carbohydrates": {
-                        "value": "____",
+                        "value": "",
                         "unit": "G",
                         "dv": 275,
                         "mc": 158
                     },
                     "Added Sugar": {
-                        "value": "____",
+                        "value": "",
                         "unit": "G",
                         "dv": 50,
                         "mc": 41
                     },
                     "Fiber": {
-                        "value": "____",
+                        "value": "",
                         "unit": "G",
                         "dv": 50,
                         "mc": 36
                     },
                     "Protein": {
-                        "value": "____",
+                        "value": "",
                         "unit": "G",
                         "dv": 50,
                         "mc": 36
                     },
                     "Vitamin D": {
-                        "value": "____",
+                        "value": "",
                         "unit": "MCG",
                         "dv": 20,
                         "mc": 2
                     },
                     "Calcium": {
-                        "value": "____",
+                        "value": "",
                         "unit": "MG",
                         "dv": 1300,
                         "mc": 280
                     },
                     "Iron": {
-                        "value": "____",
+                        "value": "",
                         "unit": "MG",
                         "dv": 18,
                         "mc": 7.5
                     },
                     "Potassium": {
-                        "value": "____",
+                        "value": "",
                         "unit": "MG",
                         "dv": 4700,
                         "mc": 980
@@ -239,15 +242,27 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                     "DV": 4700,
                     "McDonaldsBigBreakfast": 980
                 }
-            ]
-        ]
+            ],
+
+        ],
+        '',
+        [[
+            '0', '0', '0', '0', '0', '0'
+        ]]
     ])
     const [userPass, setUserPass] = React.useState(false)
 
     const items: DescriptionsProps['items'] = [
         {
             key: '1',
-            label: 'Weight Category',
+            label: <h3>Weight Assessment</h3>,
+            children: `Weight measurements are shown in Pounds (LB). Kcal is kilocalories, a unit used to measure the energy content in food and physical activities, with 1 Kcal equal to 1 calorie.  `,
+            span: 6
+
+        },
+        {
+            key: '2',
+            label: 'Status',
             children: <ConfigProvider
                 theme={{
                     components: {
@@ -259,46 +274,140 @@ const PublicHealthDiagnostic: React.FC = (props) => {
             >
                 <Badge status="processing" text={person[1]['status']} color={person[1]['color']} />
             </ConfigProvider>,
-            span: 1,
-        },
-        {
-            key: '2',
-            label: `Body Mass Index (BMI)`,
-            children: `${person[0]}`,
-            span: 1,
+            span: 3,
         },
         {
             key: '3',
-            label: 'Basal Metabolic Rate (BMR)',
-            children: `${person[3]} Kcal`,
-        },
-        // {
-        //     key: '8',
-        //     label:<h3>Low Weight</h3>,
-        //     children: ``,
-        //     span:3,
-        // },
+            label: <Space direction='horizontal'>
+                Mass
+                <Tooltip color='#849fd1' placement="bottom" title={"Body Mass Index (BMI), is a numeric indicator used the assess an individual weight status. The BMI categories are as follows: Underweight: BMI less than 18.5; Normal weight: BMI between 18.5 and 24.9; Overweight: BMI between 25 and 29.9; Obesity: BMI 30 or greater."}>
+                    <Question size={20} weight="bold" />
+                </Tooltip>
 
+            </Space>,
+            children: <Space>
+                {person[0]} BMI
+            </Space>
+            ,
+            span: 3,
+        },
         {
             key: '4',
-            label: 'Healthy Low Weight',
-            children: `${person[2]['MinimumHealthyWeight']} LB`,
+            label: 'Weight',
+            children: <Space>
+                {person[2]['CurrentWeight']} LB
+            </Space>,
+            span: 3,
+
         },
         {
             key: '5',
-            label: 'Healthy Medium Weight',
-            children: `${person[2]['MediumHealthyWeight']} LB`,
-            span: 1,
+            label: 'Normal Weight Range',
+            children: <Space direction='horizontal' align='start'>{person[2]['MinimumHealthyWeight'][0]}LB<ArrowsLeftRight size={16} />{person[2]['MaximumHealthyWeight'][0]}LB</Space>,
+            span: 3
+
         },
         {
             key: '6',
-            label: 'Healthy High Weight',
-            children: `${person[2]['MaximumHealthyWeight']} LB`,
+            label: 'Weight Change',
+            children: <Space direction='horizontal' align='start'>{person[2]['MinimumHealthyWeight'][1]}LB<ArrowsLeftRight size={16} />{person[2]['MaximumHealthyWeight'][1]}LB</Space>,
+            span: 6
+
         },
+
+
+
         {
             key: '7',
-            label: 'Recommended Daily Nutrient Intake',
+            label: <Space direction='vertical'>
+                <h3>Calorie Assessment and Plan</h3>
+                Modify Question 5 in the form to get new results.
+            </Space>,
+            children: `Basal Metabolic Rate (BMR) or Minimum Energy Need indicates the lowest calorie intake necessary for maintaining vital bodily functions crucial to sustaining life. Total Daily Energy Expenditure (TDEE) or Maximum Energy Need
+            indicates calories needed to support daily activities and bodily function. 
+             `,
+            span: 6
+
+        },
+        {
+            key: '8',
+            label: <Space direction='horizontal'>
+                Minimum Energy Need (BMR)
+                <Tooltip color='#849fd1' placement="bottom" title={"Basal Metabolic Rate (BMR) is the amount of energy expended by the body at rest in order to maintain basic physiological functions such as breathing, circulation, and cell production. It represents the minimum number of calories your body needs to support these essential functions while at complete rest. BMR is influenced by factors such as age, gender, weight, height, and body composition."}>
+                    <Question size={20} weight="bold" />
+                </Tooltip>
+
+            </Space>,
+            children: `${person[3]} Kcal`,
             span: 3,
+
+        },
+        {
+            key: '9',
+            label: <Space direction='horizontal'>
+                Maximum Energy Need (TDEE)
+                <Tooltip color='#849fd1' placement="bottom" title={"Total Daily Energy Expenditure varies among individuals based on factors such as age, sex, weight, metabolism, and activity level. Calories, serving as the fundamental units of energy derived from food and beverages, play a crucial role in meeting this daily need. The body relies on this energy to sustain essential physiological functions, support metabolism, facilitate nutrient absorption, and enable physical activities."}>
+                    <Question size={20} weight="bold" />
+                </Tooltip>
+
+            </Space>,
+            children: `${person[4][0][0]['Calories'].value} Kcal`,
+            span: 3,
+
+        },
+        {
+            key: '10',
+            label: 'Adjustment in Maximum Energy Need (-) Less Calories; (+) More Calories; (*) Optional Adjustment',
+            children: `${person[1]['indicator']} ${person[5]} Kcal`,
+            span: 6,
+
+        },
+        {
+            key: '11',
+            label: 'Plan Weight Month 1',
+            children: `${person[6][0][0]} LB`,
+            span: 3,
+
+        },
+        {
+            key: '12',
+            label: 'Plan Weight Month 2',
+            children: `${person[6][0][1]} LB`,
+            span: 3,
+
+        },
+        {
+            key: '13',
+            label: 'Plan Weight Month 3',
+            children: `${person[6][0][2]} LB`,
+            span: 3,
+
+        },
+        {
+            key: '14',
+            label: 'Plan Weight Month 4',
+            children: `${person[6][0][3]} LB`,
+            span: 3,
+
+        },
+        {
+            key: '14',
+            label: 'Plan Weight Month 5',
+            children: `${person[6][0][4]} LB`,
+            span: 3,
+
+        },
+        {
+            key: '15',
+            label: 'Plan Weight Month 6',
+            children: `${person[6][0][5]} LB`,
+            span: 3,
+
+        },
+        {
+            key: '13',
+            label: 'Recommended Daily Nutrient Intake',
+            span: 6,
             children: (
                 <>
                     Calories: {person[4][0][0]['Calories'].value} Kcal
@@ -307,11 +416,11 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                     <br />
                     Saturated Fat:  {person[4][0][0]['Saturated Fat'].value} G
                     <br />
-                    Cholesterol:  {person[4][0][0]['Calories'].value} G
+                    Cholesterol:  {person[4][0][0]['Cholesterol'].value} G
                     <br />
-                    Sodium:  {person[4][0][0]['Calories'].value} MG
+                    Sodium:  {person[4][0][0]['Sodium'].value} MG
                     <br />
-                    Carbohydrates:  {person[4][0][0]['Calories'].value} G
+                    Carbohydrates:  {person[4][0][0]['Carbohydrates'].value} G
                     <br />
                     Fiber:  {person[4][0][0]['Fiber'].value} G
                     <br />
@@ -346,7 +455,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
         }
     }
 
-    const onFinish = async (values: any) => {    
+    const onFinish = async (values: any) => {
         let newData = await fetch(`/bolatestingroute`, {
             method: 'POST',
             headers: {
@@ -356,6 +465,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
         })
 
         const data1 = await newData.json()
+        console.log(data1)
         setPerson(data1)
     };
 
@@ -403,8 +513,8 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
 
 
-                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 100]}>
-                            <Col xs={22} md={8} className='layout'>
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]}>
+                            <Col xs={22} md={6} >
 
                                 <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
                                     animate={{ opacity: 1, scale: 1 }}
@@ -451,7 +561,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                             }}
                                         >
                                             <Alert
-                                                description="How old are you? Ages: [2 - 125]"
+                                                description="1. How old are you? Ages: [2 - 125]"
                                                 type="warning"
                                                 className='heroText'
                                             />
@@ -464,11 +574,11 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                                     border: '1px solid #4D4D4F',
                                                     borderRadius: '1.5px',
                                                     fontSize: 14,
-                                                    width: 325
+                                                    width: 250
                                                 }} placeholder="Age" maxLength={25} prefix={<User size={20} color="#849FD1" weight="bold" />} min={2} max={125} type='number' />
                                             </Form.Item>
                                             <Alert
-                                                description="What is your gender? "
+                                                description="2. What is your gender? "
                                                 type="warning"
                                                 className='heroText'
                                             />
@@ -484,7 +594,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                                         border: '1px solid #4D4D4F',
                                                         borderRadius: '1.5px',
                                                         fontSize: 14,
-                                                        width: 325
+                                                        width: 250
 
                                                     }}
                                                     variant="borderless"
@@ -494,24 +604,24 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                                 </Select>
                                             </Form.Item>
                                             <Alert
-                                                description="What is your weight - in pounds (LB)? "
+                                                description="3. What is your weight - in pounds (LB)? "
                                                 type="warning"
                                                 className='heroText'
                                             />
                                             <Form.Item
                                                 name="weight"
                                                 rules={[{ required: true }]}
-                                                style={{ width: 325 }}
+                                                style={{ width: 250 }}
                                             >
                                                 <InputNumber style={{
                                                     border: '1px solid #4D4D4F',
                                                     borderRadius: '1.5px',
                                                     fontSize: 14,
-                                                    width: 325
+                                                    width: 250
                                                 }} placeholder="Pounds" max={1000} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} min={0} type='number' />
                                             </Form.Item>
                                             <Alert
-                                                description="What is your height - in feet and inches?"
+                                                description="4. What is your height - in feet and inches?"
                                                 type="warning"
                                                 className='heroText'
                                             />
@@ -525,9 +635,10 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                                             border: '1px solid #4D4D4F',
                                                             borderRadius: '1.5px',
                                                             fontSize: 14,
-                                                            width: 162.5
+                                                            width: 125
                                                         }} placeholder="Feet" max={10} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} min={0} type='number' />
                                                     </Form.Item>
+
                                                     <Form.Item
                                                         name={['height', 'inches']}
                                                         rules={[{ required: true, message: 'Enter details' }]}
@@ -536,7 +647,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                                             border: '1px solid #4D4D4F',
                                                             borderRadius: '1.5px',
                                                             fontSize: 14,
-                                                            width: 162.5
+                                                            width: 125
                                                         }} placeholder="Inches" max={11} prefix={<HashStraight size={20} color="#849FD1" weight="bold" />} min={0} type='number' />
 
                                                     </Form.Item>
@@ -548,7 +659,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                             </Tooltip>
 
                                             <Alert
-                                                description="Select the choice that best describes your level of activity or lifestyle?"
+                                                description="5. Select the choice that best describes your level of activity or lifestyle?"
                                                 type="warning"
                                                 className='heroText'
                                             />
@@ -566,7 +677,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                                         border: '1px solid #4D4D4F',
                                                         borderRadius: '1.5px',
                                                         fontSize: 14,
-                                                        width: 325
+                                                        width: 250
 
                                                     }}
                                                     variant="borderless"
@@ -614,7 +725,8 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                     theme={{
                                         components: {
                                             Descriptions: {
-                                                /* here is your component tokens */
+                                                colonMarginRight: 2,
+                                                labelBg: '#e8dac252'
                                             },
 
                                         },
@@ -632,15 +744,8 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
 
 
-                                    <Descriptions layout='vertical' title={<h3>Health Score Card</h3>} bordered items={items} />
-                                    <Space size={[25, 25]} wrap style={{ marginTop: 25 }}>
-                                        <Tooltip placement="bottom" title={"Body Mass Index (BMI), is a numeric indicator used the assess an individual weight status. The BMI categories are as follows: Underweight: BMI less than 18.5; Normal weight: BMI between 18.5 and 24.9; Overweight: BMI between 25 and 29.9; Obesity: BMI 30 or greater. While BMI provides a quick assessment of general body weight, it doesn't account for factors like muscle mass or fat distribution."}>
-                                            <Button icon={<Question size={20} weight="bold" />} htmlType="button" className='buttonFormBlack'> BMI </Button>
-                                        </Tooltip>
-                                        <Tooltip placement="bottom" title={"Basal Metabolic Rate (BMR) is the amount of energy expended by the body at rest in order to maintain basic physiological functions such as breathing, circulation, and cell production. It represents the minimum number of calories your body needs to support these essential functions while at complete rest. BMR is influenced by factors such as age, gender, weight, height, and body composition."}>
-                                            <Button icon={<Question size={20} weight="bold" />} htmlType="button" className='buttonFormBlack'> BMR </Button>
-                                        </Tooltip>
-                                    </Space>
+                                    <Descriptions column={6} size='small' layout='vertical' title={<h1>Health Score Card</h1>} bordered items={items} />
+
                                 </ConfigProvider>
                             </Col>
 

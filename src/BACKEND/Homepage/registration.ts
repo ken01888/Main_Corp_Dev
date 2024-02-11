@@ -7,6 +7,8 @@ import { registrationInformation, checkAccount } from '../ProgramControlFlow/SQL
 import * as convert from 'convert-units'
 import Nutrition from '../ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/NutritionDetails.ts'
 import stores from '../ProgramControlFlow/SQL/Query.ts/PrincipleClientPortal/Inventory';
+import * as tf from '@tensorflow/tfjs-node-gpu'
+
 
 
 
@@ -61,44 +63,45 @@ router.post('/bolatestingroute', async (req, res) => {
       }
     }
 
-   let IdealWeight={
-    MinimumHealthyWeight: [((18.5 / Number(CalculatedBMI)) * req.body.weight).toFixed()],
-    MediumHealthyWeight: ((21.7 / Number(CalculatedBMI)) * req.body.weight).toFixed(),
-    MaximumHealthyWeight: ((24.9 / Number(CalculatedBMI)) * req.body.weight).toFixed(),
-    }
+
 
     const StringBMIIndicator = () => {
       if (Number(CalculatedBMI) <= 18.4) {
         return {
-          status: 'Underweight',
+          status: 'Underweight - may result in various health issues, including nutritional deficiencies, weakened immunity, bone and  muscle problems, hormonal imbalances, and negative impacts on mental health.',
           color: '#E8DAC2',
-         
+          indicator: '+'
+
 
         }
       }
       if (Number(CalculatedBMI) >= 18.5 && Number(CalculatedBMI) <= 24.9) {
         return {
-          status: 'Normal',
+          status: 'Normal - is a positive health indicator and produces reductions in the following:  risk of cardiovascular diseases, type 2 diabetes, joint problems, respiratory complications, and mental health issues. ',
           color: '#8CB1A8',
-         
+          indicator: '*'
+
+
 
 
         }
       }
       if (Number(CalculatedBMI) >= 25.0 && Number(CalculatedBMI) <= 29.9) {
         return {
-          status: 'Overweight',
+          status: 'Overweight - may result in various health issues; including heightened risks of cardiovascular problems, diabetes, joint issues, respiratory complications, liver disease, cancer, mental issues, reduced mobility, sleep disorders, fertility challenges, and potentially lowered life expectancy.          ',
           color: '#E5652E',
-         
+          indicator: '-'
+
 
 
         }
       }
       if (Number(CalculatedBMI) >= 30.0) {
         return {
-          status: 'Obese',
+          status: 'Obese -is an urgent health risk, increasing susceptibility to cardiovascular diseases, diabetes, joint issues, respiratory complications, liver disease, cancers, psychological impact, reduced mobility, sleep disorders, fertility challenges, and potentially shortened life expectancy.',
           color: '#BC4C58',
-        
+          indicator: '-'
+
 
 
         }
@@ -149,7 +152,18 @@ router.post('/bolatestingroute', async (req, res) => {
       }
     };
 
+
+
+    let IdealWeight = {
+      CurrentWeight: weight,
+      MinimumHealthyWeight: [((18.5 / Number(CalculatedBMI)) * req.body.weight).toFixed(), (((18.5 / Number(CalculatedBMI)) * req.body.weight) - weight).toFixed()],
+      MediumHealthyWeight: ((21.7 / Number(CalculatedBMI)) * req.body.weight).toFixed(),
+      MaximumHealthyWeight: [((24.9 / Number(CalculatedBMI)) * req.body.weight).toFixed(), ((24.9 / Number(CalculatedBMI) * req.body.weight) - weight).toFixed()],
+
+    }
+
     const CapturedAge = req.body.age
+
 
     const AGE = async () => {
       delete req.body.height
@@ -163,6 +177,30 @@ router.post('/bolatestingroute', async (req, res) => {
     }
 
     AGE()
+    const finalEnergy = await Calories();
+    const initialEnergy = await BMR()
+    const EnergyChange = (Number(finalEnergy) - Number(initialEnergy)).toFixed();
+
+      const activeEnergy = await Calories();
+      const restingEnergy = await BMR()
+      const energyDifference = (Number(activeEnergy) - Number(restingEnergy));
+
+      const EnergyPlanDays = [30, 60, 90, 120, 150, 180]
+
+      const DLPLan = tf.tensor(EnergyPlanDays, [6])
+      const semiAnnualPlan = []
+      if (StringBMIIndicator()?.color === '#E8DAC2') {
+        const monthofPlan = await DLPLan.mul(energyDifference).div(3500).add(req.body.weight).abs().ceil().array();
+        semiAnnualPlan.push(monthofPlan) 
+      } else if (StringBMIIndicator()?.color !== '#E8DAC2') {
+        const monthofPlan = await DLPLan.mul(energyDifference).div(3500).sub(req.body.weight).abs().ceil().array();
+        semiAnnualPlan.push(monthofPlan) 
+
+
+      }
+
+
+
 
     const RetrieveNutrientsFromDatabase = await Nutrition.PersonalNutritionDetails(req.body.gender, req.body.age)
 
@@ -275,11 +313,10 @@ router.post('/bolatestingroute', async (req, res) => {
 
       return [[testingdata], replyArray]
     };
-    // console.log(CalculatedBMI, StringBMIIndicator(), IdealWeight, BMR(), NutritionRequirement())
-    return [CalculatedBMI, StringBMIIndicator(),IdealWeight, BMR(), NutritionRequirement()]
+    console.log(semiAnnualPlan)
+    return [CalculatedBMI, StringBMIIndicator(), IdealWeight, BMR(), NutritionRequirement(), EnergyChange,semiAnnualPlan]
   }
   const pushDataToFrontEnd = await PersonalHealth()
-  // console.log(pushDataToFrontEnd)
   res.json(pushDataToFrontEnd)
 });
 

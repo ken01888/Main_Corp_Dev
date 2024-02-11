@@ -341,61 +341,61 @@ const Home: React.FC = () => {
 
             <Row justify={'center'} align={'middle'} gutter={[0, 16]} className='rowWhiteGrayBackgroundPadding'>
 
-<Col xs={22} md={8} >
+              <Col xs={22} md={8} >
 
 
 
-  <Image preview={false} src={industries} width={250} />
-
-  
+                <Image preview={false} src={industries} width={250} />
 
 
 
 
-</Col>
-
-<Col xs={22} md={8} >
-
-  <Space wrap size={[0, 25]}>
 
 
+              </Col>
 
-    <h1>Building Responsive Enterprises
-</h1>
+              <Col xs={22} md={8} >
 
-    <Alert
-      description={<p>
-We collaborate with organizations spanning diverse sectors to enhance their overall performance, ultimately benefiting consumers. Our approach involves seamlessly integrating enterprises in the Energy, Financials, Health Care, Consumer Discretionary, and Consumer Staples sectors with their customers through advanced technological services. Our innovative solutions not only fortify enterprises but also uplift communities by pinpointing and addressing weaknesses across organizations and communities, and optimizing the performance of each entity.      </p>}
-      type="warning"
-      className='heroText'
-    />
+                <Space wrap size={[0, 25]}>
 
 
-  </Space>
 
-</Col>
+                  <h1>Building Responsive Enterprises
+                  </h1>
+
+                  <Alert
+                    description={<p>
+                      We collaborate with organizations spanning diverse sectors to enhance their overall performance, ultimately benefiting consumers. Our approach involves seamlessly integrating enterprises in the Energy, Financials, Health Care, Consumer Discretionary, and Consumer Staples sectors with their customers through advanced technological services. Our innovative solutions not only fortify enterprises but also uplift communities by pinpointing and addressing weaknesses across organizations and communities, and optimizing the performance of each entity.      </p>}
+                    type="warning"
+                    className='heroText'
+                  />
 
 
-</Row>
+                </Space>
+
+              </Col>
 
 
-            <Row justify={'space-evenly'} align={'bottom'} gutter={[0, 100]} style={{ marginTop: 100 }}>
+            </Row>
+
+
+            <Row justify={'space-evenly'} align={'top'} gutter={[0, 100]} style={{ marginTop: 100 }}>
 
               <Col xs={{ span: 22 }} md={{ span: 8 }}>
                 <Space size={[0, 25]} wrap>
 
-                  <Space size={[0, 25]} wrap>
+                  <Space size={[0, 25]} direction='vertical' wrap>
 
-                  <div>
+                    <div>
                       <h3>Public Services</h3>
                     </div>
                     <div>
-                      <h1>Get Your Health Score Card</h1>
+                      <h1>Health Score Card</h1>
                     </div>
 
                     <Alert
                       description="
-                      Unlock a healthier you with our accessible approach to understanding your well-being. Use our Personal Health Assessment to gain valuable insights into your current health status. Click the button below to get a new view of you:"
+                      Unlock a healthier you with our accessible approach to understanding your well-being. Use our Personal Health Assessment to gain valuable insights into your current health status and adjustment that allow you live life to the fullest. Click the button below to get a new view of you:"
                       type="warning"
                       className='heroText'
                     />
@@ -410,59 +410,43 @@ We collaborate with organizations spanning diverse sectors to enhance their over
               </Col>
 
               <Col xs={{ span: 22 }} md={{ span: 8 }}>
-                <Space size={[0, 25]} wrap>
 
-                  <Space size={[5, 25]} wrap align='end'>
-                    <div>
-                      <span>
-                        <motion.div className='logo'>
-                          <div style={{ height: 'fit-content' }}>
-                            <div className='biglogoBlue'>B</div>
-                            
-                            <div className='biglogoBeige'>L</div>
-                          </div>
-                          <div style={{ height: 'fit-content' }}>
-                            <div className='biglogoBeige'>o</div>
-                            <div className='biglogoBlue'>A</div>
-                          </div>
-                        </motion.div>
-                      </span>
 
-                    </div>
+                <Space size={[15, 25]} wrap direction='vertical'>
 
-                    <Space direction='vertical' wrap>
+
+                  <Space direction='vertical' size={[0, 25]} wrap>
                     <div>
                       <h3>Private Services</h3>
                     </div>
                     <div>
-                    <h2>Bite of Life Analytics</h2>
+                      <h1>Bite of Life Analytics</h1>
 
                     </div>
 
 
-                    </Space>
+                  </Space>
 
 
 
 
-                    <Alert
-                      description="
-                    Pushback against nutritional-related casualties, leverage unexplored customer data, increase enagement and capture missed opportunities.
-                    "
-                      type="warning"
-                      className='heroText'
-                    />
-                    <Space direction='horizontal' wrap>
-                      <a href='/bola_overview' className='buttonFormBeige'>
-                        Learn more
-                      </a>
-                      <a href='/support' className='buttonFormBeige'>
-                        Contact Us
-                      </a>
+                  <Alert
+                    description="
+                      Bite of Life Analytics (BoLA) is a nutritional, financial, and consumer analysis software designed for retail establishments. This transformative solution provides individuals with information to help them make wiser choices about what they eat, and enterprises create healthier food products.                     "
+                    type="warning"
+                    className='heroText'
+                  />
+                  <Space direction='horizontal' wrap>
+                    <a href='/bola_overview' className='buttonFormBeige'>
+                      Learn more
+                    </a>
+                    <a href='/support' className='buttonFormBeige'>
+                      Contact Us
+                    </a>
 
-                    </Space>
                   </Space>
                 </Space>
+
               </Col>
 
 

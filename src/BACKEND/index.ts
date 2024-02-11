@@ -78,8 +78,8 @@ app.use('/bola_overview', express.static('public'))
 app.use('/privacypolicy', express.static('public'))
 // app.use('/signup', express.static('public'))
 app.use('/health-diagnostic', express.static('public'))
-app.use('/inventorycheck', express.static('public'))
-app.use('/nutrients', express.static('public'))
+// app.use('/inventorycheck', express.static('public'))
+// app.use('/nutrients', express.static('public'))
 // app.use('/principle/', validateUser, express.static('public'))
 // app.use('/principle/', express.static('public'))
 // app.use('/principle/account', express.static('public'))
@@ -116,8 +116,8 @@ app.get("*", (req, res) => {
 
 
 
-// const test1 = []
-// const tfoutput = []
+const test1 = []
+const tfoutput = []
 // let index = 0
 //  for  ( let index = 0 ; index <= 999  ; index++) {
 //  let newReply = index 
