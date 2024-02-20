@@ -260,7 +260,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
 
     const onFinish = async (values: any) => {
-        let newData = await fetch(`http://localhost:8080/bolatestingroute`, {
+        let newData = await fetch(`/bolatestingroute`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
