@@ -44,7 +44,6 @@ router.post('/bolatestingroute', async (req, res) => {
   const ProcessedHeight = ProcessingHeight + Number(req.body.height.inches)
   const HeightSquared = Math.pow(ProcessedHeight, 2)
   const weight = req.body.weight
-  console.log(req)
   const PersonalHealth = async () => {
 
     const CalculatedBMI = (weight / HeightSquared * 703).toFixed(1)
@@ -71,29 +70,24 @@ router.post('/bolatestingroute', async (req, res) => {
         return {
           status: 'Underweight',
           color: '#E8DAC2',
+          text:'Underweight status can lead to nutritional deficiencies, weakened immunity, muscle atrophy, bone health issues, hormonal imbalances, delayed wound healing, cardiovascular problems, impaired cognitive function, anemia risk, fertility issues, poor body temperature regulation, decreased energy levels, and negative impacts on mental health. Addressing these concerns requires a balanced diet, regular exercise, and medical guidance for personalized intervention. Consulting healthcare professionals is crucial for a comprehensive plan to improve overall health.',
           indicator: '+'
-
-
         }
       }
       if (Number(CalculatedBMI) >= 18.5 && Number(CalculatedBMI) <= 24.9) {
         return {
           status: 'Normal',
           color: '#8CB1A8',
+          text:'normal weight status is generally associated with positive health outcomes, including a lower risk of cardiovascular diseases, type 2 diabetes, joint issues, and respiratory complications. Individuals with a normal weight often experience improved metabolic health, balanced cholesterol levels, and a reduced likelihood of certain cancers, contributing to overall well-being. Maintaining healthy lifestyle habits, including regular physical activity and a balanced diet, is essential for sustaining normal weight and promoting long-term health.',
           indicator: '*'
-
-
-
-
         }
       }
       if (Number(CalculatedBMI) >= 25.0 && Number(CalculatedBMI) <= 29.9) {
         return {
           status: 'Overweight',
           color: '#E5652E',
+          text:'Overweight status entails an increased risk of cardiovascular issues, type 2 diabetes, joint problems, respiratory complications, liver disease, cancer, metabolic syndrome, psychological impact, reduced mobility, sleep disorders, fertility issues, and a potential reduction in life expectancy, emphasizing the need for lifestyle changes, balanced diet, regular exercise, and medical guidance for effective weight management.',
           indicator: '-'
-
-
 
         }
       }
@@ -101,10 +95,8 @@ router.post('/bolatestingroute', async (req, res) => {
         return {
           status: 'Obese',
           color: '#BC4C58',
-          indicator: '-'
-
-
-
+          indicator: '-',
+          text: 'Obesity status involves heightened risks of cardiovascular diseases, type 2 diabetes, joint problems, respiratory complications, liver disease, cancers, psychological impact, reduced mobility, sleep disorders, fertility issues, and potentially shortened life expectancy, emphasizing the imperative for holistic lifestyle changes and medical intervention in weight management.'
         }
       }
     }
@@ -198,9 +190,9 @@ router.post('/bolatestingroute', async (req, res) => {
 
     let IdealWeight = {
       CurrentWeight: weight,
-      MinimumHealthyWeight: [((18.5 / Number(CalculatedBMI)) * req.body.weight).toFixed(), (((18.5 / Number(CalculatedBMI)) * req.body.weight) - weight).toFixed()],
-      MediumHealthyWeight: ((21.7 / Number(CalculatedBMI)) * req.body.weight).toFixed(),
-      MaximumHealthyWeight: [((24.9 / Number(CalculatedBMI)) * req.body.weight).toFixed(), ((24.9 / Number(CalculatedBMI) * req.body.weight) - weight).toFixed()],
+      MinimumHealthyWeight: [Math.abs((18.5 / Number(CalculatedBMI)) * req.body.weight).toFixed(), Math.abs(((18.5 / Number(CalculatedBMI)) * req.body.weight) - weight).toFixed()],
+      MediumHealthyWeight: (Math.abs(21.7 / Number(CalculatedBMI)) * req.body.weight).toFixed(),
+      MaximumHealthyWeight: [Math.abs((24.9 / Number(CalculatedBMI)) * req.body.weight).toFixed(), Math.abs((24.9 / Number(CalculatedBMI) * req.body.weight) - weight).toFixed()],
 
     }
 

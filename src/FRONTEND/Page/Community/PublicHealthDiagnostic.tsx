@@ -1,13 +1,14 @@
 import * as React from 'react'
-import { Col, Form, ConfigProvider, Button, Descriptions, Select, Space, InputNumber, Row, Alert, Tooltip, Badge, DescriptionsProps, Layout } from 'antd'
+import { Col, Form, ConfigProvider, Button, Descriptions, Select, Space, InputNumber, Row, Alert, Tooltip, Badge, DescriptionsProps, Layout, Card, Statistic } from 'antd'
 import 'isomorphic-fetch';
 
 import { Content, Header } from 'antd/es/layout/layout';
 import Main_Menu from '../Components/Navigation/Main_Menu';
 import Public_Footer from '../Components/Navigation/Footer';
-import { ArrowLineRight, ArrowsLeftRight, GenderIntersex, HashStraight, Question, User } from '@phosphor-icons/react';
+import { ArrowLineRight, ArrowsLeftRight, GenderIntersex, HashStraight, MapPin, Question, User } from '@phosphor-icons/react';
 
 import { motion } from 'framer-motion';
+import { ArrowUpOutlined } from '@ant-design/icons';
 
 
 interface DataType {
@@ -44,6 +45,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
     const [inventoryList, setInventoryList] = React.useState<any>([{}])
     const [business_id_number, setBusinessId] = React.useState();
     const [inventoryExist, setInventoryExist] = React.useState<boolean>()
+    const [displayResults,setResults] = React.useState<boolean>(false)
     const [person, setPerson] = React.useState([
         "",
         {
@@ -250,232 +252,12 @@ const PublicHealthDiagnostic: React.FC = (props) => {
             '0', '0', '0', '0', '0', '0'
         ]]
     ])
-    const [userPass, setUserPass] = React.useState(false)
-
-    const items: DescriptionsProps['items'] = [
-        {
-            key: '1',
-            label: <h3>Weight Assessment</h3>,
-            children: `Weight measurements are shown in Pounds (LB). Kcal is kilocalories, a unit used to measure the energy content in food and physical activities, with 1 Kcal equal to 1 calorie.  `,
-            span: 6
-
-        },
-        {
-            key: '2',
-            label: 'Status',
-            children: <ConfigProvider
-                theme={{
-                    components: {
-                        Badge: {
-                            statusSize: 16
-                        },
-                    },
-                }}
-            >
-                <Badge status="processing" text={person[1]['status']} color={person[1]['color']} />
-            </ConfigProvider>,
-            span: 3,
-        },
-        {
-            key: '3',
-            label: <Space direction='horizontal'>
-                Mass
-                <Tooltip color='#849fd1' placement="bottom" title={"Body Mass Index (BMI), is a numeric indicator used the assess an individual weight status. The BMI categories are as follows: Underweight: BMI less than 18.5; Normal weight: BMI between 18.5 and 24.9; Overweight: BMI between 25 and 29.9; Obesity: BMI 30 or greater."}>
-                    <Question size={20} weight="bold" />
-                </Tooltip>
-
-            </Space>,
-            children: <Space>
-                {person[0]} BMI
-            </Space>
-            ,
-            span: 3,
-        },
-        {
-            key: '4',
-            label: 'Weight',
-            children: <Space>
-                {person[2]['CurrentWeight']} LB
-            </Space>,
-            span: 3,
-
-        },
-        {
-            key: '5',
-            label: 'Normal Weight Range',
-            children: <Space direction='horizontal' align='start'>{person[2]['MinimumHealthyWeight'][0]}LB<ArrowsLeftRight size={16} />{person[2]['MaximumHealthyWeight'][0]}LB</Space>,
-            span: 3
-
-        },
-        {
-            key: '6',
-            label: 'Weight Change',
-            children: <Space direction='horizontal' align='start'>{person[2]['MinimumHealthyWeight'][1]}LB<ArrowsLeftRight size={16} />{person[2]['MaximumHealthyWeight'][1]}LB</Space>,
-            span: 6
-
-        },
-
-
-
-        {
-            key: '7',
-            label: <Space direction='vertical'>
-                <h3>Calorie Assessment and Plan</h3>
-                Modify Question 5 in the form to get new results.
-            </Space>,
-            children: `Basal Metabolic Rate (BMR) or Minimum Energy Need indicates the lowest calorie intake necessary for maintaining vital bodily functions crucial to sustaining life. Total Daily Energy Expenditure (TDEE) or Maximum Energy Need
-            indicates calories needed to support daily activities and bodily function. 
-             `,
-            span: 6
-
-        },
-        {
-            key: '8',
-            label: <Space direction='horizontal'>
-                Minimum Energy Need (BMR)
-                <Tooltip color='#849fd1' placement="bottom" title={"Basal Metabolic Rate (BMR) is the amount of energy expended by the body at rest in order to maintain basic physiological functions such as breathing, circulation, and cell production. It represents the minimum number of calories your body needs to support these essential functions while at complete rest. BMR is influenced by factors such as age, gender, weight, height, and body composition."}>
-                    <Question size={20} weight="bold" />
-                </Tooltip>
-
-            </Space>,
-            children: `${person[3]} Kcal`,
-            span: 3,
-
-        },
-        {
-            key: '9',
-            label: <Space direction='horizontal'>
-                Maximum Energy Need (TDEE)
-                <Tooltip color='#849fd1' placement="bottom" title={"Total Daily Energy Expenditure varies among individuals based on factors such as age, sex, weight, metabolism, and activity level. Calories, serving as the fundamental units of energy derived from food and beverages, play a crucial role in meeting this daily need. The body relies on this energy to sustain essential physiological functions, support metabolism, facilitate nutrient absorption, and enable physical activities."}>
-                    <Question size={20} weight="bold" />
-                </Tooltip>
-
-            </Space>,
-            children: `${person[4][0][0]['Calories'].value} Kcal`,
-            span: 3,
-
-        },
-        {
-            key: '10',
-            label: 'Adjustment in Maximum Energy Need (-) Less Calories; (+) More Calories; (*) Optional Adjustment',
-            children: `${person[1]['indicator']} ${person[5]} Kcal`,
-            span: 6,
-
-        },
-        {
-            key: '11',
-            label: 'Plan Weight Month 1',
-            children: `${person[6][0][0]} LB`,
-            span: 3,
-
-        },
-        {
-            key: '12',
-            label: 'Plan Weight Month 2',
-            children: `${person[6][0][1]} LB`,
-            span: 3,
-
-        },
-        {
-            key: '13',
-            label: 'Plan Weight Month 3',
-            children: `${person[6][0][2]} LB`,
-            span: 3,
-
-        },
-        {
-            key: '14',
-            label: 'Plan Weight Month 4',
-            children: `${person[6][0][3]} LB`,
-            span: 3,
-
-        },
-        {
-            key: '15',
-            label: 'Plan Weight Month 5',
-            children: `${person[6][0][4]} LB`,
-            span: 3,
-
-        },
-        {
-            key: '16',
-            label: 'Plan Weight Month 6',
-            children: `${person[6][0][5]} LB`,
-            span: 3,
-
-        },
-        {
-            key: '17',
-            label: <Space direction='vertical'>
-                <h3>Calorie Assessment and Plan</h3>
-                Modify Question 5 in the form to get new results.
-            </Space>,
-            children: `Basal Metabolic Rate (BMR) or Minimum Energy Need indicates the lowest calorie intake necessary for maintaining vital bodily functions crucial to sustaining life. Total Daily Energy Expenditure (TDEE) or Maximum Energy Need
-            indicates calories needed to support daily activities and bodily function. 
-             `,
-            span: 6
-
-        },
-        {
-            key: '18',
-            label: 'Macro Nutrients',
-            span: 3,
-            children: (
-                <>
-                    Calories: {person[4][0][0]['Calories'].value} Kcal
-                    <br />
-                    Total Fat:  {person[4][0][0]['Total Fat'].value} G
-                    <br />
-                    Saturated Fat:  {person[4][0][0]['Saturated Fat'].value} G
-                    <br />
-                    Cholesterol:  {person[4][0][0]['Cholesterol'].value} G
-                    <br /> 
-                    Carbohydrates:  {person[4][0][0]['Carbohydrates'].value} G
-                    <br />
-                    Fiber:  {person[4][0][0]['Fiber'].value} G
-                    <br />
-                    Added Sugar:  {person[4][0][0]['Added Sugar'].value} G
-                    <br />
-                    Protein:  {person[4][0][0]['Protein'].value} G
-                    <br />
-    
-                </>
-            ),
-        },
-        {
-            key: '19',
-            label: 'Recommended Daily Nutrient Intake',
-            span: 3,
-            children: (
-                <>
-                    Sodium:  {person[4][0][0]['Sodium'].value} MG
-                    <br />
-                    Vitamin {person[4][0][0]['Vitamin D'].value} MCG
-                    <br />
-                    Calcium:  {person[4][0][0]['Calcium'].value} MG
-                    <br />
-                    Iron:  {person[4][0][0]['Iron'].value} MG
-                    <br />
-                    Potassium:  {person[4][0][0]['Potassium'].value} MG
-                    <br />
-                </>
-            ),
-        },
-    ];
 
 
 
 
 
 
-
-
-
-    const stylePlay = () => {
-        return {
-            borderColor: 'blue'
-        }
-    }
 
     const onFinish = async (values: any) => {
         let newData = await fetch(`http://localhost:8080/bolatestingroute`, {
@@ -486,6 +268,9 @@ const PublicHealthDiagnostic: React.FC = (props) => {
             body: JSON.stringify(values)
         })
         const data1 = await newData.json()
+        if(data1){
+            setResults(!displayResults)
+        }
         setPerson(data1)
     };
     const onFinishFailed = (errorInfo: any) => {
@@ -508,7 +293,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                 <Content >
                     <Space wrap size={[0, 100]}>
 
-                        <Row justify={'center'} align={'middle'} gutter={[0, 16]} className='sectionHeaderOtherBlue'>
+                        <Row justify={'center'} align={'top'} gutter={[0, 16]} className='sectionHeaderOtherBlue'>
                             <Col >
                                 <h3>Personal Health Assessment</h3>
                             </Col>
@@ -532,8 +317,8 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
 
 
-                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]}>
-                            <Col xs={22} md={6} >
+                        <Row justify={'space-evenly'} align={'top'} gutter={[0, 50]}>
+                            <Col xs={22} md={8} >
 
                                 <motion.div className='form_login' initial={{ opacity: 0, scale: 0 }}
                                     animate={{ opacity: 1, scale: 1 }}
@@ -684,7 +469,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                             />
                                             <Form.Item
                                                 name="life_style"
-                                                rules={[{ required: true }]}
+                                                rules={[{ required: true,message: 'Enter your lifestyle type' }]}
                                                 style={{ width: '17rem' }}
 
 
@@ -711,27 +496,30 @@ const PublicHealthDiagnostic: React.FC = (props) => {
 
                                                 </Select>
                                             </Form.Item>
+                                            <Alert
+                                                description="6. In which zip code are you currently located?"
+                                                type="warning"
+                                                className='heroText'
+                                            />
+                                            <Form.Item
+                                                name="location"
+                                                rules={[{ required: true,message: 'Enter the zip code you live in' }]}
+                                                style={{ width: '17rem' }}
+                                            >
+                                                <InputNumber style={{
+                                                    border: '1px solid #4D4D4F',
+                                                    borderRadius: '1.5px',
+                                                    fontSize: 14,
+                                                    width: 250
+                                                }} placeholder="Zip code:" maxLength={25} prefix={<MapPin size={20} color="#849FD1" weight="bold" />} type='number' />
+                                            </Form.Item>
 
                                             <Form.Item
                                             >
-                                                <ConfigProvider
-                                                    theme={{
-                                                        token: {
-                                                            fontFamily: 'Jost',
-                                                            colorTextTertiary: 'black',
-                                                            colorPrimaryHover: '#000000',
-                                                            colorBgContainer: '#fafafa'
-                                                        },
-                                                    }}
-                                                >
-
-                                                    <Tooltip placement="right" color='#849FD1' title={'Save'}>
-                                                        <Button icon={<ArrowLineRight size={20} weight="bold" />} htmlType="submit" className='buttonFormBlack'></Button>
-                                                    </Tooltip>
-                                                </ConfigProvider>
-
+                                                <button type="submit" className='buttonFormBeige'>
+                                                   Results
+                                                </button>
                                             </Form.Item>
-
                                         </ConfigProvider>
                                     </Form>
 
@@ -739,44 +527,609 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                 </motion.div>
 
                             </Col>
-                            <Col xs={22} md={8} >
-                                <ConfigProvider
-                                    theme={{
-                                        components: {
-                                            Descriptions: {
-                                                colonMarginRight: 2,
-                                                labelBg: '#e8dac252'
-                                            },
 
-                                        },
-                                        token: {
-                                            borderRadiusLG: 2.5,
-                                            lineWidth: 1,
-                                            colorSplit: '#d9d9d9',
-                                            colorTextTertiary: 'black',
-                                            colorPrimaryHover: '#000000',
-                                            colorBgContainer: '#fafafa'
-                                        },
-                                    }}
-                                >
-
-
-
-
-                                    <Descriptions column={6} size='small' layout='vertical' title={<h1>Health Scorecard</h1>} bordered items={items} />
-
-                                </ConfigProvider>
-                            </Col>
 
                         </Row>
+
+
+
+                        {displayResults? <> <Row justify={'center'} align={'middle'}  >
+                            <Col xs={22} md={20} >
+
+
+
+                                <h1>Weight Assessment</h1>
+
+                                <Alert
+                                    description={<p>
+                                        The Weight Assessment is a valuable tool for health insights, utilizing submitted information to focus on the Body Mass Index (BMI) and comprehensively evaluate body fatness. It goes beyond providing a numerical result, and interpreting the BMI to signal warning signs about current health. The assessment also recommends specific weight ranges tailored to individual circumstances, aiming to address diet-related health challenges. By incorporating these recommendations, individuals can make informed lifestyle decisions, emphasizing the importance of maintaining a healthy weight for overall well-being and reducing associated health risks. Recognizing that body weight plays a crucial role in health, the assessment aligns with broader considerations about BMI limitations, the impact of excess weight on cardiovascular health, the risk of type 2 diabetes, joint stress, respiratory function, and mental health.
+                                    </p>}
+                                    type="warning"
+                                    className='heroText'
+                                />
+
+
+
+
+                            </Col>
+
+
+
+                        </Row>
+
+
+
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>Status</h3>
+                                        </div>
+                                        <div>
+                                            <h1>Weight Class</h1>
+                                        </div>
+
+                                        <Alert
+                                            description={person[1]['text']}
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+                                    <ConfigProvider
+                                        theme={{
+                                            components: {
+                                                Badge: {
+                                                    statusSize: 64
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        <div>
+                                            <h1 style={{ color: person[1]['color'] }}>{person[1]['status']}</h1>
+                                        </div>
+                                    </ConfigProvider>
+                                </Space>
+                            </Col>
+                        </Row>
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>BMI</h3>
+                                        </div>
+                                        <div>
+                                            <h1>Body Mass Index</h1>
+                                        </div>
+
+                                        <Alert
+                                            description="Body Mass Index (BMI) is a straightforward tool for assessing whether an individual has a healthy body weight in relation to their height. The resulting numerical value is categorized into different ranges, indicating underweight, normal weight, overweight, or obesity. For instance, a BMI less than 18.5 suggests underweight, 18.5 to 24.9 indicates normal weight, 25 to 29.9 signals overweight, and 30 or greater signifies obesity. Consulting with a healthcare professional provides a more comprehensive assessment of overall health and body composition, as factors like muscle mass can influence BMI results."
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+                                    <ConfigProvider
+                                        theme={{
+                                            components: {
+                                                Badge: {
+                                                    textFontSize: 32,
+                                                    indicatorHeight: 96
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        <Badge status="processing" color={person[1]['color']} count={person[0]} />
+                                    </ConfigProvider>
+                                </Space>
+                            </Col>
+                        </Row>
+
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>Recommendation</h3>
+                                        </div>
+                                        <div>
+                                            <h1>Weight Management</h1>
+                                        </div>
+
+                                        <Alert
+                                            description="The forward-looking recommendation section is designed to provide valuable insights. It helps you determine your optimal weight limit by carefully considering factors such as your current life stage. Additionally, it takes into account specific anthropometric (height and weight) measurements to offer personalized guidance.
+
+
+                                            "
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Current Weight"
+                                                value={person[2]['CurrentWeight']}
+                                                suffix="LB"
+                                            />
+                                        </Card>
+                                    </Space>
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Healthy Low Weight"
+                                                value={person[2]['MinimumHealthyWeight'][0]}
+                                                suffix="LB"
+                                            />
+                                            <Statistic
+                                                title="Healthy High Weight"
+                                                value={person[2]['MaximumHealthyWeight'][0]}
+                                                suffix="LB"
+                                            />
+                                        </Card>
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Low Weight Change"
+                                                value={person[2]['MinimumHealthyWeight'][1]}
+                                                prefix={person[1]['indicator']}
+                                                suffix="LB"
+                                            />
+                                            <Statistic
+                                                title="High Weight Change"
+                                                value={person[2]['MaximumHealthyWeight'][1]}
+                                                prefix={person[1]['indicator']}
+                                                suffix="LB"
+                                            />
+                                        </Card>
+                                    </Space>
+
+                                </Space>
+                            </Col>
+                        </Row>
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>Weight Management Plan</h3>
+                                        </div>
+                                        <div>
+                                            <h1>6 Month Weight Statement</h1>
+                                        </div>
+
+                                        <Alert
+                                            description="Your Daily Calorie Intake Adjustment is a crucial metric, representing the necessary change in your daily calorie consumption to achieve a healthy weight range. This figure, derived from the difference between your Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE), is grounded in scientific principles. A positive adjustment indicates an increase in daily calorie consumption, suggesting a High Calorie Diet, while a negative adjustment signals a reduction, indicative of a Low Calorie Diet. This science-backed approach ensures a personalized and effective strategy for attaining and maintaining a healthy weight."
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Month 1"
+                                                value={person[6][0][0]}
+                                                suffix="LB"
+                                            />
+
+                                        </Card>
+                                        <Card bordered={false}>
+
+                                            <Statistic
+                                                title="Month 2"
+                                                value={person[6][0][1]}
+                                                suffix="LB"
+                                            />
+                                        </Card>
+                                    </Space>
+
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Month 3"
+                                                value={person[6][0][2]}
+                                                suffix="LB"
+                                            />
+
+                                        </Card>
+                                        <Card bordered={false}>
+
+                                            <Statistic
+                                                title="Month 4"
+                                                value={person[6][0][3]}
+                                                suffix="LB"
+                                            />
+                                        </Card>
+                                    </Space>
+
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Month 5"
+                                                value={person[6][0][4]}
+                                                suffix="LB"
+                                            />
+
+                                        </Card>
+                                        <Card bordered={false}>
+
+                                            <Statistic
+                                                title="Month 6"
+                                                value={person[6][0][5]}
+                                                suffix="LB"
+                                            />
+                                        </Card>
+                                    </Space>
+
+                                </Space>
+                            </Col>
+                        </Row>
+
+
+                        <Row justify={'center'} align={'middle'}  >
+                            <Col xs={22} md={20} >
+
+
+
+                                <h1>Calorie Assessment and Plan</h1>
+
+                                <Alert
+                                    description={<p>
+
+                                        The Calorie Assessment and Plan sections offer valuable insights into your body's specific calorie requirements. Each individual's energy needs are influenced by factors such as body type and stage of life. Consuming calories beyond what is necessary for maintaining normal bodily functions, considering one's lifestyle, leads to the accumulation of stored fat ( overweight or obesity). The results provided aim to serve as a foundation for future dietary planning. This proactive approach is designed to prevent the unnecessary buildup of fat deposits and provide you with a personalized plan to bring your body weight within healthy ranges.
+                                    </p>}
+                                    type="warning"
+                                    className='heroText'
+                                />
+
+
+
+
+                            </Col>
+
+
+
+                        </Row>
+
+
+
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>BMR</h3>
+                                        </div>
+                                        <div>
+                                            <h1>Basal Metabolic Rate</h1>
+                                        </div>
+
+                                        <Alert
+                                            description="BMR, or Basal Metabolic Rate, is like the energy your body needs to keep the lights on when you're not doing anything. It's the calories required for essential functions such as breathing, circulating blood, and keeping your organs working while you're at rest. Think of it as the energy your body uses just to stay alive. Everyone's BMR is different and depends on things like age, gender, weight, and height. Knowing your BMR helps you understand the minimum calories your body needs, which is useful for figuring out how much food and energy you need every day, including what you burn during activities and exercise.                                            "
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+
+                                    <Card bordered={false}>
+                                        <Statistic
+                                            title="BMR"
+                                            value={person[3]}
+                                            precision={2}
+                                            suffix="KCAL"
+                                        />
+                                    </Card>
+
+                                </Space>
+                            </Col>
+                        </Row>
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>TDEE</h3>
+                                        </div>
+                                        <div>
+                                            <h1>Dietary Calories - Total Daily Energy Expenditure</h1>
+                                        </div>
+
+                                        <Alert
+                                            description="TDEE, or Total Daily Energy Expenditure, is the total number of calories your body needs in a day. It includes the energy required for basic functions at rest (BMR) and the calories burned through daily activities and exercise. To maintain your current weight, aim to eat around the same number of calories as your TDEE. If you want to lose or gain weight, adjust your calorie intake accordingly. Calculating TDEE involves considering your BMR and how active you are during the day. It gives you a personalized estimate of your daily calorie needs."
+
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+
+                                    <Card bordered={false}>
+                                        <Statistic
+                                            title="TDEE"
+                                            value={person[4][0][0]['Calories'].value}
+                                            precision={2}
+                                            suffix="KCAL"
+                                        />
+                                    </Card>
+
+                                </Space>
+                            </Col>
+                        </Row>
+
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>Recommendation</h3>
+                                        </div>
+                                        <div>
+                                            <h1>Daily Calorie Intake Adjustment</h1>
+                                        </div>
+
+                                        <Alert
+                                            description="Optimizing your daily caloric intake is a pivotal factor for attaining a healthy weight range. The Daily Calorie Intake Adjustment is a key metric, calculated based on the disparity between your Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE), rooted in scientific principles. A positive adjustment points towards an elevation in daily calorie consumption, indicating adherence to a High Calorie Diet, while a negative adjustment signifies a reduction, suggestive of a Low Calorie Diet. Aligning your daily calorie intake with this calculated figure significantly enhances your likelihood of reaching your 6-month weight goal."
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+
+                                    <Card bordered={false}>
+                                        <Statistic
+                                            title="Energy Adjustment"
+                                            value={person[5]}
+                                            precision={2}
+                                            suffix="KCAL"
+                                            prefix={person[1]['indicator']}
+                                        />
+                                    </Card>
+
+                                </Space>
+                            </Col>
+                        </Row>
+
+
+
+
+
+                        <Row justify={'center'} align={'middle'}  >
+                            <Col xs={22} md={20} >
+
+
+
+                                <h1>Nutritional Intake Assessment</h1>
+
+                                <Alert
+                                    description={<p>Individuals have distinct nutritional requirements shaped by their life stage, lifestyle, gender and physical characteristics. While many people rely on Daily Values (DVs) as general guidelines for making dietary decisions, it's essential to recognize that these values are broad recommendations designed for the average person and may not address individualized nutritional needs. Additionally, incorporating Recommended Dietary Allowances (RDAs) can provide a more comprehensive understanding of your specific nutrient requirements. The following results are tailored to you and calculated based on your unique personal requirements, ensuring a more precise and personalized approach to meeting your nutritional needs and life maintenance. </p>}
+                                    type="warning"
+                                    className='heroText'
+                                />
+
+
+
+
+                            </Col>
+
+
+
+                        </Row>
+
+
+
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>Macronutrients</h3>
+                                        </div>
+                                        <div>
+                                            <h1>Protein,Fats,Sugar and Fiber</h1>
+                                        </div>
+
+                                        <Alert
+                                            description="Macronutrients are essential nutrients, including carbohydrates for energy, proteins for tissue repair, and fats for various functions like energy storage, all crucial for maintaining overall health. Balancing their intake through a well-rounded diet is key to meeting individual nutritional needs."
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Protein"
+                                                value={person[4][0][0]['Protein'].value}
+                                                suffix="G"
+                                            />
+
+                                        </Card>
+                                        <Card bordered={false}>
+
+                                            <Statistic
+                                                title="Cholesterol"
+                                                value={person[4][0][0]['Cholesterol'].value}
+                                                suffix="G"
+                                            />
+                                        </Card>
+
+                                    </Space>
+
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Total Fat"
+                                                value={person[4][0][0]['Total Fat'].value}
+                                                suffix="G"
+                                            />
+
+                                        </Card>
+                                        <Card bordered={false}>
+
+                                            <Statistic
+                                                title="Saturated Fat"
+                                                value={person[4][0][0]['Saturated Fat'].value}
+                                                suffix="G"
+                                            />
+                                        </Card>
+                                    </Space>
+
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+
+
+                                        <Card bordered={false}>
+
+                                            <Statistic
+                                                title="Carbohydrates"
+                                                value={person[4][0][0]['Carbohydrates'].value}
+                                                suffix="G"
+                                            />
+                                        </Card>
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Added Sugar"
+                                                value={person[4][0][0]['Added Sugar'].value}
+                                                suffix="G"
+                                            />
+
+                                        </Card>
+
+                                    </Space>
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+
+
+                                        <Card bordered={false}>
+
+                                            <Statistic
+                                                title="Fiber"
+                                                value={person[4][0][0]['Fiber'].value}
+                                                suffix="G"
+                                            />
+                                        </Card>
+
+
+                                    </Space>
+
+                                </Space>
+                            </Col>
+                        </Row>
+                        <Row justify={'space-evenly'} align={'middle'} gutter={[0, 50]} >
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[0, 25]} wrap>
+                                    <Space size={[0, 25]} direction='vertical' wrap>
+                                        <div>
+                                            <h3>Micronutrients</h3>
+                                        </div>
+                                        <div>
+                                            <h1>Vitamins and Minerals</h1>
+                                        </div>
+
+                                        <Alert
+                                            description="Micronutrients are essential nutrients that the human body needs in smaller quantities for various physiological functions. These include vitamins and minerals, which play critical roles in processes such as metabolism, immune function, and overall growth and development. Micronutrients are obtained through a diverse and balanced diet, and each has specific functions in the body. Examples of micronutrients include vitamins such as vitamin A, C, and D, as well as minerals like iron, calcium, and zinc. Ensuring an adequate intake of micronutrients is vital for maintaining optimal health and preventing deficiencies or health issues"
+
+                                            type="warning"
+                                            className='heroText'
+                                        />
+                                    </Space>
+                                </Space>
+                            </Col>
+                            <Col xs={{ span: 22 }} md={{ span: 8 }}>
+                                <Space size={[15, 25]} wrap direction='vertical'>
+
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Sodium"
+                                                value={person[4][0][0]['Sodium'].value}
+                                                suffix="MG"
+                                            />
+                                        </Card>
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Vitamin D"
+                                                value={person[4][0][0]['Vitamin D'].value}
+                                                suffix="MCG"
+                                            />
+                                        </Card>
+                                    </Space>
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Calcium"
+                                                value={person[4][0][0]['Calcium'].value}
+                                                suffix="MG"
+                                            />
+                                        </Card>
+                                        <Card bordered={false}>
+                                            <Statistic
+                                                title="Iron"
+                                                value={person[4][0][0]['Iron'].value}
+                                                suffix="MG"
+                                            />
+                                        </Card>
+                                    </Space>
+                                    <Space size={[15, 25]} wrap direction='horizontal'>
+                                        <Card bordered={false}>
+
+                                            <Statistic
+                                                title="Potassium"
+                                                value={person[4][0][0]['Potassium'].value}
+                                                suffix="MG"
+                                            />
+                                        </Card>
+
+                                    </Space>
+
+                                </Space>
+                            </Col>
+                        </Row></> :''}
+                       
+
                     </Space>
 
                 </Content>
             </Layout>
-
             <Public_Footer />
 
         </Layout>
+
+
 
 
 
