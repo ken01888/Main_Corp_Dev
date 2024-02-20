@@ -31,7 +31,7 @@
   "scope": "https://www.kcminc.io/",
   "start_url": "/",
   "frontend.js": "auto/main.js",
-  "node_modules_web-vitals_dist_web-vitals_js.main.js": "auto/node_modules_web-vitals_dist_web-vitals_js.main.js",
+  "131.main.js": "auto/131.main.js",
   "service-worker.js": "auto/service-worker.js",
   "industries.png": "auto/a5219b01372bd786c2b9fd9ba4d11885.png",
   "barcode.png": "auto/aad0f0e0f64b0e037cb6cda0f67db0f3.png",

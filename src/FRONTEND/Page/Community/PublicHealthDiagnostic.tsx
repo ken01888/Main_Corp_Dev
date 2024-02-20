@@ -711,7 +711,7 @@ const PublicHealthDiagnostic: React.FC = (props) => {
                                         </div>
 
                                         <Alert
-                                            description="Your Daily Calorie Intake Adjustment is a crucial metric, representing the necessary change in your daily calorie consumption to achieve a healthy weight range. This figure, derived from the difference between your Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE), is grounded in scientific principles. A positive adjustment indicates an increase in daily calorie consumption, suggesting a High Calorie Diet, while a negative adjustment signals a reduction, indicative of a Low Calorie Diet. This science-backed approach ensures a personalized and effective strategy for attaining and maintaining a healthy weight."
+                                            description="The 6 Month Weight Assessment is a structured weight management program aimed at assisting you in reaching an optimal weight. By adhering to the Daily Calorie Intake Adjustment outlined in the Calorie Assessment and Plan Section, you can anticipate progress towards the displayed weights. This is a gradual process contingent upon your capacity to modify eating habits and elevate your activity level. Consider revisiting the form and adjusting your lifestyle (Question 5) to explore how changes in your activity level can expedite achieving a healthier weight."
                                             type="warning"
                                             className='heroText'
                                         />
